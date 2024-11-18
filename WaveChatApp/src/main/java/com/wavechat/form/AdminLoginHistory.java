@@ -40,6 +40,12 @@ public class AdminLoginHistory extends javax.swing.JFrame {
         dayStart = new javax.swing.JTextField();
         toText = new javax.swing.JLabel();
         dayEnd = new javax.swing.JTextField();
+        navContainer = new javax.swing.JPanel();
+        dashboardNav = new javax.swing.JButton();
+        userNav = new javax.swing.JButton();
+        groupchatNav = new javax.swing.JButton();
+        spamReportNav = new javax.swing.JButton();
+        loginHistoryNav = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +83,7 @@ public class AdminLoginHistory extends javax.swing.JFrame {
             .addGroup(HeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 484, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 490, Short.MAX_VALUE)
                 .addComponent(notiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(usetModeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -97,6 +103,8 @@ public class AdminLoginHistory extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+
         loginHistoryText.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         loginHistoryText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loginHistoryText.setText("Login History");
@@ -106,7 +114,7 @@ public class AdminLoginHistory extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(loginHistoryText)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -166,15 +174,14 @@ public class AdminLoginHistory extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(0, 63, Short.MAX_VALUE)
                 .addComponent(fromText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dayStart, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(toText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dayEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(dayEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,32 +195,113 @@ public class AdminLoginHistory extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        navContainer.setBorder(new javax.swing.border.MatteBorder(null));
+        navContainer.setPreferredSize(new java.awt.Dimension(188, 496));
+
+        dashboardNav.setBackground(new java.awt.Color(26, 41, 128));
+        dashboardNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        dashboardNav.setForeground(new java.awt.Color(255, 255, 255));
+        dashboardNav.setText("Dashboard");
+        dashboardNav.setPreferredSize(new java.awt.Dimension(165, 40));
+        dashboardNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardNavActionPerformed(evt);
+            }
+        });
+
+        userNav.setBackground(new java.awt.Color(26, 41, 128));
+        userNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        userNav.setForeground(new java.awt.Color(255, 255, 255));
+        userNav.setText("User");
+        userNav.setMaximumSize(new java.awt.Dimension(165, 40));
+        userNav.setMinimumSize(new java.awt.Dimension(165, 40));
+        userNav.setPreferredSize(new java.awt.Dimension(165, 40));
+        userNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userNavActionPerformed(evt);
+            }
+        });
+
+        groupchatNav.setBackground(new java.awt.Color(26, 41, 128));
+        groupchatNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        groupchatNav.setForeground(new java.awt.Color(255, 255, 255));
+        groupchatNav.setText("Login History");
+        groupchatNav.setPreferredSize(new java.awt.Dimension(165, 40));
+
+        spamReportNav.setBackground(new java.awt.Color(26, 41, 128));
+        spamReportNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        spamReportNav.setForeground(new java.awt.Color(255, 255, 255));
+        spamReportNav.setText("Spam Report");
+        spamReportNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spamReportNavActionPerformed(evt);
+            }
+        });
+
+        loginHistoryNav.setBackground(new java.awt.Color(26, 41, 128));
+        loginHistoryNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        loginHistoryNav.setForeground(new java.awt.Color(255, 255, 255));
+        loginHistoryNav.setText("Group Chat");
+
+        javax.swing.GroupLayout navContainerLayout = new javax.swing.GroupLayout(navContainer);
+        navContainer.setLayout(navContainerLayout);
+        navContainerLayout.setHorizontalGroup(
+            navContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(dashboardNav, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+            .addComponent(userNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(groupchatNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(loginHistoryNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(spamReportNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        navContainerLayout.setVerticalGroup(
+            navContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navContainerLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(dashboardNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(groupchatNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginHistoryNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spamReportNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Header, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(Header, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(navContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(navContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -238,6 +326,18 @@ public class AdminLoginHistory extends javax.swing.JFrame {
     private void dayEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dayEndActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dayEndActionPerformed
+
+    private void dashboardNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dashboardNavActionPerformed
+
+    private void userNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userNavActionPerformed
+
+    private void spamReportNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spamReportNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spamReportNavActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,18 +376,24 @@ public class AdminLoginHistory extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Header;
+    private javax.swing.JButton dashboardNav;
     private javax.swing.JTextField dayEnd;
     private javax.swing.JTextField dayStart;
     private javax.swing.JLabel fromText;
+    private javax.swing.JButton groupchatNav;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton loginHistoryNav;
     private javax.swing.JLabel loginHistoryText;
+    private javax.swing.JPanel navContainer;
     private javax.swing.JButton notiButton;
+    private javax.swing.JButton spamReportNav;
     private javax.swing.JLabel toText;
     private javax.swing.JButton userButton;
+    private javax.swing.JButton userNav;
     private javax.swing.JButton usetModeButton;
     // End of variables declaration//GEN-END:variables
 }
