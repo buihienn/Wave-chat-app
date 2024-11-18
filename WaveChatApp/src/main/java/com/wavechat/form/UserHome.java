@@ -51,6 +51,16 @@ public class UserHome extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        groupMenu = new javax.swing.JPopupMenu();
+        changeName = new javax.swing.JMenuItem();
+        addMember = new javax.swing.JMenuItem();
+        seeMember = new javax.swing.JMenuItem();
+        setAdmin = new javax.swing.JMenuItem();
+        deleteChat = new javax.swing.JMenuItem();
+        deleteGroup = new javax.swing.JMenuItem();
+        userMenu = new javax.swing.JPopupMenu();
+        deleteChat1 = new javax.swing.JMenuItem();
+        block = new javax.swing.JMenuItem();
         container = new javax.swing.JPanel();
         navBarContainer = new javax.swing.JPanel();
         logoContainer = new javax.swing.JLabel();
@@ -69,6 +79,18 @@ public class UserHome extends javax.swing.JFrame {
         userAvatar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        userContainer2 = new javax.swing.JPanel();
+        userAvatar2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        userContainer3 = new javax.swing.JPanel();
+        userAvatar3 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        userContainer4 = new javax.swing.JPanel();
+        userAvatar4 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         chatContainer = new javax.swing.JPanel();
         userHeaderContainer = new javax.swing.JPanel();
         userContainer1 = new javax.swing.JPanel();
@@ -115,6 +137,30 @@ public class UserHome extends javax.swing.JFrame {
         inputTextArea = new javax.swing.JTextArea();
         sendButton = new javax.swing.JButton();
 
+        changeName.setText("Change name");
+        groupMenu.add(changeName);
+
+        addMember.setText("Add member");
+        groupMenu.add(addMember);
+
+        seeMember.setText("See members");
+        groupMenu.add(seeMember);
+
+        setAdmin.setText("Set admin");
+        groupMenu.add(setAdmin);
+
+        deleteChat.setText("Delete chat");
+        groupMenu.add(deleteChat);
+
+        deleteGroup.setText("Delete group");
+        groupMenu.add(deleteGroup);
+
+        deleteChat1.setText("Delete chat");
+        userMenu.add(deleteChat1);
+
+        block.setText("Block");
+        userMenu.add(block);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wave - Home");
 
@@ -136,6 +182,7 @@ public class UserHome extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(26, 41, 128));
         jButton6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png"))); // NOI18N
         jButton6.setText("Profile");
         jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButton6.setIconTextGap(8);
@@ -144,7 +191,7 @@ public class UserHome extends javax.swing.JFrame {
 
         jButton5.setBackground(new java.awt.Color(26, 41, 128));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Logout");
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
         jButton5.setPreferredSize(new java.awt.Dimension(40, 40));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +202,7 @@ public class UserHome extends javax.swing.JFrame {
 
         chatButton.setBackground(new java.awt.Color(204, 255, 255));
         chatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        chatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_black.png"))); // NOI18N
         chatButton.setText("Chat");
         chatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton.setIconTextGap(12);
@@ -163,6 +211,7 @@ public class UserHome extends javax.swing.JFrame {
         chatButton1.setBackground(new java.awt.Color(26, 41, 128));
         chatButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         chatButton1.setForeground(new java.awt.Color(255, 255, 255));
+        chatButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
         chatButton1.setText("Friend");
         chatButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton1.setIconTextGap(12);
@@ -176,6 +225,7 @@ public class UserHome extends javax.swing.JFrame {
         chatButton2.setBackground(new java.awt.Color(26, 41, 128));
         chatButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         chatButton2.setForeground(new java.awt.Color(255, 255, 255));
+        chatButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
         chatButton2.setText("Find Friend");
         chatButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton2.setIconTextGap(12);
@@ -261,7 +311,7 @@ public class UserHome extends javax.swing.JFrame {
         userAvatar.setPreferredSize(new java.awt.Dimension(54, 54));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel2.setText("User1");
+        jLabel2.setText("Group1");
 
         jLabel3.setText("Online");
 
@@ -292,6 +342,123 @@ public class UserHome extends javax.swing.JFrame {
                 .addGap(12, 12, 12))
         );
 
+        userContainer2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        userContainer2.setPreferredSize(new java.awt.Dimension(214, 66));
+
+        userAvatar2.setText("Avatar1");
+        userAvatar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userAvatar2.setPreferredSize(new java.awt.Dimension(54, 54));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel6.setText("User1");
+
+        jLabel7.setText("Online");
+
+        javax.swing.GroupLayout userContainer2Layout = new javax.swing.GroupLayout(userContainer2);
+        userContainer2.setLayout(userContainer2Layout);
+        userContainer2Layout.setHorizontalGroup(
+            userContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainer2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(userAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(userContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
+        );
+        userContainer2Layout.setVerticalGroup(
+            userContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainer2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainer2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(userAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
+        );
+
+        userContainer3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        userContainer3.setPreferredSize(new java.awt.Dimension(214, 66));
+
+        userAvatar3.setText("Avatar1");
+        userAvatar3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userAvatar3.setPreferredSize(new java.awt.Dimension(54, 54));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel8.setText("Group2");
+
+        jLabel9.setText("Online");
+
+        javax.swing.GroupLayout userContainer3Layout = new javax.swing.GroupLayout(userContainer3);
+        userContainer3.setLayout(userContainer3Layout);
+        userContainer3Layout.setHorizontalGroup(
+            userContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainer3Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(userAvatar3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(userContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
+        );
+        userContainer3Layout.setVerticalGroup(
+            userContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainer3Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainer3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(userAvatar3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
+        );
+
+        userContainer4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        userContainer4.setPreferredSize(new java.awt.Dimension(214, 66));
+
+        userAvatar4.setText("Avatar1");
+        userAvatar4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userAvatar4.setPreferredSize(new java.awt.Dimension(54, 54));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel10.setText("User2");
+
+        jLabel11.setText("Offline");
+
+        javax.swing.GroupLayout userContainer4Layout = new javax.swing.GroupLayout(userContainer4);
+        userContainer4.setLayout(userContainer4Layout);
+        userContainer4Layout.setHorizontalGroup(
+            userContainer4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainer4Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(userAvatar4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(userContainer4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
+        );
+        userContainer4Layout.setVerticalGroup(
+            userContainer4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainer4Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainer4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(userAvatar4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
+        );
+
         javax.swing.GroupLayout navChatContainerLayout = new javax.swing.GroupLayout(navChatContainer);
         navChatContainer.setLayout(navChatContainerLayout);
         navChatContainerLayout.setHorizontalGroup(
@@ -302,7 +469,10 @@ public class UserHome extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(userContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(searchBarContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(searchBarContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(userContainer2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(userContainer3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(userContainer4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         navChatContainerLayout.setVerticalGroup(
@@ -314,7 +484,13 @@ public class UserHome extends javax.swing.JFrame {
                 .addComponent(searchBarContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userContainer3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userContainer4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(186, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -339,7 +515,7 @@ public class UserHome extends javax.swing.JFrame {
         userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("User1");
+        jLabel4.setText("Group1");
 
         jLabel5.setText("Online");
 
@@ -391,6 +567,8 @@ public class UserHome extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("More");
+        jButton2.setComponentPopupMenu(groupMenu);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton2.setPreferredSize(new java.awt.Dimension(68, 32));
         jPanel1.add(jButton2);
 
@@ -642,16 +820,16 @@ public class UserHome extends javax.swing.JFrame {
         wrapperContainer9Layout.setHorizontalGroup(
             wrapperContainer9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(wrapperContainer9Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(44, 44, 44)
                 .addComponent(jTextArea11, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
         wrapperContainer9Layout.setVerticalGroup(
             wrapperContainer9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(wrapperContainer9Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(18, 18, 18)
                 .addComponent(jTextArea11, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         messageContainer9.add(wrapperContainer9);
@@ -873,15 +1051,22 @@ public class UserHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem addMember;
     private javax.swing.JLabel avatarMessage4;
     private javax.swing.JLabel avatarMessage6;
     private javax.swing.JLabel avatarMessage8;
+    private javax.swing.JMenuItem block;
+    private javax.swing.JMenuItem changeName;
     private javax.swing.JPanel chatAreaContainer;
     private javax.swing.JButton chatButton;
     private javax.swing.JButton chatButton1;
     private javax.swing.JButton chatButton2;
     private javax.swing.JPanel chatContainer;
     private javax.swing.JPanel container;
+    private javax.swing.JMenuItem deleteChat;
+    private javax.swing.JMenuItem deleteChat1;
+    private javax.swing.JMenuItem deleteGroup;
+    private javax.swing.JPopupMenu groupMenu;
     private javax.swing.JPanel inputMessageContainer;
     private javax.swing.JScrollPane inputScrollPanel;
     private javax.swing.JTextArea inputTextArea;
@@ -890,10 +1075,16 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea10;
@@ -923,12 +1114,21 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JPanel searchBarContainer;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchInput;
+    private javax.swing.JMenuItem seeMember;
     private javax.swing.JButton sendButton;
+    private javax.swing.JMenuItem setAdmin;
     private javax.swing.JLabel userAvatar;
     private javax.swing.JLabel userAvatar1;
+    private javax.swing.JLabel userAvatar2;
+    private javax.swing.JLabel userAvatar3;
+    private javax.swing.JLabel userAvatar4;
     private javax.swing.JPanel userContainer;
     private javax.swing.JPanel userContainer1;
+    private javax.swing.JPanel userContainer2;
+    private javax.swing.JPanel userContainer3;
+    private javax.swing.JPanel userContainer4;
     private javax.swing.JPanel userHeaderContainer;
+    private javax.swing.JPopupMenu userMenu;
     private javax.swing.JPanel wrapperContainer10;
     private javax.swing.JPanel wrapperContainer11;
     private javax.swing.JPanel wrapperContainer2;
