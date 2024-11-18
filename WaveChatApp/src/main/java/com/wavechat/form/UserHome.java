@@ -515,7 +515,7 @@ public class UserHome extends javax.swing.JFrame {
         userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Group1");
+        jLabel4.setText("User1");
 
         jLabel5.setText("Online");
 
@@ -567,7 +567,7 @@ public class UserHome extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("More");
-        jButton2.setComponentPopupMenu(groupMenu);
+        jButton2.setComponentPopupMenu(userMenu);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton2.setPreferredSize(new java.awt.Dimension(68, 32));
         jPanel1.add(jButton2);

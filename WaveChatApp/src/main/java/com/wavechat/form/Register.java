@@ -32,17 +32,16 @@ public class Register extends javax.swing.JFrame {
         logo = new javax.swing.JLabel();
         login = new javax.swing.JLabel();
         slogan = new javax.swing.JLabel();
-        username1 = new javax.swing.JTextField();
         username = new javax.swing.JTextField();
-        password1 = new javax.swing.JTextField();
+        username1 = new javax.swing.JTextField();
         password = new javax.swing.JTextField();
+        password1 = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
         donothaveacc = new javax.swing.JLabel();
         registerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wave - Register");
-        setPreferredSize(new java.awt.Dimension(500, 600));
 
         register.setBackground(new java.awt.Color(246, 246, 246));
         register.setPreferredSize(new java.awt.Dimension(500, 600));
@@ -75,22 +74,6 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         loginContainer.add(slogan, gridBagConstraints);
 
-        username1.setBackground(new java.awt.Color(246, 246, 246));
-        username1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        username1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        username1.setPreferredSize(new java.awt.Dimension(294, 35));
-        username1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                username1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(username1, gridBagConstraints);
-
         username.setBackground(new java.awt.Color(246, 246, 246));
         username.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         username.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
@@ -108,21 +91,21 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         loginContainer.add(username, gridBagConstraints);
 
-        password1.setBackground(new java.awt.Color(246, 246, 246));
-        password1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        password1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        password1.setPreferredSize(new java.awt.Dimension(294, 35));
-        password1.addActionListener(new java.awt.event.ActionListener() {
+        username1.setBackground(new java.awt.Color(246, 246, 246));
+        username1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        username1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        username1.setPreferredSize(new java.awt.Dimension(294, 35));
+        username1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                password1ActionPerformed(evt);
+                username1ActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(password1, gridBagConstraints);
+        loginContainer.add(username1, gridBagConstraints);
 
         password.setBackground(new java.awt.Color(246, 246, 246));
         password.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
@@ -141,6 +124,22 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         loginContainer.add(password, gridBagConstraints);
+
+        password1.setBackground(new java.awt.Color(246, 246, 246));
+        password1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        password1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        password1.setPreferredSize(new java.awt.Dimension(294, 35));
+        password1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                password1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        loginContainer.add(password1, gridBagConstraints);
 
         loginButton.setBackground(new java.awt.Color(26, 41, 128));
         loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N

@@ -38,6 +38,7 @@ public class RegisterSuccessful extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Wave - Register Successful");
 
         thankyou2.setBackground(new java.awt.Color(246, 246, 246));
         thankyou2.setPreferredSize(new java.awt.Dimension(500, 600));

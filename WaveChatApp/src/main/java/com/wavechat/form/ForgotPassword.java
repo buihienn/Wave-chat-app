@@ -38,7 +38,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         forgotpassButton = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 600));
+        setTitle("Wave - Forgot Password");
 
         forgotpass.setBackground(new java.awt.Color(246, 246, 246));
         forgotpass.setPreferredSize(new java.awt.Dimension(500, 600));
