@@ -35,6 +35,12 @@ public class AdminSpamReport extends javax.swing.JFrame {
         spamReportText = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        navContainer = new javax.swing.JPanel();
+        dashboardNav = new javax.swing.JButton();
+        userNav = new javax.swing.JButton();
+        groupchatNav = new javax.swing.JButton();
+        spamReportNav = new javax.swing.JButton();
+        loginHistoryNav = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +98,8 @@ public class AdminSpamReport extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+
         spamReportText.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         spamReportText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         spamReportText.setText("Spam report");
@@ -101,15 +109,12 @@ public class AdminSpamReport extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(spamReportText)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(spamReportText, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(spamReportText))
+            .addComponent(spamReportText)
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -125,6 +130,80 @@ public class AdminSpamReport extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        navContainer.setBorder(new javax.swing.border.MatteBorder(null));
+        navContainer.setPreferredSize(new java.awt.Dimension(188, 496));
+
+        dashboardNav.setBackground(new java.awt.Color(26, 41, 128));
+        dashboardNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        dashboardNav.setForeground(new java.awt.Color(255, 255, 255));
+        dashboardNav.setText("Dashboard");
+        dashboardNav.setPreferredSize(new java.awt.Dimension(165, 40));
+        dashboardNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardNavActionPerformed(evt);
+            }
+        });
+
+        userNav.setBackground(new java.awt.Color(26, 41, 128));
+        userNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        userNav.setForeground(new java.awt.Color(255, 255, 255));
+        userNav.setText("User");
+        userNav.setMaximumSize(new java.awt.Dimension(165, 40));
+        userNav.setMinimumSize(new java.awt.Dimension(165, 40));
+        userNav.setPreferredSize(new java.awt.Dimension(165, 40));
+        userNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userNavActionPerformed(evt);
+            }
+        });
+
+        groupchatNav.setBackground(new java.awt.Color(26, 41, 128));
+        groupchatNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        groupchatNav.setForeground(new java.awt.Color(255, 255, 255));
+        groupchatNav.setText("Login History");
+        groupchatNav.setPreferredSize(new java.awt.Dimension(165, 40));
+
+        spamReportNav.setBackground(new java.awt.Color(26, 41, 128));
+        spamReportNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        spamReportNav.setForeground(new java.awt.Color(255, 255, 255));
+        spamReportNav.setText("Spam Report");
+        spamReportNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spamReportNavActionPerformed(evt);
+            }
+        });
+
+        loginHistoryNav.setBackground(new java.awt.Color(26, 41, 128));
+        loginHistoryNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        loginHistoryNav.setForeground(new java.awt.Color(255, 255, 255));
+        loginHistoryNav.setText("Group Chat");
+
+        javax.swing.GroupLayout navContainerLayout = new javax.swing.GroupLayout(navContainer);
+        navContainer.setLayout(navContainerLayout);
+        navContainerLayout.setHorizontalGroup(
+            navContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(dashboardNav, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+            .addComponent(userNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(groupchatNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(loginHistoryNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(spamReportNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        navContainerLayout.setVerticalGroup(
+            navContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navContainerLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(dashboardNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(groupchatNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginHistoryNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spamReportNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(259, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,18 +211,25 @@ public class AdminSpamReport extends javax.swing.JFrame {
             .addComponent(Header, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(navContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1))
+                    .addComponent(navContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -160,6 +246,18 @@ public class AdminSpamReport extends javax.swing.JFrame {
     private void userButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userButtonActionPerformed
+
+    private void dashboardNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dashboardNavActionPerformed
+
+    private void userNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userNavActionPerformed
+
+    private void spamReportNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spamReportNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spamReportNavActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,13 +296,19 @@ public class AdminSpamReport extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Header;
+    private javax.swing.JButton dashboardNav;
+    private javax.swing.JButton groupchatNav;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton loginHistoryNav;
+    private javax.swing.JPanel navContainer;
     private javax.swing.JButton notiButton;
+    private javax.swing.JButton spamReportNav;
     private javax.swing.JLabel spamReportText;
     private javax.swing.JButton userButton;
+    private javax.swing.JButton userNav;
     private javax.swing.JButton usetModeButton;
     // End of variables declaration//GEN-END:variables
 }

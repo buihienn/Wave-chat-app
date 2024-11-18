@@ -31,11 +31,12 @@ public class AdminUser extends javax.swing.JFrame {
         notiButton = new javax.swing.JButton();
         usetModeButton = new javax.swing.JButton();
         userButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        menuUserBar = new javax.swing.JPanel();
         allUser = new javax.swing.JLabel();
         newRegister = new javax.swing.JLabel();
         activityLog = new javax.swing.JLabel();
         inSig = new javax.swing.JLabel();
+        allUser1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         addNewAccount = new javax.swing.JLabel();
         deleteAccount = new javax.swing.JLabel();
@@ -99,11 +100,11 @@ public class AdminUser extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+        menuUserBar.setBorder(new javax.swing.border.MatteBorder(null));
 
-        allUser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        allUser.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         allUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        allUser.setText("All User");
+        allUser.setText("Friends");
         allUser.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
         newRegister.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -118,15 +119,22 @@ public class AdminUser extends javax.swing.JFrame {
 
         inSig.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inSig.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        inSig.setText("Insig");
+        inSig.setText("Insight");
         inSig.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        allUser1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        allUser1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        allUser1.setText("All User");
+        allUser1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout menuUserBarLayout = new javax.swing.GroupLayout(menuUserBar);
+        menuUserBar.setLayout(menuUserBarLayout);
+        menuUserBarLayout.setHorizontalGroup(
+            menuUserBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuUserBarLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(allUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(allUser, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -136,15 +144,16 @@ public class AdminUser extends javax.swing.JFrame {
                 .addComponent(inSig, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        menuUserBarLayout.setVerticalGroup(
+            menuUserBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuUserBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(menuUserBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inSig)
                     .addComponent(activityLog)
                     .addComponent(newRegister)
-                    .addComponent(allUser))
+                    .addComponent(allUser)
+                    .addComponent(allUser1))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -229,7 +238,7 @@ public class AdminUser extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(menuUserBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE))
@@ -240,7 +249,7 @@ public class AdminUser extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(menuUserBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -302,13 +311,14 @@ public class AdminUser extends javax.swing.JFrame {
     private javax.swing.JLabel activityLog;
     private javax.swing.JLabel addNewAccount;
     private javax.swing.JLabel allUser;
+    private javax.swing.JLabel allUser1;
     private javax.swing.JLabel deleteAccount;
     private javax.swing.JLabel inSig;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel menuUserBar;
     private javax.swing.JLabel newRegister;
     private javax.swing.JButton notiButton;
     private javax.swing.JButton userButton;
