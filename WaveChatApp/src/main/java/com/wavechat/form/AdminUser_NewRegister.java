@@ -44,6 +44,12 @@ public class AdminUser_NewRegister extends javax.swing.JFrame {
         activityLog4 = new javax.swing.JLabel();
         inSig4 = new javax.swing.JLabel();
         allUser8 = new javax.swing.JLabel();
+        navContainer1 = new javax.swing.JPanel();
+        dashboardNav1 = new javax.swing.JButton();
+        userNav = new javax.swing.JButton();
+        groupchatNav = new javax.swing.JButton();
+        spamReportNav = new javax.swing.JButton();
+        loginHistoryNav = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -232,17 +238,95 @@ public class AdminUser_NewRegister extends javax.swing.JFrame {
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
+        navContainer1.setBorder(new javax.swing.border.MatteBorder(null));
+        navContainer1.setPreferredSize(new java.awt.Dimension(188, 496));
+
+        dashboardNav1.setBackground(new java.awt.Color(26, 41, 128));
+        dashboardNav1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        dashboardNav1.setForeground(new java.awt.Color(255, 255, 255));
+        dashboardNav1.setText("Dashboard");
+        dashboardNav1.setPreferredSize(new java.awt.Dimension(165, 40));
+        dashboardNav1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardNav1ActionPerformed(evt);
+            }
+        });
+
+        userNav.setBackground(new java.awt.Color(26, 41, 128));
+        userNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        userNav.setForeground(new java.awt.Color(255, 255, 255));
+        userNav.setText("User");
+        userNav.setMaximumSize(new java.awt.Dimension(165, 40));
+        userNav.setMinimumSize(new java.awt.Dimension(165, 40));
+        userNav.setPreferredSize(new java.awt.Dimension(165, 40));
+        userNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userNavActionPerformed(evt);
+            }
+        });
+
+        groupchatNav.setBackground(new java.awt.Color(26, 41, 128));
+        groupchatNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        groupchatNav.setForeground(new java.awt.Color(255, 255, 255));
+        groupchatNav.setText("Login History");
+        groupchatNav.setPreferredSize(new java.awt.Dimension(165, 40));
+
+        spamReportNav.setBackground(new java.awt.Color(26, 41, 128));
+        spamReportNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        spamReportNav.setForeground(new java.awt.Color(255, 255, 255));
+        spamReportNav.setText("Spam Report");
+        spamReportNav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spamReportNavActionPerformed(evt);
+            }
+        });
+
+        loginHistoryNav.setBackground(new java.awt.Color(26, 41, 128));
+        loginHistoryNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        loginHistoryNav.setForeground(new java.awt.Color(255, 255, 255));
+        loginHistoryNav.setText("Group Chat");
+
+        javax.swing.GroupLayout navContainer1Layout = new javax.swing.GroupLayout(navContainer1);
+        navContainer1.setLayout(navContainer1Layout);
+        navContainer1Layout.setHorizontalGroup(
+            navContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(dashboardNav1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+            .addComponent(userNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(groupchatNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(loginHistoryNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(spamReportNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        navContainer1Layout.setVerticalGroup(
+            navContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navContainer1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(dashboardNav1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(groupchatNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginHistoryNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spamReportNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Header, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(menuUserBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(menuUserBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(navContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -252,9 +336,12 @@ public class AdminUser_NewRegister extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuUserBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))
+                    .addComponent(navContainer1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)))
         );
 
         pack();
@@ -279,6 +366,18 @@ public class AdminUser_NewRegister extends javax.swing.JFrame {
     private void dayEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dayEndActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dayEndActionPerformed
+
+    private void dashboardNav1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardNav1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dashboardNav1ActionPerformed
+
+    private void userNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userNavActionPerformed
+
+    private void spamReportNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spamReportNavActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spamReportNavActionPerformed
 
     /**
      * @param args the command line arguments
@@ -317,40 +416,28 @@ public class AdminUser_NewRegister extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Header;
-    private javax.swing.JLabel activityLog1;
-    private javax.swing.JLabel activityLog2;
-    private javax.swing.JLabel activityLog3;
     private javax.swing.JLabel activityLog4;
-    private javax.swing.JLabel allUser1;
-    private javax.swing.JLabel allUser2;
-    private javax.swing.JLabel allUser3;
-    private javax.swing.JLabel allUser4;
-    private javax.swing.JLabel allUser5;
-    private javax.swing.JLabel allUser6;
     private javax.swing.JLabel allUser7;
     private javax.swing.JLabel allUser8;
+    private javax.swing.JButton dashboardNav1;
     private javax.swing.JTextField dayEnd;
     private javax.swing.JTextField dayStart;
     private javax.swing.JLabel fromText;
-    private javax.swing.JLabel inSig1;
-    private javax.swing.JLabel inSig2;
-    private javax.swing.JLabel inSig3;
+    private javax.swing.JButton groupchatNav;
     private javax.swing.JLabel inSig4;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton loginHistoryNav;
     private javax.swing.JPanel menuUserBar;
-    private javax.swing.JLabel newRegister1;
-    private javax.swing.JLabel newRegister2;
-    private javax.swing.JLabel newRegister3;
+    private javax.swing.JPanel navContainer1;
     private javax.swing.JLabel newRegister4;
     private javax.swing.JTable newRegisterTable;
     private javax.swing.JButton notiButton;
+    private javax.swing.JButton spamReportNav;
     private javax.swing.JLabel toText;
     private javax.swing.JButton userButton;
+    private javax.swing.JButton userNav;
     private javax.swing.JButton usetModeButton;
     // End of variables declaration//GEN-END:variables
 }

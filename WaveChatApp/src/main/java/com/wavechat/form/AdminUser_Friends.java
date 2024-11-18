@@ -8,12 +8,12 @@ package com.wavechat.form;
  *
  * @author buihi
  */
-public class AdminUser_ActivityLog extends javax.swing.JFrame {
+public class AdminUser_Friends extends javax.swing.JFrame {
 
     /**
-     * Creates new form AdminUser_ActivityLog
+     * Creates new form AdmainUser_Friends
      */
-    public AdminUser_ActivityLog() {
+    public AdminUser_Friends() {
         initComponents();
     }
 
@@ -31,25 +31,20 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
         notiButton = new javax.swing.JButton();
         usetModeButton = new javax.swing.JButton();
         userButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        fromText = new javax.swing.JLabel();
-        dayStart = new javax.swing.JTextField();
-        toText = new javax.swing.JLabel();
-        dayEnd = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         menuUserBar = new javax.swing.JPanel();
-        allUser1 = new javax.swing.JLabel();
-        newRegister1 = new javax.swing.JLabel();
-        activityLog1 = new javax.swing.JLabel();
-        inSig1 = new javax.swing.JLabel();
-        allUser2 = new javax.swing.JLabel();
+        allUser7 = new javax.swing.JLabel();
+        newRegister4 = new javax.swing.JLabel();
+        activityLog4 = new javax.swing.JLabel();
+        inSig4 = new javax.swing.JLabel();
+        allUser8 = new javax.swing.JLabel();
         navContainer1 = new javax.swing.JPanel();
         dashboardNav1 = new javax.swing.JButton();
         userNav = new javax.swing.JButton();
         groupchatNav = new javax.swing.JButton();
         spamReportNav = new javax.swing.JButton();
         loginHistoryNav = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,7 +82,7 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
             .addGroup(HeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 514, Short.MAX_VALUE)
                 .addComponent(notiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(usetModeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -107,103 +102,32 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        fromText.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        fromText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fromText.setText("FROM");
-
-        dayStart.setText("12/09/2024");
-        dayStart.setPreferredSize(new java.awt.Dimension(73, 25));
-        dayStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dayStartActionPerformed(evt);
-            }
-        });
-
-        toText.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        toText.setText("TO");
-
-        dayEnd.setText("21/09/2024");
-        dayEnd.setPreferredSize(new java.awt.Dimension(73, 25));
-        dayEnd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dayEndActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(fromText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dayStart, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(toText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dayEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dayStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fromText)
-                    .addComponent(toText)
-                    .addComponent(dayEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"nguyenvana", "16/01/2024", null},
-                {"nguyenvanb", "15/01/2024", null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "User name", "Date created", "....."
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
         menuUserBar.setBorder(new javax.swing.border.MatteBorder(null));
 
-        allUser1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        allUser1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        allUser1.setText("Friends");
-        allUser1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        allUser7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        allUser7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        allUser7.setText("Friends");
+        allUser7.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        newRegister1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        newRegister1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        newRegister1.setText("New register");
-        newRegister1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        newRegister4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        newRegister4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        newRegister4.setText("New register");
+        newRegister4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        activityLog1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        activityLog1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        activityLog1.setText("Activity Log");
-        activityLog1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        activityLog4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        activityLog4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        activityLog4.setText("Activity Log");
+        activityLog4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        inSig1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        inSig1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        inSig1.setText("Insight");
-        inSig1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        inSig4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        inSig4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        inSig4.setText("Insight");
+        inSig4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        allUser2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        allUser2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        allUser2.setText("All User");
-        allUser2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        allUser8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        allUser8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        allUser8.setText("All User");
+        allUser8.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout menuUserBarLayout = new javax.swing.GroupLayout(menuUserBar);
         menuUserBar.setLayout(menuUserBarLayout);
@@ -211,15 +135,15 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
             menuUserBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuUserBarLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(allUser2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(allUser8, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(allUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(allUser7, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(newRegister1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newRegister4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(activityLog1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(activityLog4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inSig1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inSig4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         menuUserBarLayout.setVerticalGroup(
@@ -227,11 +151,11 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
             .addGroup(menuUserBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuUserBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inSig1)
-                    .addComponent(activityLog1)
-                    .addComponent(newRegister1)
-                    .addComponent(allUser1)
-                    .addComponent(allUser2))
+                    .addComponent(inSig4)
+                    .addComponent(activityLog4)
+                    .addComponent(newRegister4)
+                    .addComponent(allUser7)
+                    .addComponent(allUser8))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -309,21 +233,62 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"nguyenvana",  new Integer(100),  new Integer(200)},
+                {"nguyenvanb",  new Integer(111),  new Integer(222)},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Username", "Friends online", "Number of friends"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Header, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(Header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 948, Short.MAX_VALUE)
+                    .addComponent(menuUserBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(navContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1)))
-                    .addComponent(menuUserBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,15 +296,13 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
                 .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuUserBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(navContainer1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGap(1, 1, 1)
+                        .addComponent(navContainer1, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
@@ -356,14 +319,6 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
     private void userButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userButtonActionPerformed
-
-    private void dayStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dayStartActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dayStartActionPerformed
-
-    private void dayEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dayEndActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dayEndActionPerformed
 
     private void dashboardNav1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardNav1ActionPerformed
         // TODO add your handling code here:
@@ -394,46 +349,42 @@ public class AdminUser_ActivityLog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminUser_ActivityLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminUser_Friends.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminUser_ActivityLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminUser_Friends.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminUser_ActivityLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminUser_Friends.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminUser_ActivityLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminUser_Friends.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminUser_ActivityLog().setVisible(true);
+                new AdminUser_Friends().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Header;
-    private javax.swing.JLabel activityLog1;
-    private javax.swing.JLabel allUser1;
-    private javax.swing.JLabel allUser2;
+    private javax.swing.JLabel activityLog4;
+    private javax.swing.JLabel allUser7;
+    private javax.swing.JLabel allUser8;
     private javax.swing.JButton dashboardNav1;
-    private javax.swing.JTextField dayEnd;
-    private javax.swing.JTextField dayStart;
-    private javax.swing.JLabel fromText;
     private javax.swing.JButton groupchatNav;
-    private javax.swing.JLabel inSig1;
+    private javax.swing.JLabel inSig4;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton loginHistoryNav;
     private javax.swing.JPanel menuUserBar;
     private javax.swing.JPanel navContainer1;
-    private javax.swing.JLabel newRegister1;
+    private javax.swing.JLabel newRegister4;
     private javax.swing.JButton notiButton;
     private javax.swing.JButton spamReportNav;
-    private javax.swing.JLabel toText;
     private javax.swing.JButton userButton;
     private javax.swing.JButton userNav;
     private javax.swing.JButton usetModeButton;
