@@ -24,6 +24,12 @@ CREATE TABLE User (
     CONSTRAINT PK_USER PRIMARY KEY (userID)
 );
 
+CREATE TABLE AdminApp (
+	userID CHAR(5),
+    CONSTRAINT PK_USER PRIMARY KEY (userID)
+);
+
+
 CREATE TABLE UserOnline (
 	userID CHAR(5),
     lastSeen DATETIME,
@@ -132,4 +138,5 @@ ALTER TABLE SpamReport
 ADD CONSTRAINT FK_SpamReport_Reporter FOREIGN KEY (reporterID) REFERENCES User(userID),
 ADD CONSTRAINT FK_SpamReport_ReportedUser FOREIGN KEY (reportedUserId) REFERENCES User(userID);
 
-	
+ALTER TABLE AdminApp
+ADD CONSTRAINT FK_AdminApp_User FOREIGN KEY (userID) REFERENCES User(userID);
