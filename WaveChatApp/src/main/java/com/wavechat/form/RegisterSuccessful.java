@@ -8,12 +8,12 @@ package com.wavechat.form;
  *
  * @author LENOVO
  */
-public class ThankYouForRegister extends javax.swing.JFrame {
+public class RegisterSuccessful extends javax.swing.JFrame {
 
     /**
      * Creates new form ThankYouForRegister
      */
-    public ThankYouForRegister() {
+    public RegisterSuccessful() {
         initComponents();
     }
 
@@ -35,12 +35,13 @@ public class ThankYouForRegister extends javax.swing.JFrame {
         jTextArea7 = new javax.swing.JTextArea();
         checkemail2 = new javax.swing.JPanel();
         jTextArea9 = new javax.swing.JTextArea();
+        loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         thankyou2.setBackground(new java.awt.Color(246, 246, 246));
         thankyou2.setPreferredSize(new java.awt.Dimension(500, 600));
-        thankyou2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 100));
+        thankyou2.setLayout(new java.awt.GridBagLayout());
 
         thankyouContainer2.setBackground(new java.awt.Color(246, 246, 246));
         thankyouContainer2.setLayout(new java.awt.GridBagLayout());
@@ -52,7 +53,7 @@ public class ThankYouForRegister extends javax.swing.JFrame {
         thankyouContainer2.add(logo2, gridBagConstraints);
 
         login2.setFont(new java.awt.Font("Montserrat", 0, 36)); // NOI18N
-        login2.setText("Thank you");
+        login2.setText("Successful");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -110,12 +111,34 @@ public class ThankYouForRegister extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         thankyouContainer2.add(checkemail2, gridBagConstraints);
 
-        thankyou2.add(thankyouContainer2);
+        loginButton.setBackground(new java.awt.Color(26, 41, 128));
+        loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
+        loginButton.setForeground(new java.awt.Color(255, 255, 255));
+        loginButton.setText("Back to log in");
+        loginButton.setPreferredSize(new java.awt.Dimension(260, 35));
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 35, 0);
+        thankyouContainer2.add(loginButton, gridBagConstraints);
+
+        thankyou2.add(thankyouContainer2, new java.awt.GridBagConstraints());
 
         getContentPane().add(thankyou2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -134,21 +157,27 @@ public class ThankYouForRegister extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThankYouForRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterSuccessful.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThankYouForRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterSuccessful.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThankYouForRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterSuccessful.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThankYouForRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterSuccessful.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThankYouForRegister().setVisible(true);
+                new RegisterSuccessful().setVisible(true);
             }
         });
     }
@@ -159,6 +188,7 @@ public class ThankYouForRegister extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea7;
     private javax.swing.JTextArea jTextArea9;
     private javax.swing.JLabel login2;
+    private javax.swing.JButton loginButton;
     private javax.swing.JLabel logo2;
     private java.awt.Panel thankyou2;
     private java.awt.Panel thankyouContainer2;

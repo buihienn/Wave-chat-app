@@ -163,6 +163,7 @@ public class UserFindFriend extends javax.swing.JFrame {
         chatButton.setBackground(new java.awt.Color(26, 41, 128));
         chatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         chatButton.setForeground(new java.awt.Color(255, 255, 255));
+        chatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png"))); // NOI18N
         chatButton.setText("Chat");
         chatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton.setIconTextGap(12);
@@ -171,6 +172,7 @@ public class UserFindFriend extends javax.swing.JFrame {
         chatButton1.setBackground(new java.awt.Color(26, 41, 128));
         chatButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         chatButton1.setForeground(new java.awt.Color(255, 255, 255));
+        chatButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
         chatButton1.setText("Friend");
         chatButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton1.setIconTextGap(12);
@@ -183,6 +185,7 @@ public class UserFindFriend extends javax.swing.JFrame {
 
         chatButton2.setBackground(new java.awt.Color(153, 255, 255));
         chatButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        chatButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_black.png"))); // NOI18N
         chatButton2.setText("Find Friend");
         chatButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton2.setIconTextGap(12);
@@ -1215,9 +1218,7 @@ public class UserFindFriend extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(searchBarContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(navChatContainerLayout.createSequentialGroup()
-                        .addGap(javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
-                        .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE))
+                    .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, navChatContainerLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1304,8 +1305,6 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JButton chatButton;
     private javax.swing.JButton chatButton1;
     private javax.swing.JButton chatButton2;
-    private javax.swing.JPanel container;
-    private javax.swing.JPanel container1;
     private javax.swing.JPanel container2;
     private javax.swing.JPanel contentContainer;
     private javax.swing.JButton jButton10;
@@ -1341,10 +1340,6 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton40;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1365,15 +1360,9 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel logoContainer;
-    private javax.swing.JLabel logoContainer1;
     private javax.swing.JLabel logoContainer2;
-    private javax.swing.JPanel navBarContainer;
-    private javax.swing.JPanel navBarContainer1;
     private javax.swing.JPanel navBarContainer2;
     private javax.swing.JPanel navChatContainer;
-    private javax.swing.JPanel profileContainer;
-    private javax.swing.JPanel profileContainer1;
     private javax.swing.JPanel profileContainer2;
     private javax.swing.JPanel searchBarContainer;
     private javax.swing.JButton searchButton;

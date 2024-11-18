@@ -41,9 +41,9 @@ public class ThankYou extends javax.swing.JFrame {
         checkemail = new javax.swing.JPanel();
         jTextArea3 = new javax.swing.JTextArea();
         loginButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 600));
 
         thankyou.setBackground(new java.awt.Color(246, 246, 246));
         thankyou.setPreferredSize(new java.awt.Dimension(500, 600));
@@ -175,7 +175,26 @@ public class ThankYou extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 35, 0);
         thankyouContainer.add(loginButton, gridBagConstraints);
 
-        thankyou.add(thankyouContainer, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 14;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(30, 30, 98, 101);
+        thankyou.add(thankyouContainer, gridBagConstraints);
+
+        jButton1.setBackground(new java.awt.Color(26, 41, 128));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back_white.png"))); // NOI18N
+        jButton1.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        thankyou.add(jButton1, gridBagConstraints);
 
         getContentPane().add(thankyou, java.awt.BorderLayout.CENTER);
 
@@ -185,6 +204,10 @@ public class ThankYou extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,6 +249,7 @@ public class ThankYou extends javax.swing.JFrame {
     private javax.swing.JPanel checkemail;
     private javax.swing.JPanel description;
     private javax.swing.JPanel forgotpassButton1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextArea jTextArea1;

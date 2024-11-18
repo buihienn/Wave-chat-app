@@ -75,12 +75,18 @@ public class UserFriend extends javax.swing.JFrame {
         all = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         allTable = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         request = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         requestTable = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
         online = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         onlineTable = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,6 +106,7 @@ public class UserFriend extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(26, 41, 128));
         jButton6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png"))); // NOI18N
         jButton6.setText("Profile");
         jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButton6.setIconTextGap(8);
@@ -120,6 +127,7 @@ public class UserFriend extends javax.swing.JFrame {
         chatButton.setBackground(new java.awt.Color(26, 41, 128));
         chatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         chatButton.setForeground(new java.awt.Color(255, 255, 255));
+        chatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png"))); // NOI18N
         chatButton.setText("Chat");
         chatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton.setIconTextGap(12);
@@ -127,6 +135,7 @@ public class UserFriend extends javax.swing.JFrame {
 
         chatButton1.setBackground(new java.awt.Color(153, 255, 255));
         chatButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        chatButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_black.png"))); // NOI18N
         chatButton1.setText("Friend");
         chatButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton1.setIconTextGap(12);
@@ -140,6 +149,7 @@ public class UserFriend extends javax.swing.JFrame {
         chatButton2.setBackground(new java.awt.Color(26, 41, 128));
         chatButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         chatButton2.setForeground(new java.awt.Color(255, 255, 255));
+        chatButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
         chatButton2.setText("Find Friend");
         chatButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chatButton2.setIconTextGap(12);
@@ -268,15 +278,29 @@ public class UserFriend extends javax.swing.JFrame {
             allTable.getColumnModel().getColumn(3).setPreferredWidth(50);
         }
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setText("Filter:");
+
         javax.swing.GroupLayout allLayout = new javax.swing.GroupLayout(all);
         all.setLayout(allLayout);
         allLayout.setHorizontalGroup(
             allLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addGroup(allLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         allLayout.setVerticalGroup(
             allLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, allLayout.createSequentialGroup()
+                .addGroup(allLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         contentContainer.add(all, "card2");
@@ -322,15 +346,29 @@ public class UserFriend extends javax.swing.JFrame {
             requestTable.getColumnModel().getColumn(1).setPreferredWidth(50);
         }
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setText("Filter:");
+
         javax.swing.GroupLayout requestLayout = new javax.swing.GroupLayout(request);
         request.setLayout(requestLayout);
         requestLayout.setHorizontalGroup(
             requestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addGroup(requestLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         requestLayout.setVerticalGroup(
             requestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, requestLayout.createSequentialGroup()
+                .addGroup(requestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         contentContainer.add(request, "card3");
@@ -386,15 +424,29 @@ public class UserFriend extends javax.swing.JFrame {
             onlineTable.getColumnModel().getColumn(3).setHeaderValue("");
         }
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel4.setText("Filter:");
+
         javax.swing.GroupLayout onlineLayout = new javax.swing.GroupLayout(online);
         online.setLayout(onlineLayout);
         onlineLayout.setHorizontalGroup(
             onlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addGroup(onlineLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         onlineLayout.setVerticalGroup(
             onlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineLayout.createSequentialGroup()
+                .addGroup(onlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         contentContainer.add(online, "card4");
@@ -493,12 +545,18 @@ public class UserFriend extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel logoContainer;
     private javax.swing.JPanel navBarContainer;
     private javax.swing.JPanel navChatContainer;
