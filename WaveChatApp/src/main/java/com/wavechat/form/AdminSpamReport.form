@@ -192,9 +192,9 @@
                   <Data value="null"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="Lock/Unlock" type="java.lang.Object">
-                  <Data value="Lock"/>
-                  <Data value="Unlock"/>
+                <Column editable="true" title="Status" type="java.lang.Object">
+                  <Data value="Solved"/>
+                  <Data value="Remaining"/>
                   <Data value="null"/>
                   <Data value="null"/>
                 </Column>

@@ -119,13 +119,13 @@ public class AdminSpamReport extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"nguyenvana", "29/02/2023", "Lock", null},
-                {"nguyenvanb", "19/12/2023", "Unlock", null},
+                {"nguyenvana", "29/02/2023", "Solved", null},
+                {"nguyenvanb", "19/12/2023", "Remaining", null},
                 {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
-                "Username", "Time reported", "Lock/Unlock", "Block user"
+                "Username", "Time reported", "Status", "Block user"
             }
         ));
         jScrollPane1.setViewportView(jTable1);

@@ -26,6 +26,9 @@ public class AdminGroupChat extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupMenuGroupChat = new javax.swing.JPopupMenu();
+        memberList = new javax.swing.JMenuItem();
+        adminList = new javax.swing.JMenuItem();
         Header = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         notiButton = new javax.swing.JButton();
@@ -40,7 +43,13 @@ public class AdminGroupChat extends javax.swing.JFrame {
         spamReportNav = new javax.swing.JButton();
         loginHistoryNav = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        groupchatTable = new javax.swing.JTable();
+
+        memberList.setText("Member list");
+        popupMenuGroupChat.add(memberList);
+
+        adminList.setText("Admin list");
+        popupMenuGroupChat.add(adminList);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -194,10 +203,33 @@ public class AdminGroupChat extends javax.swing.JFrame {
                 .addContainerGap(259, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        groupchatTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"22CLC09", "17/09/20024", ""},
                 {"22CLC08", "19/09/20024", null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null}
             },
@@ -213,7 +245,8 @@ public class AdminGroupChat extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        groupchatTable.setComponentPopupMenu(popupMenuGroupChat);
+        jScrollPane1.setViewportView(groupchatTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -308,18 +341,19 @@ public class AdminGroupChat extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Header;
-    private javax.swing.JButton dashboardNav;
+    private javax.swing.JMenuItem adminList;
     private javax.swing.JButton dashboardNav1;
     private javax.swing.JLabel groupChatText;
     private javax.swing.JButton groupchatNav;
+    private javax.swing.JTable groupchatTable;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton loginHistoryNav;
-    private javax.swing.JPanel navContainer;
+    private javax.swing.JMenuItem memberList;
     private javax.swing.JPanel navContainer1;
     private javax.swing.JButton notiButton;
+    private javax.swing.JPopupMenu popupMenuGroupChat;
     private javax.swing.JButton spamReportNav;
     private javax.swing.JButton userButton;
     private javax.swing.JButton userNav;

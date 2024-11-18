@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPopupMenu" name="popupMenuGroupChat">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="memberList">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Member list"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="adminList">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Admin list"/>
+          </Properties>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -320,13 +340,36 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="groupchatTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="4">
+              <Table columnCount="3" rowCount="27">
                 <Column editable="true" title="Group name" type="java.lang.String">
                   <Data value="22CLC09"/>
                   <Data value="22CLC08"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
                   <Data value="null"/>
                   <Data value="null"/>
                 </Column>
@@ -335,14 +378,63 @@
                   <Data value="19/09/20024"/>
                   <Data value="null"/>
                   <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
                 </Column>
                 <Column editable="true" title="Information" type="java.lang.Object">
                   <Data value=""/>
                   <Data value="null"/>
                   <Data value="null"/>
                   <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
                 </Column>
               </Table>
+            </Property>
+            <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="popupMenuGroupChat"/>
             </Property>
           </Properties>
         </Component>
