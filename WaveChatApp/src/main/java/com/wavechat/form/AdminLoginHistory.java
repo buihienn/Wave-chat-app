@@ -133,7 +133,7 @@ public class AdminLoginHistory extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Username", "Full name", "Time log", "Duration (phút)"
+                "Username", "Full name", "Time log", "Duration (mins)"
             }
         ) {
             Class[] types = new Class [] {

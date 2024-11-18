@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.wavechat.form;
+import com.wavechat.component.ButtonRenderer;
 
 /**
  *
@@ -15,7 +16,14 @@ public class AdminSpamReport extends javax.swing.JFrame {
      */
     public AdminSpamReport() {
         initComponents();
+        customizeTable(jTable1);
     }
+    
+    private void customizeTable(javax.swing.JTable table) {
+        
+        table.setRowHeight(30); 
+        table.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer.Block());
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.

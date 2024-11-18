@@ -44,6 +44,7 @@ public class ThankYou extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Wave - Thank You");
 
         thankyou.setBackground(new java.awt.Color(246, 246, 246));
         thankyou.setPreferredSize(new java.awt.Dimension(500, 600));
@@ -102,11 +103,11 @@ public class ThankYou extends javax.swing.JFrame {
 
         or.setBackground(new java.awt.Color(246, 246, 246));
         or.setPreferredSize(new java.awt.Dimension(294, 24));
-        or.setLayout(new java.awt.GridBagLayout());
+        or.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel1.setPreferredSize(new java.awt.Dimension(130, 1));
-        or.add(jPanel1, new java.awt.GridBagConstraints());
+        jPanel1.setPreferredSize(new java.awt.Dimension(120, 1));
+        or.add(jPanel1);
 
         jTextArea1.setBackground(new java.awt.Color(246, 246, 246));
         jTextArea1.setColumns(1);
@@ -121,11 +122,11 @@ public class ThankYou extends javax.swing.JFrame {
         jTextArea1.setEnabled(false);
         jTextArea1.setMinimumSize(new java.awt.Dimension(30, 20));
         jTextArea1.setPreferredSize(new java.awt.Dimension(30, 12));
-        or.add(jTextArea1, new java.awt.GridBagConstraints());
+        or.add(jTextArea1);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel2.setPreferredSize(new java.awt.Dimension(130, 1));
-        or.add(jPanel2, new java.awt.GridBagConstraints());
+        jPanel2.setPreferredSize(new java.awt.Dimension(120, 1));
+        or.add(jPanel2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;

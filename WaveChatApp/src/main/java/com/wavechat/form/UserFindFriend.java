@@ -126,6 +126,7 @@ public class UserFindFriend extends javax.swing.JFrame {
         jButton40 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Wave - Find Friend");
 
         container2.setBackground(new java.awt.Color(246, 246, 246));
         container2.setBorder(new javax.swing.border.MatteBorder(null));
@@ -238,7 +239,7 @@ public class UserFindFriend extends javax.swing.JFrame {
 
         searchBarContainer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         searchBarContainer.setPreferredSize(new java.awt.Dimension(724, 40));
-        searchBarContainer.setLayout(new java.awt.GridBagLayout());
+        searchBarContainer.setLayout(new java.awt.BorderLayout());
 
         searchInput.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         searchInput.setText("Search username");
@@ -249,11 +250,7 @@ public class UserFindFriend extends javax.swing.JFrame {
                 searchInputActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        searchBarContainer.add(searchInput, gridBagConstraints);
+        searchBarContainer.add(searchInput, java.awt.BorderLayout.CENTER);
 
         searchButton.setBackground(new java.awt.Color(26, 41, 128));
         searchButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -266,9 +263,7 @@ public class UserFindFriend extends javax.swing.JFrame {
                 searchButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        searchBarContainer.add(searchButton, gridBagConstraints);
+        searchBarContainer.add(searchButton, java.awt.BorderLayout.EAST);
 
         contentContainer.setPreferredSize(new java.awt.Dimension(726, 700));
         contentContainer.setLayout(new java.awt.BorderLayout());

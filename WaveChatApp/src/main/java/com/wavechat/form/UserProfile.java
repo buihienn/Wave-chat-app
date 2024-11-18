@@ -58,6 +58,7 @@ public class UserProfile extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Wave - Profile");
 
         container.setBackground(new java.awt.Color(246, 246, 246));
         container.setBorder(new javax.swing.border.MatteBorder(null));
@@ -309,7 +310,7 @@ public class UserProfile extends javax.swing.JFrame {
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(72, 72, 72)))
                         .addGap(152, 152, 152)))
-                .addGap(3, 3, 3))
+                .addContainerGap())
         );
         userContainerLayout.setVerticalGroup(
             userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,8 +361,8 @@ public class UserProfile extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                    .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         navChatContainerLayout.setVerticalGroup(
             navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,8 +370,8 @@ public class UserProfile extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
