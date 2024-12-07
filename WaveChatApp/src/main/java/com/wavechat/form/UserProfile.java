@@ -1,21 +1,147 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.wavechat.form;
 
-/**
- *
- * @author LENOVO
- */
-public class UserProfile extends javax.swing.JFrame {
+import com.wavechat.bus.userBUS;
+import com.wavechat.dto.userDTO;
 
-    /**
-     * Creates new form UserProfile
-     */
+public class UserProfile extends javax.swing.JFrame {
     public UserProfile() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        
+        updateProfile("U001");
     }
+    
+    // Để lấy data từ form bỏ vào dialog
+    private void setDataOfEditProfileDialog(String fullname, String gender, String birth, String address) {
+        fullnameEditDataLabel.setText(fullname);
+        birthEditDataLabel.setText(birth);
+        addressEditDataLabel.setText(address);
+
+        // Chọn RadioButton dựa trên giá trị gender
+        if ("Male".equalsIgnoreCase(gender)) {
+            maleRadioButton.setSelected(true);
+        } else if ("Female".equalsIgnoreCase(gender)) {
+            femaleRadioButton.setSelected(true);
+        } else if ("Prefer not to say".equalsIgnoreCase(gender)) {
+            preferRadioButton.setSelected(true);
+        }
+    }
+    
+    // check logic của các trường mà người dùng nhập
+    private boolean checkLogicEdit() {
+        String fullName = fullnameEditDataLabel.getText();
+        String birthDate = birthEditDataLabel.getText();
+        String address = addressEditDataLabel.getText();
+
+        StringBuilder message = new StringBuilder();
+
+        // Kiểm tra fullname
+        if (fullName.isEmpty()) {
+            message.append("Fullname cannot be empty.\n");
+        }
+
+        // Kiểm tra birth
+        if (birthDate.isEmpty()) {
+            message.append("Date of birth cannot be empty.\n");
+        } else if (!birthDate.matches("\\d{2}/\\d{2}/\\d{4}")) { // Định dạng dd/MM/yyyy
+            message.append("Birthdate must be in format dd/MM/yyyy.\n");
+        }
+
+        // Kiểm tra address
+        if (address.isEmpty()) {
+            message.append("Address cannot be empty.\n");
+        }
+
+        // Hiển thị thông báo lỗi nếu có
+        if (message.length() > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, message.toString(), "Validation Errors", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Trả về true nếu không có lỗi
+        return true;
+    }
+    
+    private void editUser() {
+        // Lấy thông tin từ dialog
+        String userIDData = userIDDataLabel.getText(); 
+        String fullNameData = fullnameEditDataLabel.getText(); 
+        String birthData = birthEditDataLabel.getText(); 
+        String addressData = addressEditDataLabel.getText(); 
+
+        // Xác định gender từ RadioButton
+        String genderData = null;
+        if (maleRadioButton.isSelected()) {
+            genderData = "Male";
+        } else if (femaleRadioButton.isSelected()) {
+            genderData = "Female";
+        } else if (preferRadioButton.isSelected()) {
+            genderData = "Prefer not to say";
+        }
+
+        userBUS bus = new userBUS();
+
+        try {
+            // Xử lí date
+            java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date birthDay = inputFormat.parse(birthData);
+            
+            userDTO user = new userDTO(
+                userIDData,       
+                fullNameData,    
+                addressData,      
+                birthDay,        
+                genderData      
+            );
+
+            // Gọi phương thức để cập nhật thông tin
+            if (bus.editUser(user)) {
+                System.out.println("User updated successfully!");
+
+                // Cập nhật hiển thị profile sau khi update user thành công
+                updateProfile("U001");
+            } else {
+                System.out.println("Failed to update user.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private void updateProfile(String userID) {
+        // Khởi tạo đối tượng userBUS
+        userBUS bus = new userBUS();
+
+        try {
+            // Lấy thông tin user từ database thông qua userBUS
+            userDTO user = bus.getUserByID(userID);
+
+            if (user != null) {
+                // Cập nhật các label với thông tin lấy được
+                fullnameDataLabel.setText(user.getFullName());
+                genderDataLabel.setText(user.getGender());
+
+                // Định dạng ngày sinh (nếu cần)
+                java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
+                String formattedBirthDate = outputFormat.format(user.getBirthDay());
+                birthDataLabel.setText(formattedBirthDate);
+
+                addressDataLabel.setText(user.getAddress());
+                
+                usernameDataLabel.setText(user.getUserName());                
+                emailDataLabel.setText(user.getEmail());
+
+            } else {
+                // Hiển thị thông báo nếu không tìm thấy user
+                javax.swing.JOptionPane.showMessageDialog(this, "User not found!", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            // Hiển thị lỗi nếu có vấn đề xảy ra
+            javax.swing.JOptionPane.showMessageDialog(this, "Error fetching user data: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,35 +153,204 @@ public class UserProfile extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        genderChoose = new javax.swing.ButtonGroup();
+        editProfileDialog = new javax.swing.JDialog();
+        popupEditProfile = new javax.swing.JPanel();
+        genderEditLabel = new javax.swing.JLabel();
+        maleRadioButton = new javax.swing.JRadioButton();
+        femaleRadioButton = new javax.swing.JRadioButton();
+        preferRadioButton = new javax.swing.JRadioButton();
+        fullnameEditDataLabel = new javax.swing.JTextField();
+        userAvatar1 = new javax.swing.JLabel();
+        changeAvatarButton = new javax.swing.JButton();
+        birthEditLabel = new javax.swing.JLabel();
+        birthEditDataLabel = new javax.swing.JTextField();
+        addressEditLabel = new javax.swing.JLabel();
+        addressEditDataLabel = new javax.swing.JTextField();
+        confirmButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         container = new javax.swing.JPanel();
         navBarContainer = new javax.swing.JPanel();
         logoContainer = new javax.swing.JLabel();
         profileContainer = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        chatButton = new javax.swing.JButton();
-        chatButton1 = new javax.swing.JButton();
-        chatButton2 = new javax.swing.JButton();
-        navChatContainer = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        profileNavButton = new javax.swing.JButton();
+        logoutNavButton = new javax.swing.JButton();
+        chatNavButton = new javax.swing.JButton();
+        friendNavButton = new javax.swing.JButton();
+        findFriendNavButton = new javax.swing.JButton();
+        contentContainer = new javax.swing.JPanel();
+        profileLabel = new javax.swing.JLabel();
         userContainer = new javax.swing.JPanel();
         userAvatar = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        fullnameDataLabel = new javax.swing.JLabel();
+        statusLabel = new javax.swing.JLabel();
+        usernameLabel = new javax.swing.JLabel();
+        addressLabel = new javax.swing.JLabel();
+        logoutButton = new javax.swing.JButton();
+        birthLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        genderLabel = new javax.swing.JLabel();
+        editProfileButton = new javax.swing.JButton();
+        changePasswordButton = new javax.swing.JButton();
+        jSeparator = new javax.swing.JSeparator();
+        emailDataLabel = new javax.swing.JLabel();
+        genderDataLabel = new javax.swing.JLabel();
+        birthDataLabel = new javax.swing.JLabel();
+        usernameDataLabel = new javax.swing.JLabel();
+        addressDataLabel = new javax.swing.JLabel();
+        IDLabel = new javax.swing.JLabel();
+        userIDDataLabel = new javax.swing.JLabel();
+
+        editProfileDialog.setMinimumSize(new java.awt.Dimension(731, 320));
+        editProfileDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        editProfileDialog.setResizable(false);
+        editProfileDialog.setSize(new java.awt.Dimension(731, 330));
+
+        popupEditProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        popupEditProfile.setMinimumSize(new java.awt.Dimension(719, 300));
+
+        genderEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        genderEditLabel.setText("Gender:");
+
+        genderChoose.add(maleRadioButton);
+        maleRadioButton.setText("Male");
+
+        genderChoose.add(femaleRadioButton);
+        femaleRadioButton.setText("Female");
+
+        genderChoose.add(preferRadioButton);
+        preferRadioButton.setText("Prefer not to say");
+
+        fullnameEditDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        fullnameEditDataLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fullnameEditDataLabelActionPerformed(evt);
+            }
+        });
+
+        userAvatar1.setText("Avatar1");
+        userAvatar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
+
+        changeAvatarButton.setBackground(new java.awt.Color(26, 41, 128));
+        changeAvatarButton.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
+        changeAvatarButton.setForeground(new java.awt.Color(255, 255, 255));
+        changeAvatarButton.setText("Change");
+
+        birthEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        birthEditLabel.setText("Date of birth:");
+
+        birthEditDataLabel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        birthEditDataLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birthEditDataLabelActionPerformed(evt);
+            }
+        });
+
+        addressEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        addressEditLabel.setText("Address:");
+
+        addressEditDataLabel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        addressEditDataLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressEditDataLabelActionPerformed(evt);
+            }
+        });
+
+        confirmButton.setBackground(new java.awt.Color(26, 41, 128));
+        confirmButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        confirmButton.setForeground(new java.awt.Color(255, 255, 255));
+        confirmButton.setText("Confirm");
+        confirmButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        confirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmButtonActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setBackground(new java.awt.Color(26, 41, 128));
+        cancelButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        cancelButton.setForeground(new java.awt.Color(255, 255, 255));
+        cancelButton.setText("Cancel");
+        cancelButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout popupEditProfileLayout = new javax.swing.GroupLayout(popupEditProfile);
+        popupEditProfile.setLayout(popupEditProfileLayout);
+        popupEditProfileLayout.setHorizontalGroup(
+            popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(popupEditProfileLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(changeAvatarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(popupEditProfileLayout.createSequentialGroup()
+                        .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(popupEditProfileLayout.createSequentialGroup()
+                        .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addressEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(birthEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(genderEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addressEditDataLabel)
+                            .addGroup(popupEditProfileLayout.createSequentialGroup()
+                                .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(birthEditDataLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, popupEditProfileLayout.createSequentialGroup()
+                                        .addComponent(maleRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(femaleRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(preferRadioButton)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupEditProfileLayout.createSequentialGroup()
+                        .addComponent(fullnameEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(198, 198, 198)))
+                .addGap(21, 21, 21))
+        );
+        popupEditProfileLayout.setVerticalGroup(
+            popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(popupEditProfileLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(popupEditProfileLayout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(genderEditLabel)
+                            .addComponent(maleRadioButton)
+                            .addComponent(femaleRadioButton)
+                            .addComponent(preferRadioButton))
+                        .addGap(20, 20, 20)
+                        .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(birthEditLabel)
+                            .addComponent(birthEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(popupEditProfileLayout.createSequentialGroup()
+                        .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fullnameEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(changeAvatarButton)))
+                .addGap(26, 26, 26)
+                .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addressEditLabel)
+                    .addComponent(addressEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
+
+        editProfileDialog.getContentPane().add(popupEditProfile, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wave - Profile");
@@ -73,56 +368,56 @@ public class UserProfile extends javax.swing.JFrame {
 
         profileContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
-        jButton6.setBackground(new java.awt.Color(153, 255, 255));
-        jButton6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_black.png"))); // NOI18N
-        jButton6.setText("Profile");
-        jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton6.setIconTextGap(8);
-        jButton6.setPreferredSize(new java.awt.Dimension(125, 40));
-        profileContainer.add(jButton6);
+        profileNavButton.setBackground(new java.awt.Color(153, 255, 255));
+        profileNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        profileNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_black.png"))); // NOI18N
+        profileNavButton.setText("Profile");
+        profileNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        profileNavButton.setIconTextGap(8);
+        profileNavButton.setPreferredSize(new java.awt.Dimension(125, 40));
+        profileContainer.add(profileNavButton);
 
-        jButton5.setBackground(new java.awt.Color(153, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_black.png"))); // NOI18N
-        jButton5.setPreferredSize(new java.awt.Dimension(40, 40));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        logoutNavButton.setBackground(new java.awt.Color(153, 255, 255));
+        logoutNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_black.png"))); // NOI18N
+        logoutNavButton.setPreferredSize(new java.awt.Dimension(40, 40));
+        logoutNavButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                logoutNavButtonActionPerformed(evt);
             }
         });
-        profileContainer.add(jButton5);
+        profileContainer.add(logoutNavButton);
 
-        chatButton.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png"))); // NOI18N
-        chatButton.setText("Chat");
-        chatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton.setIconTextGap(12);
-        chatButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        chatNavButton.setBackground(new java.awt.Color(26, 41, 128));
+        chatNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        chatNavButton.setForeground(new java.awt.Color(255, 255, 255));
+        chatNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png"))); // NOI18N
+        chatNavButton.setText("Chat");
+        chatNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        chatNavButton.setIconTextGap(12);
+        chatNavButton.setPreferredSize(new java.awt.Dimension(165, 40));
 
-        chatButton1.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton1.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
-        chatButton1.setText("Friend");
-        chatButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton1.setIconTextGap(12);
-        chatButton1.setPreferredSize(new java.awt.Dimension(165, 40));
-        chatButton1.addActionListener(new java.awt.event.ActionListener() {
+        friendNavButton.setBackground(new java.awt.Color(26, 41, 128));
+        friendNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        friendNavButton.setForeground(new java.awt.Color(255, 255, 255));
+        friendNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
+        friendNavButton.setText("Friend");
+        friendNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        friendNavButton.setIconTextGap(12);
+        friendNavButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        friendNavButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatButton1ActionPerformed(evt);
+                friendNavButtonActionPerformed(evt);
             }
         });
 
-        chatButton2.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton2.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
-        chatButton2.setText("Find Friend");
-        chatButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton2.setIconTextGap(12);
-        chatButton2.setPreferredSize(new java.awt.Dimension(165, 40));
+        findFriendNavButton.setBackground(new java.awt.Color(26, 41, 128));
+        findFriendNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        findFriendNavButton.setForeground(new java.awt.Color(255, 255, 255));
+        findFriendNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
+        findFriendNavButton.setText("Find Friend");
+        findFriendNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        findFriendNavButton.setIconTextGap(12);
+        findFriendNavButton.setPreferredSize(new java.awt.Dimension(165, 40));
 
         javax.swing.GroupLayout navBarContainerLayout = new javax.swing.GroupLayout(navBarContainer);
         navBarContainer.setLayout(navBarContainerLayout);
@@ -132,10 +427,10 @@ public class UserProfile extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chatNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(findFriendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(friendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         navBarContainerLayout.setVerticalGroup(
@@ -144,12 +439,12 @@ public class UserProfile extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chatNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(friendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
+                .addComponent(findFriendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
                 .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -162,12 +457,12 @@ public class UserProfile extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         container.add(navBarContainer, gridBagConstraints);
 
-        navChatContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 0, new java.awt.Color(0, 0, 0)));
-        navChatContainer.setPreferredSize(new java.awt.Dimension(741, 600));
+        contentContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 0, new java.awt.Color(0, 0, 0)));
+        contentContainer.setPreferredSize(new java.awt.Dimension(741, 600));
 
-        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
-        jLabel1.setText("Profile");
-        jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
+        profileLabel.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
+        profileLabel.setText("Profile");
+        profileLabel.setPreferredSize(new java.awt.Dimension(214, 32));
 
         userContainer.setPreferredSize(new java.awt.Dimension(214, 66));
 
@@ -175,100 +470,76 @@ public class UserProfile extends javax.swing.JFrame {
         userAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         userAvatar.setPreferredSize(new java.awt.Dimension(54, 54));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel2.setText("Jane Hopper");
+        fullnameDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
 
-        jLabel3.setText("Online");
+        statusLabel.setText("Online");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel4.setText("Username:");
-        jLabel4.setPreferredSize(new java.awt.Dimension(41, 22));
+        usernameLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        usernameLabel.setText("Username:");
+        usernameLabel.setPreferredSize(new java.awt.Dimension(41, 22));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel5.setText("Address:");
+        addressLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        addressLabel.setText("Address:");
 
-        jTextField1.setText("eleven");
-        jTextField1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField1.setEnabled(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        logoutButton.setBackground(new java.awt.Color(153, 255, 255));
+        logoutButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        logoutButton.setText("Log out");
+        logoutButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                logoutButtonActionPerformed(evt);
             }
         });
 
-        jTextField2.setText("Hawkin, Roane");
-        jTextField2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField2.setEnabled(false);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        birthLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        birthLabel.setText("Date of birth:");
+
+        emailLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        emailLabel.setText("Email:");
+
+        genderLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        genderLabel.setText("Gender:");
+
+        editProfileButton.setBackground(new java.awt.Color(26, 41, 128));
+        editProfileButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        editProfileButton.setForeground(new java.awt.Color(255, 255, 255));
+        editProfileButton.setText("Edit profile");
+        editProfileButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        editProfileButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editProfileButtonMouseClicked(evt);
+            }
+        });
+        editProfileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                editProfileButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(153, 255, 255));
-        jButton3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton3.setText("Log out");
-        jButton3.setPreferredSize(new java.awt.Dimension(165, 40));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        changePasswordButton.setBackground(new java.awt.Color(26, 41, 128));
+        changePasswordButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        changePasswordButton.setForeground(new java.awt.Color(255, 255, 255));
+        changePasswordButton.setText("Change password");
+        changePasswordButton.setPreferredSize(new java.awt.Dimension(165, 40));
 
-        jTextField3.setText("13/04/2004");
-        jTextField3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField3.setEnabled(false);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
+        jSeparator.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel6.setText("Date of birth:");
+        emailDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel7.setText("Email:");
+        genderDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jTextField4.setText("jane04@gmail.com");
-        jTextField4.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField4.setEnabled(false);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
+        birthDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel8.setText("Gender:");
+        usernameDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jTextField6.setText("Female");
-        jTextField6.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField6.setEnabled(false);
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
+        addressDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jButton2.setBackground(new java.awt.Color(26, 41, 128));
-        jButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Edit profile");
-        jButton2.setPreferredSize(new java.awt.Dimension(165, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        IDLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        IDLabel.setText("ID:");
 
-        jButton1.setBackground(new java.awt.Color(26, 41, 128));
-        jButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Change password");
-        jButton1.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+        userIDDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        userIDDataLabel.setText("U001");
+        userIDDataLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout userContainerLayout = new javax.swing.GroupLayout(userContainer);
         userContainer.setLayout(userContainerLayout);
@@ -276,41 +547,46 @@ public class UserProfile extends javax.swing.JFrame {
             userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(userContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(userAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(userContainerLayout.createSequentialGroup()
+                        .addComponent(IDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(userIDDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(userContainerLayout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(41, 41, 41)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainerLayout.createSequentialGroup()
                         .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(userContainerLayout.createSequentialGroup()
-                                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
-                                    .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING))))
+                                .addComponent(fullnameDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(41, 41, 41)
+                                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(228, 228, 228))
+                            .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(userContainerLayout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(birthLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(genderLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(12, 12, 12)
+                                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(usernameDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                                    .addComponent(addressDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                                    .addComponent(birthDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                                    .addComponent(genderDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                                    .addComponent(emailDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(216, 216, 216))
+                            .addGroup(userContainerLayout.createSequentialGroup()
+                                .addComponent(editProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)))
-                        .addGap(152, 152, 152)))
-                .addContainerGap())
+                                .addComponent(changePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(224, 224, 224)))
+                        .addContainerGap())
+                    .addGroup(userContainerLayout.createSequentialGroup()
+                        .addComponent(jSeparator)
+                        .addGap(158, 158, 158))))
         );
         userContainerLayout.setVerticalGroup(
             userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,58 +596,68 @@ public class UserProfile extends javax.swing.JFrame {
                     .addComponent(userAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(userContainerLayout.createSequentialGroup()
                         .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fullnameDataLabel)
+                            .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)))
-                .addGap(18, 18, 18)
-                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statusLabel)))
                 .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(156, 156, 156))
+                    .addGroup(userContainerLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(emailLabel)
+                            .addComponent(emailDataLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usernameDataLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(genderLabel)
+                            .addGroup(userContainerLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(genderDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(birthLabel)
+                            .addComponent(birthDataLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addressLabel)
+                            .addComponent(addressDataLabel))
+                        .addGap(33, 33, 33)
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(editProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(changePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(156, 156, 156))
+                    .addGroup(userContainerLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(IDLabel)
+                            .addComponent(userIDDataLabel))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        javax.swing.GroupLayout navChatContainerLayout = new javax.swing.GroupLayout(navChatContainer);
-        navChatContainer.setLayout(navChatContainerLayout);
-        navChatContainerLayout.setHorizontalGroup(
-            navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navChatContainerLayout.createSequentialGroup()
+        javax.swing.GroupLayout contentContainerLayout = new javax.swing.GroupLayout(contentContainer);
+        contentContainer.setLayout(contentContainerLayout);
+        contentContainerLayout.setHorizontalGroup(
+            contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contentContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
-        navChatContainerLayout.setVerticalGroup(
-            navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navChatContainerLayout.createSequentialGroup()
+        contentContainerLayout.setVerticalGroup(
+            contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contentContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -380,48 +666,71 @@ public class UserProfile extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        container.add(navChatContainer, gridBagConstraints);
+        container.add(contentContainer, gridBagConstraints);
 
         getContentPane().add(container, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void logoutNavButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutNavButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_logoutNavButtonActionPerformed
 
-    private void chatButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatButton1ActionPerformed
+    private void friendNavButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendNavButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_chatButton1ActionPerformed
+    }//GEN-LAST:event_friendNavButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void editProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        // Lấy dữ liệu từ các JLabel trong JFrame
+        String fullname = fullnameDataLabel.getText();
+        String gender = genderDataLabel.getText();
+        String birth = birthDataLabel.getText();
+        String address = addressDataLabel.getText();
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        setDataOfEditProfileDialog(fullname, gender, birth, address);
+        
+        editProfileDialog.setLocationRelativeTo(this);
+        editProfileDialog.setVisible(true); // Hiển thị dialog
+    }//GEN-LAST:event_editProfileButtonActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void addressEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressEditDataLabelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_addressEditDataLabelActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void birthEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_birthEditDataLabelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_birthEditDataLabelActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+        editProfileDialog.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void editProfileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProfileButtonMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_editProfileButtonMouseClicked
+
+    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        // TODO add your handling code here:
+        if (!checkLogicEdit()) {
+            return; // Nếu có lỗi, không tiếp tục
+        }
+
+        // Thực hiện cập nhật thông tin người dùng
+        editUser();
+        
+        editProfileDialog.dispose(); 
+    }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void fullnameEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullnameEditDataLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fullnameEditDataLabelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -450,6 +759,12 @@ public class UserProfile extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -460,34 +775,52 @@ public class UserProfile extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton chatButton;
-    private javax.swing.JButton chatButton1;
-    private javax.swing.JButton chatButton2;
+    private javax.swing.JLabel IDLabel;
+    private javax.swing.JLabel addressDataLabel;
+    private javax.swing.JTextField addressEditDataLabel;
+    private javax.swing.JLabel addressEditLabel;
+    private javax.swing.JLabel addressLabel;
+    private javax.swing.JLabel birthDataLabel;
+    private javax.swing.JTextField birthEditDataLabel;
+    private javax.swing.JLabel birthEditLabel;
+    private javax.swing.JLabel birthLabel;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton changeAvatarButton;
+    private javax.swing.JButton changePasswordButton;
+    private javax.swing.JButton chatNavButton;
+    private javax.swing.JButton confirmButton;
     private javax.swing.JPanel container;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JPanel contentContainer;
+    private javax.swing.JButton editProfileButton;
+    private javax.swing.JDialog editProfileDialog;
+    private javax.swing.JLabel emailDataLabel;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JRadioButton femaleRadioButton;
+    private javax.swing.JButton findFriendNavButton;
+    private javax.swing.JButton friendNavButton;
+    private javax.swing.JLabel fullnameDataLabel;
+    private javax.swing.JTextField fullnameEditDataLabel;
+    private javax.swing.ButtonGroup genderChoose;
+    private javax.swing.JLabel genderDataLabel;
+    private javax.swing.JLabel genderEditLabel;
+    private javax.swing.JLabel genderLabel;
+    private javax.swing.JSeparator jSeparator;
     private javax.swing.JLabel logoContainer;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JButton logoutNavButton;
+    private javax.swing.JRadioButton maleRadioButton;
     private javax.swing.JPanel navBarContainer;
-    private javax.swing.JPanel navChatContainer;
+    private javax.swing.JPanel popupEditProfile;
+    private javax.swing.JRadioButton preferRadioButton;
     private javax.swing.JPanel profileContainer;
+    private javax.swing.JLabel profileLabel;
+    private javax.swing.JButton profileNavButton;
+    private javax.swing.JLabel statusLabel;
     private javax.swing.JLabel userAvatar;
+    private javax.swing.JLabel userAvatar1;
     private javax.swing.JPanel userContainer;
+    private javax.swing.JLabel userIDDataLabel;
+    private javax.swing.JLabel usernameDataLabel;
+    private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }

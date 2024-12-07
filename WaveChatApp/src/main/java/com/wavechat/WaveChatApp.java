@@ -6,7 +6,7 @@ public class WaveChatApp {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(() -> {
             // Tạo và hiển thị frame
-            AdminSpamReport frame = new AdminSpamReport();
+            UserProfile frame = new UserProfile();
             frame.setVisible(true);
         });
     }
