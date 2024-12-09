@@ -1,14 +1,14 @@
 package com.wavechat.form;
 
-import com.wavechat.bus.userBUS;
-import com.wavechat.dto.userDTO;
+import com.wavechat.bus.UserBUS;
+import com.wavechat.dto.UserDTO;
 
 public class UserProfile extends javax.swing.JFrame {
     public UserProfile() {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        updateProfile("U001");
+        updateProfile("U0001");
     }
     
     // Để lấy data từ form bỏ vào dialog
@@ -79,14 +79,14 @@ public class UserProfile extends javax.swing.JFrame {
             genderData = "Prefer not to say";
         }
 
-        userBUS bus = new userBUS();
+        UserBUS bus = new UserBUS();
 
         try {
             // Xử lí date
             java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
             java.util.Date birthDay = inputFormat.parse(birthData);
             
-            userDTO user = new userDTO(
+            UserDTO user = new UserDTO(
                 userIDData,       
                 fullNameData,    
                 addressData,      
@@ -99,7 +99,7 @@ public class UserProfile extends javax.swing.JFrame {
                 System.out.println("User updated successfully!");
 
                 // Cập nhật hiển thị profile sau khi update user thành công
-                updateProfile("U001");
+                updateProfile("U0001");
             } else {
                 System.out.println("Failed to update user.");
             }
@@ -110,11 +110,11 @@ public class UserProfile extends javax.swing.JFrame {
 
     private void updateProfile(String userID) {
         // Khởi tạo đối tượng userBUS
-        userBUS bus = new userBUS();
+        UserBUS bus = new UserBUS();
 
         try {
             // Lấy thông tin user từ database thông qua userBUS
-            userDTO user = bus.getUserByID(userID);
+            UserDTO user = bus.getUserByID(userID);
 
             if (user != null) {
                 // Cập nhật các label với thông tin lấy được
@@ -538,7 +538,7 @@ public class UserProfile extends javax.swing.JFrame {
         IDLabel.setText("ID:");
 
         userIDDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        userIDDataLabel.setText("U001");
+        userIDDataLabel.setText("U0001");
         userIDDataLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout userContainerLayout = new javax.swing.GroupLayout(userContainer);

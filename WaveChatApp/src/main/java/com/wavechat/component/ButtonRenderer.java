@@ -3,6 +3,8 @@ package com.wavechat.component;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ButtonRenderer extends JButton implements TableCellRenderer {
     private String buttonType; // Xác định loại nút
@@ -11,6 +13,21 @@ public class ButtonRenderer extends JButton implements TableCellRenderer {
     public ButtonRenderer(String buttonType) {
         this.buttonType = buttonType;
         setOpaque(true); // Đảm bảo nút hiển thị màu sắc đầy đủ
+        
+        // Đăng ký sự kiện ActionListener
+        this.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (actionListener != null) {
+                    actionListener.actionPerformed(e);
+                }
+            }
+        });
+    }
+    
+    // Đặt ActionListener cho ButtonRenderer
+    public void setActionListener(ActionListener actionListener) {
+        this.actionListener = actionListener;
     }
 
     @Override

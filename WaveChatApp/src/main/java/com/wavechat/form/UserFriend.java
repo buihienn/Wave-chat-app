@@ -3,7 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.wavechat.form;
+import com.wavechat.bus.BlockBUS;
+import com.wavechat.bus.FriendBUS;
+import com.wavechat.component.ButtonEditor;
 import com.wavechat.component.ButtonRenderer;
+import com.wavechat.dao.UserDAO;
+import com.wavechat.dto.FriendDTO;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,27 +32,112 @@ public class UserFriend extends javax.swing.JFrame {
     }
     
     private void customizeTableAll(javax.swing.JTable table) {
+        // Ví dụ: danh sách dữ liệu
+        FriendBUS friendBUS = new FriendBUS();
+        List<FriendDTO> friendsList = friendBUS.getFriends("U0001"); // Ví dụ userID là "U0001"
 
-    // Đặt chiều cao cho tất cả các hàng
-    table.setRowHeight(30); 
-    
-    table.setRowSelectionAllowed(false);
-    table.setColumnSelectionAllowed(false);
-    
-    table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer.Unfriend());
-    table.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer.Block());
+        // Cấu trúc cột cho bảng
+        String[] columnNames = {"Username", "Status", "Unfriend", "Block"};
+
+        // Dữ liệu cho bảng (mỗi hàng là một đối tượng FriendDTO)
+        Object[][] data = new Object[friendsList.size()][4];  // 4 cột: UserName, OnlineStatus, Unfriend, Block
+
+        // Điền dữ liệu vào bảng
+        for (int i = 0; i < friendsList.size(); i++) {
+            FriendDTO friend = friendsList.get(i);
+            data[i][0] = friend.getUserName();      // User Name
+            data[i][1] = friend.isOnlineStatus() ? "Online" : "Offline"; // Online Status
+        }
+
+        // Tạo DefaultTableModel và gán cho bảng
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        table.setModel(model);
+
+        // Đặt chiều cao cho tất cả các hàng
+        table.setRowHeight(30);
+
+        // Không cho phép chọn nhiều cột và hàng
+        table.setRowSelectionAllowed(false);
+        table.setColumnSelectionAllowed(false);
+
+        // Không cho phép edit trên bảng
+        table.setDefaultEditor(Object.class, null);
+
+        // Tạo ButtonRenderer và ButtonEditor cho các cột Unfriend và Block
+        ButtonRenderer.Unfriend unfriendRenderer = new ButtonRenderer.Unfriend();
+        ButtonRenderer.Block blockRenderer = new ButtonRenderer.Block();
+
+        ButtonEditor unfriendEditor = new ButtonEditor(new JCheckBox());
+        ButtonEditor blockEditor = new ButtonEditor(new JCheckBox());
+
+
+
+        // Đặt hành động cho Unfriend button
+        unfriendEditor.setActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) table.getValueAt(row, 0); // Lấy UserName của hàng hiện tại
+
+                // Giả sử bạn có userID của người đang thực hiện hành động
+                String currentUserID = "U0001"; // ID của người dùng hiện tại
+                String friendUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
+
+                // Gọi hàm xử lý Unfriend từ FriendBUS
+                boolean success = friendBUS.unfriend(currentUserID, friendUserID);
+                if (success) {
+                    System.out.println("Successfully unfriended " + userName);
+                } else {
+                    System.out.println("Failed to unfriend " + userName);
+                }
+            }
+        });
+
+        BlockBUS blockBUS = new BlockBUS();
+        // Đặt hành động cho Block button
+        blockEditor.setActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) table.getValueAt(row, 0); // Lấy UserName của hàng hiện tại
+
+                // Giả sử bạn có userID của người đang thực hiện hành động
+                String currentUserID = "U0001"; // ID của người dùng hiện tại
+                String blockUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
+
+                // Gọi hàm xử lý Block từ BlockBUS
+                boolean success = blockBUS.blockUser(currentUserID, blockUserID);
+                if (success) {
+                    System.out.println("Successfully blocked " + userName);
+                } else {
+                    System.out.println("Failed to block " + userName);
+                }
+            }
+        });
+
+        // Gán renderer và editor cho các cột Unfriend và Block
+        table.getColumnModel().getColumn(2).setCellRenderer(unfriendRenderer);
+        table.getColumnModel().getColumn(3).setCellRenderer(blockRenderer);
+
+        table.getColumnModel().getColumn(2).setCellEditor(unfriendEditor);
+        table.getColumnModel().getColumn(3).setCellEditor(blockEditor);
     }
     
-    private void customizeTableRequest(javax.swing.JTable table) {
+    // Hàm giả lập để lấy userID dựa trên username (Bạn cần cài đặt trong UserDAO)
+    private String getUserIDByUsername(String username) {
+        UserDAO userDAO = new UserDAO(); // DAO để lấy dữ liệu người dùng
+        return userDAO.getUserIDByUsername(username); // Hàm truy vấn userID dựa trên username
+    }
 
-    // Đặt chiều cao cho tất cả các hàng
-    table.setRowHeight(30); 
-    
-    table.setRowSelectionAllowed(false);
-    table.setColumnSelectionAllowed(false);
-    
-    table.getColumnModel().getColumn(1).setCellRenderer(new ButtonRenderer.Accept());
-    table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer.Delete());
+    private void customizeTableRequest(javax.swing.JTable table) {
+        // Đặt chiều cao cho tất cả các hàng
+        table.setRowHeight(30); 
+
+        table.setRowSelectionAllowed(false);
+        table.setColumnSelectionAllowed(false);
+
+        table.getColumnModel().getColumn(1).setCellRenderer(new ButtonRenderer.Accept());
+        table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer.Delete());
     }
     
     private void customizeTableOnline(javax.swing.JTable table) {
@@ -55,8 +150,7 @@ public class UserFriend extends javax.swing.JFrame {
 
         table.getColumnModel().getColumn(1).setCellRenderer(new ButtonRenderer.Unfriend());
         table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer.Block());
-        }
-
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -71,6 +165,21 @@ public class UserFriend extends javax.swing.JFrame {
         onlineFriendMenu = new javax.swing.JPopupMenu();
         chatMenuItem = new javax.swing.JMenuItem();
         createGroupMenuItem = new javax.swing.JMenuItem();
+        onlineCard = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        onlineTable = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        allCard = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        allTable = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        requestCard = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        requestTable = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
         container = new javax.swing.JPanel();
         navBarContainer = new javax.swing.JPanel();
         logoContainer = new javax.swing.JLabel();
@@ -83,31 +192,235 @@ public class UserFriend extends javax.swing.JFrame {
         navChatContainer = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         navFriendContainer = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        allButton = new javax.swing.JButton();
+        requestButton = new javax.swing.JButton();
+        blockButton = new javax.swing.JButton();
         contentContainer = new javax.swing.JPanel();
-        online = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        onlineTable = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        all = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        allTable = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        request = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        requestTable = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
 
         chatMenuItem.setText("Chat");
         onlineFriendMenu.add(chatMenuItem);
 
         createGroupMenuItem.setText("Create Group");
         onlineFriendMenu.add(createGroupMenuItem);
+
+        onlineTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"User1", "", ""},
+                {"User2", "", ""},
+                {"User3", "", ""},
+                {"User4", "", ""},
+                {"User5", null, null},
+                {"User6", null, null},
+                {"User7", null, null},
+                {"User8", null, null},
+                {"User9", null, null},
+                {"User10", null, null},
+                {"User11", null, null},
+                {"User12", null, null},
+                {"User13", null, null},
+                {"User14", null, null},
+                {"User15", null, null},
+                {"User16", null, null},
+                {"User17", null, null},
+                {"User18", null, null},
+                {"User19", null, null},
+                {"User20", null, null}
+            },
+            new String [] {
+                "Username", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        onlineTable.setComponentPopupMenu(onlineFriendMenu);
+        onlineTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(onlineTable);
+        if (onlineTable.getColumnModel().getColumnCount() > 0) {
+            onlineTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+            onlineTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+        }
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel4.setText("Filter:");
+
+        javax.swing.GroupLayout onlineCardLayout = new javax.swing.GroupLayout(onlineCard);
+        onlineCard.setLayout(onlineCardLayout);
+        onlineCardLayout.setHorizontalGroup(
+            onlineCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addGroup(onlineCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        onlineCardLayout.setVerticalGroup(
+            onlineCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineCardLayout.createSequentialGroup()
+                .addGroup(onlineCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        allTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"User1",  new Boolean(true), "", ""},
+                {"User2",  new Boolean(true), "", ""},
+                {"User3", null, "", ""},
+                {"User4", null, "", ""},
+                {"User5", null, null, null},
+                {"User6",  new Boolean(true), null, null},
+                {"User7",  new Boolean(true), null, null},
+                {"User8",  new Boolean(false), null, null},
+                {"User9",  new Boolean(true), null, null},
+                {"User10", null, null, null},
+                {"User11", null, null, null},
+                {"User12",  new Boolean(true), null, null},
+                {"User13",  new Boolean(true), null, null},
+                {"User14", null, null, null},
+                {"User15", null, null, null},
+                {"User16",  new Boolean(true), null, null},
+                {"User17",  new Boolean(true), null, null},
+                {"User18", null, null, null},
+                {"User19", null, null, null},
+                {"User20",  new Boolean(true), null, null}
+            },
+            new String [] {
+                "Username", "Online", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        allTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(allTable);
+        if (allTable.getColumnModel().getColumnCount() > 0) {
+            allTable.getColumnModel().getColumn(0).setResizable(false);
+            allTable.getColumnModel().getColumn(1).setResizable(false);
+            allTable.getColumnModel().getColumn(2).setResizable(false);
+            allTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+            allTable.getColumnModel().getColumn(3).setResizable(false);
+            allTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+        }
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setText("Filter:");
+
+        javax.swing.GroupLayout allCardLayout = new javax.swing.GroupLayout(allCard);
+        allCard.setLayout(allCardLayout);
+        allCardLayout.setHorizontalGroup(
+            allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addGroup(allCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        allCardLayout.setVerticalGroup(
+            allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, allCardLayout.createSequentialGroup()
+                .addGroup(allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        requestTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"User1", "", null},
+                {"User2", "", null},
+                {"User3", "", null},
+                {"User4", "", null},
+                {"User5", null, null},
+                {"User6", null, null},
+                {"User7", null, null},
+                {"User8", null, null},
+                {"User9", null, null},
+                {"User10", null, null},
+                {"User11", null, null},
+                {"User12", null, null},
+                {"User13", null, null},
+                {"User14", null, null},
+                {"User15", null, null},
+                {"User16", null, null},
+                {"User17", null, null},
+                {"User18", null, null},
+                {"User19", null, null},
+                {"User20", null, null}
+            },
+            new String [] {
+                "Username", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        requestTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(requestTable);
+        if (requestTable.getColumnModel().getColumnCount() > 0) {
+            requestTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+        }
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setText("Filter:");
+
+        javax.swing.GroupLayout requestCardLayout = new javax.swing.GroupLayout(requestCard);
+        requestCard.setLayout(requestCardLayout);
+        requestCardLayout.setHorizontalGroup(
+            requestCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addGroup(requestCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        requestCardLayout.setVerticalGroup(
+            requestCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, requestCardLayout.createSequentialGroup()
+                .addGroup(requestCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wave - Friend");
@@ -222,255 +535,57 @@ public class UserFriend extends javax.swing.JFrame {
         jLabel1.setText("Friend");
         jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
 
-        jLabel6.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(184, 184, 184));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("All");
-        jLabel6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(184, 184, 184)));
-        jLabel6.setPreferredSize(new java.awt.Dimension(230, 30));
-        navFriendContainer.add(jLabel6);
-
-        jLabel8.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(184, 184, 184));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Request");
-        jLabel8.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(184, 184, 184)));
-        jLabel8.setPreferredSize(new java.awt.Dimension(230, 30));
-        navFriendContainer.add(jLabel8);
-
-        jLabel7.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Online");
-        jLabel7.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
-        jLabel7.setPreferredSize(new java.awt.Dimension(230, 30));
-        navFriendContainer.add(jLabel7);
-
-        contentContainer.setLayout(new java.awt.CardLayout());
-
-        onlineTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"User1", "", ""},
-                {"User2", "", ""},
-                {"User3", "", ""},
-                {"User4", "", ""},
-                {"User5", null, null},
-                {"User6", null, null},
-                {"User7", null, null},
-                {"User8", null, null},
-                {"User9", null, null},
-                {"User10", null, null},
-                {"User11", null, null},
-                {"User12", null, null},
-                {"User13", null, null},
-                {"User14", null, null},
-                {"User15", null, null},
-                {"User16", null, null},
-                {"User17", null, null},
-                {"User18", null, null},
-                {"User19", null, null},
-                {"User20", null, null}
-            },
-            new String [] {
-                "Username", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        allButton.setBackground(new java.awt.Color(204, 204, 204));
+        allButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        allButton.setText("All");
+        allButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allButtonActionPerformed(evt);
             }
         });
-        onlineTable.setComponentPopupMenu(onlineFriendMenu);
-        onlineTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane5.setViewportView(onlineTable);
-        if (onlineTable.getColumnModel().getColumnCount() > 0) {
-            onlineTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-            onlineTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-        }
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel4.setText("Filter:");
-
-        javax.swing.GroupLayout onlineLayout = new javax.swing.GroupLayout(online);
-        online.setLayout(onlineLayout);
-        onlineLayout.setHorizontalGroup(
-            onlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
-            .addGroup(onlineLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        onlineLayout.setVerticalGroup(
-            onlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineLayout.createSequentialGroup()
-                .addGroup(onlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        contentContainer.add(online, "card4");
-
-        allTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"User1",  new Boolean(true), "", ""},
-                {"User2",  new Boolean(true), "", ""},
-                {"User3", null, "", ""},
-                {"User4", null, "", ""},
-                {"User5", null, null, null},
-                {"User6",  new Boolean(true), null, null},
-                {"User7",  new Boolean(true), null, null},
-                {"User8",  new Boolean(false), null, null},
-                {"User9",  new Boolean(true), null, null},
-                {"User10", null, null, null},
-                {"User11", null, null, null},
-                {"User12",  new Boolean(true), null, null},
-                {"User13",  new Boolean(true), null, null},
-                {"User14", null, null, null},
-                {"User15", null, null, null},
-                {"User16",  new Boolean(true), null, null},
-                {"User17",  new Boolean(true), null, null},
-                {"User18", null, null, null},
-                {"User19", null, null, null},
-                {"User20",  new Boolean(true), null, null}
-            },
-            new String [] {
-                "Username", "Online", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        requestButton.setBackground(new java.awt.Color(204, 204, 204));
+        requestButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        requestButton.setText("Request");
+        requestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestButtonActionPerformed(evt);
             }
         });
-        allTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(allTable);
-        if (allTable.getColumnModel().getColumnCount() > 0) {
-            allTable.getColumnModel().getColumn(0).setResizable(false);
-            allTable.getColumnModel().getColumn(1).setResizable(false);
-            allTable.getColumnModel().getColumn(2).setResizable(false);
-            allTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-            allTable.getColumnModel().getColumn(3).setResizable(false);
-            allTable.getColumnModel().getColumn(3).setPreferredWidth(50);
-        }
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel2.setText("Filter:");
-
-        javax.swing.GroupLayout allLayout = new javax.swing.GroupLayout(all);
-        all.setLayout(allLayout);
-        allLayout.setHorizontalGroup(
-            allLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
-            .addGroup(allLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        allLayout.setVerticalGroup(
-            allLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, allLayout.createSequentialGroup()
-                .addGroup(allLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        contentContainer.add(all, "card2");
-
-        requestTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"User1", "", null},
-                {"User2", "", null},
-                {"User3", "", null},
-                {"User4", "", null},
-                {"User5", null, null},
-                {"User6", null, null},
-                {"User7", null, null},
-                {"User8", null, null},
-                {"User9", null, null},
-                {"User10", null, null},
-                {"User11", null, null},
-                {"User12", null, null},
-                {"User13", null, null},
-                {"User14", null, null},
-                {"User15", null, null},
-                {"User16", null, null},
-                {"User17", null, null},
-                {"User18", null, null},
-                {"User19", null, null},
-                {"User20", null, null}
-            },
-            new String [] {
-                "Username", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        blockButton.setBackground(new java.awt.Color(204, 204, 204));
+        blockButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        blockButton.setText("Block");
+        blockButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blockButtonActionPerformed(evt);
             }
         });
-        requestTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(requestTable);
-        if (requestTable.getColumnModel().getColumnCount() > 0) {
-            requestTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-        }
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel3.setText("Filter:");
-
-        javax.swing.GroupLayout requestLayout = new javax.swing.GroupLayout(request);
-        request.setLayout(requestLayout);
-        requestLayout.setHorizontalGroup(
-            requestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
-            .addGroup(requestLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout navFriendContainerLayout = new javax.swing.GroupLayout(navFriendContainer);
+        navFriendContainer.setLayout(navFriendContainerLayout);
+        navFriendContainerLayout.setHorizontalGroup(
+            navFriendContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navFriendContainerLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(allButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(requestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(blockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        requestLayout.setVerticalGroup(
-            requestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, requestLayout.createSequentialGroup()
-                .addGroup(requestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+        navFriendContainerLayout.setVerticalGroup(
+            navFriendContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navFriendContainerLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(navFriendContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(allButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(requestButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(blockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        contentContainer.add(request, "card3");
+        contentContainer.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout navChatContainerLayout = new javax.swing.GroupLayout(navChatContainer);
         navChatContainer.setLayout(navChatContainerLayout);
@@ -519,6 +634,27 @@ public class UserFriend extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_chatButton1ActionPerformed
 
+    private void allButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allButtonActionPerformed
+        contentContainer.removeAll();
+        contentContainer.add(allCard);
+        contentContainer.revalidate();
+        contentContainer.repaint();
+    }//GEN-LAST:event_allButtonActionPerformed
+
+    private void requestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestButtonActionPerformed
+        contentContainer.removeAll();
+        contentContainer.add(requestCard);
+        contentContainer.revalidate();
+        contentContainer.repaint();
+    }//GEN-LAST:event_requestButtonActionPerformed
+
+    private void blockButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockButtonActionPerformed
+        contentContainer.removeAll();
+        contentContainer.add(onlineCard);
+        contentContainer.revalidate();
+        contentContainer.repaint();
+    }//GEN-LAST:event_blockButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -556,8 +692,10 @@ public class UserFriend extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel all;
+    private javax.swing.JButton allButton;
+    private javax.swing.JPanel allCard;
     private javax.swing.JTable allTable;
+    private javax.swing.JButton blockButton;
     private javax.swing.JButton chatButton;
     private javax.swing.JButton chatButton1;
     private javax.swing.JButton chatButton2;
@@ -571,9 +709,6 @@ public class UserFriend extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -584,11 +719,12 @@ public class UserFriend extends javax.swing.JFrame {
     private javax.swing.JPanel navBarContainer;
     private javax.swing.JPanel navChatContainer;
     private javax.swing.JPanel navFriendContainer;
-    private javax.swing.JPanel online;
+    private javax.swing.JPanel onlineCard;
     private javax.swing.JPopupMenu onlineFriendMenu;
     private javax.swing.JTable onlineTable;
     private javax.swing.JPanel profileContainer;
-    private javax.swing.JPanel request;
+    private javax.swing.JButton requestButton;
+    private javax.swing.JPanel requestCard;
     private javax.swing.JTable requestTable;
     // End of variables declaration//GEN-END:variables
 }
