@@ -1,7 +1,7 @@
 package com.wavechat.dto;
 import java.util.Date;
 
-public class userDTO {
+public class UserDTO {
     private String userID;
     private String userName;
     private String password;
@@ -15,7 +15,7 @@ public class userDTO {
     private boolean onlineStatus;
 
     // Constructor
-    public userDTO(String userID, String userName, String fullName, String address, Date birthDay, String gender, String email) {
+    public UserDTO(String userID, String userName, String fullName, String address, Date birthDay, String gender, String email) {
         this.userID = userID;
         this.userName = userName;
         this.fullName = fullName;
@@ -26,7 +26,7 @@ public class userDTO {
     }
     
     // Constructor chỉ cho các trường cần cập nhật
-    public userDTO(String userID, String fullName, String address, java.util.Date birthDay, String gender) {
+    public UserDTO(String userID, String fullName, String address, java.util.Date birthDay, String gender) {
         this.userID = userID;
         this.fullName = fullName;
         this.address = address;
