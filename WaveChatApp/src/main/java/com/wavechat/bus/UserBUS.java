@@ -1,21 +1,22 @@
 package com.wavechat.bus;
 
-import com.wavechat.dao.*;
-import com.wavechat.dto.*;
+import com.wavechat.dao.UserDAO;
+import com.wavechat.dto.UserDTO;
 
-public class userBUS {
-    private userDAO userDAO;
+public class UserBUS {
+    private UserDAO userDAO;
 
-    public userBUS() {
-        this.userDAO = new userDAO();
+    public UserBUS() {
+        this.userDAO = new UserDAO();
     }
 
-    // Phương thức cập nhật hồ sơ người dùng
-    public boolean editUser(userDTO user) {
+    // Hàm cập nhật thông tin người dùng
+    public boolean editUser(UserDTO user) {
         return userDAO.updateUser(user); // Gọi phương thức từ DAO
     }
     
-    public userDTO getUserByID(String userID) throws Exception {
+    // Hàm lấy thông tin người dùng
+    public UserDTO getUserByID(String userID) throws Exception {
         return userDAO.getUserByID(userID); // Gọi phương thức từ DAO
     }
 

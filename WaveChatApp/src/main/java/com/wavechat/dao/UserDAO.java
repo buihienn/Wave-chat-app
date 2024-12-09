@@ -1,14 +1,15 @@
 package com.wavechat.dao;
 
-import com.wavechat.dto.userDTO;
+import com.wavechat.dto.UserDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class userDAO {
+public class UserDAO {
     private Connection connection;
 
-    public userDAO() {
+    public UserDAO() {
         this.connection = DBconnector.getConnection();
         if (this.connection == null) {
             throw new IllegalStateException("Database connection is null. Cannot initialize userDAO.");
@@ -16,30 +17,30 @@ public class userDAO {
     }
 
 
-    // Phương thức cập nhật thông tin người dùng
-    public boolean updateUser(userDTO user) {
+    // Hàm cập nhật thông tin người dùng
+    public boolean updateUser(UserDTO user) {
         // Chỉ cập nhật các trường: fullName, address, birthDay, gender dựa trên userID
         String query = "UPDATE User SET fullName = ?, address = ?, birthDay = ?, gender = ? WHERE userID = ?";
-        try {
-            // Kết nối cơ sở dữ liệu và thực hiện truy vấn
-            PreparedStatement ps = connection.prepareStatement(query);
+        try (Connection connection = DBconnector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             // Gán giá trị cho các tham số
-            ps.setString(1, user.getFullName()); // fullName
-            ps.setString(2, user.getAddress()); // address
-            ps.setDate(3, new java.sql.Date(user.getBirthDay().getTime())); // birthDay
-            ps.setString(4, user.getGender()); // gender
-            ps.setString(5, user.getUserID()); // userID (điều kiện WHERE)
+            preparedStatement.setString(1, user.getFullName()); // fullName
+            preparedStatement.setString(2, user.getAddress()); // address
+            preparedStatement.setDate(3, new java.sql.Date(user.getBirthDay().getTime())); // birthDay
+            preparedStatement.setString(4, user.getGender()); // gender
+            preparedStatement.setString(5, user.getUserID()); // userID (điều kiện WHERE)
 
             // Thực thi truy vấn
-            return ps.executeUpdate() > 0;
+            return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error updating user: " + e.getMessage());
             return false;
         }
     }
     
-    public userDTO getUserByID(String userID) throws Exception {
+    // Hàm lấy thông tin người dùng
+    public UserDTO getUserByID(String userID) throws Exception {
         String query = "SELECT fullName, address, birthDay, gender, userName, email FROM User WHERE userID = ?";
 
         try {
@@ -50,7 +51,7 @@ public class userDAO {
             ps.setString(1, userID);
 
             // Thực thi truy vấn
-            java.sql.ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 // Lấy thông tin từ ResultSet
@@ -64,12 +65,30 @@ public class userDAO {
 
 
                 // Trả về đối tượng userDTO
-                return new userDTO(userID, userName, fullName, address, birthDay, gender, email);
+                return new UserDTO(userID, userName, fullName, address, birthDay, gender, email);
             }
         } catch (SQLException e) {
             System.out.println("Error getting user infor: " + e.getMessage());
             return null;
         }
         return null; // Trả về null nếu không tìm thấy user
+    }
+
+    // Hàm lấy userID từ username
+    public String getUserIDByUsername(String username) {
+        String query = "SELECT userID FROM User WHERE userName = ?";
+        try (Connection connection = DBconnector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("userID");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while fetching userID: " + e.getMessage());
+        }
+        return null; // Trả về null nếu không tìm thấy
     }
 }
