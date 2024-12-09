@@ -1,10 +1,11 @@
 package com.wavechat.dao;
 
-import com.wavechat.dto.UserDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.wavechat.dto.UserDTO;
 
 public class UserDAO {
     private Connection connection;
