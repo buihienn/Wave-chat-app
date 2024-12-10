@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBconnector {
     private static final String URL = "jdbc:mysql://localhost:3306/CHATAPPLICATION"; // tên DB
     private static final String USER = "root"; // username
-    private static final String PASSWORD = "123456"; // password
+    private static final String PASSWORD = "147456369"; // password
 
     public static Connection getConnection() {
         try {

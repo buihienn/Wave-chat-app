@@ -148,6 +148,11 @@ public class AdminUser extends javax.swing.JFrame {
         allUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         allUser.setText("Friends");
         allUser.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        allUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                allUserMouseClicked(evt);
+            }
+        });
 
         newRegister.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         newRegister.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -299,7 +304,7 @@ public class AdminUser extends javax.swing.JFrame {
                 .addComponent(loginHistoryNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spamReportNav, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(186, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         userInformationByAdmin.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -367,13 +372,13 @@ public class AdminUser extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuUserBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(functionContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(navContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 28, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
+                    .addComponent(navContainer1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -414,6 +419,15 @@ public class AdminUser extends javax.swing.JFrame {
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteActionPerformed
+
+    private void allUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allUserMouseClicked
+        // TODO add your handling code here:
+        // Tạo đối tượng của AdminUser_Friends
+        AdminUser_Friends adminUserFriends = new AdminUser_Friends();
+    
+        // Hiển thị giao diện AdminUser_Friends
+        adminUserFriends.setVisible(true);
+    }//GEN-LAST:event_allUserMouseClicked
 
     /**
      * @param args the command line arguments
