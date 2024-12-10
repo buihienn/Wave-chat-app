@@ -1,20 +1,76 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.wavechat.form;
 
-/**
- *
- * @author LENOVO
- */
+import com.wavechat.bus.UserBUS;
+import javax.swing.JOptionPane;
+
 public class Register extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Register
-     */
+    /*Creates new form Register*/
     public Register() {
         initComponents();
+    }
+
+    private void handleRegister() {
+        String userName = usernameInput.getText();
+        String email = emailInput.getText();
+        String password = passwordInput.getText(); 
+        String confirmPassword = confirmPasswordInput.getText(); 
+
+        UserBUS userBUS = new UserBUS(); 
+        // Kiểm tra các trường đầu vào
+        if (userName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill full information!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra xem tên người dùng và email đã tồn tại chưa
+        if (userBUS.isUserNameExist(userName)) {
+            JOptionPane.showMessageDialog(this, "Username existed!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!userBUS.isEmailValid(email)) {
+            JOptionPane.showMessageDialog(this, "Email is not valid!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (userBUS.isEmailExist(email)) {
+            JOptionPane.showMessageDialog(this, "Email existed!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!userBUS.isPasswordValid(password)) {
+            JOptionPane.showMessageDialog(this, "The password must have at least 8 characters, including 1 uppercase letter, 1 lowercase letter, and 1 number!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!confirmPassword.equals(password)) {
+            JOptionPane.showMessageDialog(this, "Confirm password does not match.!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean success = userBUS.addNewUser(userName, email, password);
+
+        if (success) {
+            // Hiển thị thông báo đăng ký thành công và nút quay lại đăng nhập
+            int option = JOptionPane.showOptionDialog(this,
+                    "Register successful!",
+                    "successful",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    new Object[] { "Back to login" }, "Back to login");
+
+            // Nếu người dùng nhấn "Quay lại đăng nhập"
+            if (option == 0) {
+                // Chuyển qua form Login
+                this.setVisible(false); 
+                Login loginFrame = new Login(); // Tạo form Login (đảm bảo LoginForm là class đã có sẵn)
+                loginFrame.setVisible(true); // Hiển thị form Login
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "There is error when register. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -32,10 +88,10 @@ public class Register extends javax.swing.JFrame {
         logo = new javax.swing.JLabel();
         login = new javax.swing.JLabel();
         slogan = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
-        username1 = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
-        password1 = new javax.swing.JTextField();
+        emailInput = new javax.swing.JTextField();
+        usernameInput = new javax.swing.JTextField();
+        passwordInput = new javax.swing.JTextField();
+        confirmPasswordInput = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
         donothaveacc = new javax.swing.JLabel();
         registerButton = new javax.swing.JButton();
@@ -74,13 +130,13 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         loginContainer.add(slogan, gridBagConstraints);
 
-        username.setBackground(new java.awt.Color(246, 246, 246));
-        username.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        username.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        username.setPreferredSize(new java.awt.Dimension(294, 35));
-        username.addActionListener(new java.awt.event.ActionListener() {
+        emailInput.setBackground(new java.awt.Color(246, 246, 246));
+        emailInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        emailInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        emailInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        emailInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
+                emailInputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -89,15 +145,15 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(username, gridBagConstraints);
+        loginContainer.add(emailInput, gridBagConstraints);
 
-        username1.setBackground(new java.awt.Color(246, 246, 246));
-        username1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        username1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        username1.setPreferredSize(new java.awt.Dimension(294, 35));
-        username1.addActionListener(new java.awt.event.ActionListener() {
+        usernameInput.setBackground(new java.awt.Color(246, 246, 246));
+        usernameInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        usernameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        usernameInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        usernameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                username1ActionPerformed(evt);
+                usernameInputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -105,15 +161,15 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(username1, gridBagConstraints);
+        loginContainer.add(usernameInput, gridBagConstraints);
 
-        password.setBackground(new java.awt.Color(246, 246, 246));
-        password.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        password.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        password.setPreferredSize(new java.awt.Dimension(294, 35));
-        password.addActionListener(new java.awt.event.ActionListener() {
+        passwordInput.setBackground(new java.awt.Color(246, 246, 246));
+        passwordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        passwordInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
+                passwordInputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -123,15 +179,15 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.ipady = 15;
         gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(password, gridBagConstraints);
+        loginContainer.add(passwordInput, gridBagConstraints);
 
-        password1.setBackground(new java.awt.Color(246, 246, 246));
-        password1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        password1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        password1.setPreferredSize(new java.awt.Dimension(294, 35));
-        password1.addActionListener(new java.awt.event.ActionListener() {
+        confirmPasswordInput.setBackground(new java.awt.Color(246, 246, 246));
+        confirmPasswordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        confirmPasswordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        confirmPasswordInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        confirmPasswordInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                password1ActionPerformed(evt);
+                confirmPasswordInputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -139,7 +195,7 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.gridy = 12;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(password1, gridBagConstraints);
+        loginContainer.add(confirmPasswordInput, gridBagConstraints);
 
         loginButton.setBackground(new java.awt.Color(26, 41, 128));
         loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -191,29 +247,29 @@ public class Register extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void emailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
+    }//GEN-LAST:event_emailInputActionPerformed
 
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
+    }//GEN-LAST:event_passwordInputActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        handleRegister();
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_registerButtonActionPerformed
 
-    private void username1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_username1ActionPerformed
+    private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_username1ActionPerformed
+    }//GEN-LAST:event_usernameInputActionPerformed
 
-    private void password1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password1ActionPerformed
+    private void confirmPasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPasswordInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_password1ActionPerformed
+    }//GEN-LAST:event_confirmPasswordInputActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,17 +308,17 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField confirmPasswordInput;
     private javax.swing.JLabel donothaveacc;
+    private javax.swing.JTextField emailInput;
     private javax.swing.JLabel login;
     private javax.swing.JButton loginButton;
     private java.awt.Panel loginContainer;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField password;
-    private javax.swing.JTextField password1;
+    private javax.swing.JTextField passwordInput;
     private java.awt.Panel register;
     private javax.swing.JButton registerButton;
     private javax.swing.JLabel slogan;
-    private javax.swing.JTextField username;
-    private javax.swing.JTextField username1;
+    private javax.swing.JTextField usernameInput;
     // End of variables declaration//GEN-END:variables
 }
