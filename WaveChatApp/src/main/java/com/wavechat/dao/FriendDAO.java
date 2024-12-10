@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendDAO {
-
-    // Lấy danh sách bạn bè của userID
+    
+    // Lấy danh sách bạn bè gồm fullName, userName và status của userID
     public List<FriendDTO> getFriendsByUserID(String userID) {
         List<FriendDTO> friendsList = new ArrayList<>();
-        String query = "SELECT u.userName, u.onlineStatus " +
+
+        // Câu truy vấn
+        String query = "SELECT u.userName, u.onlineStatus, u.fullName " +
                        "FROM User u " +
                        "JOIN Friends f ON (f.userID1 = u.userID OR f.userID2 = u.userID) " +
                        "JOIN Friend_requests fr ON (fr.requester_userID = f.userID1 AND fr.requested_userID = f.userID2) " +
@@ -18,7 +20,7 @@ public class FriendDAO {
                        "AND u.userID != ? AND fr.status = 'accepted'";
 
         // Tạo đối tượng DBconnector và kết nối
-        DBconnector dbConnector = new DBconnector();  // Tạo đối tượng DBconnector
+        DBconnector dbConnector = new DBconnector();  
         Connection connection = dbConnector.getConnection();  // Gọi phương thức getConnection()
         if (connection == null) {
             return friendsList;
@@ -31,10 +33,14 @@ public class FriendDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            // Đọc dữ liệu từ ResultSet và thêm vào list
             while (resultSet.next()) {
                 String userName = resultSet.getString("userName");
+                String fullName = resultSet.getString("fullName");  
                 boolean onlineStatus = resultSet.getBoolean("onlineStatus");
-                friendsList.add(new FriendDTO(userName, onlineStatus));
+
+                // Thêm bạn bè vào list
+                friendsList.add(new FriendDTO(fullName, userName, onlineStatus));
             }
         } catch (SQLException e) {
             System.out.println("Error while fetching friends: " + e.getMessage());
@@ -49,6 +55,7 @@ public class FriendDAO {
         }
         return friendsList;
     }
+
 
     // Xóa dữ liệu bạn bè trong bảng Friends
     public boolean unfriend(String userID1, String userID2) {

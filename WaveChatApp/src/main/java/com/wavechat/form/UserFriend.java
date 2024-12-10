@@ -10,10 +10,6 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author LENOVO
- */
 public class UserFriend extends javax.swing.JFrame {
 
     /**
@@ -21,27 +17,31 @@ public class UserFriend extends javax.swing.JFrame {
      */
     public UserFriend() {
         initComponents();
-        addFriendData(allTable);        
-        customizeTableRequest(requestTable);        
-        customizeTableOnline(onlineTable);
+        
+        String userID = "U001";
+        FriendBUS friendBUS = new FriendBUS(); 
+        List<FriendDTO> friendsList = friendBUS.getFriends(userID); 
+        addFriendData(allTable, friendsList, userID); 
+        
+        contentContainer.removeAll();
+        contentContainer.add(allCard);
+        contentContainer.revalidate();
+        contentContainer.repaint();
     }
     
-    private void addFriendData(javax.swing.JTable table) {
-        // Ví dụ: danh sách dữ liệu
-        FriendBUS friendBUS = new FriendBUS();
-        List<FriendDTO> friendsList = friendBUS.getFriends("U001"); // Ví dụ userID là "U0001"
-
-        // Cấu trúc cột cho bảng
-        String[] columnNames = {"Username", "Status", "Unfriend", "Block"};
+    private void addFriendData(javax.swing.JTable table, List<FriendDTO> friendsList, String userID) {
+        // Thông tin các cột
+        String[] columnNames = {"FullName", "Username", "Status", "Unfriend", "Block"};
 
         // Dữ liệu cho bảng (mỗi hàng là một đối tượng FriendDTO)
-        Object[][] data = new Object[friendsList.size()][4];  // 4 cột: UserName, OnlineStatus, Unfriend, Block
+        Object[][] data = new Object[friendsList.size()][5];  
 
         // Điền dữ liệu vào bảng
         for (int i = 0; i < friendsList.size(); i++) {
             FriendDTO friend = friendsList.get(i);
-            data[i][0] = friend.getUserName();      // User Name
-            data[i][1] = friend.isOnlineStatus() ? "Online" : "Offline"; // Online Status
+            data[i][0] = friend.getFullName();      
+            data[i][1] = friend.getUserName();      
+            data[i][2] = friend.isOnlineStatus() ? "Online" : "Offline"; 
         }
 
         // Tạo DefaultTableModel và gán cho bảng
@@ -65,8 +65,6 @@ public class UserFriend extends javax.swing.JFrame {
         ButtonEditor unfriendEditor = new ButtonEditor(new JCheckBox());
         ButtonEditor blockEditor = new ButtonEditor(new JCheckBox());
 
-
-
         // Đặt hành động cho Unfriend button
         unfriendEditor.setActionListener(new ActionListener() {
             @Override
@@ -75,21 +73,20 @@ public class UserFriend extends javax.swing.JFrame {
                 String userName = (String) table.getValueAt(row, 0); // Lấy UserName của hàng hiện tại
 
                 // Giả sử bạn có userID của người đang thực hiện hành động
-                String currentUserID = "U001"; // ID của người dùng hiện tại
                 String friendUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
                 // Gọi hàm xử lý Unfriend từ FriendBUS
-                boolean success = friendBUS.unfriend(currentUserID, friendUserID);
+                FriendBUS friendBUS = new FriendBUS();
+                boolean success = friendBUS.unfriend(userID, friendUserID);
                 if (success) {
                     System.out.println("Successfully unfriended " + userName);
-                    addFriendData(allTable); 
+                    addFriendData(table, friendsList, userID); // Reload lại bảng sau khi unfriended
                 } else {
                     System.out.println("Failed to unfriend " + userName);
                 }
             }
         });
 
-        BlockBUS blockBUS = new BlockBUS();
         // Đặt hành động cho Block button
         blockEditor.setActionListener(new ActionListener() {
             @Override
@@ -97,19 +94,20 @@ public class UserFriend extends javax.swing.JFrame {
                 int row = table.getSelectedRow(); // Lấy row được chọn
                 String userName = (String) table.getValueAt(row, 0); // Lấy UserName của hàng hiện tại
 
-                // Giả sử bạn có userID của người đang thực hiện hành động
-                String currentUserID = "U001"; // ID của người dùng hiện tại
                 String blockUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
                 // Gọi hàm xử lý Block từ BlockBUS
-                boolean success = blockBUS.blockUser(currentUserID, blockUserID);
+                FriendBUS friendBUS = new FriendBUS();
+                BlockBUS blockBUS = new BlockBUS();
+
+                boolean success = blockBUS.blockUser(userID, blockUserID);
                 if (success) {
                     System.out.println("Successfully blocked " + userName);
                     // Gọi hàm xử lý Unfriend từ FriendBUS
-                    boolean successUn = friendBUS.unfriend(currentUserID, blockUserID);
+                    boolean successUn = friendBUS.unfriend(userID, blockUserID);
                     if (successUn) {
                         System.out.println("Successfully unfriended " + userName);
-                        addFriendData(allTable); 
+                        addFriendData(table, friendsList, userID); // Reload lại bảng sau khi block và unfriended
                     } else {
                         System.out.println("Failed to unfriend " + userName);
                     }
@@ -120,17 +118,18 @@ public class UserFriend extends javax.swing.JFrame {
         });
 
         // Gán renderer và editor cho các cột Unfriend và Block
-        table.getColumnModel().getColumn(2).setCellRenderer(unfriendRenderer);
-        table.getColumnModel().getColumn(3).setCellRenderer(blockRenderer);
+        table.getColumnModel().getColumn(3).setCellRenderer(unfriendRenderer);
+        table.getColumnModel().getColumn(4).setCellRenderer(blockRenderer);
 
-        table.getColumnModel().getColumn(2).setCellEditor(unfriendEditor);
-        table.getColumnModel().getColumn(3).setCellEditor(blockEditor);
+        table.getColumnModel().getColumn(3).setCellEditor(unfriendEditor);
+        table.getColumnModel().getColumn(4).setCellEditor(blockEditor);
     }
     
-    // Hàm giả lập để lấy userID dựa trên username (Bạn cần cài đặt trong UserDAO)
+
+    // Hàm lấy userID theo username
     private String getUserIDByUsername(String username) {
-        UserDAO userDAO = new UserDAO(); // DAO để lấy dữ liệu người dùng
-        return userDAO.getUserIDByUsername(username); // Hàm truy vấn userID dựa trên username
+        UserDAO userDAO = new UserDAO(); 
+        return userDAO.getUserIDByUsername(username); 
     }
 
     private void customizeTableRequest(javax.swing.JTable table) {
@@ -155,6 +154,53 @@ public class UserFriend extends javax.swing.JFrame {
         table.getColumnModel().getColumn(1).setCellRenderer(new ButtonRenderer.Unfriend());
         table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer.Block());
     }
+    
+    private void changeModeButton(String mode) {
+        if (mode == "All") {
+            allButton.setBackground(new java.awt.Color(153, 255, 255));
+            allButton.setForeground(new java.awt.Color(0, 0, 0));
+            requestButton.setBackground(new java.awt.Color(26, 41, 128));
+            requestButton.setForeground(new java.awt.Color(255, 255, 255));
+            onlineButton.setBackground(new java.awt.Color(26, 41, 128));
+            onlineButton.setForeground(new java.awt.Color(255, 255, 255));
+        }
+        else if (mode == "Request") {
+            allButton.setBackground(new java.awt.Color(26, 41, 128));
+            allButton.setForeground(new java.awt.Color(255, 255, 255));
+            requestButton.setBackground(new java.awt.Color(153, 255, 255));
+            requestButton.setForeground(new java.awt.Color(0, 0, 0));
+            onlineButton.setBackground(new java.awt.Color(26, 41, 128));
+            onlineButton.setForeground(new java.awt.Color(255, 255, 255));
+        }
+        else if (mode == "Online") {
+            allButton.setBackground(new java.awt.Color(26, 41, 128));
+            allButton.setForeground(new java.awt.Color(255, 255, 255));
+            requestButton.setBackground(new java.awt.Color(26, 41, 128));
+            requestButton.setForeground(new java.awt.Color(255, 255, 255));
+            onlineButton.setBackground(new java.awt.Color(153, 255, 255));
+            onlineButton.setForeground(new java.awt.Color(0, 0, 0));
+        }
+    }
+    
+    // Hàm lọc bạn bè theo từ khóa
+    private void filterFriends(String searchQuery, String userID) {
+        // Lấy danh sách bạn bè từ database hoặc từ một danh sách có sẵn
+        FriendBUS friendBUS = new FriendBUS();
+        List<FriendDTO> allFriends = friendBUS.getFriends(userID); // Ví dụ, lấy danh sách bạn bè của người dùng với userID "U001"
+
+        List<FriendDTO> filteredFriends = new ArrayList<>();
+
+        for (FriendDTO friend : allFriends) {
+            // Kiểm tra xem tên đầy đủ của bạn bè có chứa từ khóa tìm kiếm không
+            if (friend.getFullName().toLowerCase().contains(searchQuery)) {
+                filteredFriends.add(friend); // Nếu có, thêm vào danh sách kết quả lọc
+            }
+        }
+
+        // Cập nhật bảng với danh sách bạn bè đã lọc
+        addFriendData(allTable, filteredFriends, userID);
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -177,8 +223,9 @@ public class UserFriend extends javax.swing.JFrame {
         allCard = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         allTable = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        allSearch = new javax.swing.JTextField();
+        filterAllLabel = new javax.swing.JLabel();
+        searchAllButton = new javax.swing.JButton();
         requestCard = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         requestTable = new javax.swing.JTable();
@@ -198,7 +245,7 @@ public class UserFriend extends javax.swing.JFrame {
         navFriendContainer = new javax.swing.JPanel();
         allButton = new javax.swing.JButton();
         requestButton = new javax.swing.JButton();
-        blockButton = new javax.swing.JButton();
+        onlineButton = new javax.swing.JButton();
         contentContainer = new javax.swing.JPanel();
 
         chatMenuItem.setText("Chat");
@@ -284,59 +331,54 @@ public class UserFriend extends javax.swing.JFrame {
 
         allTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"User1",  new Boolean(true), "", ""},
-                {"User2",  new Boolean(true), "", ""},
-                {"User3", null, "", ""},
-                {"User4", null, "", ""},
-                {"User5", null, null, null},
-                {"User6",  new Boolean(true), null, null},
-                {"User7",  new Boolean(true), null, null},
-                {"User8",  new Boolean(false), null, null},
-                {"User9",  new Boolean(true), null, null},
-                {"User10", null, null, null},
-                {"User11", null, null, null},
-                {"User12",  new Boolean(true), null, null},
-                {"User13",  new Boolean(true), null, null},
-                {"User14", null, null, null},
-                {"User15", null, null, null},
-                {"User16",  new Boolean(true), null, null},
-                {"User17",  new Boolean(true), null, null},
-                {"User18", null, null, null},
-                {"User19", null, null, null},
-                {"User20",  new Boolean(true), null, null}
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Username", "Online", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         allTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(allTable);
-        if (allTable.getColumnModel().getColumnCount() > 0) {
-            allTable.getColumnModel().getColumn(0).setResizable(false);
-            allTable.getColumnModel().getColumn(1).setResizable(false);
-            allTable.getColumnModel().getColumn(2).setResizable(false);
-            allTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-            allTable.getColumnModel().getColumn(3).setResizable(false);
-            allTable.getColumnModel().getColumn(3).setPreferredWidth(50);
-        }
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel2.setText("Filter:");
+        allSearch.setText("Enter fullname");
+        allSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                allSearchKeyPressed(evt);
+            }
+        });
+
+        filterAllLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        filterAllLabel.setText("Filter:");
+
+        searchAllButton.setBackground(new java.awt.Color(26, 41, 128));
+        searchAllButton.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        searchAllButton.setForeground(new java.awt.Color(255, 255, 255));
+        searchAllButton.setText("Search");
+        searchAllButton.setToolTipText("");
+        searchAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchAllButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout allCardLayout = new javax.swing.GroupLayout(allCard);
         allCard.setLayout(allCardLayout);
@@ -345,17 +387,25 @@ public class UserFriend extends javax.swing.JFrame {
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
             .addGroup(allCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filterAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(allSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(searchAllButton)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         allCardLayout.setVerticalGroup(
             allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, allCardLayout.createSequentialGroup()
-                .addGroup(allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jLabel2))
+                .addGroup(allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, allCardLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(filterAllLabel))
+                    .addGroup(allCardLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(allSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                            .addComponent(searchAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -539,7 +589,7 @@ public class UserFriend extends javax.swing.JFrame {
         jLabel1.setText("Friend");
         jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
 
-        allButton.setBackground(new java.awt.Color(204, 204, 204));
+        allButton.setBackground(new java.awt.Color(153, 255, 255));
         allButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
         allButton.setText("All");
         allButton.addActionListener(new java.awt.event.ActionListener() {
@@ -548,8 +598,9 @@ public class UserFriend extends javax.swing.JFrame {
             }
         });
 
-        requestButton.setBackground(new java.awt.Color(204, 204, 204));
+        requestButton.setBackground(new java.awt.Color(26, 41, 128));
         requestButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        requestButton.setForeground(new java.awt.Color(255, 255, 255));
         requestButton.setText("Request");
         requestButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -557,12 +608,13 @@ public class UserFriend extends javax.swing.JFrame {
             }
         });
 
-        blockButton.setBackground(new java.awt.Color(204, 204, 204));
-        blockButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        blockButton.setText("Block");
-        blockButton.addActionListener(new java.awt.event.ActionListener() {
+        onlineButton.setBackground(new java.awt.Color(26, 41, 128));
+        onlineButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        onlineButton.setForeground(new java.awt.Color(255, 255, 255));
+        onlineButton.setText("Online");
+        onlineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                blockButtonActionPerformed(evt);
+                onlineButtonActionPerformed(evt);
             }
         });
 
@@ -573,20 +625,20 @@ public class UserFriend extends javax.swing.JFrame {
             .addGroup(navFriendContainerLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(allButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(requestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(blockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(onlineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         navFriendContainerLayout.setVerticalGroup(
             navFriendContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navFriendContainerLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(navFriendContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(allButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(requestButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(blockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(navFriendContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(allButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(requestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(onlineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         contentContainer.setLayout(new java.awt.BorderLayout());
@@ -639,6 +691,13 @@ public class UserFriend extends javax.swing.JFrame {
     }//GEN-LAST:event_chatButton1ActionPerformed
 
     private void allButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allButtonActionPerformed
+        changeModeButton("All");
+        
+        String userID = "U001";
+        FriendBUS friendBUS = new FriendBUS(); 
+        List<FriendDTO> friendsList = friendBUS.getFriends(userID); // Lọc danh sách bạn bè
+        addFriendData(allTable, friendsList, userID); // Gọi hàm addFriendData với danh sách đã lọc
+        
         contentContainer.removeAll();
         contentContainer.add(allCard);
         contentContainer.revalidate();
@@ -646,18 +705,40 @@ public class UserFriend extends javax.swing.JFrame {
     }//GEN-LAST:event_allButtonActionPerformed
 
     private void requestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestButtonActionPerformed
+        changeModeButton("Request");
+        
+        customizeTableRequest(requestTable);        
+        
         contentContainer.removeAll();
         contentContainer.add(requestCard);
         contentContainer.revalidate();
         contentContainer.repaint();
     }//GEN-LAST:event_requestButtonActionPerformed
 
-    private void blockButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockButtonActionPerformed
+    private void onlineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onlineButtonActionPerformed
+        changeModeButton("Online");
+        
+        customizeTableOnline(onlineTable);
+        
         contentContainer.removeAll();
         contentContainer.add(onlineCard);
         contentContainer.revalidate();
         contentContainer.repaint();
-    }//GEN-LAST:event_blockButtonActionPerformed
+    }//GEN-LAST:event_onlineButtonActionPerformed
+
+    private void searchAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAllButtonActionPerformed
+        String searchQuery = allSearch.getText().toLowerCase(); // Lấy nội dung từ JTextField và chuyển thành chữ thường
+        String userID = "U001";
+        filterFriends(searchQuery, userID); // Gọi hàm lọc bạn bè
+    }//GEN-LAST:event_searchAllButtonActionPerformed
+
+    private void allSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_allSearchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String searchQuery = allSearch.getText().toLowerCase(); // Lấy nội dung từ JTextField và chuyển thành chữ thường
+            String userID = "U001";
+            filterFriends(searchQuery, userID); // Gọi hàm lọc bạn bè
+        }
+    }//GEN-LAST:event_allSearchKeyPressed
 
     /**
      * @param args the command line arguments
@@ -695,11 +776,12 @@ public class UserFriend extends javax.swing.JFrame {
         });
     }
 
+    private String mode = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allButton;
     private javax.swing.JPanel allCard;
+    private javax.swing.JTextField allSearch;
     private javax.swing.JTable allTable;
-    private javax.swing.JButton blockButton;
     private javax.swing.JButton chatButton;
     private javax.swing.JButton chatButton1;
     private javax.swing.JButton chatButton2;
@@ -707,22 +789,22 @@ public class UserFriend extends javax.swing.JFrame {
     private javax.swing.JPanel container;
     private javax.swing.JPanel contentContainer;
     private javax.swing.JMenuItem createGroupMenuItem;
+    private javax.swing.JLabel filterAllLabel;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel logoContainer;
     private javax.swing.JPanel navBarContainer;
     private javax.swing.JPanel navChatContainer;
     private javax.swing.JPanel navFriendContainer;
+    private javax.swing.JButton onlineButton;
     private javax.swing.JPanel onlineCard;
     private javax.swing.JPopupMenu onlineFriendMenu;
     private javax.swing.JTable onlineTable;
@@ -730,5 +812,6 @@ public class UserFriend extends javax.swing.JFrame {
     private javax.swing.JButton requestButton;
     private javax.swing.JPanel requestCard;
     private javax.swing.JTable requestTable;
+    private javax.swing.JButton searchAllButton;
     // End of variables declaration//GEN-END:variables
 }
