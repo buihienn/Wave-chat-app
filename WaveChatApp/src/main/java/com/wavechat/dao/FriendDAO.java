@@ -17,12 +17,17 @@ public class FriendDAO {
                        "WHERE (f.userID1 = ? OR f.userID2 = ?) " +
                        "AND u.userID != ? AND fr.status = 'accepted'";
 
+<<<<<<< HEAD
         // Tạo đối tượng DBconnector và kết nối
         DBconnector dbConnector = new DBconnector();  // Tạo đối tượng DBconnector
         Connection connection = dbConnector.getConnection();  // Gọi phương thức getConnection()
         if (connection == null) {
             return friendsList;
         }
+=======
+        try (Connection connection = DBconnector.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+>>>>>>> main
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, userID);
