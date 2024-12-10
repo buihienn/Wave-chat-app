@@ -17,7 +17,7 @@ public class FriendDAO {
                        "AND u.userID != ? AND fr.status = 'accepted'";
 
         try (Connection connection = DBconnector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, userID);
             preparedStatement.setString(2, userID);
