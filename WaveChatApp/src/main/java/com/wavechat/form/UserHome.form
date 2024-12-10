@@ -123,10 +123,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="profileContainer" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="chatButton" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                          <Component id="navChatButton" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                           <Component id="logoContainer" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
-                          <Component id="chatButton2" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
-                          <Component id="chatButton1" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                          <Component id="navFindFriendButton" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                          <Component id="navFriendButton" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -138,11 +138,11 @@
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="logoContainer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="chatButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="navChatButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="chatButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="navFriendButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="chatButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="navFindFriendButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="profileContainer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -178,7 +178,7 @@
                 <Property name="verticalGap" type="int" value="0"/>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="jButton6">
+                <Component class="javax.swing.JButton" name="navProfileButton">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="80" green="29" red="1a" type="rgb"/>
@@ -221,7 +221,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="chatButton">
+            <Component class="javax.swing.JButton" name="navChatButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="cc" type="rgb"/>
@@ -240,7 +240,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="chatButton1">
+            <Component class="javax.swing.JButton" name="navFriendButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="80" green="29" red="1a" type="rgb"/>
@@ -262,10 +262,10 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chatButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="navFriendButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="chatButton2">
+            <Component class="javax.swing.JButton" name="navFindFriendButton">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="80" green="29" red="1a" type="rgb"/>

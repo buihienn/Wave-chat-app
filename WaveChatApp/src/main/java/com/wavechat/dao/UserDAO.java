@@ -2,6 +2,8 @@ package com.wavechat.dao;
 
 import java.sql.*;
 import com.wavechat.dto.UserDTO;
+import com.wavechat.GlobalVariable;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserDAO {
     
@@ -115,7 +117,9 @@ public class UserDAO {
         }
         return null; // Trả về null nếu không tìm thấy
     }
-    
+
+
+    // ---------------REGISTER---------------
     // Hàm tạo userID
     public String generateUserID() {
     String query = "SELECT MAX(CAST(SUBSTRING(userID, 2, LENGTH(userID)-1) AS UNSIGNED)) FROM User";
@@ -152,7 +156,7 @@ public class UserDAO {
     return null;  // Trả về null nếu không lấy được giá trị
 }
 
-    // Kiểm tra xem username có tồn tại trong cơ sở dữ liệu không
+    // Hàm kiểm tra xem username có tồn tại trong db
     public boolean checkUserNameExist(String userName) {
         String query = "SELECT COUNT(*) FROM User WHERE userName = ?";
         
@@ -174,7 +178,7 @@ public class UserDAO {
         return false;
     }
 
-    // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+    // Hàm kiểm tra xem email có tồn tại trong db
     public boolean checkEmailExist(String email) {
         String query = "SELECT COUNT(*) FROM User WHERE email = ?";
         
@@ -208,7 +212,6 @@ public class UserDAO {
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            // Gán giá trị cho các tham số
             preparedStatement.setString(1, generateUserID());
             preparedStatement.setString(2, userName);
             preparedStatement.setString(3, password); 
@@ -236,5 +239,79 @@ public class UserDAO {
             }
         }
     }
+    
+    // ---------------LOGIN---------------
+    // Kiểm tra login
+    public boolean validateUser(String emailOrUsername, String password) {
+        String query = "SELECT userID, passWord FROM User WHERE email = ? OR userName = ?"; // Sửa lại tên bảng nếu cần
 
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return false; // Không thể kết nối đến cơ sở dữ liệu
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, emailOrUsername);
+            preparedStatement.setString(2, emailOrUsername);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                String storedPasswordHash = rs.getString("passWord"); 
+                String userID = rs.getString("userID");
+
+                // Kiểm tra mật khẩu đã nhập
+                if (BCrypt.checkpw(password, storedPasswordHash)) { 
+                    // Lưu userID vào global variable
+                    GlobalVariable.setUserID(userID);
+
+                    // Cập nhật onlineStatus luôn luôn là TRUE
+                    String updateQuery = "UPDATE User SET onlineStatus = TRUE WHERE userID = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, userID);
+                        updateStatement.executeUpdate(); // Thực hiện cập nhật onlineStatus
+                    }
+
+                    return true; // Đăng nhập thành công
+                } else {
+                    return false; // Mật khẩu không đúng
+                }
+            } else {
+                System.out.println("Không tìm thấy username hoặc email: " + emailOrUsername);
+                return false; // Không tìm thấy user
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Lỗi truy vấn SQL
+        }
+    }
+
+
+    // Hàm kiểm tra và trả về vai trò của người dùng dưới dạng boolean
+    public boolean getUserRole(String emailOrUsername) {
+        String query = "SELECT isAdmin FROM User WHERE email = ? OR username = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, emailOrUsername);
+            preparedStatement.setString(2, emailOrUsername);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                return rs.getBoolean("isAdmin"); // Trả về true nếu là admin, false nếu là user
+            } else {
+                return false; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; 
+        }
+    }
 }

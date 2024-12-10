@@ -57,11 +57,11 @@ public class UserHome extends javax.swing.JFrame {
         navBarContainer = new javax.swing.JPanel();
         logoContainer = new javax.swing.JLabel();
         profileContainer = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
+        navProfileButton = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        chatButton = new javax.swing.JButton();
-        chatButton1 = new javax.swing.JButton();
-        chatButton2 = new javax.swing.JButton();
+        navChatButton = new javax.swing.JButton();
+        navFriendButton = new javax.swing.JButton();
+        navFindFriendButton = new javax.swing.JButton();
         navChatContainer = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         searchBarContainer = new javax.swing.JPanel();
@@ -171,15 +171,15 @@ public class UserHome extends javax.swing.JFrame {
         profileContainer.setPreferredSize(new java.awt.Dimension(165, 40));
         profileContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
-        jButton6.setBackground(new java.awt.Color(26, 41, 128));
-        jButton6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png"))); // NOI18N
-        jButton6.setText("Profile");
-        jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton6.setIconTextGap(8);
-        jButton6.setPreferredSize(new java.awt.Dimension(125, 40));
-        profileContainer.add(jButton6);
+        navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
+        navProfileButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
+        navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png"))); // NOI18N
+        navProfileButton.setText("Profile");
+        navProfileButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        navProfileButton.setIconTextGap(8);
+        navProfileButton.setPreferredSize(new java.awt.Dimension(125, 40));
+        profileContainer.add(navProfileButton);
 
         jButton5.setBackground(new java.awt.Color(26, 41, 128));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
@@ -192,36 +192,36 @@ public class UserHome extends javax.swing.JFrame {
         });
         profileContainer.add(jButton5);
 
-        chatButton.setBackground(new java.awt.Color(204, 255, 255));
-        chatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_black.png"))); // NOI18N
-        chatButton.setText("Chat");
-        chatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton.setIconTextGap(12);
-        chatButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        navChatButton.setBackground(new java.awt.Color(204, 255, 255));
+        navChatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_black.png"))); // NOI18N
+        navChatButton.setText("Chat");
+        navChatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        navChatButton.setIconTextGap(12);
+        navChatButton.setPreferredSize(new java.awt.Dimension(165, 40));
 
-        chatButton1.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton1.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
-        chatButton1.setText("Friend");
-        chatButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton1.setIconTextGap(12);
-        chatButton1.setPreferredSize(new java.awt.Dimension(165, 40));
-        chatButton1.addActionListener(new java.awt.event.ActionListener() {
+        navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFriendButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
+        navFriendButton.setText("Friend");
+        navFriendButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        navFriendButton.setIconTextGap(12);
+        navFriendButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        navFriendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatButton1ActionPerformed(evt);
+                navFriendButtonActionPerformed(evt);
             }
         });
 
-        chatButton2.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton2.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
-        chatButton2.setText("Find Friend");
-        chatButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton2.setIconTextGap(12);
-        chatButton2.setPreferredSize(new java.awt.Dimension(165, 40));
+        navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFindFriendButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
+        navFindFriendButton.setText("Find Friend");
+        navFindFriendButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        navFindFriendButton.setIconTextGap(12);
+        navFindFriendButton.setPreferredSize(new java.awt.Dimension(165, 40));
 
         javax.swing.GroupLayout navBarContainerLayout = new javax.swing.GroupLayout(navBarContainer);
         navBarContainer.setLayout(navBarContainerLayout);
@@ -231,10 +231,10 @@ public class UserHome extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(navChatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(navFindFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(navFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         navBarContainerLayout.setVerticalGroup(
@@ -243,11 +243,11 @@ public class UserHome extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(navChatButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(navFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(navFindFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -1002,9 +1002,9 @@ public class UserHome extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchInputActionPerformed
 
-    private void chatButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatButton1ActionPerformed
+    private void navFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navFriendButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_chatButton1ActionPerformed
+    }//GEN-LAST:event_navFriendButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1050,9 +1050,6 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem block;
     private javax.swing.JMenuItem changeName;
     private javax.swing.JPanel chatAreaContainer;
-    private javax.swing.JButton chatButton;
-    private javax.swing.JButton chatButton1;
-    private javax.swing.JButton chatButton2;
     private javax.swing.JPanel chatContainer;
     private javax.swing.JPanel container;
     private javax.swing.JMenuItem deleteChat;
@@ -1065,7 +1062,6 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1101,7 +1097,11 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JPanel messageContainer8;
     private javax.swing.JPanel messageContainer9;
     private javax.swing.JPanel navBarContainer;
+    private javax.swing.JButton navChatButton;
     private javax.swing.JPanel navChatContainer;
+    private javax.swing.JButton navFindFriendButton;
+    private javax.swing.JButton navFriendButton;
+    private javax.swing.JButton navProfileButton;
     private javax.swing.JPanel profileContainer;
     private javax.swing.JPanel searchBarContainer;
     private javax.swing.JButton searchButton;

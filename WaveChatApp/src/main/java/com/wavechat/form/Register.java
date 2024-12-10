@@ -1,5 +1,6 @@
 package com.wavechat.form;
 
+import com.wavechat.Navigation;
 import com.wavechat.bus.UserBUS;
 import javax.swing.JOptionPane;
 
@@ -8,6 +9,7 @@ public class Register extends javax.swing.JFrame {
     /*Creates new form Register*/
     public Register() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     private void handleRegister() {
@@ -63,10 +65,10 @@ public class Register extends javax.swing.JFrame {
 
             // Nếu người dùng nhấn "Quay lại đăng nhập"
             if (option == 0) {
-                // Chuyển qua form Login
+                // Navigate qua login
                 this.setVisible(false); 
-                Login loginFrame = new Login(); // Tạo form Login (đảm bảo LoginForm là class đã có sẵn)
-                loginFrame.setVisible(true); // Hiển thị form Login
+                Login loginFrame = new Login(); 
+                loginFrame.setVisible(true); 
             }
         } else {
             JOptionPane.showMessageDialog(this, "There is error when register. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -92,9 +94,9 @@ public class Register extends javax.swing.JFrame {
         usernameInput = new javax.swing.JTextField();
         passwordInput = new javax.swing.JTextField();
         confirmPasswordInput = new javax.swing.JTextField();
-        loginButton = new javax.swing.JButton();
-        donothaveacc = new javax.swing.JLabel();
         registerButton = new javax.swing.JButton();
+        donothaveacc = new javax.swing.JLabel();
+        navLoginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wave - Register");
@@ -197,14 +199,14 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         loginContainer.add(confirmPasswordInput, gridBagConstraints);
 
-        loginButton.setBackground(new java.awt.Color(26, 41, 128));
-        loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
-        loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setText("Register");
-        loginButton.setPreferredSize(new java.awt.Dimension(294, 35));
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
+        registerButton.setBackground(new java.awt.Color(26, 41, 128));
+        registerButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
+        registerButton.setForeground(new java.awt.Color(255, 255, 255));
+        registerButton.setText("Register");
+        registerButton.setPreferredSize(new java.awt.Dimension(294, 35));
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
+                registerButtonActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -213,7 +215,7 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 35, 0);
-        loginContainer.add(loginButton, gridBagConstraints);
+        loginContainer.add(registerButton, gridBagConstraints);
 
         donothaveacc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         donothaveacc.setText("Already have an account?");
@@ -222,14 +224,14 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.gridy = 16;
         loginContainer.add(donothaveacc, gridBagConstraints);
 
-        registerButton.setBackground(new java.awt.Color(26, 41, 128));
-        registerButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
-        registerButton.setForeground(new java.awt.Color(255, 255, 255));
-        registerButton.setText("Login");
-        registerButton.setPreferredSize(new java.awt.Dimension(100, 35));
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
+        navLoginButton.setBackground(new java.awt.Color(26, 41, 128));
+        navLoginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
+        navLoginButton.setForeground(new java.awt.Color(255, 255, 255));
+        navLoginButton.setText("Login");
+        navLoginButton.setPreferredSize(new java.awt.Dimension(100, 35));
+        navLoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
+                navLoginButtonActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -238,7 +240,7 @@ public class Register extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(registerButton, gridBagConstraints);
+        loginContainer.add(navLoginButton, gridBagConstraints);
 
         register.add(loginContainer, new java.awt.GridBagConstraints());
 
@@ -255,13 +257,15 @@ public class Register extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordInputActionPerformed
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        handleRegister();
-    }//GEN-LAST:event_loginButtonActionPerformed
-
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        // TODO add your handling code here:
+        handleRegister();
     }//GEN-LAST:event_registerButtonActionPerformed
+
+    private void navLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navLoginButtonActionPerformed
+        // Navigate qua login
+        Navigation navigation = new Navigation();
+        navigation.navigateToLogin(this);
+    }//GEN-LAST:event_navLoginButtonActionPerformed
 
     private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
         // TODO add your handling code here:
@@ -312,9 +316,9 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JLabel donothaveacc;
     private javax.swing.JTextField emailInput;
     private javax.swing.JLabel login;
-    private javax.swing.JButton loginButton;
     private java.awt.Panel loginContainer;
     private javax.swing.JLabel logo;
+    private javax.swing.JButton navLoginButton;
     private javax.swing.JTextField passwordInput;
     private java.awt.Panel register;
     private javax.swing.JButton registerButton;
