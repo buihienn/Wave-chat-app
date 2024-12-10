@@ -1,20 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package com.wavechat.form;
+package com.wavechat.contentPanel;
 
-/**
- *
- * @author LENOVO
- */
-public class ThankYou extends javax.swing.JFrame {
+import com.wavechat.form.AuthenticationMain;
 
-    /**
-     * Creates new form ThankYou
-     */
-    public ThankYou() {
+public class AuthenticationThankYouPanel extends javax.swing.JPanel {
+
+    public AuthenticationThankYouPanel() {
         initComponents();
+    }
+    
+    private AuthenticationMain parentFrame;
+
+    // Constructor nhận tham chiếu đến AuthenticationMain
+    public AuthenticationThankYouPanel(AuthenticationMain parent) {
+        initComponents();
+        this.parentFrame = parent;
     }
 
     /**
@@ -43,18 +42,15 @@ public class ThankYou extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Thank You");
+        setPreferredSize(new java.awt.Dimension(500, 600));
+        setLayout(new java.awt.BorderLayout());
 
         thankyou.setBackground(new java.awt.Color(246, 246, 246));
         thankyou.setPreferredSize(new java.awt.Dimension(500, 600));
         thankyou.setLayout(new java.awt.GridBagLayout());
 
         thankyouContainer.setBackground(new java.awt.Color(246, 246, 246));
-        java.awt.GridBagLayout loginContainerLayout = new java.awt.GridBagLayout();
-        loginContainerLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-        loginContainerLayout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        thankyouContainer.setLayout(loginContainerLayout);
+        thankyouContainer.setLayout(new java.awt.GridBagLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -197,9 +193,7 @@ public class ThankYou extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         thankyou.add(jButton1, gridBagConstraints);
 
-        getContentPane().add(thankyou, java.awt.BorderLayout.CENTER);
-
-        pack();
+        add(thankyou, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
@@ -207,44 +201,9 @@ public class ThankYou extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        parentFrame.showLoginPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThankYou.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThankYou.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThankYou.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThankYou.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ThankYou().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel checkemail;

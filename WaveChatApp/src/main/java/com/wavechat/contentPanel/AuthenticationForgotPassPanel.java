@@ -1,20 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package com.wavechat.form;
+package com.wavechat.contentPanel;
 
-/**
- *
- * @author LENOVO
- */
-public class ForgotPassword extends javax.swing.JFrame {
+import com.wavechat.form.AuthenticationMain;
 
-    /**
-     * Creates new form ForgotPassword
-     */
-    public ForgotPassword() {
+public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
+
+    public AuthenticationForgotPassPanel() {
         initComponents();
+    }
+    
+    private AuthenticationMain parentFrame;
+
+    // Constructor nhận tham chiếu đến AuthenticationMain
+    public AuthenticationForgotPassPanel(AuthenticationMain parent) {
+        initComponents();
+        this.parentFrame = parent;
     }
 
     /**
@@ -28,7 +27,8 @@ public class ForgotPassword extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         forgotpass = new java.awt.Panel();
-        loginContainer = new java.awt.Panel();
+        backButton = new javax.swing.JButton();
+        forgotPassContainer = new java.awt.Panel();
         logo = new javax.swing.JLabel();
         login = new javax.swing.JLabel();
         forgotpassButton1 = new javax.swing.JPanel();
@@ -37,32 +37,39 @@ public class ForgotPassword extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
         forgotpassButton = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Forgot Password");
+        setPreferredSize(new java.awt.Dimension(500, 600));
+        setLayout(new java.awt.BorderLayout());
 
         forgotpass.setBackground(new java.awt.Color(246, 246, 246));
         forgotpass.setPreferredSize(new java.awt.Dimension(500, 600));
-        forgotpass.setLayout(new java.awt.GridBagLayout());
 
-        loginContainer.setBackground(new java.awt.Color(246, 246, 246));
-        loginContainer.setLayout(new java.awt.GridBagLayout());
+        backButton.setBackground(new java.awt.Color(26, 41, 128));
+        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back_white.png"))); // NOI18N
+        backButton.setPreferredSize(new java.awt.Dimension(40, 40));
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        forgotPassContainer.setBackground(new java.awt.Color(246, 246, 246));
+        forgotPassContainer.setLayout(new java.awt.GridBagLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        loginContainer.add(logo, gridBagConstraints);
+        forgotPassContainer.add(logo, gridBagConstraints);
 
         login.setFont(new java.awt.Font("Montserrat", 0, 36)); // NOI18N
         login.setText("Forgot password?");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(login, gridBagConstraints);
+        forgotPassContainer.add(login, gridBagConstraints);
 
         forgotpassButton1.setBackground(new java.awt.Color(246, 246, 246));
-        forgotpassButton1.setPreferredSize(new java.awt.Dimension(320, 36));
         forgotpassButton1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
         jTextArea1.setBackground(new java.awt.Color(246, 246, 246));
@@ -79,11 +86,11 @@ public class ForgotPassword extends javax.swing.JFrame {
         forgotpassButton1.add(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(forgotpassButton1, gridBagConstraints);
+        forgotPassContainer.add(forgotpassButton1, gridBagConstraints);
 
         username.setBackground(new java.awt.Color(246, 246, 246));
         username.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
@@ -95,12 +102,12 @@ public class ForgotPassword extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(username, gridBagConstraints);
+        forgotPassContainer.add(username, gridBagConstraints);
 
         loginButton.setBackground(new java.awt.Color(26, 41, 128));
         loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -113,28 +120,48 @@ public class ForgotPassword extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 35, 0);
-        loginContainer.add(loginButton, gridBagConstraints);
+        forgotPassContainer.add(loginButton, gridBagConstraints);
 
         forgotpassButton.setBackground(new java.awt.Color(246, 246, 246));
         forgotpassButton.setPreferredSize(new java.awt.Dimension(200, 22));
         forgotpassButton.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(forgotpassButton, gridBagConstraints);
+        forgotPassContainer.add(forgotpassButton, gridBagConstraints);
 
-        forgotpass.add(loginContainer, new java.awt.GridBagConstraints());
+        javax.swing.GroupLayout forgotpassLayout = new javax.swing.GroupLayout(forgotpass);
+        forgotpass.setLayout(forgotpassLayout);
+        forgotpassLayout.setHorizontalGroup(
+            forgotpassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(forgotpassLayout.createSequentialGroup()
+                .addGroup(forgotpassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(forgotpassLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(forgotpassLayout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(forgotPassContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(81, 81, 81))
+        );
+        forgotpassLayout.setVerticalGroup(
+            forgotpassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(forgotpassLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addComponent(forgotPassContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
-        getContentPane().add(forgotpass, java.awt.BorderLayout.CENTER);
-
-        pack();
+        add(forgotpass, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
@@ -145,50 +172,20 @@ public class ForgotPassword extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ForgotPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ForgotPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ForgotPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ForgotPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        parentFrame.showLoginPanel();
+    }//GEN-LAST:event_backButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ForgotPassword().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
+    private java.awt.Panel forgotPassContainer;
     private java.awt.Panel forgotpass;
     private javax.swing.JPanel forgotpassButton;
     private javax.swing.JPanel forgotpassButton1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel login;
     private javax.swing.JButton loginButton;
-    private java.awt.Panel loginContainer;
     private javax.swing.JLabel logo;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables

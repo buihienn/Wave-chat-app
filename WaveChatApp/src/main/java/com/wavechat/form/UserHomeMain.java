@@ -12,7 +12,6 @@ public class UserHomeMain extends javax.swing.JFrame {
     UserFindFriendPanel userFindFriendPanel = new UserFindFriendPanel();
     UserProfilePanel userProfilePanel = new UserProfilePanel();
 
-
     public UserHomeMain() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -21,8 +20,6 @@ public class UserHomeMain extends javax.swing.JFrame {
         contentContainer.add(userFriendPanel);  
         contentContainer.add(userFindFriendPanel);           
         contentContainer.add(userProfilePanel);        
-     
-
       
         userHomePanel.setVisible(true);        
         userFriendPanel.setVisible(false);
@@ -170,7 +167,7 @@ public class UserHomeMain extends javax.swing.JFrame {
 
         logoutButton.setBackground(new java.awt.Color(26, 41, 128));
         logoutButton.setForeground(new java.awt.Color(255, 255, 255));
-        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png"))); // NOI18N
         logoutButton.setPreferredSize(new java.awt.Dimension(40, 40));
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

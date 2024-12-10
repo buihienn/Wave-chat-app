@@ -1,17 +1,15 @@
-package com.wavechat.form;
+package com.wavechat.contentPanel;
 
-import com.wavechat.Navigation;
 import com.wavechat.bus.UserBUS;
+import com.wavechat.form.AuthenticationMain;
 import javax.swing.JOptionPane;
 
-public class Register extends javax.swing.JFrame {
+public class AuthenticationRegisterPanel extends javax.swing.JPanel {
 
-    /*Creates new form Register*/
-    public Register() {
+    public AuthenticationRegisterPanel() {
         initComponents();
-        this.setLocationRelativeTo(null);
     }
-
+    
     private void handleRegister() {
         String userName = usernameInput.getText();
         String email = emailInput.getText();
@@ -66,13 +64,20 @@ public class Register extends javax.swing.JFrame {
             // Nếu người dùng nhấn "Quay lại đăng nhập"
             if (option == 0) {
                 // Navigate qua login
-                this.setVisible(false); 
-                Login loginFrame = new Login(); 
-                loginFrame.setVisible(true); 
+                parentFrame.showLoginPanel();
             }
         } else {
             JOptionPane.showMessageDialog(this, "There is error when register. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    
+    private AuthenticationMain parentFrame;
+
+    // Constructor nhận tham chiếu đến AuthenticationMain
+    public AuthenticationRegisterPanel(AuthenticationMain parent) {
+        initComponents();
+        this.parentFrame = parent;
     }
 
     /**
@@ -98,18 +103,15 @@ public class Register extends javax.swing.JFrame {
         donothaveacc = new javax.swing.JLabel();
         navLoginButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Register");
+        setPreferredSize(new java.awt.Dimension(500, 600));
+        setLayout(new java.awt.BorderLayout());
 
         register.setBackground(new java.awt.Color(246, 246, 246));
         register.setPreferredSize(new java.awt.Dimension(500, 600));
         register.setLayout(new java.awt.GridBagLayout());
 
         loginContainer.setBackground(new java.awt.Color(246, 246, 246));
-        java.awt.GridBagLayout loginContainerLayout1 = new java.awt.GridBagLayout();
-        loginContainerLayout1.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-        loginContainerLayout1.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        loginContainer.setLayout(loginContainerLayout1);
+        loginContainer.setLayout(new java.awt.GridBagLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -244,72 +246,33 @@ public class Register extends javax.swing.JFrame {
 
         register.add(loginContainer, new java.awt.GridBagConstraints());
 
-        getContentPane().add(register, java.awt.BorderLayout.CENTER);
-
-        pack();
+        add(register, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void emailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_emailInputActionPerformed
 
+    private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameInputActionPerformed
+
     private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordInputActionPerformed
+
+    private void confirmPasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPasswordInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmPasswordInputActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         handleRegister();
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void navLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navLoginButtonActionPerformed
-        // Navigate qua login
-        Navigation navigation = new Navigation();
-        navigation.navigateToLogin(this);
+        parentFrame.showLoginPanel();
     }//GEN-LAST:event_navLoginButtonActionPerformed
 
-    private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameInputActionPerformed
-
-    private void confirmPasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPasswordInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confirmPasswordInputActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Register().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField confirmPasswordInput;
