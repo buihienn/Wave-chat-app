@@ -1,18 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.wavechat.form;
-import com.wavechat.bus.BlockBUS;
-import com.wavechat.bus.FriendBUS;
+
+import com.wavechat.bus.*;
+import com.wavechat.dao.*;
+import com.wavechat.dto.*;
 import com.wavechat.component.ButtonEditor;
 import com.wavechat.component.ButtonRenderer;
-import com.wavechat.dao.UserDAO;
-import com.wavechat.dto.FriendDTO;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-import javax.swing.JCheckBox;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,15 +21,15 @@ public class UserFriend extends javax.swing.JFrame {
      */
     public UserFriend() {
         initComponents();
-        customizeTableAll(allTable);        
+        addFriendData(allTable);        
         customizeTableRequest(requestTable);        
         customizeTableOnline(onlineTable);
     }
     
-    private void customizeTableAll(javax.swing.JTable table) {
+    private void addFriendData(javax.swing.JTable table) {
         // Ví dụ: danh sách dữ liệu
         FriendBUS friendBUS = new FriendBUS();
-        List<FriendDTO> friendsList = friendBUS.getFriends("U0001"); // Ví dụ userID là "U0001"
+        List<FriendDTO> friendsList = friendBUS.getFriends("U001"); // Ví dụ userID là "U0001"
 
         // Cấu trúc cột cho bảng
         String[] columnNames = {"Username", "Status", "Unfriend", "Block"};
@@ -80,13 +75,14 @@ public class UserFriend extends javax.swing.JFrame {
                 String userName = (String) table.getValueAt(row, 0); // Lấy UserName của hàng hiện tại
 
                 // Giả sử bạn có userID của người đang thực hiện hành động
-                String currentUserID = "U0001"; // ID của người dùng hiện tại
+                String currentUserID = "U001"; // ID của người dùng hiện tại
                 String friendUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
                 // Gọi hàm xử lý Unfriend từ FriendBUS
                 boolean success = friendBUS.unfriend(currentUserID, friendUserID);
                 if (success) {
                     System.out.println("Successfully unfriended " + userName);
+                    addFriendData(allTable); 
                 } else {
                     System.out.println("Failed to unfriend " + userName);
                 }
@@ -102,13 +98,21 @@ public class UserFriend extends javax.swing.JFrame {
                 String userName = (String) table.getValueAt(row, 0); // Lấy UserName của hàng hiện tại
 
                 // Giả sử bạn có userID của người đang thực hiện hành động
-                String currentUserID = "U0001"; // ID của người dùng hiện tại
+                String currentUserID = "U001"; // ID của người dùng hiện tại
                 String blockUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
                 // Gọi hàm xử lý Block từ BlockBUS
                 boolean success = blockBUS.blockUser(currentUserID, blockUserID);
                 if (success) {
                     System.out.println("Successfully blocked " + userName);
+                    // Gọi hàm xử lý Unfriend từ FriendBUS
+                    boolean successUn = friendBUS.unfriend(currentUserID, blockUserID);
+                    if (successUn) {
+                        System.out.println("Successfully unfriended " + userName);
+                        addFriendData(allTable); 
+                    } else {
+                        System.out.println("Failed to unfriend " + userName);
+                    }
                 } else {
                     System.out.println("Failed to block " + userName);
                 }
