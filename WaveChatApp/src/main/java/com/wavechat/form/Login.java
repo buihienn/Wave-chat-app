@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.wavechat.form;
 
-/**
- *
- * @author LENOVO
- */
+import com.wavechat.Navigation;
+import com.wavechat.bus.UserBUS;
+import javax.swing.JOptionPane;
+
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -15,8 +11,75 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
+    // Hàm xử lí login
+    private void handleLogin() {
+        String emailOrUsername = emailOrUsernameInput.getText(); 
+        String password = passwordInput.getText(); 
+
+        UserBUS userBUS = new UserBUS();
+
+        // Kiểm tra xem người dùng có nhập đủ thông tin không
+        if (emailOrUsername.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill full login information", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Kiểm tra nếu người dùng nhập vào email
+        if (userBUS.isEmail(emailOrUsername)) {
+            // Nếu là email, kiểm tra trong db
+            if (userBUS.isEmailExist(emailOrUsername)) {
+                // Kiểm tra password
+                if (userBUS.validateUser(emailOrUsername, password)) {
+                    boolean isAdmin = userBUS.isAdmin(emailOrUsername);
+                    if (isAdmin) {
+                        // Chuyển tới trang Admin
+                        Navigation navigation = new Navigation();
+                        navigation.navigateToAdminHome(this);
+                    } else {
+                        // Chuyển tới trang User
+                        Navigation navigation = new Navigation();
+                        navigation.navigateToUserHome(this);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Wrong password.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } 
+            else {
+                JOptionPane.showMessageDialog(this, "Wrong login information.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        else  {
+            // Nếu là username, kiểm tra trong db
+            if (userBUS.isUserNameExist(emailOrUsername)) {
+                // Kiểm tra password
+                if (userBUS.validateUser(emailOrUsername, password)) {
+                    boolean isAdmin = userBUS.isAdmin(emailOrUsername);
+                    if (isAdmin) {
+                        // Chuyển tới trang Admin
+                        Navigation navigation = new Navigation();
+                        navigation.navigateToAdminHome(this);
+                        
+                    } else {
+                        // Chuyển tới trang User
+                        Navigation navigation = new Navigation();
+                        navigation.navigateToUserHome(this);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Wrong password.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } 
+            else {
+                JOptionPane.showMessageDialog(this, "Wrong login information.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,18 +95,17 @@ public class Login extends javax.swing.JFrame {
         logo = new javax.swing.JLabel();
         login = new javax.swing.JLabel();
         slogan = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
+        emailOrUsernameInput = new javax.swing.JTextField();
+        passwordInput = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
         donothaveacc = new javax.swing.JLabel();
-        registerButton = new javax.swing.JButton();
+        navRegisterButton = new javax.swing.JButton();
         forgotpassButton = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        forgotPassButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wave - Login");
         setBackground(new java.awt.Color(246, 246, 246));
-        setPreferredSize(new java.awt.Dimension(500, 600));
 
         loginPanel.setBackground(new java.awt.Color(246, 246, 246));
         loginPanel.setPreferredSize(new java.awt.Dimension(500, 600));
@@ -77,13 +139,13 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         loginContainer.add(slogan, gridBagConstraints);
 
-        username.setBackground(new java.awt.Color(246, 246, 246));
-        username.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        username.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address or username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        username.setPreferredSize(new java.awt.Dimension(294, 35));
-        username.addActionListener(new java.awt.event.ActionListener() {
+        emailOrUsernameInput.setBackground(new java.awt.Color(246, 246, 246));
+        emailOrUsernameInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        emailOrUsernameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address or username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        emailOrUsernameInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        emailOrUsernameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
+                emailOrUsernameInputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -92,15 +154,15 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(username, gridBagConstraints);
+        loginContainer.add(emailOrUsernameInput, gridBagConstraints);
 
-        password.setBackground(new java.awt.Color(246, 246, 246));
-        password.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        password.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        password.setPreferredSize(new java.awt.Dimension(294, 35));
-        password.addActionListener(new java.awt.event.ActionListener() {
+        passwordInput.setBackground(new java.awt.Color(246, 246, 246));
+        passwordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        passwordInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
+                passwordInputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -110,7 +172,7 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.ipady = 15;
         gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(password, gridBagConstraints);
+        loginContainer.add(passwordInput, gridBagConstraints);
 
         loginButton.setBackground(new java.awt.Color(26, 41, 128));
         loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -137,14 +199,14 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.gridy = 14;
         loginContainer.add(donothaveacc, gridBagConstraints);
 
-        registerButton.setBackground(new java.awt.Color(26, 41, 128));
-        registerButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
-        registerButton.setForeground(new java.awt.Color(255, 255, 255));
-        registerButton.setText("Register");
-        registerButton.setPreferredSize(new java.awt.Dimension(100, 35));
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
+        navRegisterButton.setBackground(new java.awt.Color(26, 41, 128));
+        navRegisterButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
+        navRegisterButton.setForeground(new java.awt.Color(255, 255, 255));
+        navRegisterButton.setText("Register");
+        navRegisterButton.setPreferredSize(new java.awt.Dimension(100, 35));
+        navRegisterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
+                navRegisterButtonActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -153,17 +215,22 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(registerButton, gridBagConstraints);
+        loginContainer.add(navRegisterButton, gridBagConstraints);
 
         forgotpassButton.setBackground(new java.awt.Color(246, 246, 246));
         forgotpassButton.setPreferredSize(new java.awt.Dimension(200, 22));
         forgotpassButton.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 0));
 
-        jButton3.setBackground(new java.awt.Color(246, 246, 246));
-        jButton3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton3.setText("Forgot password?");
-        jButton3.setBorder(null);
-        forgotpassButton.add(jButton3);
+        forgotPassButton.setBackground(new java.awt.Color(246, 246, 246));
+        forgotPassButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        forgotPassButton.setText("Forgot password?");
+        forgotPassButton.setBorder(null);
+        forgotPassButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forgotPassButtonActionPerformed(evt);
+            }
+        });
+        forgotpassButton.add(forgotPassButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -179,21 +246,30 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_registerButtonActionPerformed
+    private void navRegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navRegisterButtonActionPerformed
+        // Navigate qua register
+        Navigation navigation = new Navigation();
+        navigation.navigateToRegister(this);
+    }//GEN-LAST:event_navRegisterButtonActionPerformed
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void emailOrUsernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailOrUsernameInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
+    }//GEN-LAST:event_emailOrUsernameInputActionPerformed
 
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
+    }//GEN-LAST:event_passwordInputActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        handleLogin();
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void forgotPassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPassButtonActionPerformed
+        // Navigate qua reset pass
+        this.setVisible(false); 
+        ForgotPassword forgotPasswordFrame = new ForgotPassword(); 
+        forgotPasswordFrame.setVisible(true); 
+    }//GEN-LAST:event_forgotPassButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,16 +309,16 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel donothaveacc;
+    private javax.swing.JTextField emailOrUsernameInput;
+    private javax.swing.JButton forgotPassButton;
     private javax.swing.JPanel forgotpassButton;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel login;
     private javax.swing.JButton loginButton;
     private java.awt.Panel loginContainer;
     private java.awt.Panel loginPanel;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField password;
-    private javax.swing.JButton registerButton;
+    private javax.swing.JButton navRegisterButton;
+    private javax.swing.JTextField passwordInput;
     private javax.swing.JLabel slogan;
-    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

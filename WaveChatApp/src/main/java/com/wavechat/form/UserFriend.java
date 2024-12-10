@@ -16,6 +16,7 @@ public class UserFriend extends javax.swing.JFrame {
      * Creates new form UserFriend
      */
     public UserFriend() {
+        this.setLocationRelativeTo(null);
         initComponents();
         
         String userID = "U001";

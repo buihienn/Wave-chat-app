@@ -23,6 +23,7 @@ public class UserBUS {
         return userDAO.getUserByID(userID); // Gọi phương thức từ DAO
     }
     
+    // ---------------REGISTER---------------
     // Hash mật khẩu bằng BCrypt
     private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(12));  // Sử dụng cost factor là 12
@@ -77,5 +78,25 @@ public class UserBUS {
         // Thêm người dùng vào cơ sở dữ liệu
         return userDAO.addNewUser(userName, email, hashedPassword);
     }
+    
+    // ---------------LOGIN---------------  
+    public boolean isAdmin(String emailOrUsername) {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUserRole(emailOrUsername);  // Trả về true nếu là admin, false nếu là user
+    }
+    
+    // Hàm check string có là email
+    public boolean isEmail(String input) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return input.matches(emailRegex);
+    }
+    
+    // Hàm check login
+    public boolean validateUser(String emailOrUsername, String password) {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.validateUser(emailOrUsername, password);  
+    }
 
+    
+    
 }
