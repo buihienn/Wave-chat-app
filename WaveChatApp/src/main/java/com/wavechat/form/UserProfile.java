@@ -8,7 +8,7 @@ public class UserProfile extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        updateProfile("U0001");
+        updateProfile("U001");
     }
     
     // Để lấy data từ form bỏ vào dialog
@@ -99,7 +99,7 @@ public class UserProfile extends javax.swing.JFrame {
                 System.out.println("User updated successfully!");
 
                 // Cập nhật hiển thị profile sau khi update user thành công
-                updateProfile("U0001");
+                updateProfile("U001");
             } else {
                 System.out.println("Failed to update user.");
             }
@@ -538,7 +538,7 @@ public class UserProfile extends javax.swing.JFrame {
         IDLabel.setText("ID:");
 
         userIDDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        userIDDataLabel.setText("U0001");
+        userIDDataLabel.setText("U001");
         userIDDataLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout userContainerLayout = new javax.swing.GroupLayout(userContainer);
