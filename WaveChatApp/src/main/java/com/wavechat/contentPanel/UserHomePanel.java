@@ -1,37 +1,13 @@
-package com.wavechat.form;
+package com.wavechat.contentPanel;
 
-public class UserHome extends javax.swing.JFrame {
+public class UserHomePanel extends javax.swing.JPanel {
 
     /**
      * Creates new form UserHome
      */
-    public UserHome() {
+    public UserHomePanel() {
         initComponents();
     }
-    
-//    // set image for button
-//    private void scaleImageForButton(String location, javax.swing.JButton button, int width, int height) {
-//        // Tạo ImageIcon từ resource
-//        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(location));
-//        java.awt.Image img = icon.getImage();
-//        // Resize ảnh theo width và height
-//        java.awt.Image imgScale = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-//        javax.swing.ImageIcon scaledIcon = new javax.swing.ImageIcon(imgScale);
-//        // Gán icon vào JButton
-//        button.setIcon(scaledIcon);
-//    }
-//
-//
-//    
-//    // set image for label
-//    private void scaleImageForLabel(String location, javax.swing.JLabel label) {
-//        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(location));
-//        java.awt.Image img = icon.getImage();
-//        java.awt.Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), java.awt.Image.SCALE_SMOOTH);
-//        javax.swing.ImageIcon scaledIcon = new javax.swing.ImageIcon(imgScale);
-//        label.setIcon(scaledIcon);
-//    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,25 +19,6 @@ public class UserHome extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        groupMenu = new javax.swing.JPopupMenu();
-        changeName = new javax.swing.JMenuItem();
-        addMember = new javax.swing.JMenuItem();
-        seeMember = new javax.swing.JMenuItem();
-        setAdmin = new javax.swing.JMenuItem();
-        deleteChat = new javax.swing.JMenuItem();
-        deleteGroup = new javax.swing.JMenuItem();
-        userMenu = new javax.swing.JPopupMenu();
-        deleteChat1 = new javax.swing.JMenuItem();
-        block = new javax.swing.JMenuItem();
-        container = new javax.swing.JPanel();
-        navBarContainer = new javax.swing.JPanel();
-        logoContainer = new javax.swing.JLabel();
-        profileContainer = new javax.swing.JPanel();
-        navProfileButton = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        navChatButton = new javax.swing.JButton();
-        navFriendButton = new javax.swing.JButton();
-        navFindFriendButton = new javax.swing.JButton();
         navChatContainer = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         searchBarContainer = new javax.swing.JPanel();
@@ -129,139 +86,10 @@ public class UserHome extends javax.swing.JFrame {
         inputTextArea = new javax.swing.JTextArea();
         sendButton = new javax.swing.JButton();
 
-        changeName.setText("Change name");
-        groupMenu.add(changeName);
+        setPreferredSize(new java.awt.Dimension(741, 600));
+        setLayout(new java.awt.BorderLayout());
 
-        addMember.setText("Add member");
-        groupMenu.add(addMember);
-
-        seeMember.setText("See members");
-        groupMenu.add(seeMember);
-
-        setAdmin.setText("Set admin");
-        groupMenu.add(setAdmin);
-
-        deleteChat.setText("Delete chat");
-        groupMenu.add(deleteChat);
-
-        deleteGroup.setText("Delete group");
-        groupMenu.add(deleteGroup);
-
-        deleteChat1.setText("Delete chat");
-        userMenu.add(deleteChat1);
-
-        block.setText("Block");
-        userMenu.add(block);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Home");
-
-        container.setBackground(new java.awt.Color(246, 246, 246));
-        container.setBorder(new javax.swing.border.MatteBorder(null));
-        container.setPreferredSize(new java.awt.Dimension(930, 600));
-        container.setLayout(new java.awt.GridBagLayout());
-
-        navBarContainer.setPreferredSize(new java.awt.Dimension(188, 600));
-
-        logoContainer.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        logoContainer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoSmall.png"))); // NOI18N
-        logoContainer.setText("Wave");
-        logoContainer.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        profileContainer.setPreferredSize(new java.awt.Dimension(165, 40));
-        profileContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
-        navProfileButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
-        navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png"))); // NOI18N
-        navProfileButton.setText("Profile");
-        navProfileButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        navProfileButton.setIconTextGap(8);
-        navProfileButton.setPreferredSize(new java.awt.Dimension(125, 40));
-        profileContainer.add(navProfileButton);
-
-        jButton5.setBackground(new java.awt.Color(26, 41, 128));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
-        jButton5.setPreferredSize(new java.awt.Dimension(40, 40));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        profileContainer.add(jButton5);
-
-        navChatButton.setBackground(new java.awt.Color(204, 255, 255));
-        navChatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_black.png"))); // NOI18N
-        navChatButton.setText("Chat");
-        navChatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        navChatButton.setIconTextGap(12);
-        navChatButton.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-        navFriendButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-        navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
-        navFriendButton.setText("Friend");
-        navFriendButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        navFriendButton.setIconTextGap(12);
-        navFriendButton.setPreferredSize(new java.awt.Dimension(165, 40));
-        navFriendButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                navFriendButtonActionPerformed(evt);
-            }
-        });
-
-        navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-        navFindFriendButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-        navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
-        navFindFriendButton.setText("Find Friend");
-        navFindFriendButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        navFindFriendButton.setIconTextGap(12);
-        navFindFriendButton.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        javax.swing.GroupLayout navBarContainerLayout = new javax.swing.GroupLayout(navBarContainer);
-        navBarContainer.setLayout(navBarContainerLayout);
-        navBarContainerLayout.setHorizontalGroup(
-            navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(navChatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(navFindFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(navFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        navBarContainerLayout.setVerticalGroup(
-            navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainerLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(navChatButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(navFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(navFindFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        container.add(navBarContainer, gridBagConstraints);
-
-        navChatContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 1, new java.awt.Color(0, 0, 0)));
+        navChatContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         navChatContainer.setPreferredSize(new java.awt.Dimension(240, 600));
 
         jLabel1.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
@@ -482,16 +310,10 @@ public class UserHome extends javax.swing.JFrame {
                 .addComponent(userContainer3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userContainer4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(186, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        container.add(navChatContainer, gridBagConstraints);
+        add(navChatContainer, java.awt.BorderLayout.LINE_START);
 
         chatContainer.setPreferredSize(new java.awt.Dimension(500, 600));
         chatContainer.setLayout(new java.awt.BorderLayout());
@@ -559,7 +381,6 @@ public class UserHome extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("More");
-        jButton2.setComponentPopupMenu(userMenu);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton2.setPreferredSize(new java.awt.Dimension(68, 32));
         jPanel1.add(jButton2);
@@ -976,92 +797,29 @@ public class UserHome extends javax.swing.JFrame {
 
         chatContainer.add(inputMessageContainer, java.awt.BorderLayout.SOUTH);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        container.add(chatContainer, gridBagConstraints);
-
-        getContentPane().add(container, java.awt.BorderLayout.CENTER);
-
-        pack();
+        add(chatContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchButtonActionPerformed
 
     private void searchInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchInputActionPerformed
 
-    private void navFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navFriendButtonActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_navFriendButtonActionPerformed
+    }//GEN-LAST:event_searchButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserHome().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem addMember;
     private javax.swing.JLabel avatarMessage4;
     private javax.swing.JLabel avatarMessage6;
     private javax.swing.JLabel avatarMessage8;
-    private javax.swing.JMenuItem block;
-    private javax.swing.JMenuItem changeName;
     private javax.swing.JPanel chatAreaContainer;
     private javax.swing.JPanel chatContainer;
-    private javax.swing.JPanel container;
-    private javax.swing.JMenuItem deleteChat;
-    private javax.swing.JMenuItem deleteChat1;
-    private javax.swing.JMenuItem deleteGroup;
-    private javax.swing.JPopupMenu groupMenu;
     private javax.swing.JPanel inputMessageContainer;
     private javax.swing.JScrollPane inputScrollPanel;
     private javax.swing.JTextArea inputTextArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1088,7 +846,6 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea7;
     private javax.swing.JTextArea jTextArea8;
     private javax.swing.JTextArea jTextArea9;
-    private javax.swing.JLabel logoContainer;
     private javax.swing.JPanel messageContainer10;
     private javax.swing.JPanel messageContainer11;
     private javax.swing.JPanel messageContainer2;
@@ -1096,19 +853,11 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JPanel messageContainer7;
     private javax.swing.JPanel messageContainer8;
     private javax.swing.JPanel messageContainer9;
-    private javax.swing.JPanel navBarContainer;
-    private javax.swing.JButton navChatButton;
     private javax.swing.JPanel navChatContainer;
-    private javax.swing.JButton navFindFriendButton;
-    private javax.swing.JButton navFriendButton;
-    private javax.swing.JButton navProfileButton;
-    private javax.swing.JPanel profileContainer;
     private javax.swing.JPanel searchBarContainer;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchInput;
-    private javax.swing.JMenuItem seeMember;
     private javax.swing.JButton sendButton;
-    private javax.swing.JMenuItem setAdmin;
     private javax.swing.JLabel userAvatar;
     private javax.swing.JLabel userAvatar1;
     private javax.swing.JLabel userAvatar2;
@@ -1120,7 +869,6 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JPanel userContainer3;
     private javax.swing.JPanel userContainer4;
     private javax.swing.JPanel userHeaderContainer;
-    private javax.swing.JPopupMenu userMenu;
     private javax.swing.JPanel wrapperContainer10;
     private javax.swing.JPanel wrapperContainer11;
     private javax.swing.JPanel wrapperContainer2;

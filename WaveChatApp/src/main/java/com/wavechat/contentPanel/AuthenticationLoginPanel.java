@@ -1,17 +1,17 @@
-package com.wavechat.form;
+package com.wavechat.contentPanel;
 
-import com.wavechat.Navigation;
 import com.wavechat.bus.UserBUS;
+import com.wavechat.form.AdminHomeMain;
+import com.wavechat.form.AuthenticationMain;
+import com.wavechat.form.UserHomeMain;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
-public class Login extends javax.swing.JFrame {
+public class AuthenticationLoginPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Login
-     */
-    public Login() {
+    public AuthenticationLoginPanel() {
         initComponents();
-        this.setLocationRelativeTo(null);
     }
 
     // Hàm xử lí login
@@ -36,12 +36,16 @@ public class Login extends javax.swing.JFrame {
                     boolean isAdmin = userBUS.isAdmin(emailOrUsername);
                     if (isAdmin) {
                         // Chuyển tới trang Admin
-                        Navigation navigation = new Navigation();
-                        navigation.navigateToAdminHome(this);
+                        parentFrame.dispose();
+                        AdminHomeMain navFrame = new AdminHomeMain(); 
+                        navFrame.setVisible(true); 
+                        
+                        
                     } else {
                         // Chuyển tới trang User
-                        Navigation navigation = new Navigation();
-                        navigation.navigateToUserHome(this);
+                        parentFrame.dispose();
+                        UserHomeMain navFrame = new UserHomeMain(); 
+                        navFrame.setVisible(true); 
                     }
                 }
                 else {
@@ -60,13 +64,15 @@ public class Login extends javax.swing.JFrame {
                     boolean isAdmin = userBUS.isAdmin(emailOrUsername);
                     if (isAdmin) {
                         // Chuyển tới trang Admin
-                        Navigation navigation = new Navigation();
-                        navigation.navigateToAdminHome(this);
+                        parentFrame.dispose();
+                        AdminHomeMain navFrame = new AdminHomeMain(); 
+                        navFrame.setVisible(true); 
                         
                     } else {
                         // Chuyển tới trang User
-                        Navigation navigation = new Navigation();
-                        navigation.navigateToUserHome(this);
+                        parentFrame.dispose();
+                        UserHomeMain navFrame = new UserHomeMain(); 
+                        navFrame.setVisible(true); 
                     }
                 }
                 else {
@@ -79,6 +85,13 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
+    private AuthenticationMain parentFrame;
+
+    // Constructor nhận tham chiếu đến AuthenticationMain
+    public AuthenticationLoginPanel(AuthenticationMain parent) {
+        initComponents();
+        this.parentFrame = parent;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -103,19 +116,14 @@ public class Login extends javax.swing.JFrame {
         forgotpassButton = new javax.swing.JPanel();
         forgotPassButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Login");
-        setBackground(new java.awt.Color(246, 246, 246));
+        setLayout(new java.awt.BorderLayout());
 
         loginPanel.setBackground(new java.awt.Color(246, 246, 246));
         loginPanel.setPreferredSize(new java.awt.Dimension(500, 600));
         loginPanel.setLayout(new java.awt.GridBagLayout());
 
         loginContainer.setBackground(new java.awt.Color(246, 246, 246));
-        java.awt.GridBagLayout loginContainerLayout = new java.awt.GridBagLayout();
-        loginContainerLayout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        loginContainerLayout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        loginContainer.setLayout(loginContainerLayout);
+        loginContainer.setLayout(new java.awt.GridBagLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -241,16 +249,8 @@ public class Login extends javax.swing.JFrame {
 
         loginPanel.add(loginContainer, new java.awt.GridBagConstraints());
 
-        getContentPane().add(loginPanel, java.awt.BorderLayout.CENTER);
-
-        pack();
+        add(loginPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void navRegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navRegisterButtonActionPerformed
-        // Navigate qua register
-        Navigation navigation = new Navigation();
-        navigation.navigateToRegister(this);
-    }//GEN-LAST:event_navRegisterButtonActionPerformed
 
     private void emailOrUsernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailOrUsernameInputActionPerformed
         // TODO add your handling code here:
@@ -264,48 +264,14 @@ public class Login extends javax.swing.JFrame {
         handleLogin();
     }//GEN-LAST:event_loginButtonActionPerformed
 
+    private void navRegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navRegisterButtonActionPerformed
+        parentFrame.showRegisterPanel();
+    }//GEN-LAST:event_navRegisterButtonActionPerformed
+
     private void forgotPassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPassButtonActionPerformed
-        // Navigate qua reset pass
-        this.setVisible(false); 
-        ForgotPassword forgotPasswordFrame = new ForgotPassword(); 
-        forgotPasswordFrame.setVisible(true); 
+        parentFrame.showForgotPassPanel();
     }//GEN-LAST:event_forgotPassButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel donothaveacc;
