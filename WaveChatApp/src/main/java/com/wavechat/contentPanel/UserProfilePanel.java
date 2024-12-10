@@ -1,12 +1,19 @@
-package com.wavechat.form;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package com.wavechat.contentPanel;
 
 import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.UserDTO;
 
-public class UserProfile extends javax.swing.JFrame {
-    public UserProfile() {
+/**
+ *
+ * @author LENOVO
+ */
+public class UserProfilePanel extends javax.swing.JPanel {
+    public UserProfilePanel() {
         initComponents();
-        this.setLocationRelativeTo(null);
         
         updateProfile("U001");
     }
@@ -141,8 +148,6 @@ public class UserProfile extends javax.swing.JFrame {
         }
     }
 
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,7 +156,6 @@ public class UserProfile extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         genderChoose = new javax.swing.ButtonGroup();
         editProfileDialog = new javax.swing.JDialog();
@@ -169,16 +173,6 @@ public class UserProfile extends javax.swing.JFrame {
         addressEditDataLabel = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        container = new javax.swing.JPanel();
-        navBarContainer = new javax.swing.JPanel();
-        logoContainer = new javax.swing.JLabel();
-        profileContainer = new javax.swing.JPanel();
-        profileNavButton = new javax.swing.JButton();
-        logoutNavButton = new javax.swing.JButton();
-        chatNavButton = new javax.swing.JButton();
-        friendNavButton = new javax.swing.JButton();
-        findFriendNavButton = new javax.swing.JButton();
-        contentContainer = new javax.swing.JPanel();
         profileLabel = new javax.swing.JLabel();
         userContainer = new javax.swing.JPanel();
         userAvatar = new javax.swing.JLabel();
@@ -212,13 +206,10 @@ public class UserProfile extends javax.swing.JFrame {
         genderEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         genderEditLabel.setText("Gender:");
 
-        genderChoose.add(maleRadioButton);
         maleRadioButton.setText("Male");
 
-        genderChoose.add(femaleRadioButton);
         femaleRadioButton.setText("Female");
 
-        genderChoose.add(preferRadioButton);
         preferRadioButton.setText("Prefer not to say");
 
         fullnameEditDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
@@ -351,114 +342,6 @@ public class UserProfile extends javax.swing.JFrame {
         );
 
         editProfileDialog.getContentPane().add(popupEditProfile, java.awt.BorderLayout.CENTER);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Profile");
-
-        container.setBackground(new java.awt.Color(246, 246, 246));
-        container.setBorder(new javax.swing.border.MatteBorder(null));
-        container.setLayout(new java.awt.GridBagLayout());
-
-        navBarContainer.setPreferredSize(new java.awt.Dimension(188, 600));
-
-        logoContainer.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        logoContainer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoSmall.png"))); // NOI18N
-        logoContainer.setText("Wave");
-        logoContainer.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        profileContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        profileNavButton.setBackground(new java.awt.Color(153, 255, 255));
-        profileNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        profileNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_black.png"))); // NOI18N
-        profileNavButton.setText("Profile");
-        profileNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        profileNavButton.setIconTextGap(8);
-        profileNavButton.setPreferredSize(new java.awt.Dimension(125, 40));
-        profileContainer.add(profileNavButton);
-
-        logoutNavButton.setBackground(new java.awt.Color(153, 255, 255));
-        logoutNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_black.png"))); // NOI18N
-        logoutNavButton.setPreferredSize(new java.awt.Dimension(40, 40));
-        logoutNavButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutNavButtonActionPerformed(evt);
-            }
-        });
-        profileContainer.add(logoutNavButton);
-
-        chatNavButton.setBackground(new java.awt.Color(26, 41, 128));
-        chatNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatNavButton.setForeground(new java.awt.Color(255, 255, 255));
-        chatNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png"))); // NOI18N
-        chatNavButton.setText("Chat");
-        chatNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatNavButton.setIconTextGap(12);
-        chatNavButton.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        friendNavButton.setBackground(new java.awt.Color(26, 41, 128));
-        friendNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        friendNavButton.setForeground(new java.awt.Color(255, 255, 255));
-        friendNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
-        friendNavButton.setText("Friend");
-        friendNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        friendNavButton.setIconTextGap(12);
-        friendNavButton.setPreferredSize(new java.awt.Dimension(165, 40));
-        friendNavButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                friendNavButtonActionPerformed(evt);
-            }
-        });
-
-        findFriendNavButton.setBackground(new java.awt.Color(26, 41, 128));
-        findFriendNavButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        findFriendNavButton.setForeground(new java.awt.Color(255, 255, 255));
-        findFriendNavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
-        findFriendNavButton.setText("Find Friend");
-        findFriendNavButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        findFriendNavButton.setIconTextGap(12);
-        findFriendNavButton.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        javax.swing.GroupLayout navBarContainerLayout = new javax.swing.GroupLayout(navBarContainer);
-        navBarContainer.setLayout(navBarContainerLayout);
-        navBarContainerLayout.setHorizontalGroup(
-            navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(findFriendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(friendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        navBarContainerLayout.setVerticalGroup(
-            navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainerLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chatNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(friendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(findFriendNavButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
-                .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        container.add(navBarContainer, gridBagConstraints);
-
-        contentContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 0, new java.awt.Color(0, 0, 0)));
-        contentContainer.setPreferredSize(new java.awt.Dimension(741, 600));
 
         profileLabel.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
         profileLabel.setText("Profile");
@@ -603,9 +486,9 @@ public class UserProfile extends javax.swing.JFrame {
                 .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(userContainerLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(emailLabel)
-                            .addComponent(emailDataLabel))
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(emailDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -619,9 +502,9 @@ public class UserProfile extends javax.swing.JFrame {
                                 .addGap(2, 2, 2)
                                 .addComponent(genderDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(birthLabel)
-                            .addComponent(birthDataLabel))
+                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(birthLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(birthDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addressLabel)
@@ -639,47 +522,35 @@ public class UserProfile extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        javax.swing.GroupLayout contentContainerLayout = new javax.swing.GroupLayout(contentContainer);
-        contentContainer.setLayout(contentContainerLayout);
-        contentContainerLayout.setHorizontalGroup(
-            contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contentContainerLayout.createSequentialGroup()
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
-        contentContainerLayout.setVerticalGroup(
-            contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contentContainerLayout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(172, Short.MAX_VALUE))
         );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        container.add(contentContainer, gridBagConstraints);
-
-        getContentPane().add(container, java.awt.BorderLayout.CENTER);
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void logoutNavButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutNavButtonActionPerformed
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_logoutNavButtonActionPerformed
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void friendNavButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_friendNavButtonActionPerformed
+    private void editProfileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProfileButtonMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_friendNavButtonActionPerformed
+    }//GEN-LAST:event_editProfileButtonMouseClicked
 
     private void editProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileButtonActionPerformed
         // TODO add your handling code here:
@@ -690,31 +561,22 @@ public class UserProfile extends javax.swing.JFrame {
         String address = addressDataLabel.getText();
 
         setDataOfEditProfileDialog(fullname, gender, birth, address);
-        
+
         editProfileDialog.setLocationRelativeTo(this);
         editProfileDialog.setVisible(true); // Hiển thị dialog
     }//GEN-LAST:event_editProfileButtonActionPerformed
 
-    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+    private void fullnameEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullnameEditDataLabelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_logoutButtonActionPerformed
-
-    private void addressEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressEditDataLabelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addressEditDataLabelActionPerformed
+    }//GEN-LAST:event_fullnameEditDataLabelActionPerformed
 
     private void birthEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_birthEditDataLabelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_birthEditDataLabelActionPerformed
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+    private void addressEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressEditDataLabelActionPerformed
         // TODO add your handling code here:
-        editProfileDialog.dispose();
-    }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void editProfileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProfileButtonMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editProfileButtonMouseClicked
+    }//GEN-LAST:event_addressEditDataLabelActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         // TODO add your handling code here:
@@ -724,55 +586,15 @@ public class UserProfile extends javax.swing.JFrame {
 
         // Thực hiện cập nhật thông tin người dùng
         editUser();
-        
-        editProfileDialog.dispose(); 
+
+        editProfileDialog.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
-    private void fullnameEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullnameEditDataLabelActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_fullnameEditDataLabelActionPerformed
+        editProfileDialog.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserProfile().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IDLabel;
@@ -787,17 +609,12 @@ public class UserProfile extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton changeAvatarButton;
     private javax.swing.JButton changePasswordButton;
-    private javax.swing.JButton chatNavButton;
     private javax.swing.JButton confirmButton;
-    private javax.swing.JPanel container;
-    private javax.swing.JPanel contentContainer;
     private javax.swing.JButton editProfileButton;
     private javax.swing.JDialog editProfileDialog;
     private javax.swing.JLabel emailDataLabel;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JRadioButton femaleRadioButton;
-    private javax.swing.JButton findFriendNavButton;
-    private javax.swing.JButton friendNavButton;
     private javax.swing.JLabel fullnameDataLabel;
     private javax.swing.JTextField fullnameEditDataLabel;
     private javax.swing.ButtonGroup genderChoose;
@@ -805,16 +622,11 @@ public class UserProfile extends javax.swing.JFrame {
     private javax.swing.JLabel genderEditLabel;
     private javax.swing.JLabel genderLabel;
     private javax.swing.JSeparator jSeparator;
-    private javax.swing.JLabel logoContainer;
     private javax.swing.JButton logoutButton;
-    private javax.swing.JButton logoutNavButton;
     private javax.swing.JRadioButton maleRadioButton;
-    private javax.swing.JPanel navBarContainer;
     private javax.swing.JPanel popupEditProfile;
     private javax.swing.JRadioButton preferRadioButton;
-    private javax.swing.JPanel profileContainer;
     private javax.swing.JLabel profileLabel;
-    private javax.swing.JButton profileNavButton;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JLabel userAvatar;
     private javax.swing.JLabel userAvatar1;

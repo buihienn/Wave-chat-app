@@ -11,7 +11,7 @@ public class Navigation {
         navFrame.setVisible(true); 
     }
     
-        // Navigate đến trang login
+        // Navigate đến trang register
     public void navigateToRegister(JFrame frame) { 
         frame.setVisible(false); 
         Register navFrame = new Register(); 
@@ -28,22 +28,7 @@ public class Navigation {
     // Navigate đến trang chủ user
     public void navigateToUserHome(JFrame frame) { 
         frame.setVisible(false); 
-        UserHome navFrame = new UserHome(); 
+        UserHomeMain navFrame = new UserHomeMain(); 
         navFrame.setVisible(true); 
     }
-    
-    // Navigate đến trang user profile
-    public void navigateToUserProfile(JFrame frame) { 
-        frame.setVisible(false); 
-        UserProfile navFrame = new UserProfile(); 
-        navFrame.setVisible(true); 
-    }
-    
-    // Navigate đến trang user friend list
-    public void navigateToUserFriend(JFrame frame) { 
-        frame.setVisible(false); 
-        UserFriend navFrame = new UserFriend(); 
-        navFrame.setVisible(true); 
-    }
-    
 }

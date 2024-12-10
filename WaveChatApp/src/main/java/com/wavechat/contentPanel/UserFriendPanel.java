@@ -1,35 +1,28 @@
-package com.wavechat.form;
+package com.wavechat.contentPanel;
 
-import com.wavechat.bus.*;
-import com.wavechat.dao.*;
-import com.wavechat.dto.*;
+import com.wavechat.bus.BlockBUS;
+import com.wavechat.bus.FriendBUS;
 import com.wavechat.component.ButtonEditor;
 import com.wavechat.component.ButtonRenderer;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
+import com.wavechat.dao.UserDAO;
+import com.wavechat.dto.FriendDTO;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableModel;
 
-public class UserFriend extends javax.swing.JFrame {
+public class UserFriendPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form UserFriend
+     * Creates new form UserFriendPanel
      */
-    public UserFriend() {
-        this.setLocationRelativeTo(null);
+    public UserFriendPanel() {
         initComponents();
-        
-        String userID = "U001";
-        FriendBUS friendBUS = new FriendBUS(); 
-        List<FriendDTO> friendsList = friendBUS.getFriends(userID); 
-        addFriendData(allTable, friendsList, userID); 
-        
-        contentContainer.removeAll();
-        contentContainer.add(allCard);
-        contentContainer.revalidate();
-        contentContainer.repaint();
     }
-    
+
     private void addFriendData(javax.swing.JTable table, List<FriendDTO> friendsList, String userID) {
         // Thông tin các cột
         String[] columnNames = {"FullName", "Username", "Status", "Unfriend", "Block"};
@@ -201,8 +194,6 @@ public class UserFriend extends javax.swing.JFrame {
         // Cập nhật bảng với danh sách bạn bè đã lọc
         addFriendData(allTable, filteredFriends, userID);
     }
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -211,11 +202,7 @@ public class UserFriend extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        onlineFriendMenu = new javax.swing.JPopupMenu();
-        chatMenuItem = new javax.swing.JMenuItem();
-        createGroupMenuItem = new javax.swing.JMenuItem();
         onlineCard = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         onlineTable = new javax.swing.JTable();
@@ -232,28 +219,12 @@ public class UserFriend extends javax.swing.JFrame {
         requestTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        container = new javax.swing.JPanel();
-        navBarContainer = new javax.swing.JPanel();
-        logoContainer = new javax.swing.JLabel();
-        profileContainer = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        chatButton = new javax.swing.JButton();
-        chatButton1 = new javax.swing.JButton();
-        chatButton2 = new javax.swing.JButton();
-        navChatContainer = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        contentContainer = new javax.swing.JPanel();
         navFriendContainer = new javax.swing.JPanel();
         allButton = new javax.swing.JButton();
         requestButton = new javax.swing.JButton();
         onlineButton = new javax.swing.JButton();
-        contentContainer = new javax.swing.JPanel();
-
-        chatMenuItem.setText("Chat");
-        onlineFriendMenu.add(chatMenuItem);
-
-        createGroupMenuItem.setText("Create Group");
-        onlineFriendMenu.add(createGroupMenuItem);
+        jLabel1 = new javax.swing.JLabel();
 
         onlineTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -297,13 +268,8 @@ public class UserFriend extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        onlineTable.setComponentPopupMenu(onlineFriendMenu);
         onlineTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(onlineTable);
-        if (onlineTable.getColumnModel().getColumnCount() > 0) {
-            onlineTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-            onlineTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-        }
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setText("Filter:");
@@ -448,9 +414,6 @@ public class UserFriend extends javax.swing.JFrame {
         });
         requestTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(requestTable);
-        if (requestTable.getColumnModel().getColumnCount() > 0) {
-            requestTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-        }
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setText("Filter:");
@@ -477,118 +440,9 @@ public class UserFriend extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Friend");
+        setPreferredSize(new java.awt.Dimension(741, 600));
 
-        container.setBackground(new java.awt.Color(246, 246, 246));
-        container.setBorder(new javax.swing.border.MatteBorder(null));
-        container.setLayout(new java.awt.GridBagLayout());
-
-        navBarContainer.setPreferredSize(new java.awt.Dimension(188, 600));
-
-        logoContainer.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        logoContainer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoSmall.png"))); // NOI18N
-        logoContainer.setText("Wave");
-        logoContainer.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        profileContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        jButton6.setBackground(new java.awt.Color(26, 41, 128));
-        jButton6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png"))); // NOI18N
-        jButton6.setText("Profile");
-        jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton6.setIconTextGap(8);
-        jButton6.setPreferredSize(new java.awt.Dimension(125, 40));
-        profileContainer.add(jButton6);
-
-        jButton5.setBackground(new java.awt.Color(26, 41, 128));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
-        jButton5.setPreferredSize(new java.awt.Dimension(40, 40));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        profileContainer.add(jButton5);
-
-        chatButton.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png"))); // NOI18N
-        chatButton.setText("Chat");
-        chatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton.setIconTextGap(12);
-        chatButton.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        chatButton1.setBackground(new java.awt.Color(153, 255, 255));
-        chatButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_black.png"))); // NOI18N
-        chatButton1.setText("Friend");
-        chatButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton1.setIconTextGap(12);
-        chatButton1.setPreferredSize(new java.awt.Dimension(165, 40));
-        chatButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatButton1ActionPerformed(evt);
-            }
-        });
-
-        chatButton2.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton2.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png"))); // NOI18N
-        chatButton2.setText("Find Friend");
-        chatButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton2.setIconTextGap(12);
-        chatButton2.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        javax.swing.GroupLayout navBarContainerLayout = new javax.swing.GroupLayout(navBarContainer);
-        navBarContainer.setLayout(navBarContainerLayout);
-        navBarContainerLayout.setHorizontalGroup(
-            navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        navBarContainerLayout.setVerticalGroup(
-            navBarContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainerLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        container.add(navBarContainer, gridBagConstraints);
-
-        navChatContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 1, new java.awt.Color(0, 0, 0)));
-        navChatContainer.setPreferredSize(new java.awt.Dimension(741, 600));
-
-        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
-        jLabel1.setText("Friend");
-        jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
+        contentContainer.setLayout(new java.awt.BorderLayout());
 
         allButton.setBackground(new java.awt.Color(153, 255, 255));
         allButton.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
@@ -630,7 +484,7 @@ public class UserFriend extends javax.swing.JFrame {
                 .addComponent(requestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(onlineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         navFriendContainerLayout.setVerticalGroup(
             navFriendContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -642,25 +496,27 @@ public class UserFriend extends javax.swing.JFrame {
                     .addComponent(onlineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        contentContainer.setLayout(new java.awt.BorderLayout());
+        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
+        jLabel1.setText("Friend");
+        jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
 
-        javax.swing.GroupLayout navChatContainerLayout = new javax.swing.GroupLayout(navChatContainer);
-        navChatContainer.setLayout(navChatContainerLayout);
-        navChatContainerLayout.setHorizontalGroup(
-            navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navChatContainerLayout.createSequentialGroup()
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, navChatContainerLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(navFriendContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
-        navChatContainerLayout.setVerticalGroup(
-            navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navChatContainerLayout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -669,36 +525,16 @@ public class UserFriend extends javax.swing.JFrame {
                 .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        container.add(navChatContainer, gridBagConstraints);
-
-        getContentPane().add(container, java.awt.BorderLayout.CENTER);
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void chatButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatButton1ActionPerformed
 
     private void allButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allButtonActionPerformed
         changeModeButton("All");
-        
+
         String userID = "U001";
-        FriendBUS friendBUS = new FriendBUS(); 
+        FriendBUS friendBUS = new FriendBUS();
         List<FriendDTO> friendsList = friendBUS.getFriends(userID); // Lọc danh sách bạn bè
         addFriendData(allTable, friendsList, userID); // Gọi hàm addFriendData với danh sách đã lọc
-        
+
         contentContainer.removeAll();
         contentContainer.add(allCard);
         contentContainer.revalidate();
@@ -707,9 +543,9 @@ public class UserFriend extends javax.swing.JFrame {
 
     private void requestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestButtonActionPerformed
         changeModeButton("Request");
-        
-        customizeTableRequest(requestTable);        
-        
+
+        customizeTableRequest(requestTable);
+
         contentContainer.removeAll();
         contentContainer.add(requestCard);
         contentContainer.revalidate();
@@ -718,20 +554,14 @@ public class UserFriend extends javax.swing.JFrame {
 
     private void onlineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onlineButtonActionPerformed
         changeModeButton("Online");
-        
+
         customizeTableOnline(onlineTable);
-        
+
         contentContainer.removeAll();
         contentContainer.add(onlineCard);
         contentContainer.revalidate();
         contentContainer.repaint();
     }//GEN-LAST:event_onlineButtonActionPerformed
-
-    private void searchAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAllButtonActionPerformed
-        String searchQuery = allSearch.getText().toLowerCase(); // Lấy nội dung từ JTextField và chuyển thành chữ thường
-        String userID = "U001";
-        filterFriends(searchQuery, userID); // Gọi hàm lọc bạn bè
-    }//GEN-LAST:event_searchAllButtonActionPerformed
 
     private void allSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_allSearchKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -741,58 +571,20 @@ public class UserFriend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_allSearchKeyPressed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void searchAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAllButtonActionPerformed
+        String searchQuery = allSearch.getText().toLowerCase(); // Lấy nội dung từ JTextField và chuyển thành chữ thường
+        String userID = "U001";
+        filterFriends(searchQuery, userID); // Gọi hàm lọc bạn bè
+    }//GEN-LAST:event_searchAllButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserFriend().setVisible(true);
-            }
-        });
-    }
 
-    private String mode = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allButton;
     private javax.swing.JPanel allCard;
     private javax.swing.JTextField allSearch;
     private javax.swing.JTable allTable;
-    private javax.swing.JButton chatButton;
-    private javax.swing.JButton chatButton1;
-    private javax.swing.JButton chatButton2;
-    private javax.swing.JMenuItem chatMenuItem;
-    private javax.swing.JPanel container;
     private javax.swing.JPanel contentContainer;
-    private javax.swing.JMenuItem createGroupMenuItem;
     private javax.swing.JLabel filterAllLabel;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -801,15 +593,10 @@ public class UserFriend extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JLabel logoContainer;
-    private javax.swing.JPanel navBarContainer;
-    private javax.swing.JPanel navChatContainer;
     private javax.swing.JPanel navFriendContainer;
     private javax.swing.JButton onlineButton;
     private javax.swing.JPanel onlineCard;
-    private javax.swing.JPopupMenu onlineFriendMenu;
     private javax.swing.JTable onlineTable;
-    private javax.swing.JPanel profileContainer;
     private javax.swing.JButton requestButton;
     private javax.swing.JPanel requestCard;
     private javax.swing.JTable requestTable;

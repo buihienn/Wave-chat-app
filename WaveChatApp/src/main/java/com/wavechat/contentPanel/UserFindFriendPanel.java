@@ -1,19 +1,19 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.wavechat.form;
+package com.wavechat.contentPanel;
 
 /**
  *
  * @author LENOVO
  */
-public class UserFindFriend extends javax.swing.JFrame {
+public class UserFindFriendPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form UserFindFriend
+     * Creates new form UserFindFriendPanel
      */
-    public UserFindFriend() {
+    public UserFindFriendPanel() {
         initComponents();
     }
 
@@ -27,218 +27,101 @@ public class UserFindFriend extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        container2 = new javax.swing.JPanel();
-        navBarContainer2 = new javax.swing.JPanel();
-        logoContainer2 = new javax.swing.JLabel();
-        profileContainer2 = new javax.swing.JPanel();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        chatButton = new javax.swing.JButton();
-        chatButton1 = new javax.swing.JButton();
-        chatButton2 = new javax.swing.JButton();
-        navChatContainer = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         searchBarContainer = new javax.swing.JPanel();
         searchInput = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
-        contentContainer = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        userSearchContainer1 = new javax.swing.JPanel();
-        userAvatar1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        userSearchContainer2 = new javax.swing.JPanel();
-        userAvatar2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        userSearchContainer3 = new javax.swing.JPanel();
-        userAvatar3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
+        contentContainer3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jPanel4 = new javax.swing.JPanel();
         userSearchContainer4 = new javax.swing.JPanel();
         userAvatar4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         userSearchContainer5 = new javax.swing.JPanel();
         userAvatar5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton17 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         userSearchContainer6 = new javax.swing.JPanel();
         userAvatar6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton19 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
         userSearchContainer7 = new javax.swing.JPanel();
         userAvatar7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jButton21 = new javax.swing.JButton();
-        jButton22 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
         userSearchContainer8 = new javax.swing.JPanel();
         userAvatar8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jButton23 = new javax.swing.JButton();
-        jButton24 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
         userSearchContainer9 = new javax.swing.JPanel();
         userAvatar9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jButton25 = new javax.swing.JButton();
-        jButton26 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
         userSearchContainer10 = new javax.swing.JPanel();
         userAvatar10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jButton27 = new javax.swing.JButton();
-        jButton28 = new javax.swing.JButton();
+        jButton21 = new javax.swing.JButton();
+        jButton22 = new javax.swing.JButton();
         userSearchContainer11 = new javax.swing.JPanel();
         userAvatar11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jButton29 = new javax.swing.JButton();
-        jButton30 = new javax.swing.JButton();
+        jButton23 = new javax.swing.JButton();
+        jButton24 = new javax.swing.JButton();
         userSearchContainer12 = new javax.swing.JPanel();
         userAvatar12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jButton31 = new javax.swing.JButton();
-        jButton32 = new javax.swing.JButton();
+        jButton25 = new javax.swing.JButton();
+        jButton26 = new javax.swing.JButton();
         userSearchContainer13 = new javax.swing.JPanel();
         userAvatar13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jButton33 = new javax.swing.JButton();
-        jButton34 = new javax.swing.JButton();
+        jButton27 = new javax.swing.JButton();
+        jButton28 = new javax.swing.JButton();
         userSearchContainer14 = new javax.swing.JPanel();
         userAvatar14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jButton35 = new javax.swing.JButton();
-        jButton36 = new javax.swing.JButton();
+        jButton29 = new javax.swing.JButton();
+        jButton30 = new javax.swing.JButton();
         userSearchContainer15 = new javax.swing.JPanel();
         userAvatar15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jButton37 = new javax.swing.JButton();
-        jButton38 = new javax.swing.JButton();
+        jButton31 = new javax.swing.JButton();
+        jButton32 = new javax.swing.JButton();
         userSearchContainer16 = new javax.swing.JPanel();
         userAvatar16 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jButton33 = new javax.swing.JButton();
+        jButton34 = new javax.swing.JButton();
+        userSearchContainer17 = new javax.swing.JPanel();
+        userAvatar17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jButton35 = new javax.swing.JButton();
+        jButton36 = new javax.swing.JButton();
+        userSearchContainer18 = new javax.swing.JPanel();
+        userAvatar18 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jButton37 = new javax.swing.JButton();
+        jButton38 = new javax.swing.JButton();
+        userSearchContainer19 = new javax.swing.JPanel();
+        userAvatar19 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         jButton39 = new javax.swing.JButton();
         jButton40 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wave - Find Friend");
-
-        container2.setBackground(new java.awt.Color(246, 246, 246));
-        container2.setBorder(new javax.swing.border.MatteBorder(null));
-        container2.setLayout(new java.awt.GridBagLayout());
-
-        navBarContainer2.setPreferredSize(new java.awt.Dimension(188, 600));
-
-        logoContainer2.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        logoContainer2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoSmall.png"))); // NOI18N
-        logoContainer2.setText("Wave");
-        logoContainer2.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        profileContainer2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        jButton9.setBackground(new java.awt.Color(26, 41, 128));
-        jButton9.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Profile");
-        jButton9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton9.setIconTextGap(8);
-        jButton9.setPreferredSize(new java.awt.Dimension(125, 40));
-        profileContainer2.add(jButton9);
-
-        jButton10.setBackground(new java.awt.Color(26, 41, 128));
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
-        jButton10.setPreferredSize(new java.awt.Dimension(40, 40));
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-        profileContainer2.add(jButton10);
-
-        chatButton.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png"))); // NOI18N
-        chatButton.setText("Chat");
-        chatButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton.setIconTextGap(12);
-        chatButton.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        chatButton1.setBackground(new java.awt.Color(26, 41, 128));
-        chatButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton1.setForeground(new java.awt.Color(255, 255, 255));
-        chatButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png"))); // NOI18N
-        chatButton1.setText("Friend");
-        chatButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton1.setIconTextGap(12);
-        chatButton1.setPreferredSize(new java.awt.Dimension(165, 40));
-        chatButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatButton1ActionPerformed(evt);
-            }
-        });
-
-        chatButton2.setBackground(new java.awt.Color(153, 255, 255));
-        chatButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        chatButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_black.png"))); // NOI18N
-        chatButton2.setText("Find Friend");
-        chatButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chatButton2.setIconTextGap(12);
-        chatButton2.setPreferredSize(new java.awt.Dimension(165, 40));
-
-        javax.swing.GroupLayout navBarContainer2Layout = new javax.swing.GroupLayout(navBarContainer2);
-        navBarContainer2.setLayout(navBarContainer2Layout);
-        navBarContainer2Layout.setHorizontalGroup(
-            navBarContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainer2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(navBarContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(profileContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logoContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        navBarContainer2Layout.setVerticalGroup(
-            navBarContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navBarContainer2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(logoContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chatButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(profileContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        container2.add(navBarContainer2, gridBagConstraints);
-
-        navChatContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 1, new java.awt.Color(0, 0, 0)));
-        navChatContainer.setPreferredSize(new java.awt.Dimension(741, 600));
+        setPreferredSize(new java.awt.Dimension(741, 600));
 
         jLabel1.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
         jLabel1.setText("Find Friend");
         jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
 
         searchBarContainer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        searchBarContainer.setPreferredSize(new java.awt.Dimension(724, 40));
         searchBarContainer.setLayout(new java.awt.BorderLayout());
 
         searchInput.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -265,190 +148,16 @@ public class UserFindFriend extends javax.swing.JFrame {
         });
         searchBarContainer.add(searchButton, java.awt.BorderLayout.EAST);
 
-        contentContainer.setPreferredSize(new java.awt.Dimension(726, 700));
-        contentContainer.setLayout(new java.awt.BorderLayout());
+        contentContainer3.setPreferredSize(new java.awt.Dimension(726, 700));
+        contentContainer3.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(726, 472));
+        jScrollPane4.setBorder(null);
+        jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(726, 472));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(686, 688));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        userSearchContainer1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        userAvatar1.setText("Avatar1");
-        userAvatar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel3.setText("User1");
-
-        jButton3.setBackground(new java.awt.Color(26, 41, 128));
-        jButton3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Add friend");
-
-        jButton4.setBackground(new java.awt.Color(26, 41, 128));
-        jButton4.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Create group");
-
-        javax.swing.GroupLayout userSearchContainer1Layout = new javax.swing.GroupLayout(userSearchContainer1);
-        userSearchContainer1.setLayout(userSearchContainer1Layout);
-        userSearchContainer1Layout.setHorizontalGroup(
-            userSearchContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userSearchContainer1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userSearchContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(userSearchContainer1Layout.createSequentialGroup()
-                        .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(userSearchContainer1Layout.createSequentialGroup()
-                        .addGroup(userSearchContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        userSearchContainer1Layout.setVerticalGroup(
-            userSearchContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userSearchContainer1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userSearchContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer1, gridBagConstraints);
-
-        userSearchContainer2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        userAvatar2.setText("Avatar1");
-        userAvatar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar2.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel4.setText("User1");
-
-        jButton11.setBackground(new java.awt.Color(26, 41, 128));
-        jButton11.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("Add friend");
-
-        jButton12.setBackground(new java.awt.Color(26, 41, 128));
-        jButton12.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton12.setForeground(new java.awt.Color(255, 255, 255));
-        jButton12.setText("Create group");
-
-        javax.swing.GroupLayout userSearchContainer2Layout = new javax.swing.GroupLayout(userSearchContainer2);
-        userSearchContainer2.setLayout(userSearchContainer2Layout);
-        userSearchContainer2Layout.setHorizontalGroup(
-            userSearchContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userSearchContainer2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userSearchContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(userSearchContainer2Layout.createSequentialGroup()
-                        .addComponent(userAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(userSearchContainer2Layout.createSequentialGroup()
-                        .addGroup(userSearchContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        userSearchContainer2Layout.setVerticalGroup(
-            userSearchContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userSearchContainer2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userSearchContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer2, gridBagConstraints);
-
-        userSearchContainer3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        userAvatar3.setText("Avatar1");
-        userAvatar3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar3.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel5.setText("User1");
-
-        jButton13.setBackground(new java.awt.Color(26, 41, 128));
-        jButton13.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton13.setForeground(new java.awt.Color(255, 255, 255));
-        jButton13.setText("Add friend");
-
-        jButton14.setBackground(new java.awt.Color(26, 41, 128));
-        jButton14.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton14.setForeground(new java.awt.Color(255, 255, 255));
-        jButton14.setText("Create group");
-
-        javax.swing.GroupLayout userSearchContainer3Layout = new javax.swing.GroupLayout(userSearchContainer3);
-        userSearchContainer3.setLayout(userSearchContainer3Layout);
-        userSearchContainer3Layout.setHorizontalGroup(
-            userSearchContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userSearchContainer3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userSearchContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(userSearchContainer3Layout.createSequentialGroup()
-                        .addComponent(userAvatar3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(userSearchContainer3Layout.createSequentialGroup()
-                        .addGroup(userSearchContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        userSearchContainer3Layout.setVerticalGroup(
-            userSearchContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userSearchContainer3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userSearchContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userAvatar3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer3, gridBagConstraints);
+        jPanel4.setPreferredSize(new java.awt.Dimension(686, 688));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
         userSearchContainer4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -459,15 +168,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel6.setText("User1");
 
-        jButton15.setBackground(new java.awt.Color(26, 41, 128));
-        jButton15.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton15.setForeground(new java.awt.Color(255, 255, 255));
-        jButton15.setText("Add friend");
+        jButton9.setBackground(new java.awt.Color(26, 41, 128));
+        jButton9.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("Add friend");
 
-        jButton16.setBackground(new java.awt.Color(26, 41, 128));
-        jButton16.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton16.setForeground(new java.awt.Color(255, 255, 255));
-        jButton16.setText("Create group");
+        jButton10.setBackground(new java.awt.Color(26, 41, 128));
+        jButton10.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
+        jButton10.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer4Layout = new javax.swing.GroupLayout(userSearchContainer4);
         userSearchContainer4.setLayout(userSearchContainer4Layout);
@@ -482,8 +191,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer4Layout.createSequentialGroup()
                         .addGroup(userSearchContainer4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -495,18 +204,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer4, gridBagConstraints);
+        jPanel4.add(userSearchContainer4, gridBagConstraints);
 
         userSearchContainer5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -517,15 +226,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel7.setText("User1");
 
-        jButton17.setBackground(new java.awt.Color(26, 41, 128));
-        jButton17.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton17.setForeground(new java.awt.Color(255, 255, 255));
-        jButton17.setText("Add friend");
+        jButton11.setBackground(new java.awt.Color(26, 41, 128));
+        jButton11.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton11.setForeground(new java.awt.Color(255, 255, 255));
+        jButton11.setText("Add friend");
 
-        jButton18.setBackground(new java.awt.Color(26, 41, 128));
-        jButton18.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton18.setForeground(new java.awt.Color(255, 255, 255));
-        jButton18.setText("jButton2");
+        jButton12.setBackground(new java.awt.Color(26, 41, 128));
+        jButton12.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton12.setForeground(new java.awt.Color(255, 255, 255));
+        jButton12.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer5Layout = new javax.swing.GroupLayout(userSearchContainer5);
         userSearchContainer5.setLayout(userSearchContainer5Layout);
@@ -540,8 +249,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer5Layout.createSequentialGroup()
                         .addGroup(userSearchContainer5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -553,18 +262,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer5, gridBagConstraints);
+        jPanel4.add(userSearchContainer5, gridBagConstraints);
 
         userSearchContainer6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -575,15 +284,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setText("User1");
 
-        jButton19.setBackground(new java.awt.Color(26, 41, 128));
-        jButton19.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton19.setForeground(new java.awt.Color(255, 255, 255));
-        jButton19.setText("Add friend");
+        jButton13.setBackground(new java.awt.Color(26, 41, 128));
+        jButton13.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton13.setForeground(new java.awt.Color(255, 255, 255));
+        jButton13.setText("Add friend");
 
-        jButton20.setBackground(new java.awt.Color(26, 41, 128));
-        jButton20.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton20.setForeground(new java.awt.Color(255, 255, 255));
-        jButton20.setText("Create group");
+        jButton14.setBackground(new java.awt.Color(26, 41, 128));
+        jButton14.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton14.setForeground(new java.awt.Color(255, 255, 255));
+        jButton14.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer6Layout = new javax.swing.GroupLayout(userSearchContainer6);
         userSearchContainer6.setLayout(userSearchContainer6Layout);
@@ -598,8 +307,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer6Layout.createSequentialGroup()
                         .addGroup(userSearchContainer6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -611,18 +320,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer6, gridBagConstraints);
+        jPanel4.add(userSearchContainer6, gridBagConstraints);
 
         userSearchContainer7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -633,15 +342,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setText("User1");
 
-        jButton21.setBackground(new java.awt.Color(26, 41, 128));
-        jButton21.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton21.setForeground(new java.awt.Color(255, 255, 255));
-        jButton21.setText("Add friend");
+        jButton15.setBackground(new java.awt.Color(26, 41, 128));
+        jButton15.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton15.setForeground(new java.awt.Color(255, 255, 255));
+        jButton15.setText("Add friend");
 
-        jButton22.setBackground(new java.awt.Color(26, 41, 128));
-        jButton22.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton22.setForeground(new java.awt.Color(255, 255, 255));
-        jButton22.setText("Create group");
+        jButton16.setBackground(new java.awt.Color(26, 41, 128));
+        jButton16.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton16.setForeground(new java.awt.Color(255, 255, 255));
+        jButton16.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer7Layout = new javax.swing.GroupLayout(userSearchContainer7);
         userSearchContainer7.setLayout(userSearchContainer7Layout);
@@ -656,8 +365,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer7Layout.createSequentialGroup()
                         .addGroup(userSearchContainer7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -669,18 +378,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer7, gridBagConstraints);
+        jPanel4.add(userSearchContainer7, gridBagConstraints);
 
         userSearchContainer8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -691,15 +400,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel10.setText("User1");
 
-        jButton23.setBackground(new java.awt.Color(26, 41, 128));
-        jButton23.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton23.setForeground(new java.awt.Color(255, 255, 255));
-        jButton23.setText("Add friend");
+        jButton17.setBackground(new java.awt.Color(26, 41, 128));
+        jButton17.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton17.setForeground(new java.awt.Color(255, 255, 255));
+        jButton17.setText("Add friend");
 
-        jButton24.setBackground(new java.awt.Color(26, 41, 128));
-        jButton24.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton24.setForeground(new java.awt.Color(255, 255, 255));
-        jButton24.setText("Create group");
+        jButton18.setBackground(new java.awt.Color(26, 41, 128));
+        jButton18.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton18.setForeground(new java.awt.Color(255, 255, 255));
+        jButton18.setText("jButton2");
 
         javax.swing.GroupLayout userSearchContainer8Layout = new javax.swing.GroupLayout(userSearchContainer8);
         userSearchContainer8.setLayout(userSearchContainer8Layout);
@@ -714,8 +423,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer8Layout.createSequentialGroup()
                         .addGroup(userSearchContainer8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -727,18 +436,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer8, gridBagConstraints);
+        jPanel4.add(userSearchContainer8, gridBagConstraints);
 
         userSearchContainer9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -749,15 +458,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel11.setText("User1");
 
-        jButton25.setBackground(new java.awt.Color(26, 41, 128));
-        jButton25.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton25.setForeground(new java.awt.Color(255, 255, 255));
-        jButton25.setText("Add friend");
+        jButton19.setBackground(new java.awt.Color(26, 41, 128));
+        jButton19.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton19.setForeground(new java.awt.Color(255, 255, 255));
+        jButton19.setText("Add friend");
 
-        jButton26.setBackground(new java.awt.Color(26, 41, 128));
-        jButton26.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton26.setForeground(new java.awt.Color(255, 255, 255));
-        jButton26.setText("Create group");
+        jButton20.setBackground(new java.awt.Color(26, 41, 128));
+        jButton20.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton20.setForeground(new java.awt.Color(255, 255, 255));
+        jButton20.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer9Layout = new javax.swing.GroupLayout(userSearchContainer9);
         userSearchContainer9.setLayout(userSearchContainer9Layout);
@@ -772,8 +481,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer9Layout.createSequentialGroup()
                         .addGroup(userSearchContainer9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -785,18 +494,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer9, gridBagConstraints);
+        jPanel4.add(userSearchContainer9, gridBagConstraints);
 
         userSearchContainer10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -807,15 +516,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel12.setText("User1");
 
-        jButton27.setBackground(new java.awt.Color(26, 41, 128));
-        jButton27.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton27.setForeground(new java.awt.Color(255, 255, 255));
-        jButton27.setText("Add friend");
+        jButton21.setBackground(new java.awt.Color(26, 41, 128));
+        jButton21.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton21.setForeground(new java.awt.Color(255, 255, 255));
+        jButton21.setText("Add friend");
 
-        jButton28.setBackground(new java.awt.Color(26, 41, 128));
-        jButton28.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton28.setForeground(new java.awt.Color(255, 255, 255));
-        jButton28.setText("Create group");
+        jButton22.setBackground(new java.awt.Color(26, 41, 128));
+        jButton22.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton22.setForeground(new java.awt.Color(255, 255, 255));
+        jButton22.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer10Layout = new javax.swing.GroupLayout(userSearchContainer10);
         userSearchContainer10.setLayout(userSearchContainer10Layout);
@@ -830,8 +539,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer10Layout.createSequentialGroup()
                         .addGroup(userSearchContainer10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -843,18 +552,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer10, gridBagConstraints);
+        jPanel4.add(userSearchContainer10, gridBagConstraints);
 
         userSearchContainer11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -865,15 +574,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel13.setText("User1");
 
-        jButton29.setBackground(new java.awt.Color(26, 41, 128));
-        jButton29.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton29.setForeground(new java.awt.Color(255, 255, 255));
-        jButton29.setText("Add friend");
+        jButton23.setBackground(new java.awt.Color(26, 41, 128));
+        jButton23.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton23.setForeground(new java.awt.Color(255, 255, 255));
+        jButton23.setText("Add friend");
 
-        jButton30.setBackground(new java.awt.Color(26, 41, 128));
-        jButton30.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton30.setForeground(new java.awt.Color(255, 255, 255));
-        jButton30.setText("Create group");
+        jButton24.setBackground(new java.awt.Color(26, 41, 128));
+        jButton24.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton24.setForeground(new java.awt.Color(255, 255, 255));
+        jButton24.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer11Layout = new javax.swing.GroupLayout(userSearchContainer11);
         userSearchContainer11.setLayout(userSearchContainer11Layout);
@@ -888,8 +597,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer11Layout.createSequentialGroup()
                         .addGroup(userSearchContainer11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -901,17 +610,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer11, gridBagConstraints);
+        jPanel4.add(userSearchContainer11, gridBagConstraints);
 
         userSearchContainer12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -922,15 +632,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel14.setText("User1");
 
-        jButton31.setBackground(new java.awt.Color(26, 41, 128));
-        jButton31.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton31.setForeground(new java.awt.Color(255, 255, 255));
-        jButton31.setText("Add friend");
+        jButton25.setBackground(new java.awt.Color(26, 41, 128));
+        jButton25.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton25.setForeground(new java.awt.Color(255, 255, 255));
+        jButton25.setText("Add friend");
 
-        jButton32.setBackground(new java.awt.Color(26, 41, 128));
-        jButton32.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton32.setForeground(new java.awt.Color(255, 255, 255));
-        jButton32.setText("Create group");
+        jButton26.setBackground(new java.awt.Color(26, 41, 128));
+        jButton26.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton26.setForeground(new java.awt.Color(255, 255, 255));
+        jButton26.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer12Layout = new javax.swing.GroupLayout(userSearchContainer12);
         userSearchContainer12.setLayout(userSearchContainer12Layout);
@@ -945,8 +655,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer12Layout.createSequentialGroup()
                         .addGroup(userSearchContainer12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton32, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -958,18 +668,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar12, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton32, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer12, gridBagConstraints);
+        jPanel4.add(userSearchContainer12, gridBagConstraints);
 
         userSearchContainer13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -980,15 +690,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel15.setText("User1");
 
-        jButton33.setBackground(new java.awt.Color(26, 41, 128));
-        jButton33.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton33.setForeground(new java.awt.Color(255, 255, 255));
-        jButton33.setText("Add friend");
+        jButton27.setBackground(new java.awt.Color(26, 41, 128));
+        jButton27.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton27.setForeground(new java.awt.Color(255, 255, 255));
+        jButton27.setText("Add friend");
 
-        jButton34.setBackground(new java.awt.Color(26, 41, 128));
-        jButton34.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton34.setForeground(new java.awt.Color(255, 255, 255));
-        jButton34.setText("Create group");
+        jButton28.setBackground(new java.awt.Color(26, 41, 128));
+        jButton28.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton28.setForeground(new java.awt.Color(255, 255, 255));
+        jButton28.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer13Layout = new javax.swing.GroupLayout(userSearchContainer13);
         userSearchContainer13.setLayout(userSearchContainer13Layout);
@@ -1003,8 +713,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer13Layout.createSequentialGroup()
                         .addGroup(userSearchContainer13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1016,18 +726,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar13, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer13, gridBagConstraints);
+        jPanel4.add(userSearchContainer13, gridBagConstraints);
 
         userSearchContainer14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -1038,15 +748,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel16.setText("User1");
 
-        jButton35.setBackground(new java.awt.Color(26, 41, 128));
-        jButton35.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton35.setForeground(new java.awt.Color(255, 255, 255));
-        jButton35.setText("Add friend");
+        jButton29.setBackground(new java.awt.Color(26, 41, 128));
+        jButton29.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton29.setForeground(new java.awt.Color(255, 255, 255));
+        jButton29.setText("Add friend");
 
-        jButton36.setBackground(new java.awt.Color(26, 41, 128));
-        jButton36.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton36.setForeground(new java.awt.Color(255, 255, 255));
-        jButton36.setText("Create group");
+        jButton30.setBackground(new java.awt.Color(26, 41, 128));
+        jButton30.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton30.setForeground(new java.awt.Color(255, 255, 255));
+        jButton30.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer14Layout = new javax.swing.GroupLayout(userSearchContainer14);
         userSearchContainer14.setLayout(userSearchContainer14Layout);
@@ -1061,8 +771,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer14Layout.createSequentialGroup()
                         .addGroup(userSearchContainer14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton35, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1074,18 +784,17 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar14, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton35, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer14, gridBagConstraints);
+        jPanel4.add(userSearchContainer14, gridBagConstraints);
 
         userSearchContainer15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -1096,15 +805,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel17.setText("User1");
 
-        jButton37.setBackground(new java.awt.Color(26, 41, 128));
-        jButton37.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton37.setForeground(new java.awt.Color(255, 255, 255));
-        jButton37.setText("Add friend");
+        jButton31.setBackground(new java.awt.Color(26, 41, 128));
+        jButton31.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton31.setForeground(new java.awt.Color(255, 255, 255));
+        jButton31.setText("Add friend");
 
-        jButton38.setBackground(new java.awt.Color(26, 41, 128));
-        jButton38.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton38.setForeground(new java.awt.Color(255, 255, 255));
-        jButton38.setText("Create group");
+        jButton32.setBackground(new java.awt.Color(26, 41, 128));
+        jButton32.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton32.setForeground(new java.awt.Color(255, 255, 255));
+        jButton32.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer15Layout = new javax.swing.GroupLayout(userSearchContainer15);
         userSearchContainer15.setLayout(userSearchContainer15Layout);
@@ -1119,8 +828,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer15Layout.createSequentialGroup()
                         .addGroup(userSearchContainer15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton38, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton32, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1132,17 +841,18 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar15, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton38, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton32, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer15, gridBagConstraints);
+        jPanel4.add(userSearchContainer15, gridBagConstraints);
 
         userSearchContainer16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -1153,15 +863,15 @@ public class UserFindFriend extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel18.setText("User1");
 
-        jButton39.setBackground(new java.awt.Color(26, 41, 128));
-        jButton39.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton39.setForeground(new java.awt.Color(255, 255, 255));
-        jButton39.setText("Add friend");
+        jButton33.setBackground(new java.awt.Color(26, 41, 128));
+        jButton33.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton33.setForeground(new java.awt.Color(255, 255, 255));
+        jButton33.setText("Add friend");
 
-        jButton40.setBackground(new java.awt.Color(26, 41, 128));
-        jButton40.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton40.setForeground(new java.awt.Color(255, 255, 255));
-        jButton40.setText("Create group");
+        jButton34.setBackground(new java.awt.Color(26, 41, 128));
+        jButton34.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton34.setForeground(new java.awt.Color(255, 255, 255));
+        jButton34.setText("Create group");
 
         javax.swing.GroupLayout userSearchContainer16Layout = new javax.swing.GroupLayout(userSearchContainer16);
         userSearchContainer16.setLayout(userSearchContainer16Layout);
@@ -1176,8 +886,8 @@ public class UserFindFriend extends javax.swing.JFrame {
                         .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(userSearchContainer16Layout.createSequentialGroup()
                         .addGroup(userSearchContainer16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton40, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1189,6 +899,179 @@ public class UserFindFriend extends javax.swing.JFrame {
                     .addComponent(userAvatar16, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel4.add(userSearchContainer16, gridBagConstraints);
+
+        userSearchContainer17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        userAvatar17.setText("Avatar1");
+        userAvatar17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userAvatar17.setPreferredSize(new java.awt.Dimension(54, 54));
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel19.setText("User1");
+
+        jButton35.setBackground(new java.awt.Color(26, 41, 128));
+        jButton35.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton35.setForeground(new java.awt.Color(255, 255, 255));
+        jButton35.setText("Add friend");
+
+        jButton36.setBackground(new java.awt.Color(26, 41, 128));
+        jButton36.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton36.setForeground(new java.awt.Color(255, 255, 255));
+        jButton36.setText("Create group");
+
+        javax.swing.GroupLayout userSearchContainer17Layout = new javax.swing.GroupLayout(userSearchContainer17);
+        userSearchContainer17.setLayout(userSearchContainer17Layout);
+        userSearchContainer17Layout.setHorizontalGroup(
+            userSearchContainer17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userSearchContainer17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userSearchContainer17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userSearchContainer17Layout.createSequentialGroup()
+                        .addComponent(userAvatar17, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(userSearchContainer17Layout.createSequentialGroup()
+                        .addGroup(userSearchContainer17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton35, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        userSearchContainer17Layout.setVerticalGroup(
+            userSearchContainer17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userSearchContainer17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userSearchContainer17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userAvatar17, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton35, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel4.add(userSearchContainer17, gridBagConstraints);
+
+        userSearchContainer18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        userAvatar18.setText("Avatar1");
+        userAvatar18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userAvatar18.setPreferredSize(new java.awt.Dimension(54, 54));
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel20.setText("User1");
+
+        jButton37.setBackground(new java.awt.Color(26, 41, 128));
+        jButton37.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton37.setForeground(new java.awt.Color(255, 255, 255));
+        jButton37.setText("Add friend");
+
+        jButton38.setBackground(new java.awt.Color(26, 41, 128));
+        jButton38.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton38.setForeground(new java.awt.Color(255, 255, 255));
+        jButton38.setText("Create group");
+
+        javax.swing.GroupLayout userSearchContainer18Layout = new javax.swing.GroupLayout(userSearchContainer18);
+        userSearchContainer18.setLayout(userSearchContainer18Layout);
+        userSearchContainer18Layout.setHorizontalGroup(
+            userSearchContainer18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userSearchContainer18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userSearchContainer18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userSearchContainer18Layout.createSequentialGroup()
+                        .addComponent(userAvatar18, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(userSearchContainer18Layout.createSequentialGroup()
+                        .addGroup(userSearchContainer18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton38, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        userSearchContainer18Layout.setVerticalGroup(
+            userSearchContainer18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userSearchContainer18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userSearchContainer18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userAvatar18, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton38, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel4.add(userSearchContainer18, gridBagConstraints);
+
+        userSearchContainer19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        userAvatar19.setText("Avatar1");
+        userAvatar19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userAvatar19.setPreferredSize(new java.awt.Dimension(54, 54));
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel21.setText("User1");
+
+        jButton39.setBackground(new java.awt.Color(26, 41, 128));
+        jButton39.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton39.setForeground(new java.awt.Color(255, 255, 255));
+        jButton39.setText("Add friend");
+
+        jButton40.setBackground(new java.awt.Color(26, 41, 128));
+        jButton40.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton40.setForeground(new java.awt.Color(255, 255, 255));
+        jButton40.setText("Create group");
+
+        javax.swing.GroupLayout userSearchContainer19Layout = new javax.swing.GroupLayout(userSearchContainer19);
+        userSearchContainer19.setLayout(userSearchContainer19Layout);
+        userSearchContainer19Layout.setHorizontalGroup(
+            userSearchContainer19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userSearchContainer19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userSearchContainer19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userSearchContainer19Layout.createSequentialGroup()
+                        .addComponent(userAvatar19, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(userSearchContainer19Layout.createSequentialGroup()
+                        .addGroup(userSearchContainer19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton40, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        userSearchContainer19Layout.setVerticalGroup(
+            userSearchContainer19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userSearchContainer19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userSearchContainer19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userAvatar19, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton40, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1199,58 +1082,38 @@ public class UserFindFriend extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        jPanel1.add(userSearchContainer16, gridBagConstraints);
+        jPanel4.add(userSearchContainer19, gridBagConstraints);
 
-        jScrollPane1.setViewportView(jPanel1);
+        jScrollPane4.setViewportView(jPanel4);
 
-        contentContainer.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        contentContainer3.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout navChatContainerLayout = new javax.swing.GroupLayout(navChatContainer);
-        navChatContainer.setLayout(navChatContainerLayout);
-        navChatContainerLayout.setHorizontalGroup(
-            navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navChatContainerLayout.createSequentialGroup()
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(searchBarContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, navChatContainerLayout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(searchBarContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                    .addComponent(contentContainer3, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(15, 15, 15))
         );
-        navChatContainerLayout.setVerticalGroup(
-            navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navChatContainerLayout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchBarContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                .addComponent(contentContainer3, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        container2.add(navChatContainer, gridBagConstraints);
-
-        getContentPane().add(container2, java.awt.BorderLayout.CENTER);
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void chatButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatButton1ActionPerformed
 
     private void searchInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInputActionPerformed
         // TODO add your handling code here:
@@ -1260,48 +1123,12 @@ public class UserFindFriend extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserFindFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserFindFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserFindFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserFindFriend.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserFindFriend().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton chatButton;
-    private javax.swing.JButton chatButton1;
-    private javax.swing.JButton chatButton2;
-    private javax.swing.JPanel container2;
     private javax.swing.JPanel contentContainer;
+    private javax.swing.JPanel contentContainer1;
+    private javax.swing.JPanel contentContainer2;
+    private javax.swing.JPanel contentContainer3;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -1335,6 +1162,10 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton40;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1346,6 +1177,9 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1354,11 +1188,13 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel logoContainer2;
-    private javax.swing.JPanel navBarContainer2;
-    private javax.swing.JPanel navChatContainer;
-    private javax.swing.JPanel profileContainer2;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel searchBarContainer;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchInput;
@@ -1370,6 +1206,9 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JLabel userAvatar14;
     private javax.swing.JLabel userAvatar15;
     private javax.swing.JLabel userAvatar16;
+    private javax.swing.JLabel userAvatar17;
+    private javax.swing.JLabel userAvatar18;
+    private javax.swing.JLabel userAvatar19;
     private javax.swing.JLabel userAvatar2;
     private javax.swing.JLabel userAvatar3;
     private javax.swing.JLabel userAvatar4;
@@ -1386,6 +1225,9 @@ public class UserFindFriend extends javax.swing.JFrame {
     private javax.swing.JPanel userSearchContainer14;
     private javax.swing.JPanel userSearchContainer15;
     private javax.swing.JPanel userSearchContainer16;
+    private javax.swing.JPanel userSearchContainer17;
+    private javax.swing.JPanel userSearchContainer18;
+    private javax.swing.JPanel userSearchContainer19;
     private javax.swing.JPanel userSearchContainer2;
     private javax.swing.JPanel userSearchContainer3;
     private javax.swing.JPanel userSearchContainer4;
