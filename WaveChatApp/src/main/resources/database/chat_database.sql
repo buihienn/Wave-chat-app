@@ -185,12 +185,12 @@ VALUES ('U001', '2024-11-26 10:00:00');
 INSERT INTO UserOffline (userID, offlineTime, duration)
 VALUES ('U001', '2024-11-26 12:00:00', 120);
 
-INSERT INTO Friends (id, userID1, userID2, status, createdAt)
+INSERT INTO Friends (userID1, userID2, createdAt)
 VALUES 
-(1, 'U001', 'U002', 'Accepted', '2024-11-26'),
-(2, 'U001', 'U003', 'Accepted', '2024-11-26'),
-(3, 'U002', 'U003', 'Accepted', '2024-11-26'),
-(4, 'U003', 'U005', 'Accepted', '2024-11-26');
+('U001', 'U002', '2024-11-26'),
+('U001', 'U003', '2024-11-26'),
+('U002', 'U003', '2024-11-26'),
+('U003', 'U005', '2024-11-26');
 
 
 

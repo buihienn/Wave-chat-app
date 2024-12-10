@@ -3,9 +3,6 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[900, 600]"/>
-    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -150,8 +147,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="dashboardNav" alignment="0" pref="184" max="32767" attributes="0"/>
               <Component id="userNav" alignment="0" max="32767" attributes="0"/>
-              <Component id="groupchatNav" alignment="0" max="32767" attributes="0"/>
               <Component id="loginHistoryNav" alignment="0" max="32767" attributes="0"/>
+              <Component id="groupCharNav" alignment="0" max="32767" attributes="0"/>
               <Component id="spamReportNav" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
@@ -163,9 +160,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="userNav" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="groupchatNav" min="-2" max="-2" attributes="0"/>
+                  <Component id="loginHistoryNav" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="loginHistoryNav" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="groupCharNav" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="spamReportNav" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace pref="257" max="32767" attributes="0"/>
@@ -220,7 +217,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userNavActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="groupchatNav">
+        <Component class="javax.swing.JButton" name="loginHistoryNav">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="29" red="1a" type="rgb"/>
@@ -236,6 +233,9 @@
               <Dimension value="[165, 40]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loginHistoryNavActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="spamReportNav">
           <Properties>
@@ -254,7 +254,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="spamReportNavActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="loginHistoryNav">
+        <Component class="javax.swing.JButton" name="groupCharNav">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="29" red="1a" type="rgb"/>
@@ -267,6 +267,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Group Chat"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="groupCharNavActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
