@@ -56,7 +56,6 @@ public class FriendDAO {
         return friendsList;
     }
 
-
     // Xóa dữ liệu bạn bè trong bảng Friends
     public boolean unfriend(String userID1, String userID2) {
         String query = "DELETE FROM Friends WHERE (userID1 = ? AND userID2 = ?) OR (userID1 = ? AND userID2 = ?)";
@@ -79,6 +78,35 @@ public class FriendDAO {
             return rowsAffected > 0; // Trả về true nếu xóa thành công
         } catch (SQLException e) {
             System.out.println("Error while unfriend: " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static boolean addFriend(String userID, String requesterUserID) {
+        String query = "INSERT INTO Friends (userID1, userID2, createdAt) VALUES (?, ?, ?)";
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, requesterUserID);
+            preparedStatement.setString(2, userID);
+            preparedStatement.setDate(3, new java.sql.Date(System.currentTimeMillis())); // Ngày hiện tại
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0; // Nếu thêm thành công, trả về true
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         } finally {
             try {

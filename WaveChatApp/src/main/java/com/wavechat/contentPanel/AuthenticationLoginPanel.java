@@ -5,6 +5,7 @@ import com.wavechat.bus.UserBUS;
 import com.wavechat.form.AdminHomeMain;
 import com.wavechat.form.AuthenticationMain;
 import com.wavechat.form.UserHomeMain;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 public class AuthenticationLoginPanel extends javax.swing.JPanel {
@@ -164,11 +165,6 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
         emailOrUsernameInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         emailOrUsernameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address or username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         emailOrUsernameInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        emailOrUsernameInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailOrUsernameInputActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -181,9 +177,9 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
         passwordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        passwordInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordInputActionPerformed(evt);
+        passwordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordInputKeyPressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -265,14 +261,6 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
         add(loginPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void emailOrUsernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailOrUsernameInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailOrUsernameInputActionPerformed
-
-    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordInputActionPerformed
-
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         handleLogin();
     }//GEN-LAST:event_loginButtonActionPerformed
@@ -284,6 +272,12 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
     private void forgotPassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPassButtonActionPerformed
         parentFrame.showForgotPassPanel();
     }//GEN-LAST:event_forgotPassButtonActionPerformed
+
+    private void passwordInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordInputKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            handleLogin();
+        }
+    }//GEN-LAST:event_passwordInputKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

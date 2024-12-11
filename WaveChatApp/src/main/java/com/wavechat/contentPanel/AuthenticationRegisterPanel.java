@@ -2,6 +2,7 @@ package com.wavechat.contentPanel;
 
 import com.wavechat.bus.UserBUS;
 import com.wavechat.form.AuthenticationMain;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 public class AuthenticationRegisterPanel extends javax.swing.JPanel {
@@ -138,11 +139,6 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         emailInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         emailInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         emailInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        emailInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailInputActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -155,11 +151,6 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         usernameInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         usernameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         usernameInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        usernameInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameInputActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -171,11 +162,6 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         passwordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        passwordInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordInputActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -189,9 +175,9 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         confirmPasswordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         confirmPasswordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         confirmPasswordInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        confirmPasswordInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirmPasswordInputActionPerformed(evt);
+        confirmPasswordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                confirmPasswordInputKeyPressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -249,22 +235,6 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         add(register, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void emailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailInputActionPerformed
-
-    private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameInputActionPerformed
-
-    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordInputActionPerformed
-
-    private void confirmPasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPasswordInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confirmPasswordInputActionPerformed
-
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         handleRegister();
     }//GEN-LAST:event_registerButtonActionPerformed
@@ -272,6 +242,12 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
     private void navLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navLoginButtonActionPerformed
         parentFrame.showLoginPanel();
     }//GEN-LAST:event_navLoginButtonActionPerformed
+
+    private void confirmPasswordInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_confirmPasswordInputKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            handleRegister();
+        }
+    }//GEN-LAST:event_confirmPasswordInputKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
