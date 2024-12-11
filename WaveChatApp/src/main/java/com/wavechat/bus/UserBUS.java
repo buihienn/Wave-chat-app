@@ -125,7 +125,6 @@ public class UserBUS {
         return isUpdated;
     }
     
-    
     // Random password
     private static SecureRandom random = new SecureRandom();
 
@@ -169,7 +168,7 @@ public class UserBUS {
         return shuffleString(password.toString());
     }
     
-    
+    // Hàm gửi email cho user
     public static void sendPasswordToEmail(String email, String password) {
         // Địa chỉ email người nhận 
         String recipient = email;
@@ -223,4 +222,20 @@ public class UserBUS {
         }
     }
         
+    // Hàm thay đổi mật khẩu cho user
+    public boolean changePassword(String userID, String currentPassword, String newPassword) {
+
+        // Kiểm tra mật khẩu cũ
+        UserDAO userDAO = new UserDAO();
+        String storedHashedPassword = userDAO.getStoredPassword(userID);  // Lấy mật khẩu đã hash từ DB
+
+        if (storedHashedPassword == null || !BCrypt.checkpw(currentPassword, storedHashedPassword)) {
+            return false;  // Mật khẩu cũ không đúng hoặc không tìm thấy 
+        }
+
+        // Mật khẩu mới hợp lệ, hash mật khẩu mới và gọi DAO để cập nhật
+        String hashedNewPassword = hashPassword(newPassword); // Hash mật khẩu mới
+        return userDAO.updatePasswordByID(userID, hashedNewPassword);  // Cập nhật mật khẩu mới vào DB
+    }
+
 }

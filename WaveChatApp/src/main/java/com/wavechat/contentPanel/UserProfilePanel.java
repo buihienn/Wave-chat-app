@@ -3,6 +3,7 @@ package com.wavechat.contentPanel;
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.UserDTO;
+import javax.swing.JOptionPane;
 
 public class UserProfilePanel extends javax.swing.JPanel {
     public UserProfilePanel() {
@@ -156,6 +157,43 @@ public class UserProfilePanel extends javax.swing.JPanel {
         }
     }
 
+    // Hàm thay đổi password
+    private void handleChangePassword() {
+        String currentPassword = oldEditDataLabel.getText();
+        String newPassword = newEditDataLabel.getText();
+        String confirmPassword = confirmEditDataLabel.getText();
+
+        String userID = GlobalVariable.getUserID();
+        // Xử lý gọi BUS để cập nhật mật khẩu
+        UserBUS userBUS = new UserBUS();
+        
+        // Kiểm tra các điều kiện mật khẩu
+        if (newPassword.equals(currentPassword)) {
+            JOptionPane.showMessageDialog(this, "New password cannot be the same as current password.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!userBUS.isPasswordValid(newPassword)) {
+            JOptionPane.showMessageDialog(this, "Password must have at least 8 characters, including 1 uppercase letter, 1 lowercase letter, and 1 number!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!newPassword.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, "New password and confirm password do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        if (userBUS.changePassword(userID, currentPassword, newPassword)) {
+            JOptionPane.showMessageDialog(this, "Password changed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            changePasswordDialog.dispose(); 
+        } else {
+//            System.out.println("userID: " + userID + 
+//                                " currentPassword: " + currentPassword + 
+//                                " newPassword: " + newPassword);
+            JOptionPane.showMessageDialog(this, "There is error when changing password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,6 +219,16 @@ public class UserProfilePanel extends javax.swing.JPanel {
         addressEditDataLabel = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        changePasswordDialog = new javax.swing.JDialog();
+        popupEditProfile1 = new javax.swing.JPanel();
+        oldEditLabel = new javax.swing.JLabel();
+        newEditLabel = new javax.swing.JLabel();
+        oldEditDataLabel = new javax.swing.JTextField();
+        confirmEditLabel = new javax.swing.JLabel();
+        confirmEditDataLabel = new javax.swing.JTextField();
+        confirmButton1 = new javax.swing.JButton();
+        cancelButton1 = new javax.swing.JButton();
+        newEditDataLabel = new javax.swing.JTextField();
         profileLabel = new javax.swing.JLabel();
         userContainer = new javax.swing.JPanel();
         userAvatar = new javax.swing.JLabel();
@@ -361,6 +409,116 @@ public class UserProfilePanel extends javax.swing.JPanel {
 
         editProfileDialog.getContentPane().add(popupEditProfile, java.awt.BorderLayout.CENTER);
 
+        changePasswordDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        changePasswordDialog.setTitle("Wave - Edit Profile");
+        changePasswordDialog.setMinimumSize(new java.awt.Dimension(500, 250));
+        changePasswordDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        changePasswordDialog.setPreferredSize(new java.awt.Dimension(500, 250));
+        changePasswordDialog.setResizable(false);
+        changePasswordDialog.setSize(new java.awt.Dimension(500, 250));
+
+        popupEditProfile1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 250));
+        popupEditProfile1.setPreferredSize(new java.awt.Dimension(500, 250));
+        popupEditProfile1.setRequestFocusEnabled(false);
+
+        oldEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        oldEditLabel.setText("Old password:");
+
+        newEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        newEditLabel.setText("New password:");
+
+        oldEditDataLabel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        oldEditDataLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oldEditDataLabelActionPerformed(evt);
+            }
+        });
+
+        confirmEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        confirmEditLabel.setText("Confirm password:");
+
+        confirmEditDataLabel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        confirmEditDataLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmEditDataLabelActionPerformed(evt);
+            }
+        });
+
+        confirmButton1.setBackground(new java.awt.Color(26, 41, 128));
+        confirmButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        confirmButton1.setForeground(new java.awt.Color(255, 255, 255));
+        confirmButton1.setText("Confirm");
+        confirmButton1.setPreferredSize(new java.awt.Dimension(165, 40));
+        confirmButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmButton1ActionPerformed(evt);
+            }
+        });
+
+        cancelButton1.setBackground(new java.awt.Color(26, 41, 128));
+        cancelButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        cancelButton1.setForeground(new java.awt.Color(255, 255, 255));
+        cancelButton1.setText("Cancel");
+        cancelButton1.setPreferredSize(new java.awt.Dimension(165, 40));
+        cancelButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButton1ActionPerformed(evt);
+            }
+        });
+
+        newEditDataLabel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        newEditDataLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newEditDataLabelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout popupEditProfile1Layout = new javax.swing.GroupLayout(popupEditProfile1);
+        popupEditProfile1.setLayout(popupEditProfile1Layout);
+        popupEditProfile1Layout.setHorizontalGroup(
+            popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(popupEditProfile1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(confirmEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(newEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(oldEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(confirmButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(oldEditDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                        .addComponent(newEditDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                        .addComponent(confirmEditDataLabel))
+                    .addComponent(cancelButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
+        popupEditProfile1Layout.setVerticalGroup(
+            popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(popupEditProfile1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(oldEditLabel)
+                    .addComponent(oldEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newEditLabel)
+                    .addComponent(newEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmEditLabel)
+                    .addComponent(confirmEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
+
+        changePasswordDialog.getContentPane().add(popupEditProfile1, java.awt.BorderLayout.CENTER);
+
         profileLabel.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
         profileLabel.setText("Profile");
         profileLabel.setPreferredSize(new java.awt.Dimension(214, 32));
@@ -422,6 +580,11 @@ public class UserProfilePanel extends javax.swing.JPanel {
         changePasswordButton.setForeground(new java.awt.Color(255, 255, 255));
         changePasswordButton.setText("Change password");
         changePasswordButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        changePasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePasswordButtonActionPerformed(evt);
+            }
+        });
 
         jSeparator.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -605,6 +768,31 @@ public class UserProfilePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_preferRadioButtonActionPerformed
 
+    private void oldEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oldEditDataLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oldEditDataLabelActionPerformed
+
+    private void confirmEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmEditDataLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmEditDataLabelActionPerformed
+
+    private void confirmButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButton1ActionPerformed
+        handleChangePassword();
+    }//GEN-LAST:event_confirmButton1ActionPerformed
+
+    private void cancelButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButton1ActionPerformed
+        changePasswordDialog.dispose();
+    }//GEN-LAST:event_cancelButton1ActionPerformed
+
+    private void newEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newEditDataLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newEditDataLabelActionPerformed
+
+    private void changePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordButtonActionPerformed
+        changePasswordDialog.setLocationRelativeTo(this);
+        changePasswordDialog.setVisible(true);
+    }//GEN-LAST:event_changePasswordButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IDLabel;
@@ -617,9 +805,14 @@ public class UserProfilePanel extends javax.swing.JPanel {
     private javax.swing.JLabel birthEditLabel;
     private javax.swing.JLabel birthLabel;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JButton cancelButton1;
     private javax.swing.JButton changeAvatarButton;
     private javax.swing.JButton changePasswordButton;
+    private javax.swing.JDialog changePasswordDialog;
     private javax.swing.JButton confirmButton;
+    private javax.swing.JButton confirmButton1;
+    private javax.swing.JTextField confirmEditDataLabel;
+    private javax.swing.JLabel confirmEditLabel;
     private javax.swing.JButton editProfileButton;
     private javax.swing.JDialog editProfileDialog;
     private javax.swing.JLabel emailDataLabel;
@@ -634,7 +827,12 @@ public class UserProfilePanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator;
     private javax.swing.JButton logoutButton;
     private javax.swing.JRadioButton maleRadioButton;
+    private javax.swing.JTextField newEditDataLabel;
+    private javax.swing.JLabel newEditLabel;
+    private javax.swing.JTextField oldEditDataLabel;
+    private javax.swing.JLabel oldEditLabel;
     private javax.swing.JPanel popupEditProfile;
+    private javax.swing.JPanel popupEditProfile1;
     private javax.swing.JRadioButton preferRadioButton;
     private javax.swing.JLabel profileLabel;
     private javax.swing.JLabel statusLabel;

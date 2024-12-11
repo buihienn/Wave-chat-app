@@ -174,6 +174,14 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -196,6 +204,14 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -284,6 +300,14 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false; // Lỗi truy vấn SQL
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -311,6 +335,14 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false; 
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -337,12 +369,21 @@ public class UserDAO {
             }
         } catch (Exception e) {
             e.printStackTrace(); // In ra lỗi nếu có
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         
         return fullName; // Trả về fullName, nếu không tìm thấy trả về null
     }
     
     // ---------------PASSWORD---------------
+    // Hàm update password
     public boolean updatePassword(String email, String hashedPassword) {
         String query = "UPDATE User SET passWord = ? WHERE email = ?";
         
@@ -361,7 +402,77 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+    
+    // Hàm truy vấn password
+    public String getStoredPassword(String userID) {
+        String query = "SELECT passWord FROM User WHERE userID = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return null;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, userID);  
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("passWord");  // Lấy mật khẩu đã hash từ DB
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean updatePasswordByID(String userID, String hashedNewPassword) {
+        String query = "UPDATE User SET passWord = ? WHERE userID = ?";
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, hashedNewPassword);
+            preparedStatement.setString(2, userID);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;  // Nếu cập nhật thành công, trả về true
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }
