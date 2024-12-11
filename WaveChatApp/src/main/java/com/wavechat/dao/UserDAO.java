@@ -286,8 +286,7 @@ public class UserDAO {
             return false; // Lỗi truy vấn SQL
         }
     }
-
-
+    
     // Hàm kiểm tra và trả về vai trò của người dùng dưới dạng boolean
     public boolean getUserRole(String emailOrUsername) {
         String query = "SELECT isAdmin FROM User WHERE email = ? OR username = ?";
@@ -342,4 +341,27 @@ public class UserDAO {
         
         return fullName; // Trả về fullName, nếu không tìm thấy trả về null
     }
+    
+    // ---------------PASSWORD---------------
+    public boolean updatePassword(String email, String hashedPassword) {
+        String query = "UPDATE User SET passWord = ? WHERE email = ?";
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, hashedPassword);
+            preparedStatement.setString(2, email);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;  
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

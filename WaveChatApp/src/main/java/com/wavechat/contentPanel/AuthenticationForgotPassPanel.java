@@ -1,6 +1,8 @@
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.UserBUS;
 import com.wavechat.form.AuthenticationMain;
+import javax.swing.JOptionPane;
 
 public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
 
@@ -33,7 +35,7 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         login = new javax.swing.JLabel();
         forgotpassButton1 = new javax.swing.JPanel();
         jTextArea1 = new javax.swing.JTextArea();
-        username = new javax.swing.JTextField();
+        emailInput = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
         forgotpassButton = new javax.swing.JPanel();
 
@@ -92,13 +94,13 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         forgotPassContainer.add(forgotpassButton1, gridBagConstraints);
 
-        username.setBackground(new java.awt.Color(246, 246, 246));
-        username.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        username.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        username.setPreferredSize(new java.awt.Dimension(294, 35));
-        username.addActionListener(new java.awt.event.ActionListener() {
+        emailInput.setBackground(new java.awt.Color(246, 246, 246));
+        emailInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        emailInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
+        emailInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        emailInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
+                emailInputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -107,7 +109,7 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        forgotPassContainer.add(username, gridBagConstraints);
+        forgotPassContainer.add(emailInput, gridBagConstraints);
 
         loginButton.setBackground(new java.awt.Color(26, 41, 128));
         loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -164,12 +166,20 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         add(forgotpass, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void emailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
+    }//GEN-LAST:event_emailInputActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        String email = emailInput.getText();
+        UserBUS userBUS = new UserBUS();
+        if(userBUS.resetPassword(email)) {
+            // Reset thành công
+            parentFrame.showThankYouPanel();
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "There is error when reset password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -179,6 +189,7 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JTextField emailInput;
     private java.awt.Panel forgotPassContainer;
     private java.awt.Panel forgotpass;
     private javax.swing.JPanel forgotpassButton;
@@ -187,6 +198,5 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
     private javax.swing.JLabel login;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
