@@ -13,6 +13,7 @@ public class DBconnector {
     private String dbName = "CHATAPPLICATION"; // Tên cơ sở dữ liệu
     private String user = "root";             // Tên người dùng MySQL
     private String password = "123456";       // Mật khẩu của người dùng
+//    private String password = "147456369";
 
     // Phương thức để lấy kết nối
     public Connection getConnection() {
@@ -35,5 +36,15 @@ public class DBconnector {
             conn = null;
         }
         return conn;
+    }
+    public static void main (String [] args) {
+        DBconnector dbconnection = new DBconnector();
+        Connection conn = dbconnection.getConnection();
+        if (conn != null) {
+            System.out.println("Successfull.");
+        } 
+        else {
+            System.out.println("Failed");
+        }
     }
 }

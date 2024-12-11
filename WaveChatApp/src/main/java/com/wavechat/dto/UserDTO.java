@@ -13,6 +13,7 @@ public class UserDTO {
     private Date createdDate;
     private boolean status;
     private boolean onlineStatus;
+    private int totalFriend;
 
     // Constructor
     public UserDTO(String userID, String userName, String fullName, String address, Date birthDay, String gender, String email) {
@@ -23,6 +24,23 @@ public class UserDTO {
         this.birthDay = birthDay;
         this.gender = gender;
         this.email = email;
+    }
+    
+    public UserDTO(String userID, String userName, String passWord, String fullName, String address,
+                   Date birthDay, String gender, String email, Date createdDate,
+                   boolean status, boolean onlineStatus, int totalFriend) {
+        this.userID = userID;
+        this.userName = userName;
+        this.password = passWord;
+        this.fullName = fullName;
+        this.address = address;
+        this.birthDay = birthDay;
+        this.gender = gender;
+        this.email = email;
+        this.createdDate = createdDate;
+        this.status = status;
+        this.onlineStatus = onlineStatus;
+        this.totalFriend = totalFriend;
     }
     
     // Constructor chỉ cho các trường cần cập nhật
@@ -67,4 +85,7 @@ public class UserDTO {
 
     public boolean isOnlineStatus() { return onlineStatus; }
     public void setOnlineStatus(boolean onlineStatus) { this.onlineStatus = onlineStatus; }
+    
+    public int getTotalFriend() {return totalFriend;}
+    public void setTotalFriend(int totalFriend) {this.totalFriend = totalFriend;}
 }
