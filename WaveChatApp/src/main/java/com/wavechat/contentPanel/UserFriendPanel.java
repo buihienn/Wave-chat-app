@@ -1,5 +1,6 @@
 package com.wavechat.contentPanel;
 
+import com.wavechat.GlobalVariable;
 import com.wavechat.bus.BlockBUS;
 import com.wavechat.bus.FriendBUS;
 import com.wavechat.component.ButtonEditor;
@@ -180,7 +181,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
     private void filterFriends(String searchQuery, String userID) {
         // Lấy danh sách bạn bè từ database hoặc từ một danh sách có sẵn
         FriendBUS friendBUS = new FriendBUS();
-        List<FriendDTO> allFriends = friendBUS.getFriends(userID); // Ví dụ, lấy danh sách bạn bè của người dùng với userID "U001"
+        List<FriendDTO> allFriends = friendBUS.getFriends(userID); 
 
         List<FriendDTO> filteredFriends = new ArrayList<>();
 
@@ -530,7 +531,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
     private void allButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allButtonActionPerformed
         changeModeButton("All");
 
-        String userID = "U001";
+        String userID = GlobalVariable.getUserID();
         FriendBUS friendBUS = new FriendBUS();
         List<FriendDTO> friendsList = friendBUS.getFriends(userID); // Lọc danh sách bạn bè
         addFriendData(allTable, friendsList, userID); // Gọi hàm addFriendData với danh sách đã lọc
@@ -566,14 +567,14 @@ public class UserFriendPanel extends javax.swing.JPanel {
     private void allSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_allSearchKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String searchQuery = allSearch.getText().toLowerCase(); // Lấy nội dung từ JTextField và chuyển thành chữ thường
-            String userID = "U001";
+            String userID = GlobalVariable.getUserID();
             filterFriends(searchQuery, userID); // Gọi hàm lọc bạn bè
         }
     }//GEN-LAST:event_allSearchKeyPressed
 
     private void searchAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAllButtonActionPerformed
         String searchQuery = allSearch.getText().toLowerCase(); // Lấy nội dung từ JTextField và chuyển thành chữ thường
-        String userID = "U001";
+        String userID = GlobalVariable.getUserID();
         filterFriends(searchQuery, userID); // Gọi hàm lọc bạn bè
     }//GEN-LAST:event_searchAllButtonActionPerformed
 

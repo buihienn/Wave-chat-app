@@ -1,21 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.wavechat.contentPanel;
 
+import com.wavechat.GlobalVariable;
 import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.UserDTO;
 
-/**
- *
- * @author LENOVO
- */
 public class UserProfilePanel extends javax.swing.JPanel {
     public UserProfilePanel() {
         initComponents();
         
-        updateProfile("U001");
+        updateProfile();
+    }
+    
+    // Phương thức để mở phần edit profile
+    public void openEditProfileDialog() {
+        String fullname = fullnameDataLabel.getText();
+        String gender = genderDataLabel.getText();
+        String birth = birthDataLabel.getText();
+        String address = addressDataLabel.getText();
+
+        setDataOfEditProfileDialog(fullname, gender, birth, address);
+
+        editProfileDialog.setLocationRelativeTo(this);
+        editProfileDialog.setVisible(true);
     }
     
     // Để lấy data từ form bỏ vào dialog
@@ -71,7 +77,7 @@ public class UserProfilePanel extends javax.swing.JPanel {
     
     private void editUser() {
         // Lấy thông tin từ dialog
-        String userIDData = userIDDataLabel.getText(); 
+        String userIDData = GlobalVariable.getUserID();
         String fullNameData = fullnameEditDataLabel.getText(); 
         String birthData = birthEditDataLabel.getText(); 
         String addressData = addressEditDataLabel.getText(); 
@@ -106,7 +112,7 @@ public class UserProfilePanel extends javax.swing.JPanel {
                 System.out.println("User updated successfully!");
 
                 // Cập nhật hiển thị profile sau khi update user thành công
-                updateProfile("U001");
+                updateProfile();
             } else {
                 System.out.println("Failed to update user.");
             }
@@ -115,7 +121,9 @@ public class UserProfilePanel extends javax.swing.JPanel {
         }
     }
 
-    private void updateProfile(String userID) {
+    private void updateProfile() {
+        String userID = GlobalVariable.getUserID();
+        userIDDataLabel.setText(userID);
         // Khởi tạo đối tượng userBUS
         UserBUS bus = new UserBUS();
 
@@ -195,6 +203,8 @@ public class UserProfilePanel extends javax.swing.JPanel {
         IDLabel = new javax.swing.JLabel();
         userIDDataLabel = new javax.swing.JLabel();
 
+        editProfileDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        editProfileDialog.setTitle("Wave - Edit Profile");
         editProfileDialog.setMinimumSize(new java.awt.Dimension(731, 320));
         editProfileDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         editProfileDialog.setResizable(false);
@@ -206,11 +216,19 @@ public class UserProfilePanel extends javax.swing.JPanel {
         genderEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         genderEditLabel.setText("Gender:");
 
+        genderChoose.add(maleRadioButton);
         maleRadioButton.setText("Male");
 
+        genderChoose.add(femaleRadioButton);
         femaleRadioButton.setText("Female");
 
+        genderChoose.add(preferRadioButton);
         preferRadioButton.setText("Prefer not to say");
+        preferRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preferRadioButtonActionPerformed(evt);
+            }
+        });
 
         fullnameEditDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         fullnameEditDataLabel.addActionListener(new java.awt.event.ActionListener() {
@@ -347,7 +365,7 @@ public class UserProfilePanel extends javax.swing.JPanel {
         profileLabel.setText("Profile");
         profileLabel.setPreferredSize(new java.awt.Dimension(214, 32));
 
-        userContainer.setPreferredSize(new java.awt.Dimension(214, 66));
+        userContainer.setPreferredSize(new java.awt.Dimension(714, 364));
 
         userAvatar.setText("Avatar1");
         userAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -421,7 +439,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
         IDLabel.setText("ID:");
 
         userIDDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        userIDDataLabel.setText("U001");
         userIDDataLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout userContainerLayout = new javax.swing.GroupLayout(userContainer);
@@ -530,7 +547,7 @@ public class UserProfilePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -539,7 +556,7 @@ public class UserProfilePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(172, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -553,17 +570,8 @@ public class UserProfilePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_editProfileButtonMouseClicked
 
     private void editProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileButtonActionPerformed
-        // TODO add your handling code here:
-        // Lấy dữ liệu từ các JLabel trong JFrame
-        String fullname = fullnameDataLabel.getText();
-        String gender = genderDataLabel.getText();
-        String birth = birthDataLabel.getText();
-        String address = addressDataLabel.getText();
-
-        setDataOfEditProfileDialog(fullname, gender, birth, address);
-
-        editProfileDialog.setLocationRelativeTo(this);
-        editProfileDialog.setVisible(true); // Hiển thị dialog
+        // Mở dialog editprofile
+        openEditProfileDialog();
     }//GEN-LAST:event_editProfileButtonActionPerformed
 
     private void fullnameEditDataLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullnameEditDataLabelActionPerformed
@@ -579,11 +587,9 @@ public class UserProfilePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addressEditDataLabelActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        // TODO add your handling code here:
         if (!checkLogicEdit()) {
             return; // Nếu có lỗi, không tiếp tục
         }
-
         // Thực hiện cập nhật thông tin người dùng
         editUser();
 
@@ -594,6 +600,10 @@ public class UserProfilePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         editProfileDialog.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void preferRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preferRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_preferRadioButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -96,6 +96,13 @@ public class UserBUS {
         UserDAO userDAO = new UserDAO();
         return userDAO.validateUser(emailOrUsername, password);  
     }
+    
+    // Lấy full name của user
+    public String getFullNameByID(String userID) {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getFullNameByID(userID);
+    }
+
 
     
     
