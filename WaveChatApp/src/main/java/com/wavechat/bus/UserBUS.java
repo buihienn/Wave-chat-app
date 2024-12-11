@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.*;
 
 
 public class UserBUS {
@@ -16,6 +17,11 @@ public class UserBUS {
 
     public UserBUS() {
         this.userDAO = new UserDAO();
+    }
+    
+    // Ham getALl
+    public List<UserDTO> getAll(){
+        return userDAO.getAll();
     }
 
     // Hàm cập nhật thông tin người dùng

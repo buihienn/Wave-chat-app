@@ -4,7 +4,10 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.UserBUS;
+import com.wavechat.dto.UserDTO;
 import java.awt.Font;
+import java.util.*;
 
 /**
  *
@@ -195,6 +198,11 @@ public class AdminUserPanel extends javax.swing.JPanel {
         
         allUser.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18)); 
         allUser.setText("<html><u>All Users</u></html>");
+        
+        UserBUS userBUS = new UserBUS();
+        List<UserDTO> userDTOs = userBUS.getAll();
+        
+        allUserPanel.updateUserTable(userDTOs);
     }//GEN-LAST:event_allUserMouseClicked
 
     private void newRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newRegisterMouseClicked

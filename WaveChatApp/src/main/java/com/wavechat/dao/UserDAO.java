@@ -4,8 +4,54 @@ import java.sql.*;
 import com.wavechat.dto.UserDTO;
 import com.wavechat.GlobalVariable;
 import org.mindrot.jbcrypt.BCrypt;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Date;
 
 public class UserDAO {
+    
+    // Hàm getAll()
+    public List<UserDTO> getAll(){
+        List<UserDTO> list = new ArrayList<>();
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
+        
+        if (conn == null){
+            return list;
+        }
+        
+        String query = "SELECT * FROM User";
+        
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)){
+            while(rs.next()){
+                String userID = rs.getString("userID");
+                String userName = rs.getString("userName");
+                String passWord = rs.getString("passWord");
+                String fullName = rs.getString("fullName");
+                String address = rs.getString("address");
+                Date birthDay = rs.getDate("birthDay");
+                String gender = rs.getString("gender");
+                String email = rs.getString("email");
+                Date createdDate = rs.getDate("createdDate");
+                boolean status = rs.getBoolean("status");
+                boolean onlineStatus = rs.getBoolean("onlineStatus");
+                int totalFriend = rs.getInt("totalFriend");
+                
+               UserDTO user = new UserDTO(userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, totalFriend);
+               list.add(user);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close(); // Đóng kết nối khi hoàn thành
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return list;
+    }
     
     // Hàm update thông tin user
     public boolean updateUser(UserDTO user) {
