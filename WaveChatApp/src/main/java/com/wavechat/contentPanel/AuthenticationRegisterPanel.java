@@ -40,12 +40,12 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         }
 
         if (!userBUS.isPasswordValid(password)) {
-            JOptionPane.showMessageDialog(this, "The password must have at least 8 characters, including 1 uppercase letter, 1 lowercase letter, and 1 number!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Password must have at least 8 characters, including 1 uppercase letter, 1 lowercase letter, and 1 number!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (!confirmPassword.equals(password)) {
-            JOptionPane.showMessageDialog(this, "Confirm password does not match.!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Password and confirm password do not match.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
