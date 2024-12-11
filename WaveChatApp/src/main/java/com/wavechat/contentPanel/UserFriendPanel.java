@@ -456,7 +456,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
                     String userName = (String) curTable.getValueAt(row, 1); // Lấy username của dòng được chọn
                     String friendUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
 
-                    JOptionPane.showMessageDialog(this, "Choosing: " + friendUserID + " " + userName + " table" + curTable, "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Choosing: " + friendUserID + " " + userName, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -469,7 +469,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
                     String userName = (String) curTable.getValueAt(row, 1); // Lấy username của dòng được chọn
                     String friendUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
 
-                    JOptionPane.showMessageDialog(this, "Choosing: " + friendUserID + " " + userName + " table" + curTable, "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Choosing: " + friendUserID + " " + userName, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
