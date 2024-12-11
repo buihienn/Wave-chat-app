@@ -1,12 +1,11 @@
 package com.wavechat.contentPanel;
 
+import com.wavechat.GlobalVariable;
 import com.wavechat.bus.UserBUS;
 import com.wavechat.form.AdminHomeMain;
 import com.wavechat.form.AuthenticationMain;
 import com.wavechat.form.UserHomeMain;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 public class AuthenticationLoginPanel extends javax.swing.JPanel {
 
@@ -33,6 +32,13 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
             if (userBUS.isEmailExist(emailOrUsername)) {
                 // Kiểm tra password
                 if (userBUS.validateUser(emailOrUsername, password)) {
+                    // Kiểm tra cập nhật thông tin nếu đăng nhập lần đầu
+                    String userID = GlobalVariable.getUserID();
+                    if (userBUS.getFullNameByID(userID) == null || userBUS.getFullNameByID(userID).isEmpty()) {
+                        UserProfilePanel panel = new UserProfilePanel();
+                        panel.openEditProfileDialog();
+                    }
+                    
                     boolean isAdmin = userBUS.isAdmin(emailOrUsername);
                     if (isAdmin) {
                         // Chuyển tới trang Admin
@@ -56,11 +62,18 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Wrong login information.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } 
-        else  {
+        else {
             // Nếu là username, kiểm tra trong db
             if (userBUS.isUserNameExist(emailOrUsername)) {
                 // Kiểm tra password
                 if (userBUS.validateUser(emailOrUsername, password)) {
+                    // Kiểm tra cập nhật thông tin nếu đăng nhập lần đầu
+                    String userID = GlobalVariable.getUserID();
+                    if (userBUS.getFullNameByID(userID) == null || userBUS.getFullNameByID(userID).isEmpty()) {
+                        UserProfilePanel panel = new UserProfilePanel();
+                        panel.openEditProfileDialog();
+                    }
+                    
                     boolean isAdmin = userBUS.isAdmin(emailOrUsername);
                     if (isAdmin) {
                         // Chuyển tới trang Admin

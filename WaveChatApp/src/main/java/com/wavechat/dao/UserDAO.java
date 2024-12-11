@@ -314,4 +314,32 @@ public class UserDAO {
             return false; 
         }
     }
+
+    // Hàm lấy fullname từ ID
+    public String getFullNameByID(String userID) {
+        String fullName = null;
+        String query = "SELECT fullName FROM User WHERE userID = ?"; // Câu truy vấn SQL
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return null;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Gán giá trị userID vào câu truy vấn
+            preparedStatement.setString(1, userID);
+            
+            // Thực thi câu truy vấn
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                fullName = resultSet.getString("fullName"); // Lấy giá trị fullName từ ResultSet
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra lỗi nếu có
+        }
+        
+        return fullName; // Trả về fullName, nếu không tìm thấy trả về null
+    }
 }
