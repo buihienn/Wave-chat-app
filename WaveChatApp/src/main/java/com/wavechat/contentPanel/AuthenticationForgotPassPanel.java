@@ -2,6 +2,7 @@ package com.wavechat.contentPanel;
 
 import com.wavechat.bus.UserBUS;
 import com.wavechat.form.AuthenticationMain;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
@@ -36,7 +37,7 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         forgotpassButton1 = new javax.swing.JPanel();
         jTextArea1 = new javax.swing.JTextArea();
         emailInput = new javax.swing.JTextField();
-        loginButton = new javax.swing.JButton();
+        resetPasswordButton = new javax.swing.JButton();
         forgotpassButton = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(500, 600));
@@ -111,14 +112,19 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         forgotPassContainer.add(emailInput, gridBagConstraints);
 
-        loginButton.setBackground(new java.awt.Color(26, 41, 128));
-        loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
-        loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setLabel("Send email");
-        loginButton.setPreferredSize(new java.awt.Dimension(294, 35));
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
+        resetPasswordButton.setBackground(new java.awt.Color(26, 41, 128));
+        resetPasswordButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
+        resetPasswordButton.setForeground(new java.awt.Color(255, 255, 255));
+        resetPasswordButton.setLabel("Send email");
+        resetPasswordButton.setPreferredSize(new java.awt.Dimension(294, 35));
+        resetPasswordButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
+                resetPasswordButtonActionPerformed(evt);
+            }
+        });
+        resetPasswordButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                resetPasswordButtonKeyPressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -127,7 +133,7 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 35, 0);
-        forgotPassContainer.add(loginButton, gridBagConstraints);
+        forgotPassContainer.add(resetPasswordButton, gridBagConstraints);
 
         forgotpassButton.setBackground(new java.awt.Color(246, 246, 246));
         forgotpassButton.setPreferredSize(new java.awt.Dimension(200, 22));
@@ -170,7 +176,7 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_emailInputActionPerformed
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+    private void resetPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPasswordButtonActionPerformed
         String email = emailInput.getText();
         UserBUS userBUS = new UserBUS();
         if(userBUS.resetPassword(email)) {
@@ -180,11 +186,25 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
         else {
             JOptionPane.showMessageDialog(this, "There is error when reset password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_loginButtonActionPerformed
+    }//GEN-LAST:event_resetPasswordButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         parentFrame.showLoginPanel();
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void resetPasswordButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resetPasswordButtonKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String email = emailInput.getText();
+            UserBUS userBUS = new UserBUS();
+            if(userBUS.resetPassword(email)) {
+                // Reset thành công
+                parentFrame.showThankYouPanel();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "There is error when reset password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_resetPasswordButtonKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -196,7 +216,7 @@ public class AuthenticationForgotPassPanel extends javax.swing.JPanel {
     private javax.swing.JPanel forgotpassButton1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel login;
-    private javax.swing.JButton loginButton;
     private javax.swing.JLabel logo;
+    private javax.swing.JButton resetPasswordButton;
     // End of variables declaration//GEN-END:variables
 }
