@@ -164,43 +164,174 @@ public class UserDAO {
         return null; // Trả về null nếu không tìm thấy
     }
 
+    
+    // --------------DELETE -------------------
+    
+    // Ham deleteFriendRequests - use for Delete User
+    private void deleteFriendRequests(Connection conn, String userID) throws SQLException {
+        String query = "DELETE FROM Friend_requests WHERE requester_userID = ? OR requested_userID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID);
+            pstmt.setString(2, userID);
+            pstmt.executeUpdate();
+        }
+    }
+    
+    // delete Friends for delete user
+    private void deleteFriends(Connection conn, String userID) throws SQLException {
+        String query = "DELETE FROM Friends WHERE userID1 = ? OR userID2 = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID);
+            pstmt.setString(2, userID);
+            pstmt.executeUpdate();
+        }
+    }
+    
+    // .....
+    private void deleteLoginHistory(Connection conn, String userID) throws SQLException {
+        String query = "DELETE FROM LoginHistory WHERE userID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID);
+            pstmt.executeUpdate();
+        }
+    }
+    
+    // Delete chat
+    private void deleteChats(Connection conn, String userID) throws SQLException {
+        String query = "DELETE FROM Chat WHERE senderID = ? OR receiverID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID);
+            pstmt.setString(2, userID);
+            pstmt.executeUpdate();
+        }
+    }
+    
+    //
+    private void deleteGroupMemberships(Connection conn, String userID) throws SQLException {
+        String query = "DELETE FROM GroupMembers WHERE userID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID);
+            pstmt.executeUpdate();
+        }
+    }
+    
+    //
+    private void deleteSpamReports(Connection conn, String userID) throws SQLException {
+        String query = "DELETE FROM SpamReport WHERE reporterID = ? OR reportedUserId = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID);
+            pstmt.setString(2, userID);
+            pstmt.executeUpdate();
+        }
+    }
+    
+    //
+    private void deleteBlocks(Connection conn, String userID) throws SQLException {
+        String query = "DELETE FROM Blocks WHERE userID = ? OR blocked_userID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID);
+            pstmt.setString(2, userID);
+            pstmt.executeUpdate();
+        }
+    }
+    //
+    
+//    private void updateFriendCount(Connection conn, String userID) throws SQLException {
+//        String query = "UPDATE User SET totalFriend = (SELECT COUNT(*) FROM Friends WHERE userID1 = ? OR userID2 = ?) WHERE userID = ?";
+//        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+//            pstmt.setString(1, userID);
+//            pstmt.setString(2, userID);
+//            pstmt.setString(3, userID);
+//            pstmt.executeUpdate();
+//        }
+//    }
+    
+    // Hàm Delete User
+    public boolean deleteUser(String userID) {
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
+
+        if (conn == null) {
+            return false; // Kết nối thất bại
+        }
+
+        try {
+            conn.setAutoCommit(false); // Bắt đầu transaction
+
+            // Xóa các liên kết liên quan
+            deleteFriendRequests(conn, userID);
+            deleteFriends(conn, userID);
+            deleteBlocks(conn, userID);
+            deleteGroupMemberships(conn, userID);
+            deleteChats(conn, userID);
+            deleteSpamReports(conn, userID);
+            deleteLoginHistory(conn, userID);
+            
+            // Cuối cùng, xóa user
+            String deleteUserQuery = "DELETE FROM User WHERE userID = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteUserQuery)) {
+                pstmt.setString(1, userID);
+                pstmt.executeUpdate();
+            }
+
+            conn.commit(); // Commit transaction
+            return true;
+
+        } catch (SQLException ex) {
+            try {
+                conn.rollback(); // Rollback nếu có lỗi
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            ex.printStackTrace();
+            return false;
+
+        } finally {
+            try {
+                conn.setAutoCommit(true); // Trả lại chế độ auto-commit
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     // ---------------REGISTER---------------
     // Hàm tạo userID
     public String generateUserID() {
-    String query = "SELECT MAX(CAST(SUBSTRING(userID, 2, LENGTH(userID)-1) AS UNSIGNED)) FROM User";
+        String query = "SELECT MAX(CAST(SUBSTRING(userID, 2, LENGTH(userID)-1) AS UNSIGNED)) FROM User";
 
-    // Tạo đối tượng DBconnector và kết nối
-    DBconnector dbConnector = new DBconnector();
-    Connection connection = dbConnector.getConnection();
-    if (connection == null) {
-        return null;
-    }
-
-    try (Statement statement = connection.createStatement()) {
-        ResultSet resultSet = statement.executeQuery(query);
-
-        if (resultSet.next()) {
-            int maxID = resultSet.getInt(1);
-            // Tạo userID mới dựa trên giá trị maxID
-            maxID++;
-            // Đảm bảo định dạng userID là Uxxx (3 chữ số)
-            return "U" + String.format("%03d", maxID); 
+        // Tạo đối tượng DBconnector và kết nối
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            return null;
         }
-    } catch (SQLException e) {
-        System.out.println("Error generating userID: " + e.getMessage());
-    } finally {
-        try {
-            if (connection != null) {
-                connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+                int maxID = resultSet.getInt(1);
+                // Tạo userID mới dựa trên giá trị maxID
+                maxID++;
+                // Đảm bảo định dạng userID là Uxxx (3 chữ số)
+                return "U" + String.format("%03d", maxID); 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error generating userID: " + e.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-    }
 
-    return null;  // Trả về null nếu không lấy được giá trị
-}
+        return null;  // Trả về null nếu không lấy được giá trị
+    }
 
     // Hàm kiểm tra xem username có tồn tại trong db
     public boolean checkUserNameExist(String userName) {
@@ -299,6 +430,47 @@ public class UserDAO {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    
+    // Hàm insertUser - BH 
+    public boolean insertUser(String userName, String password, String fullName, String email) {
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
+
+        if (conn == null) {
+            System.out.println("Connection failed!");
+            return false;
+        }
+
+    
+        String sql = "INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, totalFriend) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        System.out.println(password);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, generateUserID());
+            pstmt.setString(2, userName);
+            pstmt.setString(3, password); 
+            pstmt.setString(4, fullName);
+            pstmt.setString(5, "");
+            pstmt.setDate(6, new java.sql.Date(new java.util.Date().getTime()));
+            pstmt.setString(7, ""); 
+            pstmt.setString(8, email); 
+            pstmt.setDate(9, new java.sql.Date(new java.util.Date().getTime())); 
+            pstmt.setBoolean(10, true); 
+            pstmt.setBoolean(11, false); 
+            pstmt.setInt(12, 0); 
+
+            // Thực thi lệnh SQL
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("A new user was added successfully!");
+            }
+            return rowsInserted > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     

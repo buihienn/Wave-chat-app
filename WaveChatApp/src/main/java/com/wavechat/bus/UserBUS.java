@@ -243,5 +243,39 @@ public class UserBUS {
         String hashedNewPassword = hashPassword(newPassword); // Hash mật khẩu mới
         return userDAO.updatePasswordByID(userID, hashedNewPassword);  // Cập nhật mật khẩu mới vào DB
     }
+    
+    // Admin insert new user
+    public boolean insertUser(String userName, String fullname, String email){
+        // Kiểm tra tính hợp lệ của dữ liệu đầu vào
+        if (isUserNameExist(userName)) {
+            System.out.println("Username already exists.");
+            return false;
+        }
+        if (!isEmailValid(email)) {
+            System.out.println("Invalid email format.");
+            return false;
+        }
+        if (isEmailExist(email)) {
+            System.out.println("Email already exists.");
+            return false;
+        }
+
+        // Sinh mật khẩu ngẫu nhiên
+        String rawPassword = generateNewPassword();
+        // Hash mật khẩu
+        String hashedPassword = hashPassword(rawPassword);
+        
+        boolean isInserted = userDAO.insertUser(userName, hashedPassword, fullname, email);
+
+        if (isInserted) {
+            // Gửi mật khẩu qua email
+            sendPasswordToEmail(email, rawPassword);
+            System.out.println("User added successfully!");
+            return true;
+        } else {
+            System.out.println("Failed to add user.");
+            return false;
+        }
+    }
 
 }

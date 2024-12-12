@@ -12,8 +12,8 @@ public class DBconnector {
     private int portNumber = 3306;            // Cổng kết nối đến MySQL
     private String dbName = "CHATAPPLICATION"; // Tên cơ sở dữ liệu
     private String user = "root";             // Tên người dùng MySQL
-    private String password = "123456";       // Mật khẩu của người dùng
-//    private String password = "147456369";
+//    private String password = "123456";       // Mật khẩu của người dùng
+    private String password = "147456369";
 
     // Phương thức để lấy kết nối
     public Connection getConnection() {
