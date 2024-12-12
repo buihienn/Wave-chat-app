@@ -4,9 +4,16 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.UserBUS;
+import com.wavechat.dao.DBconnector;
 import com.wavechat.dto.UserDTO;
+import com.wavechat.form.AdminAllUserAddUserForm;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -24,7 +31,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     public AdminUserPanel_AllUser() {
         initComponents();  
         
-        tableModel = new DefaultTableModel(new Object[]{"Username", "Name", "Address", "BirthDay", "Gender", "Email", "OnlineStatus"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"Username", "Name", "Address", "BirthDay", "Gender", "Email", "OnlineStatus", "Day Created"}, 0);
         userInformation.setModel(tableModel);
     }
     
@@ -40,7 +47,8 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
                 user.getBirthDay() != null ? user.getBirthDay().toString() : "",
                 user.getGender(),         
                 user.getEmail(),
-                user.isOnlineStatus() ? "Online" : "Offline"
+                user.isOnlineStatus() ? "Online" : "Offline",
+                user.getCreatedDate()
             });
         }
     }
@@ -83,6 +91,9 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        functionAddUser = new javax.swing.JMenuItem();
+        Delete = new javax.swing.JMenuItem();
         functionContainer = new javax.swing.JPanel();
         delete = new javax.swing.JButton();
         add = new javax.swing.JButton();
@@ -93,6 +104,12 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         userInformation = new javax.swing.JTable();
 
+        functionAddUser.setText("Add");
+        jPopupMenu1.add(functionAddUser);
+
+        Delete.setText("jMenuItem2");
+        jPopupMenu1.add(Delete);
+
         delete.setText("Delete");
         delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,6 +118,11 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         });
 
         add.setText("Add");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
 
         filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,7 +182,13 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         );
 
         userInformation.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        userInformation.setComponentPopupMenu(jPopupMenu1);
         userInformation.setShowGrid(false);
+        userInformation.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userInformationMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(userInformation);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -187,16 +215,16 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
 
     private void filterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterKeyPressed
         // TODO add your handling code here:
-        DefaultTableModel dtm = (DefaultTableModel) userInformation.getModel();
-        final TableRowSorter<TableModel> sorter = new TableRowSorter<> (dtm);
-        userInformation.setRowSorter(sorter);
-        
-        String txt = filter.getText();
-        if (txt.length() == 0){
-            sorter.setRowFilter(null);
-        } else{
-            sorter.setRowFilter(RowFilter.regexFilter(txt, 0, 1)); // 0 laf Username - 1 la 
-        }
+//        DefaultTableModel dtm = (DefaultTableModel) userInformation.getModel();
+//        final TableRowSorter<TableModel> sorter = new TableRowSorter<> (dtm);
+//        userInformation.setRowSorter(sorter);
+//        
+//        String txt = filter.getText();
+//        if (txt.length() == 0){
+//            sorter.setRowFilter(null);
+//        } else{
+//            sorter.setRowFilter(RowFilter.regexFilter(txt, 0, 1)); // 0 laf Username - 1 la 
+//        }
     }//GEN-LAST:event_filterKeyPressed
 
     private void filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterActionPerformed
@@ -212,17 +240,59 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         // TODO add your handling code here:
         applyFilter();
     }//GEN-LAST:event_onlineStatusActionPerformed
+
+    private void userInformationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userInformationMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userInformationMouseClicked
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        // TODO add your handling code here:
+        AdminAllUserAddUserForm addUserForm = new AdminAllUserAddUserForm();
+        addUserForm.setVisible(true);
+        addUserForm.pack();
+        addUserForm.setLocationRelativeTo(null);
+        addUserForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_addActionPerformed
    
+    public static void addNewUser (Object [] data) {
+        
+        // Giả sử username là phần tử thứ 0 và email là phần tử thứ 7 trong mảng data
+        String username = (String) data[0];  // userName
+        String fullname = (String) data[1];
+        String email = (String) data[5];     // email
+        // Sử dụng phương thức trong UserBUS để kiểm tra sự tồn tại của username và email
+        UserBUS userBUS = new UserBUS();
+        if (userBUS.isUserNameExist(username)) {
+            System.out.println("Username already exists.");
+            return; // Nếu username đã tồn tại, dừng lại
+        }
+
+        if (userBUS.isEmailExist(email)) {
+            System.out.println("Email already exists.");
+            return; // Nếu email đã tồn tại, dừng lại
+        }
+        
+        if (userBUS.insertUser(username, fullname,email)){
+            DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
+            model.addRow(data);
+        }else {
+            System.out.println("Error when addUSer");
+        }
+        
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Delete;
     private javax.swing.JButton add;
     private javax.swing.JButton delete;
     private javax.swing.JTextField filter;
+    private javax.swing.JMenuItem functionAddUser;
     private javax.swing.JPanel functionContainer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> onlineStatus;
-    private javax.swing.JTable userInformation;
+    private static javax.swing.JTable userInformation;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,13 +10,13 @@ USE CHATAPPLICATION;
 
 CREATE TABLE User (
 	userID CHAR(5),
-    userName VARCHAR(50),
-    passWord VARCHAR(50),
+    userName VARCHAR(50) UNIQUE,
+    passWord VARCHAR(100),
     fullName NVARCHAR(50),
     address NVARCHAR(50),
-    birthDay DATE,
+    birthDay DATE NULL,
     gender VARCHAR(6),
-    email VARCHAR (50),
+    email VARCHAR (100) UNIQUE,
     createdDate DATE,
     status BOOL,
     onlineStatus BOOL,
@@ -167,12 +167,14 @@ ADD CONSTRAINT FK_AdminApp_User FOREIGN KEY (userID) REFERENCES User(userID);
 
 INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, totalFriend)
 VALUES 
-('U001', 'buihien', '123', 'B H', '123 Main St', '1990-01-01', 'male', 'bh@example.com', '2024-11-26', TRUE, TRUE, 2),
-('U002', 'phuvinh', '123456', 'P Vinh', '456 Elm St', '1992-02-02', 'male', 'pv@example.com', '2024-11-26', TRUE, FALSE, 2),
-('U003', 'someone', '123222', 'S one', '456 Elm St', '1992-02-02', 'male', 'pv@example.com', '2024-11-26', TRUE, TRUE, 2),
-('U004', 'another', '123', 'Ano ther', '456 Elm St', '1992-02-02', 'female', 'pv@example.com', '2024-11-26', TRUE, FALSE, 0),
-('U005', 'other', '123', 'Mor than', '456 Elm St', '1992-02-02', 'female', 'pv@example.com', '2024-11-26', TRUE, FALSE, 1),
-('U006', 'others', '123', 'Other s', '456 Elm St', '1992-02-02', 'male', 'pv@example.com', '2024-11-26', TRUE, FALSE, 0);
+('U001', 'buihien', '123', 'B H', '123 Main St', '1990-01-01', 'male', 'bh1@example.com', '2024-11-26', TRUE, TRUE, 2),
+('U002', 'phuvinh', '123456', 'P Vinh', '456 Elm St', '1992-02-02', 'male', 'pv2@example.com', '2024-11-26', TRUE, FALSE, 2),
+('U003', 'someone', '123222', 'S one', '456 Elm St', '1992-02-02', 'male', 'pv3@example.com', '2024-11-26', TRUE, TRUE, 2),
+('U004', 'another', '123', 'Ano ther', '456 Elm St', '1992-02-02', 'female', 'pv4@example.com', '2024-11-26', TRUE, FALSE, 0),
+('U005', 'other', '123', 'Mor than', '456 Elm St', '1992-02-02', 'female', 'pv5@example.com', '2024-11-26', TRUE, FALSE, 1),
+('U006', 'others', '123', 'Other s', '456 Elm St', NULL, 'male', 'pv6@example.com', '2024-11-26', TRUE, FALSE, 0),
+('U007', 'Admin1', '123', 'Admintest', '456 Elm St', '1992-02-02', 'male', 'pv9@example.com', '2024-10-20', TRUE, FALSE, 0);
+
 
 
 INSERT INTO AdminApp (userID)
@@ -189,10 +191,8 @@ INSERT INTO Friends (userID1, userID2, createdAt)
 VALUES 
 ('U001', 'U002', '2024-11-26'),
 ('U001', 'U003', '2024-11-26'),
-('U002', 'U003', '2024-11-26'),
+('U002', 'U003', '2024-11-26'),  
 ('U003', 'U005', '2024-11-26');
-
-
 
 
 INSERT INTO LoginHistory (id, userID, loginTime)
