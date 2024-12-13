@@ -1,22 +1,61 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.wavechat.component;
 
-/**
- *
- * @author LENOVO
- */
-public class ChatFooter extends javax.swing.JPanel {
+import com.wavechat.GlobalVariable;
+import com.wavechat.bus.ChatMessageBUS;
 
-    /**
-     * Creates new form ChatFooter
-     */
+public class ChatFooter extends javax.swing.JPanel {
+    private String receiver;    
+    private int groupID;
+    private String mode;
+    
     public ChatFooter() {
         initComponents();
     }
+    
+    public void setReceiver(String receiver) { this.receiver = receiver; }    
+    public void setGroupID(int groupID) { this.groupID = groupID; }
+    public void setMode(String mode) { this.mode = mode; }
+    
+    private void handleChat(String receiverID) {
+        String messageText = inputTextArea.getText().trim();  // Lấy tin nhắn người dùng nhập vào
+        if (messageText.isEmpty()) {
+            return;  // Nếu tin nhắn rỗng thì không làm gì cả
+        }
 
+        String senderID = GlobalVariable.getUserID();  // Lấy ID của người gửi (user hiện tại)
+
+        // Gọi phương thức để lưu tin nhắn vào cơ sở dữ liệu
+        ChatMessageBUS messageBUS = new ChatMessageBUS();
+        boolean success = messageBUS.addMessage(senderID, receiverID, messageText);
+
+        if (success) {
+            System.out.println("Message sent successfully!");
+            inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
+        } else {
+            System.out.println("Failed to send message.");
+        }
+    }
+
+    private void handleGroupChat(int groupID) {
+        String messageText = inputTextArea.getText().trim();  // Lấy tin nhắn người dùng nhập vào
+        if (messageText.isEmpty()) {
+            return;  // Nếu tin nhắn rỗng thì không làm gì cả
+        }
+
+        String senderID = GlobalVariable.getUserID();  // Lấy ID của người gửi (user hiện tại)
+
+        // Gọi phương thức gửi tin nhắn vào nhóm
+        ChatMessageBUS messageBUS = new ChatMessageBUS();
+        boolean success = messageBUS.addMessageGroup(senderID, groupID, messageText);
+        
+        if (success) {
+            System.out.println("Group message sent successfully!");
+            inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
+        } else {
+            System.out.println("Failed to send group message.");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,6 +70,7 @@ public class ChatFooter extends javax.swing.JPanel {
         inputTextArea = new javax.swing.JTextArea();
         sendButton = new javax.swing.JButton();
 
+        setMaximumSize(new java.awt.Dimension(2147483647, 60));
         setMinimumSize(new java.awt.Dimension(500, 60));
         setPreferredSize(new java.awt.Dimension(500, 60));
         setLayout(new java.awt.GridBagLayout());
@@ -83,7 +123,12 @@ public class ChatFooter extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        // TODO add your handling code here:
+        if (mode == "user") {
+            handleChat(receiver);
+        }
+        else if (mode == "group") {
+            handleGroupChat(groupID);
+        }
     }//GEN-LAST:event_sendButtonActionPerformed
 
 

@@ -8,6 +8,12 @@ public class LeftMessage extends javax.swing.JLayeredPane {
     
     public void setLeftMessage(String msg) {
         message.setMessage(msg);
+        message.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    }
+    
+    public void setUsername(String username) {
+        message.setMessage(username);
+        message.setBackground(new java.awt.Color(242, 242, 242));
     }
 
     /**
@@ -24,7 +30,7 @@ public class LeftMessage extends javax.swing.JLayeredPane {
         setBackground(new java.awt.Color(153, 255, 153));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
-        message.setBackground(new java.awt.Color(204, 255, 204));
+        message.setBackground(new java.awt.Color(204, 255, 255));
         add(message);
     }// </editor-fold>//GEN-END:initComponents
 

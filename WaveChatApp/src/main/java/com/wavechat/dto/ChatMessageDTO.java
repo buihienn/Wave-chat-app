@@ -1,6 +1,7 @@
 package com.wavechat.dto;
 
 import java.sql.Timestamp;
+import java.util.*;
 
 public class ChatMessageDTO {
     private int chatID;
@@ -66,4 +67,5 @@ public class ChatMessageDTO {
     public void setRead(boolean read) {
         isRead = read;
     }
+    
 }

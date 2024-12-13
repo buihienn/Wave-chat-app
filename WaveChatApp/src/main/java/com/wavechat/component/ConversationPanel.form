@@ -79,13 +79,16 @@
     <Component class="javax.swing.JLabel" name="nameLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="16" style="0"/>
+          <Font name="Segoe UI" size="16" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Group1"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="onlineLabel">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="2"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Online"/>
       </Properties>
     </Component>

@@ -8,6 +8,7 @@ public class RightMessage extends javax.swing.JLayeredPane {
     
     public void setRightMessage(String msg) {
         message.setMessage(msg);
+        message.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
     /**
@@ -23,6 +24,8 @@ public class RightMessage extends javax.swing.JLayeredPane {
 
         setBackground(new java.awt.Color(102, 204, 255));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+
+        message.setBackground(new java.awt.Color(204, 204, 204));
         add(message);
     }// </editor-fold>//GEN-END:initComponents
 

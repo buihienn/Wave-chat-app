@@ -5,6 +5,14 @@ public class ChatHeader extends javax.swing.JPanel {
     public ChatHeader() {
         initComponents();
     }
+    
+    public void setInfor(String name, boolean isOnline) {
+        nameLabel.setText(name);
+        if (isOnline) {
+            onlineLabel.setText("Online");
+        }
+        else { onlineLabel.setText("Offline"); }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -24,6 +32,8 @@ public class ChatHeader extends javax.swing.JPanel {
         searchButton = new javax.swing.JButton();
         moreButton = new javax.swing.JButton();
 
+        setMaximumSize(new java.awt.Dimension(2147483647, 73));
+        setMinimumSize(new java.awt.Dimension(500, 73));
         setPreferredSize(new java.awt.Dimension(500, 73));
         setLayout(new java.awt.GridBagLayout());
 
@@ -33,9 +43,10 @@ public class ChatHeader extends javax.swing.JPanel {
         userAvatar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
 
-        nameLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         nameLabel.setText("User1");
 
+        onlineLabel.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         onlineLabel.setText("Online");
 
         javax.swing.GroupLayout leftContainerLayout = new javax.swing.GroupLayout(leftContainer);
@@ -48,8 +59,8 @@ public class ChatHeader extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(leftContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(onlineLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         leftContainerLayout.setVerticalGroup(
             leftContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -63,19 +74,11 @@ public class ChatHeader extends javax.swing.JPanel {
                 .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 34;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        add(leftContainer, gridBagConstraints);
+        add(leftContainer, new java.awt.GridBagConstraints());
 
         rightContainer.setMinimumSize(new java.awt.Dimension(0, 0));
         rightContainer.setPreferredSize(new java.awt.Dimension(294, 32));
-        rightContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 6, 0));
+        rightContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING, 5, 0));
 
         searchButton.setBackground(new java.awt.Color(26, 41, 128));
         searchButton.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N

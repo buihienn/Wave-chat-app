@@ -9,6 +9,14 @@ public class ChatBody extends javax.swing.JPanel {
         body.setLayout(new MigLayout("fillx"));
     }
     
+    public void addUsername(String text) {
+        LeftMessage msg = new LeftMessage();
+        msg.setUsername(text);
+        body.add(msg, "wrap, w ::80%");
+        body.repaint();
+        body.revalidate();
+    }
+    
     public void addLeft(String text) {
         LeftMessage msg = new LeftMessage();
         msg.setLeftMessage(text);
@@ -23,6 +31,10 @@ public class ChatBody extends javax.swing.JPanel {
         body.add(msg, "wrap, al right, w ::80%");
         body.repaint();
         body.revalidate();
+    }
+    
+    public void removeChat() {
+        body.removeAll();
     }
 
     /**

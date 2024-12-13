@@ -50,9 +50,10 @@ public class ConversationPanel extends javax.swing.JPanel {
         userAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         userAvatar.setPreferredSize(new java.awt.Dimension(54, 54));
 
-        nameLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         nameLabel.setText("Group1");
 
+        onlineLabel.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         onlineLabel.setText("Online");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

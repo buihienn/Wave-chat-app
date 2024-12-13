@@ -39,7 +39,7 @@ public class Message extends javax.swing.JLayeredPane {
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
-        message.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        message.setBorder(null);
         message.setMinimumSize(new java.awt.Dimension(0, 0));
         add(message);
     }// </editor-fold>//GEN-END:initComponents

@@ -1,14 +1,18 @@
 package com.wavechat.contentPanel;
 
 import com.wavechat.GlobalVariable;
+import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.bus.FriendBUS;
 import com.wavechat.bus.GroupChatBUS;
+import com.wavechat.bus.UserBUS;
 import com.wavechat.component.ChatBody;
 import com.wavechat.component.ChatFooter;
 import com.wavechat.component.ChatHeader;
 import com.wavechat.component.ConversationPanel;
+import com.wavechat.dto.ChatMessageDTO;
 import com.wavechat.dto.FriendDTO;
 import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
 import java.util.List;
 
 public class UserHomePanel extends javax.swing.JPanel {
@@ -31,6 +35,8 @@ public class UserHomePanel extends javax.swing.JPanel {
             addConversationListener(conversation, friend);
         }
         
+        openConversation(friendsList.get(0));
+        
         GroupChatBUS groupChatBUS = new GroupChatBUS();
         List<GroupChatDTO> groupChats = groupChatBUS.getGroupChats(userID);
         
@@ -39,7 +45,6 @@ public class UserHomePanel extends javax.swing.JPanel {
             ConversationPanel conversation = new ConversationPanel(groupChat);
             conversationContainer.add(conversation);
             addConversationListenerGroupChat(conversation, groupChat);
-            System.out.println(" addd group " + groupChat.getGroupName());
         }
         
         chatContainer.add(header);
@@ -52,8 +57,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                System.out.println("user " + friend.getFullName());
-//                openConversation(friend);  // Gọi hàm openConversation với thông tin của bạn bè
+                openConversation(friend);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
     }
@@ -62,11 +66,97 @@ public class UserHomePanel extends javax.swing.JPanel {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                System.out.println("group " + groupChat.getGroupName());
-//                openConversation(groupChat);  // Gọi hàm openConversation với thông tin của bạn bè
+                openConversationForGroupChat(groupChat);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
     }
+    
+    public void openConversation(FriendDTO friend) {     
+        String curUserID = GlobalVariable.getUserID();
+        String friendID = friend.getUserID();
+        
+        body.removeChat();
+        header.setInfor(friend.getFullName(), friend.isOnlineStatus());
+        footer.setMode("user");        
+        footer.setReceiver(friendID);
+
+        // Lấy tất cả tin nhắn giữa người dùng và bạn
+        ChatMessageBUS messageBUS = new ChatMessageBUS();
+        List<ChatMessageDTO> messages = messageBUS.getMessagesBetweenUsers(curUserID, friendID);
+
+        // Sắp xếp các tin nhắn theo thời gian
+        messages = messageBUS.sortMessages(messages);
+
+        // Hiển thị tin nhắn
+        String lastSenderID = null;
+        for (ChatMessageDTO message : messages) {
+            // Kiểm tra nếu người gửi khác với tin nhắn trước đó, hiển thị tên người gửi
+            if (lastSenderID == null || !lastSenderID.equals(message.getSenderID())) {
+                // Hiển thị tên người gửi nếu khác với tin nhắn trước đó
+                if (!message.getSenderID().equals(curUserID)) {
+                    body.addUsername(messageBUS.getFullnameSender(message.getSenderID())); // Tên bạn bè
+                }
+            }
+
+            // Hiển thị tin nhắn
+            if (message.getSenderID().equals(curUserID)) {
+                body.addRight(message.getMessage()); // Tin nhắn của người dùng
+            } else {
+                body.addLeft(message.getMessage()); // Tin nhắn của bạn bè
+            }
+
+            // Cập nhật người gửi cuối cùng
+            lastSenderID = message.getSenderID();
+        }
+
+        // Hiển thị panel lên giao diện
+        body.repaint();
+        body.revalidate();
+    }
+
+    
+    public void openConversationForGroupChat(GroupChatDTO groupChat) {
+        String curUserID = GlobalVariable.getUserID();
+        
+        body.removeChat();
+        header.setInfor(groupChat.getGroupName(), groupChat.isOnlineStatus());
+        footer.setMode("group");        
+        footer.setGroupID(groupChat.getGroupID());
+        
+        ChatMessageBUS messageBUS = new ChatMessageBUS();
+        List<ChatMessageDTO> messages = messageBUS.getMessagesInGroup(groupChat.getGroupID());
+
+        // Sắp xếp các tin nhắn theo thời gian
+        messages = messageBUS.sortMessages(messages);
+
+
+        // Hiển thị tin nhắn
+        String lastSenderID = null;
+        for (ChatMessageDTO message : messages) {
+            // Kiểm tra nếu người gửi khác với tin nhắn trước đó, hiển thị tên người gửi
+            if (lastSenderID == null || !lastSenderID.equals(message.getSenderID())) {
+                if (!message.getSenderID().equals(curUserID)) {
+                    body.addUsername(messageBUS.getFullnameSender(message.getSenderID()));
+                }
+            }
+
+            // Hiển thị tin nhắn (tin nhắn của người dùng hoặc người trong nhóm)
+            if (message.getSenderID().equals(curUserID)) {
+                body.addRight(message.getMessage()); // Tin nhắn của người dùng
+            } else {
+                body.addLeft(message.getMessage()); // Tin nhắn của người trong nhóm
+            }
+
+            // Cập nhật người gửi cuối cùng
+            lastSenderID = message.getSenderID();
+        }
+
+        // Cập nhật giao diện (revalidate và repaint)
+        body.revalidate();
+        body.repaint();
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,7 +183,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         navChatContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         navChatContainer.setPreferredSize(new java.awt.Dimension(240, 600));
 
-        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Montserrat", 1, 28)); // NOI18N
         jLabel1.setText("Chat");
         jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
 
