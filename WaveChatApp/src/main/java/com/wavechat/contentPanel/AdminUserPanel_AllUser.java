@@ -293,6 +293,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         if (selectedRow == -1){
             JOptionPane.showMessageDialog(this, "Please select a row to update.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
         String username = model.getValueAt(selectedRow, 0).toString();
         String name = model.getValueAt(selectedRow, 1).toString();
         String address = model.getValueAt(selectedRow, 2).toString();
