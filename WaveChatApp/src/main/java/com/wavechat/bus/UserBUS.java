@@ -43,7 +43,6 @@ public class UserBUS {
     // Kiểm tra tên người dùng có hợp lệ không
     public boolean isUserNameExist(String userName) {
         // Kiểm tra trùng lặp tên người dùng trong cơ sở dữ liệu
-        UserDAO userDAO = new UserDAO();
         return userDAO.checkUserNameExist(userName);  // Phương thức kiểm tra tồn tại của tên người dùng
     }
 
@@ -58,7 +57,6 @@ public class UserBUS {
     
     // Kiểm tra email có tồn tại trong cơ sở dữ liệu không
     public boolean isEmailExist(String email) {
-        UserDAO userDAO = new UserDAO();
         return userDAO.checkEmailExist(email);  // Phương thức kiểm tra tồn tại của email trong cơ sở dữ liệu
     }
 
@@ -73,13 +71,6 @@ public class UserBUS {
 
     // Hàm thêm người dùng mới vào cơ sở dữ liệu
     public boolean addNewUser(String userName, String email, String password) {
-        // Tạo userID mới
-        UserDAO userDAO = new UserDAO();
-        String userID = userDAO.generateUserID();
-        if (userID == null) {
-            return false; // Nếu không thể tạo userID thì trả về false
-        }
-
         // Mã hóa mật khẩu trước khi thêm
         String hashedPassword = hashPassword(password);
         if (hashedPassword == null) {
@@ -92,7 +83,6 @@ public class UserBUS {
     
     // ---------------LOGIN---------------  
     public boolean isAdmin(String emailOrUsername) {
-        UserDAO userDAO = new UserDAO();
         return userDAO.getUserRole(emailOrUsername);  // Trả về true nếu là admin, false nếu là user
     }
     
@@ -104,20 +94,17 @@ public class UserBUS {
     
     // Hàm check login
     public boolean validateUser(String emailOrUsername, String password) {
-        UserDAO userDAO = new UserDAO();
         return userDAO.validateUser(emailOrUsername, password);  
     }
     
     // Lấy full name của user
     public String getFullNameByID(String userID) {
-        UserDAO userDAO = new UserDAO();
         return userDAO.getFullNameByID(userID);
     }
     
     // ---------------PASSWORD---------------
     public boolean resetPassword(String email) {
         // Gọi phương thức trong DAO để kiểm tra email
-        UserDAO userDAO = new UserDAO();
         String newPassword = generateNewPassword();  // Tạo mật khẩu mới
         String hashedPassword = hashPassword(newPassword);  // Hash mật khẩu mới
 
@@ -232,7 +219,6 @@ public class UserBUS {
     public boolean changePassword(String userID, String currentPassword, String newPassword) {
 
         // Kiểm tra mật khẩu cũ
-        UserDAO userDAO = new UserDAO();
         String storedHashedPassword = userDAO.getStoredPassword(userID);  // Lấy mật khẩu đã hash từ DB
 
         if (storedHashedPassword == null || !BCrypt.checkpw(currentPassword, storedHashedPassword)) {
