@@ -6,6 +6,7 @@ import com.wavechat.dao.*;
 import com.wavechat.dto.*;
 import com.wavechat.component.ButtonEditor;
 import com.wavechat.component.ButtonRenderer;
+import java.awt.Component;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
@@ -20,10 +21,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
         contentContainer.add(allCard);          
         contentContainer.add(requestCard);  
         contentContainer.add(onlineCard);           
-        
-        allCard.setVisible(true);        
-        requestCard.setVisible(false);
-        onlineCard.setVisible(false);
         
         // Lấy userID
         String userID = GlobalVariable.getUserID();
@@ -41,8 +38,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         // Add data vào bảng danh sách bạn bè online
         addOnlineFriendData(onlineTable, friendsList, userID); // Gọi hàm addOnlineFriendData với danh sách đã lọc
         
-        addPopupMenuListeners(onlineTable);
-        addPopupMenuListeners(allTable);
+        // Bật mode all
+        changeModeButton("All");
     }
     
     // Đổi mode
@@ -58,6 +55,9 @@ public class UserFriendPanel extends javax.swing.JPanel {
             allCard.setVisible(true);        
             requestCard.setVisible(false);
             onlineCard.setVisible(false);
+            
+            removePopupMenuItemListeners();
+            addPopupMenuListeners(allTable);
         }
         else if (mode == "Request") {
             allButton.setBackground(new java.awt.Color(26, 41, 128));
@@ -82,6 +82,9 @@ public class UserFriendPanel extends javax.swing.JPanel {
             allCard.setVisible(false);        
             requestCard.setVisible(false);
             onlineCard.setVisible(true);
+            
+            removePopupMenuItemListeners();
+            addPopupMenuListeners(onlineTable);
         }
     }
     
@@ -488,6 +491,27 @@ public class UserFriendPanel extends javax.swing.JPanel {
         friendPopupMenu.show(e.getComponent(), e.getX(), e.getY()); // Hiển thị menu pop-up
     }
     
+    private void removePopupMenuItemListeners() {
+        for (Component comp : friendPopupMenu.getComponents()) {
+            if (comp instanceof JMenuItem) {
+                JMenuItem menuItem = (JMenuItem) comp;
+
+//                // Loại bỏ tất cả MouseListener
+//                MouseListener[] mouseListeners = menuItem.getMouseListeners();
+//                for (MouseListener listener : mouseListeners) {
+//                    menuItem.removeMouseListener(listener);
+//                }
+
+                // Loại bỏ tất cả ActionListener (nếu có)
+                ActionListener[] actionListeners = menuItem.getActionListeners();
+                for (ActionListener listener : actionListeners) {
+                    menuItem.removeActionListener(listener);
+                }
+            }
+        }
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -594,19 +618,23 @@ public class UserFriendPanel extends javax.swing.JPanel {
         onlineCard.setLayout(onlineCardLayout);
         onlineCardLayout.setHorizontalGroup(
             onlineCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
             .addGroup(onlineCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(onlineCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(onlineCardLayout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE))
+                .addContainerGap())
         );
         onlineCardLayout.setVerticalGroup(
             onlineCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, onlineCardLayout.createSequentialGroup()
+            .addGroup(onlineCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         allTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -675,19 +703,23 @@ public class UserFriendPanel extends javax.swing.JPanel {
         allCard.setLayout(allCardLayout);
         allCardLayout.setHorizontalGroup(
             allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
             .addGroup(allCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(allCardLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE))
+                .addContainerGap())
         );
         allCardLayout.setVerticalGroup(
             allCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, allCardLayout.createSequentialGroup()
+            .addGroup(allCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         requestTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -752,17 +784,21 @@ public class UserFriendPanel extends javax.swing.JPanel {
             requestCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(requestCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                .addGroup(requestCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                    .addGroup(requestCardLayout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         requestCardLayout.setVerticalGroup(
             requestCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(requestCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         chatMenuItem.setText("Chat");
@@ -773,6 +809,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(741, 600));
 
+        contentContainer.setBackground(new java.awt.Color(255, 255, 255));
         contentContainer.setLayout(new java.awt.CardLayout());
 
         allButton.setBackground(new java.awt.Color(153, 255, 255));
@@ -837,13 +874,17 @@ public class UserFriendPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(navFriendContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(navFriendContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(15, 15, 15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -853,7 +894,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(navFriendContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
