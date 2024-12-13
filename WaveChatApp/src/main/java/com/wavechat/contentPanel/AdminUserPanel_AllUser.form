@@ -8,10 +8,14 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="Delete">
+        <MenuItem class="javax.swing.JMenuItem" name="FriendList">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Delete"/>
+            <Property name="text" type="java.lang.String" value="FriendList"/>
+            <Property name="actionCommand" type="java.lang.String" value="Friend List"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FriendListActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>

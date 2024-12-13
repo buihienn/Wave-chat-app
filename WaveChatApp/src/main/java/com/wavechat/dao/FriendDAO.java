@@ -1,16 +1,19 @@
 package com.wavechat.dao;
 
+import com.wavechat.dto.FriendAdminUserDTO;
 import com.wavechat.dto.FriendDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FriendDAO {
     
     // Lấy danh sách bạn bè gồm fullName, userName và status của userID
     public List<FriendDTO> getFriendsByUserID(String userID) {
         List<FriendDTO> friendsList = new ArrayList<>();
-
+     
         // Câu truy vấn
         String query = "SELECT u.userName, u.onlineStatus, u.fullName " +
                        "FROM User u " +
@@ -117,5 +120,46 @@ public class FriendDAO {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public List<FriendAdminUserDTO> getFriendForAdmin() {
+        List<FriendAdminUserDTO> list = new ArrayList<>();
+        DBconnector dbConnection = new DBconnector();
+        Connection conn = dbConnection.getConnection();
+
+        if (conn == null) {
+            return list;
+        }
+
+        String query = "SELECT u.userID AS U_ID, u.userName, " +
+               "COUNT(DISTINCT CASE " +
+               "WHEN f.userID1 = u.userID AND u2.onlineStatus = TRUE THEN f.userID2 " +
+               "WHEN f.userID2 = u.userID AND u1.onlineStatus = TRUE THEN f.userID1 " +
+               "END) AS OnlineFriends, " +
+               "COUNT(DISTINCT CASE " +
+               "WHEN f.userID1 = u.userID THEN f.userID2 " +
+               "WHEN f.userID2 = u.userID THEN f.userID1 " +
+               "END) AS totalFriends " +
+               "FROM User u " +
+               "LEFT JOIN Friends f ON f.userID1 = u.userID OR f.userID2 = u.userID " +
+               "LEFT JOIN User u1 ON f.userID1 = u1.userID " +
+               "LEFT JOIN User u2 ON f.userID2 = u2.userID " +
+               "GROUP BY u.userID, u.userName";
+
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                String userID = rs.getString("U_ID");
+                String userName = rs.getString("userName");
+                int onlineFriends = rs.getInt("OnlineFriends");
+                int totalFriends = rs.getInt("totalFriends"); // Sửa ánh xạ ở đây
+
+                FriendAdminUserDTO friendDTO = new FriendAdminUserDTO(userID, userName, onlineFriends, totalFriends);
+                list.add(friendDTO);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FriendDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
+        return list;
     }
 }
