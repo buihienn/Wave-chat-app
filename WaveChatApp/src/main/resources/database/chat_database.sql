@@ -248,3 +248,13 @@ INSERT INTO Blocks (userID, blocked_userID)
 VALUES 
 ('U008', 'U003'),
 ('U008', 'U004');
+
+
+Select * from User;
+
+Select * from Friends where userID1 = "U008" or userID2= "U008";
+
+Select * from Friend_requests where requested_userID = "U008";
+
+Select * from Blocks where userID = "U008";
+
