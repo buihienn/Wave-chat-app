@@ -28,15 +28,15 @@ public class UserFriendPanel extends javax.swing.JPanel {
         // Add data vào bảng danh sách bạn bè
         FriendBUS friendBUS = new FriendBUS();
         List<FriendDTO> friendsList = friendBUS.getFriends(userID); // Lọc danh sách bạn bè
-        addFriendData(allTable, friendsList, userID); // Gọi hàm addFriendData với danh sách đã lọc
+        addFriendData(friendsList, userID); // Gọi hàm addFriendData với danh sách đã lọc
 
         // Add data vào bảng danh sách yêu cầu kết bạn
         FriendRequestBUS requestBUS = new FriendRequestBUS();
         List<FriendRequestDTO> requestList = requestBUS.getPendingRequests(userID); // Lọc danh sách bạn bè
-        addFriendRequestData(requestTable, requestList, userID);
+        addFriendRequestData(requestList, userID);
         
         // Add data vào bảng danh sách bạn bè online
-        addOnlineFriendData(onlineTable, friendsList, userID); // Gọi hàm addOnlineFriendData với danh sách đã lọc
+        addOnlineFriendData(friendsList, userID); // Gọi hàm addOnlineFriendData với danh sách đã lọc
         
         // Bật mode all
         changeModeButton("All");
@@ -95,7 +95,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
     }
 
     // Hàm add data vào bảng friend
-    private void addFriendData(javax.swing.JTable table, List<FriendDTO> friendsList, String userID) {
+    private void addFriendData(List<FriendDTO> friendsList, String userID) {
         // Thông tin các cột
         String[] columnNames = {"FullName", "Username", "Status", "Unfriend", "Block"};
 
@@ -112,17 +112,17 @@ public class UserFriendPanel extends javax.swing.JPanel {
 
         // Tạo DefaultTableModel và gán cho bảng
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
-        table.setModel(model);
+        allTable.setModel(model);
 
         // Đặt chiều cao cho tất cả các hàng
-        table.setRowHeight(30);
+        allTable.setRowHeight(30);
 
         // Không cho phép chọn nhiều cột và hàng
-        table.setRowSelectionAllowed(false);
-        table.setColumnSelectionAllowed(false);
+        allTable.setRowSelectionAllowed(false);
+        allTable.setColumnSelectionAllowed(false);
 
         // Không cho phép edit trên bảng
-        table.setDefaultEditor(Object.class, null);
+        allTable.setDefaultEditor(Object.class, null);
 
         // Tạo ButtonRenderer và ButtonEditor cho các cột Unfriend và Block
         ButtonRenderer.Unfriend unfriendRenderer = new ButtonRenderer.Unfriend();
@@ -135,8 +135,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         unfriendEditor.setActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow(); // Lấy row được chọn
-                String userName = (String) table.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
+                int row = allTable.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) allTable.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
 
                 String friendUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
@@ -146,8 +146,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 System.out.println("S" + userID + " friend " + friendUserID);
                 if (success) {
                     System.out.println("Successfully unfriended " + userName);
-                    List<FriendDTO> temp = friendBUS.getFriends(userID);
-                    addFriendData(table, temp, userID); // Reload lại bảng sau khi unfriended
+                    List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
+                    addFriendData(tempFriend, userID); // Reload lại bảng all
+                    
+                    List<FriendDTO> tempOnline = friendBUS.getFriends(userID);
+                    addOnlineFriendData(tempOnline, userID); // Reload lại bảng online
                 } else {
                     System.out.println("Failed to unfriend " + userName);
                 }
@@ -158,8 +161,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         blockEditor.setActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow(); // Lấy row được chọn
-                String userName = (String) table.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
+                int row = allTable.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) allTable.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
 
                 String blockUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
@@ -174,8 +177,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
                     boolean successUn = friendBUS.unfriend(userID, blockUserID);
                     if (successUn) {
                         System.out.println("Successfully unfriended " + userName);
-                        List<FriendDTO> temp = friendBUS.getFriends(userID);
-                        addFriendData(table, temp, userID); // Reload lại bảng sau khi block và unfriended
+                        List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
+                        addFriendData(tempFriend, userID); // Reload lại bảng all
+
+                        List<FriendDTO> tempOnline = friendBUS.getFriends(userID);
+                        addOnlineFriendData(tempOnline, userID); // Reload lại bảng online
                     } else {
                         System.out.println("Failed to unfriend " + userName);
                     }
@@ -186,11 +192,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
         });
 
         // Gán renderer và editor cho các cột Unfriend và Block
-        table.getColumnModel().getColumn(3).setCellRenderer(unfriendRenderer);
-        table.getColumnModel().getColumn(4).setCellRenderer(blockRenderer);
+        allTable.getColumnModel().getColumn(3).setCellRenderer(unfriendRenderer);
+        allTable.getColumnModel().getColumn(4).setCellRenderer(blockRenderer);
 
-        table.getColumnModel().getColumn(3).setCellEditor(unfriendEditor);
-        table.getColumnModel().getColumn(4).setCellEditor(blockEditor);
+        allTable.getColumnModel().getColumn(3).setCellEditor(unfriendEditor);
+        allTable.getColumnModel().getColumn(4).setCellEditor(blockEditor);
     }
 
     // Hàm lọc bạn bè theo từ khóa
@@ -208,11 +214,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
         }
 
         // Cập nhật bảng với danh sách bạn bè đã lọc
-        addFriendData(allTable, filteredFriends, userID);
+        addFriendData(filteredFriends, userID);
     }
     
     // Hàm add data vào bảng request
-    private void addFriendRequestData(javax.swing.JTable table, List<FriendRequestDTO> requestList, String userID) {
+    private void addFriendRequestData(List<FriendRequestDTO> requestList, String userID) {
         // Thông tin các cột
         String[] columnNames = {"FullName", "Username", "Accept", "Delete"};
 
@@ -230,17 +236,17 @@ public class UserFriendPanel extends javax.swing.JPanel {
 
         // Tạo DefaultTableModel và gán cho bảng
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
-        table.setModel(model);
+        requestTable.setModel(model);
 
         // Đặt chiều cao cho tất cả các hàng
-        table.setRowHeight(30);
+        requestTable.setRowHeight(30);
 
         // Không cho phép chọn nhiều cột và hàng
-        table.setRowSelectionAllowed(false);
-        table.setColumnSelectionAllowed(false);
+        requestTable.setRowSelectionAllowed(false);
+        requestTable.setColumnSelectionAllowed(false);
 
         // Không cho phép chỉnh sửa bảng
-        table.setDefaultEditor(Object.class, null);
+        requestTable.setDefaultEditor(Object.class, null);
 
         // Tạo ButtonRenderer và ButtonEditor cho các cột Accept và Delete
         ButtonRenderer.Accept acceptRenderer = new ButtonRenderer.Accept();
@@ -253,8 +259,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         acceptEditor.setActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow(); // Lấy row được chọn
-                String userName = (String) table.getValueAt(row, 1); // Lấy UserName của người gửi yêu cầu
+                int row = requestTable.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) requestTable.getValueAt(row, 1); // Lấy UserName của người gửi yêu cầu
 
                 // Lấy userID của người gửi yêu cầu kết bạn từ username
                 String requesterUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
@@ -264,8 +270,15 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 boolean success = friendRequestBUS.acceptRequest(userID, requesterUserID);
                 if (success) {
                     System.out.println("Successfully accepted request from " + userName);
-                    List<FriendRequestDTO> temp = friendRequestBUS.getPendingRequests(userID);
-                    addFriendRequestData(table, temp, userID); // Reload lại bảng sau khi chấp nhận yêu cầu
+                    List<FriendRequestDTO> tempRequest = friendRequestBUS.getPendingRequests(userID);
+                    addFriendRequestData(tempRequest, userID); // Reload lại bảng request
+                    
+                    FriendBUS friendBUS = new FriendBUS();
+                    List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
+                    addFriendData(tempFriend, userID); // Reload lại bảng all
+                    
+                    List<FriendDTO> tempOnline = friendBUS.getFriends(userID);
+                    addOnlineFriendData(tempOnline, userID); // Reload lại bảng online
                 } else {
                     System.out.println("Failed to accept request from " + userName);
                 }
@@ -276,8 +289,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         deleteEditor.setActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow(); // Lấy row được chọn
-                String userName = (String) table.getValueAt(row, 1); // Lấy UserName của người gửi yêu cầu
+                int row = requestTable.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) requestTable.getValueAt(row, 1); // Lấy UserName của người gửi yêu cầu
 
                 // Lấy userID của người gửi yêu cầu kết bạn từ username
                 String requesterUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
@@ -287,8 +300,15 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 boolean success = friendRequestBUS.deleteRequest(userID, requesterUserID);
                 if (success) {
                     System.out.println("Successfully deleted request from " + userName);
-                    List<FriendRequestDTO> temp = friendRequestBUS.getPendingRequests(userID);
-                    addFriendRequestData(table, temp, userID); // Reload lại bảng sau khi xóa yêu cầu
+                    List<FriendRequestDTO> tempRequest = friendRequestBUS.getPendingRequests(userID);
+                    addFriendRequestData(tempRequest, userID); // Reload lại bảng request
+                    
+                    FriendBUS friendBUS = new FriendBUS();
+                    List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
+                    addFriendData(tempFriend, userID); // Reload lại bảng all
+                    
+                    List<FriendDTO> tempOnline = friendBUS.getFriends(userID);
+                    addOnlineFriendData(tempOnline, userID); // Reload lại bảng online
                 } else {
                     System.out.println("Failed to delete request from " + userName);
                 }
@@ -296,11 +316,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
         });
 
         // Gán renderer và editor cho các cột Accept và Delete
-        table.getColumnModel().getColumn(2).setCellRenderer(acceptRenderer);
-        table.getColumnModel().getColumn(3).setCellRenderer(deleteRenderer);
+        requestTable.getColumnModel().getColumn(2).setCellRenderer(acceptRenderer);
+        requestTable.getColumnModel().getColumn(3).setCellRenderer(deleteRenderer);
 
-        table.getColumnModel().getColumn(2).setCellEditor(acceptEditor);
-        table.getColumnModel().getColumn(3).setCellEditor(deleteEditor);
+        requestTable.getColumnModel().getColumn(2).setCellEditor(acceptEditor);
+        requestTable.getColumnModel().getColumn(3).setCellEditor(deleteEditor);
     }
 
     // Hàm lọc yêu cầu kết bạn theo từ khóa
@@ -320,11 +340,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
         }
 
         // Cập nhật bảng với danh sách yêu cầu kết bạn đã lọc
-        addFriendRequestData(requestTable, filteredRequests, userID);
+        addFriendRequestData(filteredRequests, userID);
     }
 
     // Hàm add data vào bảng online friend
-    private void addOnlineFriendData(javax.swing.JTable table, List<FriendDTO> friendsList, String userID) {
+    private void addOnlineFriendData(List<FriendDTO> friendsList, String userID) {
         // Lọc ra các bạn bè có onlineStatus là true (chỉ lấy những người đang online)
         List<FriendDTO> onlineFriends = new ArrayList<>();
         for (FriendDTO friend : friendsList) {
@@ -349,17 +369,17 @@ public class UserFriendPanel extends javax.swing.JPanel {
 
         // Tạo DefaultTableModel và gán cho bảng
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
-        table.setModel(model);
+        onlineTable.setModel(model);
 
         // Đặt chiều cao cho tất cả các hàng
-        table.setRowHeight(30);
+        onlineTable.setRowHeight(30);
 
         // Không cho phép chọn nhiều cột và hàng
-        table.setRowSelectionAllowed(false);
-        table.setColumnSelectionAllowed(false);
+        onlineTable.setRowSelectionAllowed(false);
+        onlineTable.setColumnSelectionAllowed(false);
 
         // Không cho phép edit trên bảng
-        table.setDefaultEditor(Object.class, null);
+        onlineTable.setDefaultEditor(Object.class, null);
 
         // Tạo ButtonRenderer và ButtonEditor cho các cột Unfriend và Block
         ButtonRenderer.Unfriend unfriendRenderer = new ButtonRenderer.Unfriend();
@@ -372,8 +392,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         unfriendEditor.setActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow(); // Lấy row được chọn
-                String userName = (String) table.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
+                int row = onlineTable.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) onlineTable.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
 
                 String friendUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
@@ -383,8 +403,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 System.out.println("S" + userID + " friend " + friendUserID);
                 if (success) {
                     System.out.println("Successfully unfriended " + userName);
-                    List<FriendDTO> temp = friendBUS.getFriends(userID);
-                    addOnlineFriendData(table, temp, userID); // Reload lại bảng sau khi unfriended
+                    List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
+                    addFriendData(tempFriend, userID); // Reload lại bảng all
+
+                    List<FriendDTO> tempOnline = friendBUS.getFriends(userID);
+                    addOnlineFriendData(tempOnline, userID); // Reload lại bảng online
                 } else {
                     System.out.println("Failed to unfriend " + userName);
                 }
@@ -395,8 +418,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         blockEditor.setActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow(); // Lấy row được chọn
-                String userName = (String) table.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
+                int row = onlineTable.getSelectedRow(); // Lấy row được chọn
+                String userName = (String) onlineTable.getValueAt(row, 1); // Lấy UserName của hàng hiện tại
 
                 String blockUserID = getUserIDByUsername(userName); // Hàm này sẽ lấy userID dựa vào username
 
@@ -411,8 +434,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
                     boolean successUn = friendBUS.unfriend(userID, blockUserID);
                     if (successUn) {
                         System.out.println("Successfully unfriended " + userName);
-                        List<FriendDTO> temp = friendBUS.getFriends(userID);
-                        addOnlineFriendData(table, temp, userID); // Reload lại bảng sau khi block và unfriended
+                        List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
+                        addFriendData(tempFriend, userID); // Reload lại bảng all
+
+                        List<FriendDTO> tempOnline = friendBUS.getFriends(userID);
+                        addOnlineFriendData(tempOnline, userID); // Reload lại bảng online
                     } else {
                         System.out.println("Failed to unfriend " + userName);
                     }
@@ -423,11 +449,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
         });
 
         // Gán renderer và editor cho các cột Unfriend và Block
-        table.getColumnModel().getColumn(3).setCellRenderer(unfriendRenderer);
-        table.getColumnModel().getColumn(4).setCellRenderer(blockRenderer);
+        onlineTable.getColumnModel().getColumn(3).setCellRenderer(unfriendRenderer);
+        onlineTable.getColumnModel().getColumn(4).setCellRenderer(blockRenderer);
 
-        table.getColumnModel().getColumn(3).setCellEditor(unfriendEditor);
-        table.getColumnModel().getColumn(4).setCellEditor(blockEditor);
+        onlineTable.getColumnModel().getColumn(3).setCellEditor(unfriendEditor);
+        onlineTable.getColumnModel().getColumn(4).setCellEditor(blockEditor);
     }
 
     // Hàm lọc bạn bè online theo từ khóa
@@ -446,7 +472,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
         }
 
         // Cập nhật bảng với danh sách bạn bè đã lọc
-        addOnlineFriendData(onlineTable, filteredFriends, userID);
+        addOnlineFriendData(filteredFriends, userID);
     }
     
     // Tạo phương thức riêng để gắn sự kiện cho các mục trong PopupMenu
