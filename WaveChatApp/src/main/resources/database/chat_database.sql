@@ -288,8 +288,8 @@ DELETE FROM Chat;
 -- test chat
 INSERT INTO Chat (chatID, senderID, receiverID, groupID, message, timeSend, isRead)
 VALUES
-(1, 'U008', 'U001', NULL, 'Hi U001, How are you?', '2024-12-13 10:00:00', FALSE),
-(2, 'U001', 'U008', NULL, 'I\'m good, thanks! How about you?', '2024-12-13 10:05:00', FALSE),
+(2, 'U001', 'U008', NULL, 'Hi U001, How are you?', '2024-12-13 10:00:00', FALSE),
+(1, 'U001', 'U008', NULL, 'I\'m good, thanks! How about you?', '2024-12-13 10:05:00', FALSE),
 (3, 'U008', 'U002', NULL, 'Hey U002, Let\'s catch up soon!', '2024-12-13 10:10:00', FALSE),
 (4, 'U002', 'U008', NULL, 'Sure! I\'ll message you later.', '2024-12-13 10:12:00', FALSE),
 (5, 'U008', 'U003', NULL, 'U003, How is everything going?', '2024-12-13 10:15:00', FALSE),
@@ -310,7 +310,7 @@ VALUES
 
 
 Select * from User;
-Select * from User;
+Select * from Chat;
 Select * from GroupMembers;
 Select * from GroupChat;
 
