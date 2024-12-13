@@ -1,13 +1,162 @@
 package com.wavechat.contentPanel;
 
+import com.wavechat.GlobalVariable;
+import com.wavechat.bus.ChatMessageBUS;
+import com.wavechat.bus.FriendBUS;
+import com.wavechat.bus.GroupChatBUS;
+import com.wavechat.bus.UserBUS;
+import com.wavechat.component.ChatBody;
+import com.wavechat.component.ChatFooter;
+import com.wavechat.component.ChatHeader;
+import com.wavechat.component.ConversationPanel;
+import com.wavechat.dto.ChatMessageDTO;
+import com.wavechat.dto.FriendDTO;
+import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
+import java.util.List;
+
 public class UserHomePanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form UserHome
-     */
+    private ChatHeader header = new ChatHeader();    
+    private ChatBody body = new ChatBody();
+    private ChatFooter footer  = new ChatFooter(body);
+
     public UserHomePanel() {
         initComponents();
+        
+        String userID = GlobalVariable.getUserID();
+        
+        // Add user conversation
+        FriendBUS friendBUS = new FriendBUS();
+        List<FriendDTO> friendsList = friendBUS.getFriends(userID);
+        for (FriendDTO friend : friendsList) {
+            ConversationPanel conversation = new ConversationPanel(friend);
+            conversationContainer.add(conversation);
+            addConversationListener(conversation, friend);
+        }
+        
+        openConversation(friendsList.get(0));
+        
+        GroupChatBUS groupChatBUS = new GroupChatBUS();
+        List<GroupChatDTO> groupChats = groupChatBUS.getGroupChats(userID);
+        
+        // Add group conversation
+        for (GroupChatDTO groupChat : groupChats) {
+            ConversationPanel conversation = new ConversationPanel(groupChat);
+            conversationContainer.add(conversation);
+            addConversationListenerGroupChat(conversation, groupChat);
+        }
+        
+        chatContainer.add(header);
+        chatContainer.add(body);
+        chatContainer.add(footer);
     }
+    
+    // Thêm event click cho conversation
+    private void addConversationListener(ConversationPanel conversationPanel, FriendDTO friend) {
+        conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                openConversation(friend);  // Gọi hàm openConversation với thông tin của bạn bè
+            }
+        });
+    }
+    
+    private void addConversationListenerGroupChat(ConversationPanel conversationPanel, GroupChatDTO groupChat) {
+        conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                openConversationForGroupChat(groupChat);  // Gọi hàm openConversation với thông tin của bạn bè
+            }
+        });
+    }
+    
+    public void openConversation(FriendDTO friend) {     
+        String curUserID = GlobalVariable.getUserID();
+        String friendID = friend.getUserID();
+        
+        body.removeChat();
+        header.setInfor(friend.getFullName(), friend.isOnlineStatus());
+        footer.setMode("user");        
+        footer.setReceiver(friendID);
+
+        // Lấy tất cả tin nhắn giữa người dùng và bạn
+        ChatMessageBUS messageBUS = new ChatMessageBUS();
+        List<ChatMessageDTO> messages = messageBUS.getMessagesBetweenUsers(curUserID, friendID);
+
+        // Sắp xếp các tin nhắn theo thời gian
+        messages = messageBUS.sortMessages(messages);
+
+        // Hiển thị tin nhắn
+        String lastSenderID = null;
+        for (ChatMessageDTO message : messages) {
+            // Kiểm tra nếu người gửi khác với tin nhắn trước đó, hiển thị tên người gửi
+            if (lastSenderID == null || !lastSenderID.equals(message.getSenderID())) {
+                // Hiển thị tên người gửi nếu khác với tin nhắn trước đó
+                if (!message.getSenderID().equals(curUserID)) {
+                    body.addUsername(messageBUS.getFullnameSender(message.getSenderID())); // Tên bạn bè
+                }
+            }
+
+            // Hiển thị tin nhắn
+            if (message.getSenderID().equals(curUserID)) {
+                body.addRight(message.getMessage()); // Tin nhắn của người dùng
+            } else {
+                body.addLeft(message.getMessage()); // Tin nhắn của bạn bè
+            }
+
+            // Cập nhật người gửi cuối cùng
+            lastSenderID = message.getSenderID();
+        }
+
+        // Hiển thị panel lên giao diện
+        body.repaint();
+        body.revalidate();
+    }
+
+    
+    public void openConversationForGroupChat(GroupChatDTO groupChat) {
+        String curUserID = GlobalVariable.getUserID();
+        
+        body.removeChat();
+        header.setInfor(groupChat.getGroupName(), groupChat.isOnlineStatus());
+        footer.setMode("group");        
+        footer.setGroupID(groupChat.getGroupID());
+        
+        ChatMessageBUS messageBUS = new ChatMessageBUS();
+        List<ChatMessageDTO> messages = messageBUS.getMessagesInGroup(groupChat.getGroupID());
+
+        // Sắp xếp các tin nhắn theo thời gian
+        messages = messageBUS.sortMessages(messages);
+
+
+        // Hiển thị tin nhắn
+        String lastSenderID = null;
+        for (ChatMessageDTO message : messages) {
+            // Kiểm tra nếu người gửi khác với tin nhắn trước đó, hiển thị tên người gửi
+            if (lastSenderID == null || !lastSenderID.equals(message.getSenderID())) {
+                if (!message.getSenderID().equals(curUserID)) {
+                    body.addUsername(messageBUS.getFullnameSender(message.getSenderID()));
+                }
+            }
+
+            // Hiển thị tin nhắn (tin nhắn của người dùng hoặc người trong nhóm)
+            if (message.getSenderID().equals(curUserID)) {
+                body.addRight(message.getMessage()); // Tin nhắn của người dùng
+            } else {
+                body.addLeft(message.getMessage()); // Tin nhắn của người trong nhóm
+            }
+
+            // Cập nhật người gửi cuối cùng
+            lastSenderID = message.getSenderID();
+        }
+
+        // Cập nhật giao diện (revalidate và repaint)
+        body.revalidate();
+        body.repaint();
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -24,67 +173,9 @@ public class UserHomePanel extends javax.swing.JPanel {
         searchBarContainer = new javax.swing.JPanel();
         searchInput = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
-        userContainer = new javax.swing.JPanel();
-        userAvatar = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        userContainer2 = new javax.swing.JPanel();
-        userAvatar2 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        userContainer3 = new javax.swing.JPanel();
-        userAvatar3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        userContainer4 = new javax.swing.JPanel();
-        userAvatar4 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        conversationScrollPane = new javax.swing.JScrollPane();
+        conversationContainer = new javax.swing.JPanel();
         chatContainer = new javax.swing.JPanel();
-        userHeaderContainer = new javax.swing.JPanel();
-        userContainer1 = new javax.swing.JPanel();
-        userAvatar1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        chatAreaContainer = new javax.swing.JPanel();
-        messageContainer8 = new javax.swing.JPanel();
-        wrapperContainer8 = new javax.swing.JPanel();
-        avatarMessage6 = new javax.swing.JLabel();
-        jTextArea10 = new javax.swing.JTextArea();
-        jTextArea15 = new javax.swing.JTextArea();
-        messageContainer7 = new javax.swing.JPanel();
-        wrapperContainer7 = new javax.swing.JPanel();
-        jTextArea9 = new javax.swing.JTextArea();
-        jTextArea14 = new javax.swing.JTextArea();
-        messageContainer5 = new javax.swing.JPanel();
-        wrapperContainer5 = new javax.swing.JPanel();
-        avatarMessage4 = new javax.swing.JLabel();
-        jTextArea7 = new javax.swing.JTextArea();
-        jTextArea8 = new javax.swing.JTextArea();
-        messageContainer2 = new javax.swing.JPanel();
-        wrapperContainer2 = new javax.swing.JPanel();
-        jTextArea4 = new javax.swing.JTextArea();
-        jTextArea5 = new javax.swing.JTextArea();
-        messageContainer9 = new javax.swing.JPanel();
-        wrapperContainer9 = new javax.swing.JPanel();
-        jTextArea11 = new javax.swing.JTextArea();
-        messageContainer10 = new javax.swing.JPanel();
-        wrapperContainer10 = new javax.swing.JPanel();
-        avatarMessage8 = new javax.swing.JLabel();
-        jTextArea12 = new javax.swing.JTextArea();
-        jTextArea16 = new javax.swing.JTextArea();
-        messageContainer11 = new javax.swing.JPanel();
-        wrapperContainer11 = new javax.swing.JPanel();
-        jTextArea13 = new javax.swing.JTextArea();
-        jTextArea17 = new javax.swing.JTextArea();
-        inputMessageContainer = new javax.swing.JPanel();
-        inputScrollPanel = new javax.swing.JScrollPane();
-        inputTextArea = new javax.swing.JTextArea();
-        sendButton = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(741, 600));
         setLayout(new java.awt.BorderLayout());
@@ -92,7 +183,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         navChatContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         navChatContainer.setPreferredSize(new java.awt.Dimension(240, 600));
 
-        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Montserrat", 1, 28)); // NOI18N
         jLabel1.setText("Chat");
         jLabel1.setPreferredSize(new java.awt.Dimension(214, 32));
 
@@ -123,161 +214,11 @@ public class UserHomePanel extends javax.swing.JPanel {
         });
         searchBarContainer.add(searchButton);
 
-        userContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        userContainer.setPreferredSize(new java.awt.Dimension(214, 66));
+        conversationScrollPane.setBorder(null);
+        conversationScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        userAvatar.setText("Avatar1");
-        userAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel2.setText("Group1");
-
-        jLabel3.setText("Online");
-
-        javax.swing.GroupLayout userContainerLayout = new javax.swing.GroupLayout(userContainer);
-        userContainer.setLayout(userContainerLayout);
-        userContainerLayout.setHorizontalGroup(
-            userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainerLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(userAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
-        );
-        userContainerLayout.setVerticalGroup(
-            userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainerLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(userAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-        );
-
-        userContainer2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        userContainer2.setPreferredSize(new java.awt.Dimension(214, 66));
-
-        userAvatar2.setText("Avatar1");
-        userAvatar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar2.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel6.setText("User1");
-
-        jLabel7.setText("Online");
-
-        javax.swing.GroupLayout userContainer2Layout = new javax.swing.GroupLayout(userContainer2);
-        userContainer2.setLayout(userContainer2Layout);
-        userContainer2Layout.setHorizontalGroup(
-            userContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(userAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
-        );
-        userContainer2Layout.setVerticalGroup(
-            userContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainer2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(userAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-        );
-
-        userContainer3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        userContainer3.setPreferredSize(new java.awt.Dimension(214, 66));
-
-        userAvatar3.setText("Avatar1");
-        userAvatar3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar3.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel8.setText("Group2");
-
-        jLabel9.setText("Online");
-
-        javax.swing.GroupLayout userContainer3Layout = new javax.swing.GroupLayout(userContainer3);
-        userContainer3.setLayout(userContainer3Layout);
-        userContainer3Layout.setHorizontalGroup(
-            userContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(userAvatar3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
-        );
-        userContainer3Layout.setVerticalGroup(
-            userContainer3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer3Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainer3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(userAvatar3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-        );
-
-        userContainer4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        userContainer4.setPreferredSize(new java.awt.Dimension(214, 66));
-
-        userAvatar4.setText("Avatar1");
-        userAvatar4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar4.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel10.setText("User2");
-
-        jLabel11.setText("Offline");
-
-        javax.swing.GroupLayout userContainer4Layout = new javax.swing.GroupLayout(userContainer4);
-        userContainer4.setLayout(userContainer4Layout);
-        userContainer4Layout.setHorizontalGroup(
-            userContainer4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer4Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(userAvatar4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userContainer4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
-        );
-        userContainer4Layout.setVerticalGroup(
-            userContainer4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer4Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userContainer4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(userAvatar4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-        );
+        conversationContainer.setLayout(new javax.swing.BoxLayout(conversationContainer, javax.swing.BoxLayout.Y_AXIS));
+        conversationScrollPane.setViewportView(conversationContainer);
 
         javax.swing.GroupLayout navChatContainerLayout = new javax.swing.GroupLayout(navChatContainer);
         navChatContainer.setLayout(navChatContainerLayout);
@@ -285,15 +226,11 @@ public class UserHomePanel extends javax.swing.JPanel {
             navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navChatContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(userContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(searchBarContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(userContainer2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(userContainer3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(userContainer4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(conversationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBarContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         navChatContainerLayout.setVerticalGroup(
             navChatContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,500 +240,14 @@ public class UserHomePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchBarContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userContainer3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userContainer4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(conversationScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         add(navChatContainer, java.awt.BorderLayout.LINE_START);
 
         chatContainer.setPreferredSize(new java.awt.Dimension(500, 600));
-        chatContainer.setLayout(new java.awt.BorderLayout());
-
-        userHeaderContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        userHeaderContainer.setPreferredSize(new java.awt.Dimension(500, 72));
-        userHeaderContainer.setLayout(new java.awt.GridBagLayout());
-
-        userContainer1.setPreferredSize(new java.awt.Dimension(200, 70));
-
-        userAvatar1.setText("Avatar1");
-        userAvatar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("User1");
-
-        jLabel5.setText("Online");
-
-        javax.swing.GroupLayout userContainer1Layout = new javax.swing.GroupLayout(userContainer1);
-        userContainer1.setLayout(userContainer1Layout);
-        userContainer1Layout.setHorizontalGroup(
-            userContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        userContainer1Layout.setVerticalGroup(
-            userContainer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userContainer1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5))
-            .addGroup(userContainer1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
-        userHeaderContainer.add(userContainer1, gridBagConstraints);
-
-        jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
-        jPanel1.setPreferredSize(new java.awt.Dimension(294, 32));
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 6, 0));
-
-        jButton1.setBackground(new java.awt.Color(26, 41, 128));
-        jButton1.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Search");
-        jButton1.setPreferredSize(new java.awt.Dimension(68, 32));
-        jPanel1.add(jButton1);
-
-        jButton2.setBackground(new java.awt.Color(26, 41, 128));
-        jButton2.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("More");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton2.setPreferredSize(new java.awt.Dimension(68, 32));
-        jPanel1.add(jButton2);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 1.0;
-        userHeaderContainer.add(jPanel1, gridBagConstraints);
-
-        chatContainer.add(userHeaderContainer, java.awt.BorderLayout.NORTH);
-
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(500, 494));
-
-        chatAreaContainer.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        chatAreaContainer.setPreferredSize(new java.awt.Dimension(500, 459));
-        chatAreaContainer.setLayout(new javax.swing.BoxLayout(chatAreaContainer, javax.swing.BoxLayout.Y_AXIS));
-
-        messageContainer8.setPreferredSize(new java.awt.Dimension(500, 20));
-        messageContainer8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        wrapperContainer8.setPreferredSize(new java.awt.Dimension(346, 84));
-
-        avatarMessage6.setText("Ava");
-        avatarMessage6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextArea10.setBackground(new java.awt.Color(204, 204, 204));
-        jTextArea10.setColumns(20);
-        jTextArea10.setLineWrap(true);
-        jTextArea10.setRows(5);
-        jTextArea10.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea10.setWrapStyleWord(true);
-        jTextArea10.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea10.setEnabled(false);
-        jTextArea10.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        jTextArea15.setBackground(new java.awt.Color(204, 204, 204));
-        jTextArea15.setColumns(20);
-        jTextArea15.setLineWrap(true);
-        jTextArea15.setRows(5);
-        jTextArea15.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea15.setWrapStyleWord(true);
-        jTextArea15.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea15.setEnabled(false);
-        jTextArea15.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        javax.swing.GroupLayout wrapperContainer8Layout = new javax.swing.GroupLayout(wrapperContainer8);
-        wrapperContainer8.setLayout(wrapperContainer8Layout);
-        wrapperContainer8Layout.setHorizontalGroup(
-            wrapperContainer8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer8Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(avatarMessage6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(wrapperContainer8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextArea15, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextArea10, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        wrapperContainer8Layout.setVerticalGroup(
-            wrapperContainer8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer8Layout.createSequentialGroup()
-                .addComponent(jTextArea10, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextArea15, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, wrapperContainer8Layout.createSequentialGroup()
-                .addGap(0, 31, Short.MAX_VALUE)
-                .addComponent(avatarMessage6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
-        );
-
-        messageContainer8.add(wrapperContainer8);
-
-        chatAreaContainer.add(messageContainer8);
-
-        messageContainer7.setPreferredSize(new java.awt.Dimension(500, 20));
-        messageContainer7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 0));
-
-        wrapperContainer7.setPreferredSize(new java.awt.Dimension(346, 84));
-
-        jTextArea9.setBackground(new java.awt.Color(204, 255, 255));
-        jTextArea9.setColumns(20);
-        jTextArea9.setLineWrap(true);
-        jTextArea9.setRows(5);
-        jTextArea9.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea9.setWrapStyleWord(true);
-        jTextArea9.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea9.setEnabled(false);
-        jTextArea9.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        jTextArea14.setBackground(new java.awt.Color(204, 255, 255));
-        jTextArea14.setColumns(20);
-        jTextArea14.setLineWrap(true);
-        jTextArea14.setRows(5);
-        jTextArea14.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea14.setWrapStyleWord(true);
-        jTextArea14.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea14.setEnabled(false);
-        jTextArea14.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        javax.swing.GroupLayout wrapperContainer7Layout = new javax.swing.GroupLayout(wrapperContainer7);
-        wrapperContainer7.setLayout(wrapperContainer7Layout);
-        wrapperContainer7Layout.setHorizontalGroup(
-            wrapperContainer7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer7Layout.createSequentialGroup()
-                .addGap(0, 208, Short.MAX_VALUE)
-                .addGroup(wrapperContainer7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextArea9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextArea14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        wrapperContainer7Layout.setVerticalGroup(
-            wrapperContainer7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer7Layout.createSequentialGroup()
-                .addComponent(jTextArea9, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextArea14, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        messageContainer7.add(wrapperContainer7);
-
-        chatAreaContainer.add(messageContainer7);
-
-        messageContainer5.setPreferredSize(new java.awt.Dimension(500, 20));
-        messageContainer5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        wrapperContainer5.setPreferredSize(new java.awt.Dimension(346, 84));
-
-        avatarMessage4.setText("Ava");
-        avatarMessage4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextArea7.setBackground(new java.awt.Color(204, 204, 204));
-        jTextArea7.setColumns(20);
-        jTextArea7.setLineWrap(true);
-        jTextArea7.setRows(5);
-        jTextArea7.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea7.setWrapStyleWord(true);
-        jTextArea7.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea7.setEnabled(false);
-        jTextArea7.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        jTextArea8.setBackground(new java.awt.Color(204, 204, 204));
-        jTextArea8.setColumns(20);
-        jTextArea8.setLineWrap(true);
-        jTextArea8.setRows(5);
-        jTextArea8.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea8.setWrapStyleWord(true);
-        jTextArea8.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea8.setEnabled(false);
-        jTextArea8.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        javax.swing.GroupLayout wrapperContainer5Layout = new javax.swing.GroupLayout(wrapperContainer5);
-        wrapperContainer5.setLayout(wrapperContainer5Layout);
-        wrapperContainer5Layout.setHorizontalGroup(
-            wrapperContainer5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(avatarMessage4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(wrapperContainer5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextArea8, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextArea7, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        wrapperContainer5Layout.setVerticalGroup(
-            wrapperContainer5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer5Layout.createSequentialGroup()
-                .addComponent(jTextArea7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(jTextArea8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, wrapperContainer5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(avatarMessage4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
-        );
-
-        messageContainer5.add(wrapperContainer5);
-
-        chatAreaContainer.add(messageContainer5);
-
-        messageContainer2.setPreferredSize(new java.awt.Dimension(500, 20));
-        messageContainer2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 0));
-
-        wrapperContainer2.setPreferredSize(new java.awt.Dimension(346, 84));
-
-        jTextArea4.setBackground(new java.awt.Color(204, 255, 255));
-        jTextArea4.setColumns(20);
-        jTextArea4.setLineWrap(true);
-        jTextArea4.setRows(5);
-        jTextArea4.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea4.setWrapStyleWord(true);
-        jTextArea4.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea4.setEnabled(false);
-        jTextArea4.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        jTextArea5.setBackground(new java.awt.Color(204, 255, 255));
-        jTextArea5.setColumns(20);
-        jTextArea5.setLineWrap(true);
-        jTextArea5.setRows(5);
-        jTextArea5.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea5.setWrapStyleWord(true);
-        jTextArea5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea5.setEnabled(false);
-        jTextArea5.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        javax.swing.GroupLayout wrapperContainer2Layout = new javax.swing.GroupLayout(wrapperContainer2);
-        wrapperContainer2.setLayout(wrapperContainer2Layout);
-        wrapperContainer2Layout.setHorizontalGroup(
-            wrapperContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer2Layout.createSequentialGroup()
-                .addContainerGap(208, Short.MAX_VALUE)
-                .addGroup(wrapperContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextArea4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextArea5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        wrapperContainer2Layout.setVerticalGroup(
-            wrapperContainer2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer2Layout.createSequentialGroup()
-                .addComponent(jTextArea4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextArea5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        messageContainer2.add(wrapperContainer2);
-
-        chatAreaContainer.add(messageContainer2);
-
-        messageContainer9.setPreferredSize(new java.awt.Dimension(500, 20));
-        messageContainer9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        wrapperContainer9.setPreferredSize(new java.awt.Dimension(346, 84));
-
-        jTextArea11.setBackground(new java.awt.Color(204, 204, 204));
-        jTextArea11.setColumns(20);
-        jTextArea11.setLineWrap(true);
-        jTextArea11.setRows(5);
-        jTextArea11.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea11.setWrapStyleWord(true);
-        jTextArea11.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea11.setEnabled(false);
-        jTextArea11.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        javax.swing.GroupLayout wrapperContainer9Layout = new javax.swing.GroupLayout(wrapperContainer9);
-        wrapperContainer9.setLayout(wrapperContainer9Layout);
-        wrapperContainer9Layout.setHorizontalGroup(
-            wrapperContainer9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer9Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jTextArea11, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(164, Short.MAX_VALUE))
-        );
-        wrapperContainer9Layout.setVerticalGroup(
-            wrapperContainer9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer9Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jTextArea11, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
-        );
-
-        messageContainer9.add(wrapperContainer9);
-
-        chatAreaContainer.add(messageContainer9);
-
-        messageContainer10.setPreferredSize(new java.awt.Dimension(500, 20));
-        messageContainer10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        wrapperContainer10.setPreferredSize(new java.awt.Dimension(346, 84));
-
-        avatarMessage8.setText("Ava");
-        avatarMessage8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextArea12.setBackground(new java.awt.Color(204, 204, 204));
-        jTextArea12.setColumns(20);
-        jTextArea12.setLineWrap(true);
-        jTextArea12.setRows(5);
-        jTextArea12.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea12.setWrapStyleWord(true);
-        jTextArea12.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea12.setEnabled(false);
-        jTextArea12.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        jTextArea16.setBackground(new java.awt.Color(204, 204, 204));
-        jTextArea16.setColumns(20);
-        jTextArea16.setLineWrap(true);
-        jTextArea16.setRows(5);
-        jTextArea16.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea16.setWrapStyleWord(true);
-        jTextArea16.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea16.setEnabled(false);
-        jTextArea16.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        javax.swing.GroupLayout wrapperContainer10Layout = new javax.swing.GroupLayout(wrapperContainer10);
-        wrapperContainer10.setLayout(wrapperContainer10Layout);
-        wrapperContainer10Layout.setHorizontalGroup(
-            wrapperContainer10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(avatarMessage8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(wrapperContainer10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextArea16, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextArea12, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        wrapperContainer10Layout.setVerticalGroup(
-            wrapperContainer10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer10Layout.createSequentialGroup()
-                .addComponent(jTextArea12, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(jTextArea16, javax.swing.GroupLayout.PREFERRED_SIZE, 38, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, wrapperContainer10Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(avatarMessage8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-
-        messageContainer10.add(wrapperContainer10);
-
-        chatAreaContainer.add(messageContainer10);
-
-        messageContainer11.setPreferredSize(new java.awt.Dimension(500, 20));
-        messageContainer11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 0));
-
-        wrapperContainer11.setPreferredSize(new java.awt.Dimension(346, 84));
-
-        jTextArea13.setBackground(new java.awt.Color(204, 255, 255));
-        jTextArea13.setColumns(20);
-        jTextArea13.setLineWrap(true);
-        jTextArea13.setRows(5);
-        jTextArea13.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea13.setWrapStyleWord(true);
-        jTextArea13.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea13.setEnabled(false);
-        jTextArea13.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        jTextArea17.setBackground(new java.awt.Color(204, 255, 255));
-        jTextArea17.setColumns(20);
-        jTextArea17.setLineWrap(true);
-        jTextArea17.setRows(5);
-        jTextArea17.setText("ehehehehehehehehheh\nsadasdad\n");
-        jTextArea17.setWrapStyleWord(true);
-        jTextArea17.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextArea17.setEnabled(false);
-        jTextArea17.setPreferredSize(new java.awt.Dimension(212, 70));
-
-        javax.swing.GroupLayout wrapperContainer11Layout = new javax.swing.GroupLayout(wrapperContainer11);
-        wrapperContainer11.setLayout(wrapperContainer11Layout);
-        wrapperContainer11Layout.setHorizontalGroup(
-            wrapperContainer11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer11Layout.createSequentialGroup()
-                .addGap(0, 208, Short.MAX_VALUE)
-                .addGroup(wrapperContainer11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextArea13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextArea17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        wrapperContainer11Layout.setVerticalGroup(
-            wrapperContainer11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wrapperContainer11Layout.createSequentialGroup()
-                .addComponent(jTextArea13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jTextArea17, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        messageContainer11.add(wrapperContainer11);
-
-        chatAreaContainer.add(messageContainer11);
-
-        jScrollPane1.setViewportView(chatAreaContainer);
-
-        chatContainer.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        inputMessageContainer.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0)));
-        inputMessageContainer.setPreferredSize(new java.awt.Dimension(500, 60));
-        inputMessageContainer.setLayout(new java.awt.GridBagLayout());
-
-        inputScrollPanel.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        inputScrollPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        inputScrollPanel.setPreferredSize(new java.awt.Dimension(400, 40));
-
-        inputTextArea.setColumns(20);
-        inputTextArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        inputTextArea.setLineWrap(true);
-        inputTextArea.setRows(20);
-        inputTextArea.setText("Send message");
-        inputTextArea.setWrapStyleWord(true);
-        inputTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 8, 0, 0));
-        inputScrollPanel.setViewportView(inputTextArea);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.ABOVE_BASELINE;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
-        inputMessageContainer.add(inputScrollPanel, gridBagConstraints);
-
-        sendButton.setBackground(new java.awt.Color(26, 41, 128));
-        sendButton.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        sendButton.setForeground(new java.awt.Color(255, 255, 255));
-        sendButton.setText("Send");
-        sendButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        sendButton.setPreferredSize(new java.awt.Dimension(65, 40));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 11);
-        inputMessageContainer.add(sendButton, gridBagConstraints);
-
-        chatContainer.add(inputMessageContainer, java.awt.BorderLayout.SOUTH);
-
+        chatContainer.setLayout(new javax.swing.BoxLayout(chatContainer, javax.swing.BoxLayout.Y_AXIS));
         add(chatContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -810,71 +261,13 @@ public class UserHomePanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel avatarMessage4;
-    private javax.swing.JLabel avatarMessage6;
-    private javax.swing.JLabel avatarMessage8;
-    private javax.swing.JPanel chatAreaContainer;
     private javax.swing.JPanel chatContainer;
-    private javax.swing.JPanel inputMessageContainer;
-    private javax.swing.JScrollPane inputScrollPanel;
-    private javax.swing.JTextArea inputTextArea;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JPanel conversationContainer;
+    private javax.swing.JScrollPane conversationScrollPane;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea10;
-    private javax.swing.JTextArea jTextArea11;
-    private javax.swing.JTextArea jTextArea12;
-    private javax.swing.JTextArea jTextArea13;
-    private javax.swing.JTextArea jTextArea14;
-    private javax.swing.JTextArea jTextArea15;
-    private javax.swing.JTextArea jTextArea16;
-    private javax.swing.JTextArea jTextArea17;
-    private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextArea jTextArea5;
-    private javax.swing.JTextArea jTextArea7;
-    private javax.swing.JTextArea jTextArea8;
-    private javax.swing.JTextArea jTextArea9;
-    private javax.swing.JPanel messageContainer10;
-    private javax.swing.JPanel messageContainer11;
-    private javax.swing.JPanel messageContainer2;
-    private javax.swing.JPanel messageContainer5;
-    private javax.swing.JPanel messageContainer7;
-    private javax.swing.JPanel messageContainer8;
-    private javax.swing.JPanel messageContainer9;
     private javax.swing.JPanel navChatContainer;
     private javax.swing.JPanel searchBarContainer;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchInput;
-    private javax.swing.JButton sendButton;
-    private javax.swing.JLabel userAvatar;
-    private javax.swing.JLabel userAvatar1;
-    private javax.swing.JLabel userAvatar2;
-    private javax.swing.JLabel userAvatar3;
-    private javax.swing.JLabel userAvatar4;
-    private javax.swing.JPanel userContainer;
-    private javax.swing.JPanel userContainer1;
-    private javax.swing.JPanel userContainer2;
-    private javax.swing.JPanel userContainer3;
-    private javax.swing.JPanel userContainer4;
-    private javax.swing.JPanel userHeaderContainer;
-    private javax.swing.JPanel wrapperContainer10;
-    private javax.swing.JPanel wrapperContainer11;
-    private javax.swing.JPanel wrapperContainer2;
-    private javax.swing.JPanel wrapperContainer5;
-    private javax.swing.JPanel wrapperContainer7;
-    private javax.swing.JPanel wrapperContainer8;
-    private javax.swing.JPanel wrapperContainer9;
     // End of variables declaration//GEN-END:variables
 }

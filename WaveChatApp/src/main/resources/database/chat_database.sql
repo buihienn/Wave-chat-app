@@ -99,6 +99,7 @@ CREATE TABLE GroupChat (
     groupName NVARCHAR(50),
     createdBy CHAR(5),
     createdAt DATETIME,
+    onlineStatus BOOL,
     
 	CONSTRAINT PK_GROUPCHAT PRIMARY KEY (groupID)
 );
@@ -174,8 +175,6 @@ VALUES
 ('U006', 'others', '123', 'Other s', '456 Elm St', NULL, 'male', 'pv6@example.com', '2024-11-26', TRUE, FALSE),
 ('U007', 'Admin1', '123', 'Admintest', '456 Elm St', '1992-02-02', 'male', 'pv9@example.com', '2024-10-20', TRUE, FALSE);
 
-
-
 INSERT INTO AdminApp (userID)
 VALUES ('U001');
 
@@ -249,8 +248,70 @@ VALUES
 ('U008', 'U003'),
 ('U008', 'U004');
 
+-- test group chat
+-- Xóa tất cả dữ liệu trong bảng GroupChat
+DELETE FROM GroupChat;
+
+-- Xóa tất cả dữ liệu trong bảng GroupMembers
+DELETE FROM GroupMembers;
+
+
+-- Tạo Group 1: "Tech Enthusiasts"
+INSERT INTO GroupChat (groupID, groupName, createdBy, createdAt, onlineStatus)
+VALUES (1, 'Tech Enthusiasts', 'U001', '2024-12-13', 1),
+(2, 'Music Lovers', 'U003', '2024-12-13', 0);
+
+
+-- Thêm thành viên vào "Tech Enthusiasts"
+-- U001 là admin
+INSERT INTO GroupMembers (groupID, userID, isAdmin, joinedDate)
+VALUES (1, 'U001', 1, '2024-12-13');
+
+-- Thêm các thành viên khác
+INSERT INTO GroupMembers (groupID, userID, isAdmin, joinedDate)
+VALUES 
+(1, 'U002', 0, '2024-12-13'),  -- Thành viên U002
+(1, 'U003', 0, '2024-12-13'),
+(1, 'U004', 0, '2024-12-13'), -- Thành viên U004
+(1, 'U008', 0, '2024-12-13');  -- Thành viên U005
+
+-- Thêm các thành viên khác
+INSERT INTO GroupMembers (groupID, userID, isAdmin, joinedDate)
+VALUES 
+(2, 'U002', 0, '2024-12-13'),  -- Thành viên U002
+(2, 'U003', 0, '2024-12-13'),
+(2, 'U004', 0, '2024-12-13'), -- Thành viên U004
+(2, 'U008', 0, '2024-12-13');  -- Thành viên U005
+
+DELETE FROM Chat;
+-- test chat
+INSERT INTO Chat (chatID, senderID, receiverID, groupID, message, timeSend, isRead)
+VALUES
+(2, 'U001', 'U008', NULL, 'Hi U001, How are you?', '2024-12-13 10:00:00', FALSE),
+(1, 'U001', 'U008', NULL, 'I\'m good, thanks! How about you?', '2024-12-13 10:05:00', FALSE),
+(3, 'U008', 'U002', NULL, 'Hey U002, Let\'s catch up soon!', '2024-12-13 10:10:00', FALSE),
+(4, 'U002', 'U008', NULL, 'Sure! I\'ll message you later.', '2024-12-13 10:12:00', FALSE),
+(5, 'U008', 'U003', NULL, 'U003, How is everything going?', '2024-12-13 10:15:00', FALSE),
+(6, 'U003', 'U008', NULL, 'Everything is great, thanks for asking!', '2024-12-13 10:20:00', FALSE),
+(7, 'U008', 'U007', NULL, 'Hi U007, Let\'s go for a coffee this weekend!', '2024-12-13 10:25:00', FALSE),
+(8, 'U007', 'U008', NULL, 'I\'m in! Let\'s set a time.', '2024-12-13 10:30:00', FALSE),
+(9, 'U008', 'U008', NULL, 'Message to myself!', '2024-12-13 10:35:00', TRUE),
+(10, 'U008', NULL, 1, 'Hello everyone in group 1!', '2024-12-13 10:40:00', FALSE),
+(11, 'U001', NULL, 1, 'Hi U008, how\'s it going?', '2024-12-13 10:42:00', FALSE),
+(12, 'U002', NULL, 1, 'Everything is fine here!', '2024-12-13 10:45:00', FALSE),
+(13, 'U003', NULL, 1, 'Let\'s meet up soon!', '2024-12-13 10:50:00', FALSE),
+(14, 'U008', NULL, 2, 'Hello everyone in group 2!', '2024-12-13 10:55:00', FALSE),
+(15, 'U002', NULL, 2, 'Hi U008, what\'s up?', '2024-12-13 11:00:00', FALSE),
+(16, 'U003', NULL, 2, 'I am good, thank you!', '2024-12-13 11:05:00', FALSE),
+(17, 'U008', NULL, 2, 'Let\'s plan a meetup soon!', '2024-12-13 11:10:00', FALSE);
+
+
+
 
 Select * from User;
+Select * from Chat;
+Select * from GroupMembers;
+Select * from GroupChat;
 
 Select * from Friends where userID1 = "U008" or userID2= "U008";
 
