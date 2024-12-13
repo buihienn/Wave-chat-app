@@ -123,36 +123,36 @@ public class AdminAllUserAddUserForm extends javax.swing.JFrame {
         String email = jTextEmail.getText().trim();
         
         if (username.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Username không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (fullName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Full Name không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Full Name không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Email không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Email không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         UserBUS userBUS = new UserBUS();
         if (userBUS.isUserNameExist(username)) {
             System.out.println("Username already exists.");
-            JOptionPane.showMessageDialog(this, "Username already exists.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username already exists.", "Error", JOptionPane.ERROR_MESSAGE);
             return; // Nếu username đã tồn tại, dừng lại
         }
 
         if (userBUS.isEmailExist(email)) {
             System.out.println("Email already exists.");
-            JOptionPane.showMessageDialog(this, "Email already exists.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Email already exists.", "Error", JOptionPane.ERROR_MESSAGE);
             return; // Nếu email đã tồn tại, dừng lại
         }
         
         if (!userBUS.isEmailValid(email)) {
             System.out.println("Invalid email format.");
-            JOptionPane.showMessageDialog(this, "Invalid email format. Ex: example@gmail.com", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid email format. Ex: example@gmail.com", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -163,7 +163,7 @@ public class AdminAllUserAddUserForm extends javax.swing.JFrame {
         });
         
         // Hiển thị thông báo thành công
-        JOptionPane.showMessageDialog(this, "User added successfully!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "User added successfully!", "Successfull", JOptionPane.INFORMATION_MESSAGE);
         this.dispose(); // Đóng cửa sổ JFrame hiện tại
     }//GEN-LAST:event_SubmitActionPerformed
 
