@@ -7,8 +7,10 @@ public class ChatFooter extends javax.swing.JPanel {
     private String receiver;    
     private int groupID;
     private String mode;
+    private ChatBody chatBody;
     
-    public ChatFooter() {
+    public ChatFooter(ChatBody chatBody) {
+        this.chatBody = chatBody;  
         initComponents();
     }
     
@@ -31,6 +33,7 @@ public class ChatFooter extends javax.swing.JPanel {
         if (success) {
             System.out.println("Message sent successfully!");
             inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
+            chatBody.addRight(messageText);
         } else {
             System.out.println("Failed to send message.");
         }
@@ -51,6 +54,7 @@ public class ChatFooter extends javax.swing.JPanel {
         if (success) {
             System.out.println("Group message sent successfully!");
             inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
+            chatBody.addRight(messageText);
         } else {
             System.out.println("Failed to send group message.");
         }

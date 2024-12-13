@@ -19,7 +19,7 @@ public class UserHomePanel extends javax.swing.JPanel {
 
     private ChatHeader header = new ChatHeader();    
     private ChatBody body = new ChatBody();
-    private ChatFooter footer  = new ChatFooter();
+    private ChatFooter footer  = new ChatFooter(body);
 
     public UserHomePanel() {
         initComponents();
