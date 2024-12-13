@@ -395,8 +395,8 @@ public class UserDAO {
     
     // Hàm add user mới
     public boolean addNewUser(String userName, String email, String password) {
-        String query = "INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, totalFriend) " +
-                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
@@ -416,7 +416,6 @@ public class UserDAO {
             preparedStatement.setDate(9, new java.sql.Date(new java.util.Date().getTime())); 
             preparedStatement.setBoolean(10, true); 
             preparedStatement.setBoolean(11, false); 
-            preparedStatement.setInt(12, 0); 
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
