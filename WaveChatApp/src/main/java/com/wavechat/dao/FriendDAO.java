@@ -11,8 +11,8 @@ public class FriendDAO {
     public List<FriendDTO> getFriendsByUserID(String userID) {
         List<FriendDTO> friendsList = new ArrayList<>();
 
-        // Câu truy vấn
-        String query = "SELECT u.userName, u.onlineStatus, u.fullName " +
+        // Câu truy vấn đã sửa để lấy thêm userID
+        String query = "SELECT u.userID, u.userName, u.onlineStatus, u.fullName " +
                        "FROM User u " +
                        "JOIN Friends f ON (f.userID1 = u.userID OR f.userID2 = u.userID) " +
                        "JOIN Friend_requests fr ON (fr.requester_userID = f.userID1 AND fr.requested_userID = f.userID2) " +
@@ -35,12 +35,13 @@ public class FriendDAO {
 
             // Đọc dữ liệu từ ResultSet và thêm vào list
             while (resultSet.next()) {
+                String userIDFromDb = resultSet.getString("userID");  // Lấy userID
                 String userName = resultSet.getString("userName");
                 String fullName = resultSet.getString("fullName");  
                 boolean onlineStatus = resultSet.getBoolean("onlineStatus");
 
-                // Thêm bạn bè vào list
-                friendsList.add(new FriendDTO(fullName, userName, onlineStatus));
+                // Thêm bạn bè vào list, bao gồm cả userID
+                friendsList.add(new FriendDTO(fullName, userName, onlineStatus, userIDFromDb));
             }
         } catch (SQLException e) {
             System.out.println("Error while fetching friends: " + e.getMessage());
