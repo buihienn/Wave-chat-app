@@ -36,9 +36,8 @@ public class UserDAO {
                 Date createdDate = rs.getDate("createdDate");
                 boolean status = rs.getBoolean("status");
                 boolean onlineStatus = rs.getBoolean("onlineStatus");
-                int totalFriend = rs.getInt("totalFriend");
                 
-               UserDTO user = new UserDTO(userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, totalFriend);
+               UserDTO user = new UserDTO(userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus);
                list.add(user);
             }
         } catch (SQLException ex) {
@@ -52,7 +51,7 @@ public class UserDAO {
         }
         return list;
     }
-    
+
     // Hàm update thông tin user
     public boolean updateUser(UserDTO user) {
         String query = "UPDATE User SET fullName = ?, address = ?, birthDay = ?, gender = ? WHERE userID = ?";
@@ -177,6 +176,26 @@ public class UserDAO {
         }
     }
     
+    // Delete online vs offline
+    private void deleteUserFromOnlineAndOffline(Connection conn, String userID) throws SQLException {
+        String deleteUserOnlineQuery = "DELETE FROM UserOnline WHERE userID = ?";
+        String deleteUserOfflineQuery = "DELETE FROM UserOffline WHERE userID = ?";
+
+        try (PreparedStatement deleteUserOnlineStmt = conn.prepareStatement(deleteUserOnlineQuery);
+             PreparedStatement deleteUserOfflineStmt = conn.prepareStatement(deleteUserOfflineQuery)) {
+
+            // Xóa User khỏi bảng UserOnline
+            deleteUserOnlineStmt.setString(1, userID);
+            deleteUserOnlineStmt.executeUpdate();
+
+            // Xóa User khỏi bảng UserOffline
+            deleteUserOfflineStmt.setString(1, userID);
+            deleteUserOfflineStmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+    
     // delete Friends for delete user
     private void deleteFriends(Connection conn, String userID) throws SQLException {
         String query = "DELETE FROM Friends WHERE userID1 = ? OR userID2 = ?";
@@ -234,18 +253,16 @@ public class UserDAO {
             pstmt.executeUpdate();
         }
     }
-    //
+    // removeUserCreateGroup
+    private void updateGroupChatCreatedByToNull(Connection conn, String userID) throws SQLException {
+        String query = "UPDATE GroupChat SET createdBy = NULL WHERE createdBy = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, userID); // Gán giá trị cho tham số `userID`
+            pstmt.executeUpdate(); // Thực thi câu lệnh UPDATE
+        }
+    }
     
-//    private void updateFriendCount(Connection conn, String userID) throws SQLException {
-//        String query = "UPDATE User SET totalFriend = (SELECT COUNT(*) FROM Friends WHERE userID1 = ? OR userID2 = ?) WHERE userID = ?";
-//        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-//            pstmt.setString(1, userID);
-//            pstmt.setString(2, userID);
-//            pstmt.setString(3, userID);
-//            pstmt.executeUpdate();
-//        }
-//    }
-    
+
     // Hàm Delete User
     public boolean deleteUser(String userID) {
         DBconnector dbConnector = new DBconnector();
@@ -257,8 +274,10 @@ public class UserDAO {
 
         try {
             conn.setAutoCommit(false); // Bắt đầu transaction
-
+            
             // Xóa các liên kết liên quan
+            updateGroupChatCreatedByToNull(conn,userID);
+            deleteUserFromOnlineAndOffline(conn,userID);
             deleteFriendRequests(conn, userID);
             deleteFriends(conn, userID);
             deleteBlocks(conn, userID);
@@ -444,8 +463,8 @@ public class UserDAO {
         }
 
     
-        String sql = "INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, totalFriend) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         System.out.println(password);
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, generateUserID());
@@ -459,7 +478,6 @@ public class UserDAO {
             pstmt.setDate(9, new java.sql.Date(new java.util.Date().getTime())); 
             pstmt.setBoolean(10, true); 
             pstmt.setBoolean(11, false); 
-            pstmt.setInt(12, 0); 
 
             // Thực thi lệnh SQL
             int rowsInserted = pstmt.executeUpdate();

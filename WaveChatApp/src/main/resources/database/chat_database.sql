@@ -20,7 +20,6 @@ CREATE TABLE User (
     createdDate DATE,
     status BOOL,
     onlineStatus BOOL,
-    totalFriend INT ,
 
     CONSTRAINT PK_USER PRIMARY KEY (userID)
 );
@@ -131,9 +130,9 @@ ALTER TABLE UserOffline
 ADD CONSTRAINT FK_UserOffline_User FOREIGN KEY (userID) REFERENCES User(userID);
 
 -- Friends
-ALTER TABLE Friends 
-ADD CONSTRAINT FK_Friends_User1 FOREIGN KEY (userID1) REFERENCES User(userID),
-ADD CONSTRAINT FK_Friends_User2 FOREIGN KEY (userID2) REFERENCES User(userID);
+-- ALTER TABLE Friends 
+-- ADD CONSTRAINT FK_Friends_User1 FOREIGN KEY (userID1) REFERENCES User(userID),
+-- ADD CONSTRAINT FK_Friends_User2 FOREIGN KEY (userID2) REFERENCES User(userID);
 
 -- LoginHistory
 ALTER TABLE LoginHistory 
@@ -258,3 +257,4 @@ Select * from Friends where userID1 = "U008" or userID2= "U008";
 Select * from Friend_requests where requested_userID = "U008";
 
 Select * from Blocks where userID = "U008";
+

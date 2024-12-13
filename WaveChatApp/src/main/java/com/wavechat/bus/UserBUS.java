@@ -263,5 +263,23 @@ public class UserBUS {
             return false;
         }
     }
+    
+    // Remove User 
+    public boolean deleteUser(String username) {
+        String userID = userDAO.getUserIDByUsername(username);
+        try {
+            boolean result = userDAO.deleteUser(userID); // Gọi hàm DAO
+            if (result) {
+                System.out.println("User with ID " + userID + " has been deleted successfully.");
+            } else {
+                System.out.println("Failed to delete user with ID " + userID + ".");
+            }
+            return result;
+        } catch (Exception e) {
+            System.err.println("Error occurred while deleting user with ID: " + userID);
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

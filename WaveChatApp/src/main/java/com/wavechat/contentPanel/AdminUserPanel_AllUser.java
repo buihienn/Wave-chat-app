@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -92,7 +93,6 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        functionAddUser = new javax.swing.JMenuItem();
         Delete = new javax.swing.JMenuItem();
         functionContainer = new javax.swing.JPanel();
         delete = new javax.swing.JButton();
@@ -104,10 +104,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         userInformation = new javax.swing.JTable();
 
-        functionAddUser.setText("Add");
-        jPopupMenu1.add(functionAddUser);
-
-        Delete.setText("jMenuItem2");
+        Delete.setText("Delete");
         jPopupMenu1.add(Delete);
 
         delete.setText("Delete");
@@ -183,6 +180,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
 
         userInformation.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         userInformation.setComponentPopupMenu(jPopupMenu1);
+        userInformation.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         userInformation.setShowGrid(false);
         userInformation.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -211,6 +209,28 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
+        int selectedRow = userInformation.getSelectedRow();
+        if (selectedRow == -1){
+            JOptionPane.showMessageDialog(this, "Please select a row to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        String username = model.getValueAt(selectedRow, 0).toString();
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete user: " + username + "?", 
+                                                "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            UserBUS userBUS = new UserBUS();
+            if (userBUS.deleteUser(username)){
+                // Xóa dòng khỏi JTable
+            model.removeRow(selectedRow);
+
+            // Thực hiện thêm các hành động liên quan như xóa khỏi cơ sở dữ liệu
+            JOptionPane.showMessageDialog(this, "User " + username + " deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "User " + username + " deleted Failed.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        }
+        
     }//GEN-LAST:event_deleteActionPerformed
 
     private void filterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterKeyPressed
@@ -286,7 +306,6 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     private javax.swing.JButton add;
     private javax.swing.JButton delete;
     private javax.swing.JTextField filter;
-    private javax.swing.JMenuItem functionAddUser;
     private javax.swing.JPanel functionContainer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
