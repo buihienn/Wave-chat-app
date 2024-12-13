@@ -295,5 +295,24 @@ public class UserBUS {
             return false;
         }
     }
+    
+    // UPdate User 
+    public boolean updateUser(String username, String name, String address, String gender) {
+        // Kiểm tra các thông tin đầu vào
+        if (username == null || username.isEmpty()) {
+            System.out.println("Username cannot be null or empty.");
+            return false;
+        }
+        boolean isUpdated = userDAO.updateUser(username, name, address, gender);
+
+        // Xử lý kết quả
+        if (isUpdated) {
+            System.out.println("User updated successfully.");
+            return true;
+        } else {
+            System.out.println("Failed to update user. Please check the database connection or input values.");
+            return false;
+        }
+    }
 
 }
