@@ -4,17 +4,38 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.dto.FriendAdminUserDTO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author buihi
  */
 public class AdminUserPanel_Friends extends javax.swing.JPanel {
-
+    private DefaultTableModel tableModel;
     /**
      * Creates new form AdminUserPanel_Friends
      */
     public AdminUserPanel_Friends() {
         initComponents();
+        
+        tableModel = new DefaultTableModel(new Object[]{"ID","Username", "Friend online", "Total friend"}, 0);
+        jTableFriend.setModel(tableModel);
+    }
+    
+    public void updateUserTable(List<FriendAdminUserDTO> friendAdminUserList) {
+        tableModel.setRowCount(0);
+
+        // Thêm từng dòng dữ liệu vào bảng
+        for (FriendAdminUserDTO user : friendAdminUserList) {
+            tableModel.addRow(new Object[]{
+                user.getUserID(),
+                user.getUserName(), 
+                user.getOnlineFriends(),
+                user.getTotalFriends()
+            });
+        }
     }
 
     /**
@@ -27,49 +48,17 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableFriend = new javax.swing.JTable();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableFriend.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"nguyenvana",  new Integer(100),  new Integer(200)},
-                {"nguyenvanb",  new Integer(111),  new Integer(222)},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Username", "Friends online", "Number of friends"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
-        jScrollPane1.setViewportView(jTable1);
+        ));
+        jScrollPane1.setViewportView(jTableFriend);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -89,6 +78,6 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableFriend;
     // End of variables declaration//GEN-END:variables
 }

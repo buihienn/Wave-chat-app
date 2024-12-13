@@ -32,7 +32,7 @@ public class FriendDTO {
     public boolean isOnlineStatus() {
         return onlineStatus;
     }
-
+    
     public void setOnlineStatus(boolean onlineStatus) {
         this.onlineStatus = onlineStatus;
     }

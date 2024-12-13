@@ -4,11 +4,15 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.FriendBUS;
 import com.wavechat.bus.UserBUS;
 import com.wavechat.dao.DBconnector;
+import com.wavechat.dao.UserDAO;
+import com.wavechat.dto.FriendDTO;
 import com.wavechat.dto.UserDTO;
 import com.wavechat.form.AdminAllUserAddUserForm;
 import com.wavechat.form.AdminAllUserUpdateUserForm;
+import com.wavechat.form.ListFriendFrame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -33,8 +37,9 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     public AdminUserPanel_AllUser() {
         initComponents();  
         
-        tableModel = new DefaultTableModel(new Object[]{"Username", "Name", "Address", "BirthDay", "Gender", "Email", "OnlineStatus", "Day Created"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"Username", "Name", "Address", "BirthDay", "Gender", "Email", "OnlineStatus", "Day Created", "Status"}, 0);
         userInformation.setModel(tableModel);
+        
     }
     
     public void updateUserTable(List<UserDTO> userList) {
@@ -50,7 +55,8 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
                 user.getGender(),         
                 user.getEmail(),
                 user.isOnlineStatus() ? "Online" : "Offline",
-                user.getCreatedDate()
+                user.getCreatedDate(),
+                user.isStatus() ? "Unlock" : "Blocked"
             });
         }
     }
@@ -94,7 +100,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        Delete = new javax.swing.JMenuItem();
+        FriendList = new javax.swing.JMenuItem();
         functionContainer = new javax.swing.JPanel();
         delete = new javax.swing.JButton();
         add = new javax.swing.JButton();
@@ -106,8 +112,14 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         userInformation = new javax.swing.JTable();
 
-        Delete.setText("Delete");
-        jPopupMenu1.add(Delete);
+        FriendList.setText("FriendList");
+        FriendList.setActionCommand("Friend List");
+        FriendList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FriendListActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(FriendList);
 
         delete.setText("Delete");
         delete.addActionListener(new java.awt.event.ActionListener() {
@@ -308,6 +320,26 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         updateUserForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
     }//GEN-LAST:event_updateActionPerformed
+
+    private void FriendListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FriendListActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
+        int selectedRow = userInformation.getSelectedRow();
+        
+        String username = model.getValueAt(selectedRow, 0).toString();
+        
+        UserDAO user = new UserDAO();
+        String id = user.getUserIDByUsername(username);
+        
+        FriendBUS friendBUS = new FriendBUS();
+        List<FriendDTO> friends = friendBUS.getFriends(id);
+        System.out.println("Số lượng bạn bè: " + friends.size());
+        ListFriendFrame listFriendFrame = new ListFriendFrame(friends);
+        listFriendFrame.setTitle("List friend of " + username);
+        listFriendFrame.setVisible(true);
+        listFriendFrame.pack();
+        listFriendFrame.setLocationRelativeTo(null);
+    }//GEN-LAST:event_FriendListActionPerformed
    
     public static void addNewUser (Object [] data) {
         
@@ -337,7 +369,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem Delete;
+    private javax.swing.JMenuItem FriendList;
     private javax.swing.JButton add;
     private javax.swing.JButton delete;
     private javax.swing.JTextField filter;
