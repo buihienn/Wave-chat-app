@@ -709,5 +709,38 @@ public class UserDAO {
         }
     }
 
+    // update user. 
+    public boolean updateUser(String username, String name, String address, String gender) {
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
 
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false; // Trả về false nếu không thể kết nối
+        }
+        
+        String query = "UPDATE User SET fullName = ?, address = ?, gender = ? WHERE username = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Gán giá trị cho các tham số
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, address);
+            preparedStatement.setString(3, gender);
+            preparedStatement.setString(4, username);
+            // Thực thi câu lệnh SQL
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0; // Trả về true nếu có dòng bị cập nhật
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; 
+        } finally {
+            try {
+                connection.close(); // Đóng kết nối
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
 }

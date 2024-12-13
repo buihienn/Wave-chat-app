@@ -8,6 +8,7 @@ import com.wavechat.bus.UserBUS;
 import com.wavechat.dao.DBconnector;
 import com.wavechat.dto.UserDTO;
 import com.wavechat.form.AdminAllUserAddUserForm;
+import com.wavechat.form.AdminAllUserUpdateUserForm;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -101,6 +102,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         onlineStatus = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        update = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         userInformation = new javax.swing.JTable();
 
@@ -146,24 +148,33 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
 
         jLabel2.setText("Online Status");
 
+        update.setText("Update");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout functionContainerLayout = new javax.swing.GroupLayout(functionContainer);
         functionContainer.setLayout(functionContainerLayout);
         functionContainerLayout.setHorizontalGroup(
             functionContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, functionContainerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(9, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(107, 107, 107)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(onlineStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(onlineStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
                 .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         functionContainerLayout.setVerticalGroup(
             functionContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,7 +185,8 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
                     .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(onlineStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(update))
                 .addContainerGap())
         );
 
@@ -273,6 +285,29 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         addUserForm.setLocationRelativeTo(null);
         addUserForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_addActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
+        int selectedRow = userInformation.getSelectedRow();
+        if (selectedRow == -1){
+            JOptionPane.showMessageDialog(this, "Please select a row to update.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        String username = model.getValueAt(selectedRow, 0).toString();
+        String name = model.getValueAt(selectedRow, 1).toString();
+        String address = model.getValueAt(selectedRow, 2).toString();
+        String gender = model.getValueAt(selectedRow, 4).toString();
+        
+        
+        AdminAllUserUpdateUserForm updateUserForm = new AdminAllUserUpdateUserForm();
+        updateUserForm.setUserData(username, name, address, gender);
+        updateUserForm.setVisible(true);
+        updateUserForm.pack();
+        updateUserForm.setLocationRelativeTo(null);
+        updateUserForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+    }//GEN-LAST:event_updateActionPerformed
    
     public static void addNewUser (Object [] data) {
         
@@ -312,6 +347,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> onlineStatus;
+    private javax.swing.JButton update;
     private static javax.swing.JTable userInformation;
     // End of variables declaration//GEN-END:variables
 }
