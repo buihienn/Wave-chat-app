@@ -35,8 +35,9 @@ public class UserHomePanel extends javax.swing.JPanel {
             addConversationListener(conversation, friend);
         }
         
-        openConversation(friendsList.get(0));
-        
+        if (friendsList.get(0) != null) {
+            openConversation(friendsList.get(0));
+        }
         GroupChatBUS groupChatBUS = new GroupChatBUS();
         List<GroupChatDTO> groupChats = groupChatBUS.getGroupChats(userID);
         

@@ -18,9 +18,8 @@ public class FriendDAO {
         String query = "SELECT u.userID, u.userName, u.onlineStatus, u.fullName " +
                        "FROM User u " +
                        "JOIN Friends f ON (f.userID1 = u.userID OR f.userID2 = u.userID) " +
-                       "JOIN Friend_requests fr ON (fr.requester_userID = f.userID1 AND fr.requested_userID = f.userID2) " +
                        "WHERE (f.userID1 = ? OR f.userID2 = ?) " +
-                       "AND u.userID != ? AND fr.status = 'accepted'";
+                       "AND u.userID != ?";
 
         // Tạo đối tượng DBconnector và kết nối
         DBconnector dbConnector = new DBconnector();  
