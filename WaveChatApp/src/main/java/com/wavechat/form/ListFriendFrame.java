@@ -6,6 +6,7 @@ package com.wavechat.form;
 
 import com.wavechat.dto.FriendDTO;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +24,7 @@ public class ListFriendFrame extends javax.swing.JFrame {
     }
     public ListFriendFrame(List<FriendDTO> friends) {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // Gọi phương thức để điền dữ liệu vào bảng
         tableModel = new DefaultTableModel(new Object[]{"Username", "FullName", "OnlineStatus"}, 0);
         jTable1.setModel(tableModel);

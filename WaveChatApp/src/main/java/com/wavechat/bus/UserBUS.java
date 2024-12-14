@@ -300,5 +300,24 @@ public class UserBUS {
             return false;
         }
     }
+    
+    // Admin lock user
+    public boolean adminLockUser(String username) {
+        return userDAO.adminLockUser(username);
+    }
+    // Admin Unlock user
+    public boolean adminUnlockUser(String username) {
+        return userDAO.adminUnlockUser(username);
+    }
+
+    // Kiểm tra xem người dùng có bị khóa (locked) hay không
+    public boolean isLock(String username) {
+        return userDAO.isLocked(username);
+    }
+
+    // Kiểm tra xem người dùng có mở khóa (unlocked) hay không
+    public boolean isUnlock(String username) {
+        return userDAO.isUnlock(username);
+    }
 
 }

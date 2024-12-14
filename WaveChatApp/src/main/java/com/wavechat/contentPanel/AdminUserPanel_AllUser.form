@@ -8,13 +8,30 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="FriendList">
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuFriendList">
           <Properties>
             <Property name="text" type="java.lang.String" value="FriendList"/>
             <Property name="actionCommand" type="java.lang.String" value="Friend List"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FriendListActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuFriendListActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuLock">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Lock"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuLockActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuUnlock">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Unlock"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuUnlockActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>
