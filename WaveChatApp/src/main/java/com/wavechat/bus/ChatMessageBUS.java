@@ -18,26 +18,15 @@ public class ChatMessageBUS {
     }
 
     // Hàm lấy tin nhắn giữa hai người dùng
-    public List<ChatMessageDTO> getMessagesBetweenUsers(String userID, String friendID) {
-        return chatDAO.getMessagesBetweenUsers(userID, friendID);
+    public List<ChatMessageDTO> getMessagesBetweenUsers(String userID, String friendID, int offset, int limit) {
+        return chatDAO.getMessagesBetweenUsers(userID, friendID, offset, limit);
     }
 
     // Hàm lấy tin nhắn trong nhóm chat
-    public List<ChatMessageDTO> getMessagesInGroup(int groupID) {
-        return chatDAO.getMessagesInGroup(groupID);
+    public List<ChatMessageDTO> getMessagesInGroup(int groupID, int offset, int limit) {
+        return chatDAO.getMessagesInGroup(groupID, offset, limit);
     }
     
-    // Hàm sort tin nhắn
-    public List<ChatMessageDTO> sortMessages(List<ChatMessageDTO> messages) {
-        // Sắp xếp tin nhắn theo thời gian gửi
-        Collections.sort(messages, new Comparator<ChatMessageDTO>() {
-            @Override
-            public int compare(ChatMessageDTO m1, ChatMessageDTO m2) {
-                return m1.getTimeSend().compareTo(m2.getTimeSend());
-            }
-        });
-        return messages;
-    }
 
     // Hàm lấy full name người gửi từ ID
     public String getFullnameSender(String senderID) {
