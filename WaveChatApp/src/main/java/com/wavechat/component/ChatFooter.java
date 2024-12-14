@@ -2,6 +2,7 @@ package com.wavechat.component;
 
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ChatMessageBUS;
+import java.awt.event.KeyEvent;
 
 public class ChatFooter extends javax.swing.JPanel {
     private String receiver;    
@@ -33,7 +34,7 @@ public class ChatFooter extends javax.swing.JPanel {
         if (success) {
             System.out.println("Message sent successfully!");
             inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
-            chatBody.addRight(messageText);
+            chatBody.addNew(messageText);
         } else {
             System.out.println("Failed to send message.");
         }
@@ -54,7 +55,7 @@ public class ChatFooter extends javax.swing.JPanel {
         if (success) {
             System.out.println("Group message sent successfully!");
             inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
-            chatBody.addRight(messageText);
+            chatBody.addNew(messageText);
         } else {
             System.out.println("Failed to send group message.");
         }
@@ -87,10 +88,14 @@ public class ChatFooter extends javax.swing.JPanel {
         inputTextArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         inputTextArea.setLineWrap(true);
         inputTextArea.setRows(20);
-        inputTextArea.setText("Send message");
         inputTextArea.setWrapStyleWord(true);
         inputTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 8, 0, 0));
         inputTextArea.setPreferredSize(new java.awt.Dimension(400, 40));
+        inputTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputTextAreaKeyPressed(evt);
+            }
+        });
         inputScrollPanel.setViewportView(inputTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -134,6 +139,17 @@ public class ChatFooter extends javax.swing.JPanel {
             handleGroupChat(groupID);
         }
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void inputTextAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextAreaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (mode == "user") {
+                handleChat(receiver);
+            }
+            else if (mode == "group") {
+                handleGroupChat(groupID);
+            }
+        }
+    }//GEN-LAST:event_inputTextAreaKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

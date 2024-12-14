@@ -13,7 +13,9 @@ import com.wavechat.dto.ChatMessageDTO;
 import com.wavechat.dto.FriendDTO;
 import com.wavechat.dto.GroupChatDTO;
 import com.wavechat.dto.UserDTO;
+import java.awt.BorderLayout;
 import java.util.List;
+import javax.swing.JButton;
 
 public class UserHomePanel extends javax.swing.JPanel {
 
@@ -59,6 +61,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                body.removeChat();
                 openConversation(friend);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
@@ -68,6 +71,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                body.removeChat();
                 openConversationForGroupChat(groupChat);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
@@ -76,89 +80,33 @@ public class UserHomePanel extends javax.swing.JPanel {
     public void openConversation(FriendDTO friend) {     
         String curUserID = GlobalVariable.getUserID();
         String friendID = friend.getUserID();
-        
-        body.removeChat();
+
+        // Update header và footer
         header.setInfor(friend.getFullName(), friend.isOnlineStatus());
         footer.setMode("user");        
         footer.setReceiver(friendID);
 
-        // Lấy tất cả tin nhắn giữa người dùng và bạn
-        ChatMessageBUS messageBUS = new ChatMessageBUS();
-        List<ChatMessageDTO> messages = messageBUS.getMessagesBetweenUsers(curUserID, friendID);
+        // Load tin nhắn
+        body.resetOffet();
+        body.setMode("user");  
+        body.loadMessages(friend);  
 
-        // Sắp xếp các tin nhắn theo thời gian
-        messages = messageBUS.sortMessages(messages);
-
-        // Hiển thị tin nhắn
-        String lastSenderID = null;
-        for (ChatMessageDTO message : messages) {
-            // Kiểm tra nếu người gửi khác với tin nhắn trước đó, hiển thị tên người gửi
-            if (lastSenderID == null || !lastSenderID.equals(message.getSenderID())) {
-                // Hiển thị tên người gửi nếu khác với tin nhắn trước đó
-                if (!message.getSenderID().equals(curUserID)) {
-                    body.addUsername(messageBUS.getFullnameSender(message.getSenderID())); // Tên bạn bè
-                }
-            }
-
-            // Hiển thị tin nhắn
-            if (message.getSenderID().equals(curUserID)) {
-                body.addRight(message.getMessage()); // Tin nhắn của người dùng
-            } else {
-                body.addLeft(message.getMessage()); // Tin nhắn của bạn bè
-            }
-
-            // Cập nhật người gửi cuối cùng
-            lastSenderID = message.getSenderID();
-        }
-
-        // Hiển thị panel lên giao diện
-        body.repaint();
-        body.revalidate();
     }
 
     
-    public void openConversationForGroupChat(GroupChatDTO groupChat) {
+    public void openConversationForGroupChat(GroupChatDTO groupChat) {     
         String curUserID = GlobalVariable.getUserID();
-        
-        body.removeChat();
+
+        // Update header và footer cho nhóm chat
         header.setInfor(groupChat.getGroupName(), groupChat.isOnlineStatus());
         footer.setMode("group");        
         footer.setGroupID(groupChat.getGroupID());
-        
-        ChatMessageBUS messageBUS = new ChatMessageBUS();
-        List<ChatMessageDTO> messages = messageBUS.getMessagesInGroup(groupChat.getGroupID());
 
-        // Sắp xếp các tin nhắn theo thời gian
-        messages = messageBUS.sortMessages(messages);
-
-
-        // Hiển thị tin nhắn
-        String lastSenderID = null;
-        for (ChatMessageDTO message : messages) {
-            // Kiểm tra nếu người gửi khác với tin nhắn trước đó, hiển thị tên người gửi
-            if (lastSenderID == null || !lastSenderID.equals(message.getSenderID())) {
-                if (!message.getSenderID().equals(curUserID)) {
-                    body.addUsername(messageBUS.getFullnameSender(message.getSenderID()));
-                }
-            }
-
-            // Hiển thị tin nhắn (tin nhắn của người dùng hoặc người trong nhóm)
-            if (message.getSenderID().equals(curUserID)) {
-                body.addRight(message.getMessage()); // Tin nhắn của người dùng
-            } else {
-                body.addLeft(message.getMessage()); // Tin nhắn của người trong nhóm
-            }
-
-            // Cập nhật người gửi cuối cùng
-            lastSenderID = message.getSenderID();
-        }
-
-        // Cập nhật giao diện (revalidate và repaint)
-        body.revalidate();
-        body.repaint();
+        // Load tin nhắn nhóm
+        body.resetOffet();
+        body.setMode("group");  
+        body.loadMessages(groupChat);  
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
