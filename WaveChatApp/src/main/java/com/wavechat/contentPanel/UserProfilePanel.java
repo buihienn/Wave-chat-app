@@ -212,7 +212,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
         preferRadioButton = new javax.swing.JRadioButton();
         fullnameEditDataLabel = new javax.swing.JTextField();
         userAvatar1 = new javax.swing.JLabel();
-        changeAvatarButton = new javax.swing.JButton();
         birthEditLabel = new javax.swing.JLabel();
         birthEditDataLabel = new javax.swing.JTextField();
         addressEditLabel = new javax.swing.JLabel();
@@ -285,14 +284,11 @@ public class UserProfilePanel extends javax.swing.JPanel {
             }
         });
 
+        userAvatar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user_profile.png"))); // NOI18N
         userAvatar1.setText("Avatar1");
-        userAvatar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
-
-        changeAvatarButton.setBackground(new java.awt.Color(26, 41, 128));
-        changeAvatarButton.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
-        changeAvatarButton.setForeground(new java.awt.Color(255, 255, 255));
-        changeAvatarButton.setText("Change");
+        userAvatar1.setMaximumSize(new java.awt.Dimension(75, 75));
+        userAvatar1.setMinimumSize(new java.awt.Dimension(75, 75));
+        userAvatar1.setPreferredSize(new java.awt.Dimension(75, 75));
 
         birthEditLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         birthEditLabel.setText("Date of birth:");
@@ -341,10 +337,8 @@ public class UserProfilePanel extends javax.swing.JPanel {
         popupEditProfileLayout.setHorizontalGroup(
             popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(popupEditProfileLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(changeAvatarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(popupEditProfileLayout.createSequentialGroup()
@@ -390,12 +384,9 @@ public class UserProfilePanel extends javax.swing.JPanel {
                         .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(birthEditLabel)
                             .addComponent(birthEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(popupEditProfileLayout.createSequentialGroup()
-                        .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fullnameEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(changeAvatarButton)))
+                    .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(userAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fullnameEditDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26)
                 .addGroup(popupEditProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addressEditLabel)
@@ -413,7 +404,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
         changePasswordDialog.setTitle("Wave - Edit Profile");
         changePasswordDialog.setMinimumSize(new java.awt.Dimension(500, 250));
         changePasswordDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
-        changePasswordDialog.setPreferredSize(new java.awt.Dimension(500, 250));
         changePasswordDialog.setResizable(false);
         changePasswordDialog.setSize(new java.awt.Dimension(500, 250));
 
@@ -525,9 +515,11 @@ public class UserProfilePanel extends javax.swing.JPanel {
 
         userContainer.setPreferredSize(new java.awt.Dimension(714, 364));
 
+        userAvatar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user_profile.png"))); // NOI18N
         userAvatar.setText("Avatar1");
-        userAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        userAvatar.setPreferredSize(new java.awt.Dimension(54, 54));
+        userAvatar.setMaximumSize(new java.awt.Dimension(75, 75));
+        userAvatar.setMinimumSize(new java.awt.Dimension(75, 75));
+        userAvatar.setPreferredSize(new java.awt.Dimension(75, 75));
 
         fullnameDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
 
@@ -806,7 +798,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
     private javax.swing.JLabel birthLabel;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton cancelButton1;
-    private javax.swing.JButton changeAvatarButton;
     private javax.swing.JButton changePasswordButton;
     private javax.swing.JDialog changePasswordDialog;
     private javax.swing.JButton confirmButton;

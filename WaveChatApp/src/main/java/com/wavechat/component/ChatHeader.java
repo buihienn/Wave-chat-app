@@ -39,8 +39,8 @@ public class ChatHeader extends javax.swing.JPanel {
 
         leftContainer.setPreferredSize(new java.awt.Dimension(200, 70));
 
+        userAvatar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user.png"))); // NOI18N
         userAvatar1.setText("Avatar1");
-        userAvatar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         userAvatar1.setPreferredSize(new java.awt.Dimension(54, 54));
 
         nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -84,6 +84,8 @@ public class ChatHeader extends javax.swing.JPanel {
         searchButton.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("Search");
+        searchButton.setMaximumSize(new java.awt.Dimension(72, 32));
+        searchButton.setMinimumSize(new java.awt.Dimension(72, 32));
         searchButton.setPreferredSize(new java.awt.Dimension(68, 32));
         rightContainer.add(searchButton);
 
