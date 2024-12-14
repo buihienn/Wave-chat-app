@@ -40,6 +40,8 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         tableModel = new DefaultTableModel(new Object[]{"Username", "Name", "Address", "BirthDay", "Gender", "Email", "OnlineStatus", "Day Created", "Status"}, 0);
         userInformation.setModel(tableModel);
         
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        userInformation.setRowSorter(sorter);
     }
     
     public void updateUserTable(List<UserDTO> userList) {
@@ -56,7 +58,7 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
                 user.getEmail(),
                 user.isOnlineStatus() ? "Online" : "Offline",
                 user.getCreatedDate(),
-                user.isStatus() ? "Unlock" : "Blocked"
+                user.isStatus() ? "Unlock" : "Locked"
             });
         }
     }
@@ -100,7 +102,9 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        FriendList = new javax.swing.JMenuItem();
+        jMenuFriendList = new javax.swing.JMenuItem();
+        jMenuLock = new javax.swing.JMenuItem();
+        jMenuUnlock = new javax.swing.JMenuItem();
         functionContainer = new javax.swing.JPanel();
         delete = new javax.swing.JButton();
         add = new javax.swing.JButton();
@@ -112,14 +116,31 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         userInformation = new javax.swing.JTable();
 
-        FriendList.setText("FriendList");
-        FriendList.setActionCommand("Friend List");
-        FriendList.addActionListener(new java.awt.event.ActionListener() {
+        jMenuFriendList.setText("FriendList");
+        jMenuFriendList.setActionCommand("Friend List");
+        jMenuFriendList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FriendListActionPerformed(evt);
+                jMenuFriendListActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(FriendList);
+        jPopupMenu1.add(jMenuFriendList);
+
+        jMenuLock.setText("Lock");
+        jMenuLock.setToolTipText("");
+        jMenuLock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuLockActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuLock);
+
+        jMenuUnlock.setText("Unlock");
+        jMenuUnlock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUnlockActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuUnlock);
 
         delete.setText("Delete");
         delete.addActionListener(new java.awt.event.ActionListener() {
@@ -238,7 +259,8 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         if (selectedRow == -1){
             JOptionPane.showMessageDialog(this, "Please select a row to delete.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        String username = model.getValueAt(selectedRow, 0).toString();
+        int modelRow = userInformation.convertRowIndexToModel(selectedRow);
+        String username = model.getValueAt(modelRow, 0).toString();
         int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete user: " + username + "?", 
                                                 "Confirm Deletion", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
@@ -305,11 +327,12 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         if (selectedRow == -1){
             JOptionPane.showMessageDialog(this, "Please select a row to update.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        int modelRow = userInformation.convertRowIndexToModel(selectedRow);
         
-        String username = model.getValueAt(selectedRow, 0).toString();
-        String name = model.getValueAt(selectedRow, 1).toString();
-        String address = model.getValueAt(selectedRow, 2).toString();
-        String gender = model.getValueAt(selectedRow, 4).toString();
+        String username = model.getValueAt(modelRow, 0).toString();
+        String name = model.getValueAt(modelRow, 1).toString();
+        String address = model.getValueAt(modelRow, 2).toString();
+        String gender = model.getValueAt(modelRow, 4).toString();
         
         
         AdminAllUserUpdateUserForm updateUserForm = new AdminAllUserUpdateUserForm();
@@ -321,16 +344,16 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         
     }//GEN-LAST:event_updateActionPerformed
 
-    private void FriendListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FriendListActionPerformed
+    private void jMenuFriendListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFriendListActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
         int selectedRow = userInformation.getSelectedRow();
-        
-        String username = model.getValueAt(selectedRow, 0).toString();
+        int modelRow = userInformation.convertRowIndexToModel(selectedRow);
+        String username = model.getValueAt(modelRow, 0).toString();
         
         UserDAO user = new UserDAO();
         String id = user.getUserIDByUsername(username);
-        
+        System.out.println("ID: " + id);
         FriendBUS friendBUS = new FriendBUS();
         List<FriendDTO> friends = friendBUS.getFriends(id);
         System.out.println("Số lượng bạn bè: " + friends.size());
@@ -339,7 +362,47 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         listFriendFrame.setVisible(true);
         listFriendFrame.pack();
         listFriendFrame.setLocationRelativeTo(null);
-    }//GEN-LAST:event_FriendListActionPerformed
+    }//GEN-LAST:event_jMenuFriendListActionPerformed
+
+    private void jMenuLockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLockActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
+        int selectedRow = userInformation.getSelectedRow();
+        int modelRow = userInformation.convertRowIndexToModel(selectedRow);
+        String username = model.getValueAt(modelRow, 0).toString();
+        UserBUS userBUS = new UserBUS();
+        if (userBUS.isLock(username)) {
+            JOptionPane.showMessageDialog(null, "User is already locked.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            boolean result = userBUS.adminLockUser(username);
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Lock user: " + username + " successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to lock user: " + username, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jMenuLockActionPerformed
+
+    private void jMenuUnlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUnlockActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
+        int selectedRow = userInformation.getSelectedRow();
+        
+        int modelRow = userInformation.convertRowIndexToModel(selectedRow);
+        String username = model.getValueAt(modelRow, 0).toString();
+        
+        UserBUS userBUS = new UserBUS();
+        if (userBUS.isUnlock(username)) {
+            JOptionPane.showMessageDialog(null, "User is already unlock.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            boolean result = userBUS.adminUnlockUser(username);
+            if (result) {
+                JOptionPane.showMessageDialog(null, "UnLock user: " + username + " successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to unlock user: " + username, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jMenuUnlockActionPerformed
    
     public static void addNewUser (Object [] data) {
         
@@ -369,13 +432,15 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem FriendList;
     private javax.swing.JButton add;
     private javax.swing.JButton delete;
     private javax.swing.JTextField filter;
     private javax.swing.JPanel functionContainer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuItem jMenuFriendList;
+    private javax.swing.JMenuItem jMenuLock;
+    private javax.swing.JMenuItem jMenuUnlock;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> onlineStatus;

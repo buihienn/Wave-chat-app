@@ -715,24 +715,18 @@ public class UserDAO {
     public boolean updateUser(String username, String name, String address, String gender) {
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
-
         if (connection == null) {
             System.out.println("Failed to establish a database connection.");
             return false; // Trả về false nếu không thể kết nối
         }
-        
         String query = "UPDATE User SET fullName = ?, address = ?, gender = ? WHERE username = ?";
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            // Gán giá trị cho các tham số
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, address);
             preparedStatement.setString(3, gender);
             preparedStatement.setString(4, username);
-            // Thực thi câu lệnh SQL
             int rowsUpdated = preparedStatement.executeUpdate();
-            return rowsUpdated > 0; // Trả về true nếu có dòng bị cập nhật
-            
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false; 
@@ -745,8 +739,113 @@ public class UserDAO {
         }
     }
     
+    // Admin Block user 
+    public boolean adminLockUser(String username) {
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false;
+        }
+        String query = "UPDATE User SET status = false WHERE userName = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0; 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; 
+        } finally {
+            try {
+                connection.close(); 
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
+    public boolean adminUnlockUser(String username) {
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false;
+        }
+        String query = "UPDATE User SET status = true WHERE userName = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0; 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; 
+        } finally {
+            try {
+                connection.close(); 
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
+    // Check lock
+    public boolean isLocked(String username) {
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false; // Nếu không thể kết nối, trả về false
+        }
+        String query = "SELECT status FROM User WHERE userName = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return !resultSet.getBoolean("status");
+            } else {
+                System.out.println("User not found.");
+                return false; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
+    // check unlock
+    public boolean isUnlock(String username) {
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false; 
+        }
+        String query = "SELECT status FROM User WHERE userName = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBoolean("status");
+            } else {
+                System.out.println("User not found.");
+                return false; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
 }
