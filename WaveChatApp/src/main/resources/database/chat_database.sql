@@ -20,6 +20,7 @@ CREATE TABLE User (
     createdDate DATE,
     status BOOL,
     onlineStatus BOOL,
+    isAdmin BOOL,
 
     CONSTRAINT PK_USER PRIMARY KEY (userID)
 );
@@ -165,15 +166,15 @@ ADD CONSTRAINT FK_AdminApp_User FOREIGN KEY (userID) REFERENCES User(userID);
 
 -- Add 
 
-INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus)
+INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, isAdmin)
 VALUES 
-('U001', 'buihien', '123', 'B H', '123 Main St', '1990-01-01', 'male', 'bh1@example.com', '2024-11-26', TRUE, TRUE),
-('U002', 'phuvinh', '123456', 'P Vinh', '456 Elm St', '1992-02-02', 'male', 'pv2@example.com', '2024-11-26', TRUE, FALSE),
-('U003', 'someone', '123222', 'S one', '456 Elm St', '1992-02-02', 'male', 'pv3@example.com', '2024-11-26', TRUE, TRUE),
-('U004', 'another', '123', 'Ano ther', '456 Elm St', '1992-02-02', 'female', 'pv4@example.com', '2024-11-26', TRUE, FALSE),
-('U005', 'other', '123', 'Mor than', '456 Elm St', '1992-02-02', 'female', 'pv5@example.com', '2024-11-26', TRUE, FALSE),
-('U006', 'others', '123', 'Other s', '456 Elm St', NULL, 'male', 'pv6@example.com', '2024-11-26', TRUE, FALSE),
-('U007', 'Admin1', '123', 'Admintest', '456 Elm St', '1992-02-02', 'male', 'pv9@example.com', '2024-10-20', TRUE, FALSE);
+('U001', 'buihien', '123', 'B H', '123 Main St', '1990-01-01', 'male', 'bh1@example.com', '2024-11-26', TRUE, TRUE, FALSE),
+('U002', 'phuvinh', '123456', 'P Vinh', '456 Elm St', '1992-02-02', 'male', 'pv2@example.com', '2024-11-26', TRUE, FALSE, FALSE),
+('U003', 'someone', '123222', 'S one', '456 Elm St', '1992-02-02', 'male', 'pv3@example.com', '2024-11-26', TRUE, TRUE, FALSE),
+('U004', 'another', '123', 'Ano ther', '456 Elm St', '1992-02-02', 'female', 'pv4@example.com', '2024-11-26', TRUE, FALSE, FALSE),
+('U005', 'other', '123', 'Mor than', '456 Elm St', '1992-02-02', 'female', 'pv5@example.com', '2024-11-26', TRUE, FALSE, FALSE),
+('U006', 'others', '123', 'Other s', '456 Elm St', NULL, 'male', 'pv6@example.com', '2024-11-26', TRUE, FALSE, FALSE),
+('U007', 'Admin1', '123', 'Admintest', '456 Elm St', '1992-02-02', 'male', 'pv9@example.com', '2024-10-20', TRUE, FALSE, FALSE);
 
 INSERT INTO AdminApp (userID)
 VALUES ('U001');
