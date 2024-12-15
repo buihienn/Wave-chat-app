@@ -24,6 +24,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -105,6 +106,13 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         jMenuFriendList = new javax.swing.JMenuItem();
         jMenuLock = new javax.swing.JMenuItem();
         jMenuUnlock = new javax.swing.JMenuItem();
+        jMenuPassword = new javax.swing.JMenuItem();
+        jDialog1 = new javax.swing.JDialog();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        buttonResetPassword = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         functionContainer = new javax.swing.JPanel();
         delete = new javax.swing.JButton();
         add = new javax.swing.JButton();
@@ -141,6 +149,72 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
             }
         });
         jPopupMenu1.add(jMenuUnlock);
+
+        jMenuPassword.setText("Update/Reset password");
+        jMenuPassword.setToolTipText("");
+        jMenuPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuPasswordActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuPassword);
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Enter new password");
+
+        buttonResetPassword.setText("Reset password");
+        buttonResetPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonResetPasswordActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Or reset password ");
+
+        jButton2.setText("Ok");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField1)
+                    .addComponent(jLabel3)
+                    .addComponent(buttonResetPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(29, 29, 29))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonResetPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
 
         delete.setText("Delete");
         delete.addActionListener(new java.awt.event.ActionListener() {
@@ -353,10 +427,8 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         
         UserDAO user = new UserDAO();
         String id = user.getUserIDByUsername(username);
-        System.out.println("ID: " + id);
         FriendBUS friendBUS = new FriendBUS();
         List<FriendDTO> friends = friendBUS.getFriends(id);
-        System.out.println("Số lượng bạn bè: " + friends.size());
         ListFriendFrame listFriendFrame = new ListFriendFrame(friends);
         listFriendFrame.setTitle("List friend of " + username);
         listFriendFrame.setVisible(true);
@@ -403,6 +475,83 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jMenuUnlockActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void buttonResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResetPasswordActionPerformed
+        // TODO add your handling code here:
+        String actionCommand = buttonResetPassword.getActionCommand();
+        String[] parts = actionCommand.split(",");
+        String username = parts[0];  
+        String email = parts[1];
+        
+        UserDAO userDAO = new UserDAO();
+        UserBUS userBUS = new UserBUS();
+        
+        if (!userDAO.checkUserNameExist(username)){
+            JOptionPane.showMessageDialog(this, "Username does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // Sinh mật khẩu ngẫu nhiên
+        String rawPassword = UserBUS.generateNewPassword();
+        // Hash mật khẩu
+        String newPassword = userBUS.hashPassword(rawPassword);
+        
+        boolean updateSuccessful = userDAO.updatePasswordByID(userDAO.getUserIDByUsername(username), newPassword);
+
+        if (updateSuccessful) {
+            UserBUS.sendPasswordToEmail(email, rawPassword);
+            JOptionPane.showMessageDialog(this, "Password updated successfully. \n" + "Check your email: " + email, "Success", JOptionPane.INFORMATION_MESSAGE);
+            jDialog1.dispose();  
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_buttonResetPasswordActionPerformed
+
+    private void jMenuPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPasswordActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) userInformation.getModel();
+        int selectedRow = userInformation.getSelectedRow();
+        
+        int modelRow = userInformation.convertRowIndexToModel(selectedRow);
+        String username = model.getValueAt(modelRow, 0).toString();
+        String email = model.getValueAt(modelRow, 5).toString();
+        jButton2.setActionCommand(username);
+        buttonResetPassword.setActionCommand(username + "," + email);
+        
+        jDialog1.setTitle("Update/reset password: " + username);
+        jDialog1.pack();
+        jDialog1.setLocationRelativeTo(null);
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_jMenuPasswordActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String username = jButton2.getActionCommand(); // get username by jButton2.setActionCommand
+        UserDAO userDAO = new UserDAO();
+
+        if (!userDAO.checkUserNameExist(username)){
+            JOptionPane.showMessageDialog(this, "Username does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String newPasswordInput = jTextField1.getText().trim();
+        if (newPasswordInput.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a new password.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String newPassword = BCrypt.hashpw(newPasswordInput, BCrypt.gensalt(12)); // hash
+        boolean updateSuccessful = userDAO.updatePasswordByID(userDAO.getUserIDByUsername(username), newPassword);
+
+        if (updateSuccessful) {
+            JOptionPane.showMessageDialog(this, "Password updated successfully - New pass: " + newPasswordInput, "Success", JOptionPane.INFORMATION_MESSAGE);
+            jDialog1.dispose();  
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
    
     public static void addNewUser (Object [] data) {
         
@@ -433,16 +582,23 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
+    private javax.swing.JButton buttonResetPassword;
     private javax.swing.JButton delete;
     private javax.swing.JTextField filter;
     private javax.swing.JPanel functionContainer;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuItem jMenuFriendList;
     private javax.swing.JMenuItem jMenuLock;
+    private javax.swing.JMenuItem jMenuPassword;
     private javax.swing.JMenuItem jMenuUnlock;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JComboBox<String> onlineStatus;
     private javax.swing.JButton update;
     private static javax.swing.JTable userInformation;
