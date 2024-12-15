@@ -10,7 +10,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class UserFindFriendPanel extends javax.swing.JPanel {
     private int offset = 0;
-    private int limit = 2;
+    private int limit = 5;
     
     public UserFindFriendPanel() {
         initComponents();

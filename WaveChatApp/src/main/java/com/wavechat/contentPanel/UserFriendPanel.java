@@ -6,6 +6,7 @@ import com.wavechat.dao.*;
 import com.wavechat.dto.*;
 import com.wavechat.component.ButtonEditor;
 import com.wavechat.component.ButtonRenderer;
+import com.wavechat.form.UserHomeMain;
 import java.awt.Component;
 import java.awt.event.*;
 import java.util.*;
@@ -143,7 +144,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 // Gọi hàm xử lý Unfriend từ FriendBUS
                 FriendBUS friendBUS = new FriendBUS();
                 boolean success = friendBUS.unfriend(userID, friendUserID);
-                System.out.println("S" + userID + " friend " + friendUserID);
                 if (success) {
                     System.out.println("Successfully unfriended " + userName);
                     List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
@@ -334,7 +334,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
         for (FriendRequestDTO request : allRequests) {
             // Kiểm tra xem tên đầy đủ của người yêu cầu hoặc người nhận có chứa từ khóa tìm kiếm không
             if (request.getFullName().toLowerCase().contains(searchQuery)) {
-                System.out.println(request.getFullName().toLowerCase());
                 filteredRequests.add(request); // Nếu có, thêm vào danh sách kết quả lọc
             }
         }
@@ -400,7 +399,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 // Gọi hàm xử lý Unfriend từ FriendBUS
                 FriendBUS friendBUS = new FriendBUS();
                 boolean success = friendBUS.unfriend(userID, friendUserID);
-                System.out.println("S" + userID + " friend " + friendUserID);
                 if (success) {
                     System.out.println("Successfully unfriended " + userName);
                     List<FriendDTO> tempFriend = friendBUS.getFriends(userID);
@@ -466,7 +464,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
         for (FriendDTO friend : allFriends) {
             // Kiểm tra xem tên đầy đủ của bạn bè có chứa từ khóa tìm kiếm không
             if (friend.getFullName().toLowerCase().contains(searchQuery)) {
-                System.out.println("friend name: " + friend.getFullName() + " query: " + searchQuery);
                 filteredFriends.add(friend); // Nếu có, thêm vào danh sách kết quả lọc
             }
         }
@@ -486,6 +483,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
                     String friendUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
 
                     JOptionPane.showMessageDialog(this, "Choosing: " + friendUserID + " " + userName, "Error", JOptionPane.ERROR_MESSAGE);
+                    handleChat(friendUserID);
                 }
             }
         });
@@ -535,6 +533,23 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 }
             }
         }
+    }
+
+    private void handleChat(String friendID) {
+        // Tạo conversation nếu chưa có
+        ConversationBUS conversationBUS = new ConversationBUS();
+        // Kiểm tra xem conversation đã tồn tại giữa currentUserID và friendID chưa
+        ConversationDTO conversationDTO = conversationBUS.checkConversationExists(friendID);
+
+        if (conversationDTO == null) {
+            // Nếu không tồn tại conversation, tạo 1 cái mới
+            conversationDTO = conversationBUS.addConversation(friendID);
+        }
+        
+        // Mở chat
+        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain
+        userHomeMain.showChatPanel();  
+        userHomeMain.userHomePanel.openConversation(conversationDTO);
     }
 
     
