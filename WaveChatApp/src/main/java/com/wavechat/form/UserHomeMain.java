@@ -6,8 +6,7 @@ import com.wavechat.contentPanel.UserHomePanel;
 import com.wavechat.contentPanel.UserProfilePanel;
 
 public class UserHomeMain extends javax.swing.JFrame {
-
-    UserHomePanel userHomePanel = new UserHomePanel();    
+    public UserHomePanel userHomePanel = new UserHomePanel();    
     UserFriendPanel userFriendPanel = new UserFriendPanel();   
     UserFindFriendPanel userFindFriendPanel = new UserFindFriendPanel();
     UserProfilePanel userProfilePanel = new UserProfilePanel();
@@ -30,116 +29,115 @@ public class UserHomeMain extends javax.swing.JFrame {
 
     }
     
-    private void changeModeButton(String mode) {
-        if (mode == "Chat") {
-            navChatButton.setBackground(new java.awt.Color(153, 255, 255));
-            navChatButton.setForeground(new java.awt.Color(0, 0, 0));
-            navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_black.png")));
-            
-            navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-            navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-            navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png")));
+    public void showChatPanel() {
+        navChatButton.setBackground(new java.awt.Color(153, 255, 255));
+        navChatButton.setForeground(new java.awt.Color(0, 0, 0));
+        navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_black.png")));
 
-            
-            navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-            navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-            navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png")));
-            
-            navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
-            navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
-            navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png")));
-            
-            logoutButton.setBackground(new java.awt.Color(26, 41, 128));
-            logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
-            
-            userHomePanel.open();
-            
-            userHomePanel.setVisible(true);        
-            userFriendPanel.setVisible(false);
-            userFindFriendPanel.setVisible(false);        
-            userProfilePanel.setVisible(false);
+        navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png")));
 
-        }
-        else if (mode == "Friend") {
-            navFriendButton.setBackground(new java.awt.Color(153, 255, 255));
-            navFriendButton.setForeground(new java.awt.Color(0, 0, 0));
-            navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_black.png")));
-            
-            navChatButton.setBackground(new java.awt.Color(26, 41, 128));
-            navChatButton.setForeground(new java.awt.Color(255, 255, 255));
-            navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png")));
 
-            
-            navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-            navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-            navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png")));
-            
-            navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
-            navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
-            navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png")));
-            
-            logoutButton.setBackground(new java.awt.Color(26, 41, 128));
-            logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
-            
-            userHomePanel.setVisible(false);        
-            userFriendPanel.setVisible(true);
-            userFindFriendPanel.setVisible(false);        
-            userProfilePanel.setVisible(false);
-        }
-        else if (mode == "Find") {
-            navFindFriendButton.setBackground(new java.awt.Color(153, 255, 255));
-            navFindFriendButton.setForeground(new java.awt.Color(0, 0, 0));
-            navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_black.png")));
-            
-            navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-            navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-            navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png")));
+        navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png")));
 
-            
-            navChatButton.setBackground(new java.awt.Color(26, 41, 128));
-            navChatButton.setForeground(new java.awt.Color(255, 255, 255));
-            navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png")));
-            
-            navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
-            navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
-            navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png")));
-            
-            logoutButton.setBackground(new java.awt.Color(26, 41, 128));
-            logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
-            
-            userHomePanel.setVisible(false);        
-            userFriendPanel.setVisible(false);
-            userFindFriendPanel.setVisible(true);        
-            userProfilePanel.setVisible(false);
-        }
-        else if (mode == "Profile") {
-            navProfileButton.setBackground(new java.awt.Color(153, 255, 255));
-            navProfileButton.setForeground(new java.awt.Color(0, 0, 0));
-            navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_black.png")));
-            
-            navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-            navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-            navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png")));
+        navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
+        navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
+        navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png")));
 
-            
-            navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
-            navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-            navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png")));
-            
-            navChatButton.setBackground(new java.awt.Color(26, 41, 128));
-            navChatButton.setForeground(new java.awt.Color(255, 255, 255));
-            navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png")));
-            
-            logoutButton.setBackground(new java.awt.Color(153, 255, 255));
-            logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_black.png")));
-            
-            userHomePanel.setVisible(false);     
-            userFriendPanel.setVisible(false);
-            userFindFriendPanel.setVisible(false);        
-            userProfilePanel.setVisible(true);
-        }
+        logoutButton.setBackground(new java.awt.Color(26, 41, 128));
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
+
+        userHomePanel.open();
+
+        userHomePanel.setVisible(true);        
+        userFriendPanel.setVisible(false);
+        userFindFriendPanel.setVisible(false);        
+        userProfilePanel.setVisible(false);
     }
+    
+    public void showFriendPanel() {
+        navFriendButton.setBackground(new java.awt.Color(153, 255, 255));
+        navFriendButton.setForeground(new java.awt.Color(0, 0, 0));
+        navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_black.png")));
 
+        navChatButton.setBackground(new java.awt.Color(26, 41, 128));
+        navChatButton.setForeground(new java.awt.Color(255, 255, 255));
+        navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png")));
+
+
+        navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png")));
+
+        navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
+        navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
+        navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png")));
+
+        logoutButton.setBackground(new java.awt.Color(26, 41, 128));
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
+
+        userHomePanel.setVisible(false);        
+        userFriendPanel.setVisible(true);
+        userFindFriendPanel.setVisible(false);        
+        userProfilePanel.setVisible(false);
+    }
+    
+    public void showFindFriendPanel() {
+        navFindFriendButton.setBackground(new java.awt.Color(153, 255, 255));
+        navFindFriendButton.setForeground(new java.awt.Color(0, 0, 0));
+        navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_black.png")));
+
+        navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png")));
+
+
+        navChatButton.setBackground(new java.awt.Color(26, 41, 128));
+        navChatButton.setForeground(new java.awt.Color(255, 255, 255));
+        navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png")));
+
+        navProfileButton.setBackground(new java.awt.Color(26, 41, 128));
+        navProfileButton.setForeground(new java.awt.Color(255, 255, 255));
+        navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_white.png")));
+
+        logoutButton.setBackground(new java.awt.Color(26, 41, 128));
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
+
+        userHomePanel.setVisible(false);        
+        userFriendPanel.setVisible(false);
+        userFindFriendPanel.setVisible(true);        
+        userProfilePanel.setVisible(false);
+    }
+        
+    public void showProfilePanel() {
+        navProfileButton.setBackground(new java.awt.Color(153, 255, 255));
+        navProfileButton.setForeground(new java.awt.Color(0, 0, 0));
+        navProfileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile_black.png")));
+
+        navFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/friend_white.png")));
+
+
+        navFindFriendButton.setBackground(new java.awt.Color(26, 41, 128));
+        navFindFriendButton.setForeground(new java.awt.Color(255, 255, 255));
+        navFindFriendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_white.png")));
+
+        navChatButton.setBackground(new java.awt.Color(26, 41, 128));
+        navChatButton.setForeground(new java.awt.Color(255, 255, 255));
+        navChatButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/chat_white.png")));
+
+        logoutButton.setBackground(new java.awt.Color(153, 255, 255));
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_black.png")));
+
+        userHomePanel.setVisible(false);     
+        userFriendPanel.setVisible(false);
+        userFindFriendPanel.setVisible(false);        
+        userProfilePanel.setVisible(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -284,19 +282,19 @@ public class UserHomeMain extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void navFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navFriendButtonActionPerformed
-        changeModeButton("Friend");
+        showFriendPanel();
     }//GEN-LAST:event_navFriendButtonActionPerformed
 
     private void navChatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navChatButtonActionPerformed
-        changeModeButton("Chat");
+        showChatPanel();
     }//GEN-LAST:event_navChatButtonActionPerformed
 
     private void navFindFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navFindFriendButtonActionPerformed
-        changeModeButton("Find");
+        showFindFriendPanel();
     }//GEN-LAST:event_navFindFriendButtonActionPerformed
 
     private void navProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navProfileButtonActionPerformed
-        changeModeButton("Profile");
+        showProfilePanel();
     }//GEN-LAST:event_navProfileButtonActionPerformed
 
     /**
@@ -334,7 +332,6 @@ public class UserHomeMain extends javax.swing.JFrame {
         });
     }
 
-    private String mode = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane contentContainer;
     private javax.swing.JLabel logoContainer;

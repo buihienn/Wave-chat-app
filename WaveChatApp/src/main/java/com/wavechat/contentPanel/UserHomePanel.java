@@ -110,7 +110,6 @@ public class UserHomePanel extends javax.swing.JPanel {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                body.removeChat();
                 openConversation(conversation);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
@@ -120,7 +119,6 @@ public class UserHomePanel extends javax.swing.JPanel {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                body.removeChat();
                 openConversationForGroupChat(groupChat, conversation);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
@@ -139,9 +137,11 @@ public class UserHomePanel extends javax.swing.JPanel {
             footer.setCurConversation(conversation);
 
             // Load tin nhắn
+            body.removeChat();
             body.resetOffet();
             body.setMode("user");  
             body.loadMessages(friend);  
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -161,6 +161,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         footer.setCurConversation(conversation);
 
         // Load tin nhắn nhóm
+        body.removeChat();
         body.resetOffet();
         body.setMode("group");  
         body.loadMessages(groupChat); 

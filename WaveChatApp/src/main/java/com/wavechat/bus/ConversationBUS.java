@@ -1,5 +1,6 @@
 package com.wavechat.bus;
 
+import com.wavechat.GlobalVariable;
 import com.wavechat.dao.ConversationDAO;
 import com.wavechat.dto.ConversationDTO;
 
@@ -15,5 +16,15 @@ public class ConversationBUS {
 
     public List<ConversationDTO> getConversations(String userID) {
         return conversationDAO.getConversationsByUser(userID);
+    }
+    
+    public ConversationDTO checkConversationExists(String friendID) {
+        String userID = GlobalVariable.getUserID();
+        return conversationDAO.getOneConversationByID(userID, friendID);
+    }
+
+    public ConversationDTO addConversation(String friendID) {
+        String userID = GlobalVariable.getUserID();
+        return conversationDAO.addConversation(userID, friendID);
     }
 }
