@@ -9,11 +9,11 @@ import java.util.List;
 import net.miginfocom.swing.MigLayout;
 
 public class ChatBody extends javax.swing.JPanel {
-    private int currentOffset = 0;  // Biến lưu trữ offset
-    private int limit = 5;  // Số tin nhắn mỗi lần tải
+    private int currentOffset = 0;  
+    private int limit = 5; 
     private FriendDTO currentFriend;
-    private String lastSenderID = null;  // Lưu trữ ID của người gửi trước đó
-    private String newSenderID = null;   // Lưu trữ ID của người gửi tin nhắn hiện tại
+    private String lastSenderID = null; 
+    private String newSenderID = null;  
     private GroupChatDTO currentGroup;
     private String mode;
     
@@ -87,7 +87,6 @@ public class ChatBody extends javax.swing.JPanel {
         body.repaint();
     }
     
-    // Phương thức để hiển thị tin nhắn
     private void displayMessages(List<ChatMessageDTO> messages) {
         String curUserID = GlobalVariable.getUserID();
         ChatMessageBUS messageBUS = new ChatMessageBUS();
@@ -122,11 +121,9 @@ public class ChatBody extends javax.swing.JPanel {
         }
     }
 
-
     public void loadMessages(GroupChatDTO groupChat) {
         this.currentGroup = groupChat;
 
-        String curUserID = GlobalVariable.getUserID();
         int groupID = currentGroup.getGroupID();
 
         // Lấy danh sách tin nhắn nhóm từ DB

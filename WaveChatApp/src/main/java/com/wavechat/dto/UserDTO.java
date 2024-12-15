@@ -49,6 +49,13 @@ public class UserDTO {
         this.birthDay = birthDay;
         this.gender = gender;
     }
+    
+    public UserDTO(String userID, String userName, String fullName, boolean onlineStatus) {
+        this.userID = userID;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.onlineStatus = onlineStatus;
+    }
 
     // Getters và Setters
     public String getUserID() { return userID; }

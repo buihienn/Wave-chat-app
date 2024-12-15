@@ -21,6 +21,8 @@ public class UserHomeMain extends javax.swing.JFrame {
         contentContainer.add(userFindFriendPanel);           
         contentContainer.add(userProfilePanel);        
       
+        userHomePanel.open();
+                    
         userHomePanel.setVisible(true);        
         userFriendPanel.setVisible(false);
         userFindFriendPanel.setVisible(false);        
@@ -49,6 +51,13 @@ public class UserHomeMain extends javax.swing.JFrame {
             
             logoutButton.setBackground(new java.awt.Color(26, 41, 128));
             logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
+            
+            userHomePanel.open();
+            
+            userHomePanel.setVisible(true);        
+            userFriendPanel.setVisible(false);
+            userFindFriendPanel.setVisible(false);        
+            userProfilePanel.setVisible(false);
 
         }
         else if (mode == "Friend") {
@@ -71,6 +80,11 @@ public class UserHomeMain extends javax.swing.JFrame {
             
             logoutButton.setBackground(new java.awt.Color(26, 41, 128));
             logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
+            
+            userHomePanel.setVisible(false);        
+            userFriendPanel.setVisible(true);
+            userFindFriendPanel.setVisible(false);        
+            userProfilePanel.setVisible(false);
         }
         else if (mode == "Find") {
             navFindFriendButton.setBackground(new java.awt.Color(153, 255, 255));
@@ -92,6 +106,11 @@ public class UserHomeMain extends javax.swing.JFrame {
             
             logoutButton.setBackground(new java.awt.Color(26, 41, 128));
             logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
+            
+            userHomePanel.setVisible(false);        
+            userFriendPanel.setVisible(false);
+            userFindFriendPanel.setVisible(true);        
+            userProfilePanel.setVisible(false);
         }
         else if (mode == "Profile") {
             navProfileButton.setBackground(new java.awt.Color(153, 255, 255));
@@ -113,6 +132,11 @@ public class UserHomeMain extends javax.swing.JFrame {
             
             logoutButton.setBackground(new java.awt.Color(153, 255, 255));
             logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_black.png")));
+            
+            userHomePanel.setVisible(false);     
+            userFriendPanel.setVisible(false);
+            userFindFriendPanel.setVisible(false);        
+            userProfilePanel.setVisible(true);
         }
     }
 
@@ -260,34 +284,18 @@ public class UserHomeMain extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void navFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navFriendButtonActionPerformed
-        userHomePanel.setVisible(false);        
-        userFriendPanel.setVisible(true);
-        userFindFriendPanel.setVisible(false);        
-        userProfilePanel.setVisible(false);
         changeModeButton("Friend");
     }//GEN-LAST:event_navFriendButtonActionPerformed
 
     private void navChatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navChatButtonActionPerformed
-        userHomePanel.setVisible(true);        
-        userFriendPanel.setVisible(false);
-        userFindFriendPanel.setVisible(false);        
-        userProfilePanel.setVisible(false);
         changeModeButton("Chat");
     }//GEN-LAST:event_navChatButtonActionPerformed
 
     private void navFindFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navFindFriendButtonActionPerformed
-        userHomePanel.setVisible(false);        
-        userFriendPanel.setVisible(false);
-        userFindFriendPanel.setVisible(true);        
-        userProfilePanel.setVisible(false);
         changeModeButton("Find");
     }//GEN-LAST:event_navFindFriendButtonActionPerformed
 
     private void navProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navProfileButtonActionPerformed
-        userHomePanel.setVisible(false);        
-        userFriendPanel.setVisible(false);
-        userFindFriendPanel.setVisible(false);        
-        userProfilePanel.setVisible(true);
         changeModeButton("Profile");
     }//GEN-LAST:event_navProfileButtonActionPerformed
 
