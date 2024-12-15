@@ -320,4 +320,18 @@ public class UserBUS {
         return userDAO.isUnlock(username);
     }
 
+    // Hàm tìm kiếm user theo userName
+    public List<UserDTO> findUserByUserName(String query, int offset, int limit) {
+        return userDAO.findUserByUserName(query, offset, limit);  // Gọi phương thức tìm kiếm trong DAO
+    }
+    
+    // Hàm tìm kiếm user theo fullName
+    public List<UserDTO> findUserByFullName(String query, int offset, int limit) {
+        return userDAO.findUserByFullName(query, offset, limit);  // Gọi phương thức tìm kiếm trong DAO
+    }
+    
+    // Hàm kiểm tra friend
+    public boolean isFriend(String userID1, String userID2) {
+        return userDAO.isFriend(userID1, userID2);
+    }
 }

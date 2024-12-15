@@ -2,6 +2,7 @@ package com.wavechat.component;
 
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ChatMessageBUS;
+import com.wavechat.dto.ConversationDTO;
 import java.awt.event.KeyEvent;
 
 public class ChatFooter extends javax.swing.JPanel {
@@ -9,10 +10,15 @@ public class ChatFooter extends javax.swing.JPanel {
     private int groupID;
     private String mode;
     private ChatBody chatBody;
+    private ConversationDTO curConversation;
     
     public ChatFooter(ChatBody chatBody) {
         this.chatBody = chatBody;  
         initComponents();
+    }
+    
+    public void setCurConversation(ConversationDTO curConversation) {
+        this.curConversation = curConversation;
     }
     
     public void setReceiver(String receiver) { this.receiver = receiver; }    
@@ -20,20 +26,19 @@ public class ChatFooter extends javax.swing.JPanel {
     public void setMode(String mode) { this.mode = mode; }
     
     private void handleChat(String receiverID) {
-        String messageText = inputTextArea.getText().trim();  // Lấy tin nhắn người dùng nhập vào
+        String messageText = inputTextArea.getText().trim(); 
         if (messageText.isEmpty()) {
-            return;  // Nếu tin nhắn rỗng thì không làm gì cả
+            return;  
         }
 
-        String senderID = GlobalVariable.getUserID();  // Lấy ID của người gửi (user hiện tại)
+        String senderID = GlobalVariable.getUserID(); 
 
-        // Gọi phương thức để lưu tin nhắn vào cơ sở dữ liệu
         ChatMessageBUS messageBUS = new ChatMessageBUS();
-        boolean success = messageBUS.addMessage(senderID, receiverID, messageText);
+        boolean success = messageBUS.addMessage(senderID, receiverID, messageText, curConversation.getConversationID());
 
         if (success) {
             System.out.println("Message sent successfully!");
-            inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
+            inputTextArea.setText(""); 
             chatBody.addNew(messageText);
         } else {
             System.out.println("Failed to send message.");
@@ -41,20 +46,19 @@ public class ChatFooter extends javax.swing.JPanel {
     }
 
     private void handleGroupChat(int groupID) {
-        String messageText = inputTextArea.getText().trim();  // Lấy tin nhắn người dùng nhập vào
+        String messageText = inputTextArea.getText().trim(); 
         if (messageText.isEmpty()) {
-            return;  // Nếu tin nhắn rỗng thì không làm gì cả
+            return; 
         }
 
-        String senderID = GlobalVariable.getUserID();  // Lấy ID của người gửi (user hiện tại)
+        String senderID = GlobalVariable.getUserID(); 
 
-        // Gọi phương thức gửi tin nhắn vào nhóm
         ChatMessageBUS messageBUS = new ChatMessageBUS();
-        boolean success = messageBUS.addMessageGroup(senderID, groupID, messageText);
+        boolean success = messageBUS.addMessageGroup(senderID, groupID, messageText, curConversation.getConversationID());
         
         if (success) {
             System.out.println("Group message sent successfully!");
-            inputTextArea.setText(""); // Xóa nội dung ô nhập sau khi gửi tin nhắn
+            inputTextArea.setText(""); 
             chatBody.addNew(messageText);
         } else {
             System.out.println("Failed to send group message.");
@@ -91,6 +95,11 @@ public class ChatFooter extends javax.swing.JPanel {
         inputTextArea.setWrapStyleWord(true);
         inputTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 8, 0, 0));
         inputTextArea.setPreferredSize(new java.awt.Dimension(400, 40));
+        inputTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inputTextAreaMouseClicked(evt);
+            }
+        });
         inputTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 inputTextAreaKeyPressed(evt);
@@ -150,6 +159,10 @@ public class ChatFooter extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_inputTextAreaKeyPressed
+
+    private void inputTextAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputTextAreaMouseClicked
+        inputTextArea.setText("");
+    }//GEN-LAST:event_inputTextAreaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

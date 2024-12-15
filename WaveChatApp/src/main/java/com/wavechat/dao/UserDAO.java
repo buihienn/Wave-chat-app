@@ -713,20 +713,26 @@ public class UserDAO {
 
     // update user. 
     public boolean updateUser(String username, String name, String address, String gender) {
+        String query = "UPDATE User SET fullName = ?, address = ?, gender = ? WHERE username = ?";
+
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
+
         if (connection == null) {
             System.out.println("Failed to establish a database connection.");
             return false; // Trả về false nếu không thể kết nối
         }
-        String query = "UPDATE User SET fullName = ?, address = ?, gender = ? WHERE username = ?";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Gán giá trị cho các tham số
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, address);
             preparedStatement.setString(3, gender);
             preparedStatement.setString(4, username);
+            // Thực thi câu lệnh SQL
             int rowsUpdated = preparedStatement.executeUpdate();
-            return rowsUpdated > 0;
+            return rowsUpdated > 0; // Trả về true nếu có dòng bị cập nhật
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return false; 
@@ -739,113 +745,129 @@ public class UserDAO {
         }
     }
     
-    // Admin Block user 
-    public boolean adminLockUser(String username) {
+    // Check friend
+    public boolean isFriend(String userID1, String userID2) {
+        String query = "SELECT COUNT(*) AS count FROM Friends " +
+                       "WHERE (userID1 = ? AND userID2 = ?) OR (userID1 = ? AND userID2 = ?)";
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
-        if (connection == null) {
-            System.out.println("Failed to establish a database connection.");
-            return false;
-        }
-        String query = "UPDATE User SET status = false WHERE userName = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, username);
-            int rowsUpdated = preparedStatement.executeUpdate();
-            return rowsUpdated > 0; 
+            preparedStatement.setString(1, userID1);
+            preparedStatement.setString(2, userID2);
+            preparedStatement.setString(3, userID2);
+            preparedStatement.setString(4, userID1);
+            
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;  
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; 
         } finally {
             try {
-                connection.close(); 
+                connection.close(); // Đóng kết nối
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
     
-    public boolean adminUnlockUser(String username) {
+    // Hàm tìm kiếm user theo userName
+    public List<UserDTO> findUserByUserName(String query, int offset, int limit) {
+        List<UserDTO> userList = new ArrayList<>();
+        
+        String sql = "SELECT userID, userName, fullName, onlineStatus " +
+                     "FROM User " +
+                     "WHERE userName LIKE ? AND status = true " +
+                     "ORDER BY userName " +
+                     "LIMIT ? OFFSET ?";
+
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
+
         if (connection == null) {
             System.out.println("Failed to establish a database connection.");
-            return false;
+            return null; // Trả về false nếu không thể kết nối
         }
-        String query = "UPDATE User SET status = true WHERE userName = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, username);
-            int rowsUpdated = preparedStatement.executeUpdate();
-            return rowsUpdated > 0; 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; 
-        } finally {
-            try {
-                connection.close(); 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
-    // Check lock
-    public boolean isLocked(String username) {
-        DBconnector dbConnector = new DBconnector();
-        Connection connection = dbConnector.getConnection();
-        if (connection == null) {
-            System.out.println("Failed to establish a database connection.");
-            return false; // Nếu không thể kết nối, trả về false
-        }
-        String query = "SELECT status FROM User WHERE userName = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, username);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, "%" + query + "%");
+            preparedStatement.setInt(2, limit);
+            preparedStatement.setInt(3, offset);
+
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return !resultSet.getBoolean("status");
-            } else {
-                System.out.println("User not found.");
-                return false; 
+
+            while (resultSet.next()) {
+                String userID = resultSet.getString("userID");
+                String userName = resultSet.getString("userName");
+                String fullName = resultSet.getString("fullName");
+                boolean onlineStatus = resultSet.getBoolean("onlineStatus");
+
+                // Tạo UserDTO và thêm vào danh sách
+                userList.add(new UserDTO(userID, userName, fullName, onlineStatus));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         } finally {
             try {
-                connection.close();
+                connection.close(); // Đóng kết nối
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
+        return userList;
     }
-    
-    // check unlock
-    public boolean isUnlock(String username) {
+
+    // // Hàm tìm kiếm user theo fullName
+    public List<UserDTO> findUserByFullName(String query, int offset, int limit) {
+        List<UserDTO> userList = new ArrayList<>();
+        String sql = "SELECT userID, userName, fullName, onlineStatus " +
+                     "FROM User " +
+                     "WHERE fullName LIKE ? AND status = true " +
+                     "ORDER BY fullName " +
+                     "LIMIT ? OFFSET ?";
+
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
+
         if (connection == null) {
             System.out.println("Failed to establish a database connection.");
-            return false; 
+            return null; // Trả về false nếu không thể kết nối
         }
-        String query = "SELECT status FROM User WHERE userName = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, username);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, "%" + query + "%");
+            preparedStatement.setInt(2, limit);
+            preparedStatement.setInt(3, offset);
+
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getBoolean("status");
-            } else {
-                System.out.println("User not found.");
-                return false; 
+
+            while (resultSet.next()) {
+                String userID = resultSet.getString("userID");
+                String userName = resultSet.getString("userName");
+                String fullName = resultSet.getString("fullName");
+                boolean onlineStatus = resultSet.getBoolean("onlineStatus");
+
+                // Tạo UserDTO và thêm vào danh sách
+                userList.add(new UserDTO(userID, userName, fullName, onlineStatus));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         } finally {
             try {
-                connection.close();
+                connection.close(); // Đóng kết nối
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
+        return userList;
     }
+
+    
     
 }

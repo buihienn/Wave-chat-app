@@ -15,4 +15,9 @@ public class GroupChatBUS {
     public List<GroupChatDTO> getGroupChats(String userID) {
         return groupChatDAO.getGroupChats(userID);
     }
+    
+    // Hàm lấy group chat bằng ID
+    public GroupChatDTO getGroupChatByID(int groupID) {
+        return groupChatDAO.getGroupChatByID(groupID);  // Gọi phương thức trong DAO để truy vấn
+    }
 }

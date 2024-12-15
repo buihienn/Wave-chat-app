@@ -5,10 +5,6 @@ import com.wavechat.dto.ChatMessageDTO;
 import com.wavechat.dto.UserDTO;
 import java.util.*;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class ChatMessageBUS {
 
     private ChatMessageDAO chatDAO;
@@ -41,15 +37,15 @@ public class ChatMessageBUS {
     }
     
     // Hàm thêm tin nhắn
-    public boolean addMessage(String senderID, String receiverID, String messageText) {
+    public boolean addMessage(String senderID, String receiverID, String messageText, String conservationID) {
         ChatMessageDAO messageDAO = new ChatMessageDAO();
-        return messageDAO.addMessage(senderID, receiverID, messageText);
+        return messageDAO.addMessage(senderID, receiverID, messageText, conservationID);
     }
     
     // Hàm thêm tin nhắn group
-    public boolean addMessageGroup(String senderID, int groupID, String messageText) {
+    public boolean addMessageGroup(String senderID, int groupID, String messageText, String conservationID) {
         ChatMessageDAO messageDAO = new ChatMessageDAO();
-        return messageDAO.addMessageGroup(senderID, groupID, messageText);
+        return messageDAO.addMessageGroup(senderID, groupID, messageText, conservationID);
     }
 
 
