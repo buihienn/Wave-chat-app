@@ -98,9 +98,9 @@ public class ChatMessageDAO {
 
     
     // Hàm thêm tin nhắn
-    public boolean addMessage(String senderID, String receiverID, String messageText) {
-        String query = "INSERT INTO Chat (chatID, senderID, receiverID, message, timeSend, isRead) " +
-                       "VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean addMessage(String senderID, String receiverID, String messageText, String conversationID) {
+        String query = "INSERT INTO Chat (chatID, senderID, receiverID, message, timeSend, isRead, conversationID) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
@@ -110,34 +110,28 @@ public class ChatMessageDAO {
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, generateChatID());  // Sử dụng chatID mới
+            preparedStatement.setInt(1, generateChatID());  // Sử dụng chatID mới (có thể tạo một hàm generateChatID())
             preparedStatement.setString(2, senderID);
             preparedStatement.setString(3, receiverID);
             preparedStatement.setString(4, messageText);
-            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-            preparedStatement.setBoolean(6, false);  // mặc định là chưa đọc
+            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));  // Thời gian gửi tin nhắn
+            preparedStatement.setBoolean(6, false);  // Mặc định là chưa đọc
+            preparedStatement.setString(7, conversationID);  // Thêm conversationID vào bảng Chat
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;  // Trả về true nếu thêm thành công
+            int rowsAffected = preparedStatement.executeUpdate();  // Thực thi câu lệnh SQL
+
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            System.out.println("Error while adding message: " + e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+            return false;
         }
-
-        return false;  // Trả về false nếu không thành công
     }
 
+
     // Hàm thêm tin nhắn group
-    public boolean addMessageGroup(String senderID, int groupID, String messageText) {
-        String query = "INSERT INTO Chat (chatID, senderID, groupID, message, timeSend, isRead) " +
-                       "VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean addMessageGroup(String senderID, int groupID, String messageText, String conversationID) {
+        String query = "INSERT INTO Chat (chatID, senderID, groupID, message, timeSend, isRead, conversationID) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
@@ -147,29 +141,23 @@ public class ChatMessageDAO {
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, generateChatID());  // Sử dụng chatID mới
+            preparedStatement.setInt(1, generateChatID());  // Sử dụng chatID mới (có thể tạo một hàm generateChatID())
             preparedStatement.setString(2, senderID);
             preparedStatement.setInt(3, groupID);
             preparedStatement.setString(4, messageText);
-            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-            preparedStatement.setBoolean(6, false);  // mặc định là chưa đọc
+            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));  // Thời gian gửi tin nhắn
+            preparedStatement.setBoolean(6, false);  // Mặc định là chưa đọc
+            preparedStatement.setString(7, conversationID);  // Thêm conversationID vào bảng Chat
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;  // Trả về true nếu thêm thành công
+            int rowsAffected = preparedStatement.executeUpdate();  // Thực thi câu lệnh SQL
+
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            System.out.println("Error while adding group message: " + e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+            return false;
         }
-
-        return false;  // Trả về false nếu không thành công
     }
+
 
     // Hàm generate chat ID
     public int generateChatID() {

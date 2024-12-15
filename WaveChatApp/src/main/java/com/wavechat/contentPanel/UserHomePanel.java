@@ -1,14 +1,16 @@
 package com.wavechat.contentPanel;
 
 import com.wavechat.GlobalVariable;
-import com.wavechat.bus.FriendBUS;
+import com.wavechat.bus.ConversationBUS;
 import com.wavechat.bus.GroupChatBUS;
+import com.wavechat.bus.UserBUS;
 import com.wavechat.component.ChatBody;
 import com.wavechat.component.ChatFooter;
 import com.wavechat.component.ChatHeader;
 import com.wavechat.component.ConversationPanel;
-import com.wavechat.dto.FriendDTO;
+import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
 import java.util.List;
 
 public class UserHomePanel extends javax.swing.JPanel {
@@ -25,134 +27,125 @@ public class UserHomePanel extends javax.swing.JPanel {
         initComponents();
 
         String userID = GlobalVariable.getUserID();
-        
-        // Add user conversation
-        FriendBUS friendBUS = new FriendBUS();
-        List<FriendDTO> friendsList = friendBUS.getFriends(userID);
-        for (FriendDTO friend : friendsList) {
-            ConversationPanel conversation = new ConversationPanel(friend);
-            conversationContainer.add(conversation);
-            addConversationListener(conversation, friend);
-        }
 
-        GroupChatBUS groupChatBUS = new GroupChatBUS();
-        List<GroupChatDTO> groupChats = groupChatBUS.getGroupChats(userID);
-        
-        // Add group conversation
-        for (GroupChatDTO groupChat : groupChats) {
-            ConversationPanel conversation = new ConversationPanel(groupChat);
-            conversationContainer.add(conversation);
-            addConversationListenerGroupChat(conversation, groupChat);
+        ConversationBUS conversationBUS = new ConversationBUS();
+        List<ConversationDTO> conversations = conversationBUS.getConversations(userID);
+
+        for (ConversationDTO conversation : conversations) {
+            if ("friend".equals(conversation.getConversationType())) {
+                String friendID;
+                UserDTO userDTO;
+
+                if (userID.equals(conversation.getUserID1())) {
+                    friendID = conversation.getUserID2();
+                } else {
+                    friendID = conversation.getUserID1();
+                }
+
+                try {
+                    UserBUS userBUS = new UserBUS();
+                    userDTO = userBUS.getUserByID(friendID);  
+
+                    ConversationPanel conversationPanel = new ConversationPanel(userDTO);
+                    conversationContainer.add(conversationPanel);
+                    addConversationListener(conversationPanel, conversation);  
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            } else if ("group".equals(conversation.getConversationType())) {
+                int groupID = Integer.parseInt(conversation.getGroupID());
+                System.out.println(groupID);
+                GroupChatDTO groupChatDTO;
+
+                try {
+                    GroupChatBUS groupChatBUS = new GroupChatBUS();
+                    groupChatDTO = groupChatBUS.getGroupChatByID(groupID);  
+
+                    ConversationPanel conversationPanel = new ConversationPanel(groupChatDTO);
+                    conversationContainer.add(conversationPanel);
+                    addConversationListenerGroupChat(conversationPanel, groupChatDTO, conversation);  
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            } else if ("stranger".equals(conversation.getConversationType())) {
+                String strangerID;
+                UserDTO userDTO;
+
+                // Lấy ID bạn bè
+                if (userID.equals(conversation.getUserID1())) {
+                    strangerID = conversation.getUserID2();
+                } else {
+                    strangerID = conversation.getUserID1();
+                }
+
+                try {
+                    UserBUS userBUS = new UserBUS();
+                    userDTO = userBUS.getUserByID(strangerID); 
+
+                    ConversationPanel conversationPanel = new ConversationPanel(userDTO);
+                    conversationContainer.add(conversationPanel);
+                    addConversationListener(conversationPanel, conversation); 
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
         }
-       
         chatContainer.add(header);
         chatContainer.add(body);
         chatContainer.add(footer);
-        
-        header.setVisible(false);
-        body.setVisible(false);
-        footer.setVisible(false);
-    }
-    
-    public void openChat(FriendDTO friendDTO) {
-        removeAll();
-        initComponents();
 
-        String userID = GlobalVariable.getUserID();
-        
-        // Add user conversation
-        FriendBUS friendBUS = new FriendBUS();
-        List<FriendDTO> friendsList = friendBUS.getFriends(userID);
-        for (FriendDTO friend : friendsList) {
-            ConversationPanel conversation = new ConversationPanel(friend);
-            conversationContainer.add(conversation);
-            addConversationListener(conversation, friend);
-        }
-
-        GroupChatBUS groupChatBUS = new GroupChatBUS();
-        List<GroupChatDTO> groupChats = groupChatBUS.getGroupChats(userID);
-        
-        // Add group conversation
-        for (GroupChatDTO groupChat : groupChats) {
-            ConversationPanel conversation = new ConversationPanel(groupChat);
-            conversationContainer.add(conversation);
-            addConversationListenerGroupChat(conversation, groupChat);
-        }
-       
-        chatContainer.add(header);
-        chatContainer.add(body);
-        chatContainer.add(footer);
-        
-        header.setVisible(false);
-        body.setVisible(false);
-        footer.setVisible(false);
-    }
-        
-    public void openGroupChat(GroupChatDTO groupChatDTO) {
-        removeAll();
-        initComponents();
-
-        String userID = GlobalVariable.getUserID();
-        
-        // Add user conversation
-        FriendBUS friendBUS = new FriendBUS();
-        List<FriendDTO> friendsList = friendBUS.getFriends(userID);
-        for (FriendDTO friend : friendsList) {
-            ConversationPanel conversation = new ConversationPanel(friend);
-            conversationContainer.add(conversation);
-            addConversationListener(conversation, friend);
-        }
-
-        GroupChatBUS groupChatBUS = new GroupChatBUS();
-        List<GroupChatDTO> groupChats = groupChatBUS.getGroupChats(userID);
-        
-        // Add group conversation
-        for (GroupChatDTO groupChat : groupChats) {
-            ConversationPanel conversation = new ConversationPanel(groupChat);
-            conversationContainer.add(conversation);
-            addConversationListenerGroupChat(conversation, groupChat);
-        }
-       
-        chatContainer.add(header);
-        chatContainer.add(body);
-        chatContainer.add(footer);
-        
         header.setVisible(false);
         body.setVisible(false);
         footer.setVisible(false);
     }
     
     // Thêm event click cho conversation
-    private void addConversationListener(ConversationPanel conversationPanel, FriendDTO friend) {
+    private void addConversationListener(ConversationPanel conversationPanel, ConversationDTO conversation) {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 body.removeChat();
-                openConversation(friend);  // Gọi hàm openConversation với thông tin của bạn bè
+                openConversation(conversation);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
     }
     
-    private void addConversationListenerGroupChat(ConversationPanel conversationPanel, GroupChatDTO groupChat) {
+    private void addConversationListenerGroupChat(ConversationPanel conversationPanel, GroupChatDTO groupChat, ConversationDTO conversation) {
         conversationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 body.removeChat();
-                openConversationForGroupChat(groupChat);  // Gọi hàm openConversation với thông tin của bạn bè
+                openConversationForGroupChat(groupChat, conversation);  // Gọi hàm openConversation với thông tin của bạn bè
             }
         });
     }
     
-    public void openConversation(FriendDTO friend) {     
-        // Update header và footer
-        header.setInfor(friend.getFullName(), friend.isOnlineStatus());
-        footer.setMode("user");        
-        footer.setReceiver(friend.getUserID());
+    public void openConversation(ConversationDTO conversation) { 
+        UserBUS userBUS = new UserBUS();
+        UserDTO friend;
+        try {
+            friend = userBUS.getUserByID(conversation.getUserID2());
+            
+            // Update header và footer
+            header.setInfor(friend.getFullName(), friend.isOnlineStatus());
+            footer.setMode("user");        
+            footer.setReceiver(friend.getUserID());
+            footer.setCurConversation(conversation);
 
-        // Load tin nhắn
-        body.resetOffet();
-        body.setMode("user");  
-        body.loadMessages(friend);  
+            // Load tin nhắn
+            body.resetOffet();
+            body.setMode("user");  
+            body.loadMessages(friend);  
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         
         header.setVisible(true);
         body.setVisible(true);
@@ -160,11 +153,12 @@ public class UserHomePanel extends javax.swing.JPanel {
     }
 
     
-    public void openConversationForGroupChat(GroupChatDTO groupChat) {     
+    public void openConversationForGroupChat(GroupChatDTO groupChat, ConversationDTO conversation) {     
         // Update header và footer cho nhóm chat
         header.setInfor(groupChat.getGroupName(), groupChat.isOnlineStatus());
         footer.setMode("group");        
         footer.setGroupID(groupChat.getGroupID());
+        footer.setCurConversation(conversation);
 
         // Load tin nhắn nhóm
         body.resetOffet();

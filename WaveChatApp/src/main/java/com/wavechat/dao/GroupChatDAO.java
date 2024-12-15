@@ -49,4 +49,43 @@ public class GroupChatDAO {
 
         return groupChats;
     }
+    
+    // Hàm lấy 1 group chat bằng ID
+    public GroupChatDTO getGroupChatByID(int groupID) {
+        GroupChatDTO groupChat = null;
+        String query = "SELECT groupID, groupName, createdBy, onlineStatus " +
+                     "FROM GroupChat " +
+                     "WHERE groupID = ?";
+
+        DBconnector dbConnector = new DBconnector();  
+        Connection connection = dbConnector.getConnection();  
+        if (connection == null) {
+            return groupChat;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, groupID);  
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int groupIDFromDB = resultSet.getInt("groupID");
+                String groupName = resultSet.getString("groupName");
+                String createdBy = resultSet.getString("createdBy");
+                boolean onlineStatus = resultSet.getBoolean("onlineStatus");
+
+                groupChat = new GroupChatDTO(groupIDFromDB, groupName, createdBy, onlineStatus);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();  
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return groupChat;  
+    }
 }

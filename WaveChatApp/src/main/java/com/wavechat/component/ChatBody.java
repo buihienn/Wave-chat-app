@@ -3,20 +3,21 @@ package com.wavechat.component;
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.dto.ChatMessageDTO;
-import com.wavechat.dto.FriendDTO;
+import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
 import java.util.List;
 import net.miginfocom.swing.MigLayout;
 
 public class ChatBody extends javax.swing.JPanel {
     private int currentOffset = 0;  
     private int limit = 5; 
-    private FriendDTO currentFriend;
+    private UserDTO currentFriend;
     private String lastSenderID = null; 
     private String newSenderID = null;  
     private GroupChatDTO currentGroup;
     private String mode;
-    
+
     public void resetOffet() {
         this.currentOffset = 0;
         this.lastSenderID = null;
@@ -66,7 +67,7 @@ public class ChatBody extends javax.swing.JPanel {
         body.removeAll();
     }
 
-    public void loadMessages(FriendDTO friend) {
+    public void loadMessages(UserDTO friend) {
         this.currentFriend = friend;
         buttonContainer.add(loadMoreButton);  
 
@@ -194,9 +195,13 @@ public class ChatBody extends javax.swing.JPanel {
 
     private void loadMoreButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMoreButtonActionPerformed
         if (mode == "user") {
+            this.lastSenderID = null;
+            this.newSenderID = null;
             loadMessages(currentFriend);
         }
         else if (mode == "group") {
+            this.lastSenderID = null;
+            this.newSenderID = null;
             loadMessages(currentGroup);
         }
     }//GEN-LAST:event_loadMoreButtonActionPerformed

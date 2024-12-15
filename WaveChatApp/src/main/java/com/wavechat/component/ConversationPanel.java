@@ -1,12 +1,12 @@
 package com.wavechat.component;
 
-import com.wavechat.dto.FriendDTO;
 import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
 
 public class ConversationPanel extends javax.swing.JPanel {
     
     // Constructor user
-    public ConversationPanel(FriendDTO friend) {
+    public ConversationPanel(UserDTO friend) {
         initComponents();
 
         nameLabel.setText(friend.getFullName());
