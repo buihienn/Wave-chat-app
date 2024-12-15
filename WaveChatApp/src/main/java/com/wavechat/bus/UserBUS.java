@@ -36,7 +36,7 @@ public class UserBUS {
     
     // ---------------REGISTER---------------
     // Hash mật khẩu bằng BCrypt
-    private String hashPassword(String password) {
+    public String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(12));  // Sử dụng cost factor là 12
     }
 

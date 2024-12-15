@@ -189,3 +189,72 @@ VALUES
 ('U005', 'hoaviet', 'pass789456', 'Viet Hoa', '203 Vo Van Kiet, District 6', '1995-11-02', 'female', 'hoa.viet@example.com', '2024-11-26', TRUE, FALSE, FALSE),
 ('U006', 'ngocanh', 'ngocanh@123', 'Ngoc Anh', '56 Cach Mang Thang 8, District 10', NULL, 'male', 'ngoc.anh@example.com', '2024-11-26', TRUE, FALSE, FALSE),
 ('U007', 'admin1', 'admin@pass', 'Admin User', '1 Ton Duc Thang, District 1', '1985-05-05', 'male', 'admin@example.com', '2024-10-20', TRUE, FALSE, TRUE);
+
+INSERT INTO Friend_requests (requester_userID, requested_userID, status, createdAt)
+VALUES
+('U003', 'U004', 'accepted', '2024-12-13'), -- Quang Minh và Lan Nguyen
+('U001', 'U002', 'accepted', '2024-11-01'), -- Hien Bui và Phu Vinh
+('U001', 'U003', 'accepted', '2024-12-01'), -- Hien Bui và Quang Minh
+('U004', 'U005', 'accepted', '2024-12-10'), -- Lan Nguyen và Viet Hoa
+('U002', 'U006', 'accepted', '2024-12-05'), -- Phu Vinh và Ngoc Anh
+('U003', 'U005', 'accepted', '2024-11-28'), -- Quang Minh và Viet Hoa
+('U001', 'U005', 'accepted', '2024-11-20'), -- Hien Bui và Viet Hoa
+('U002', 'U004', 'accepted', '2024-12-08'); 
+
+
+INSERT INTO Friends (userID1, userID2, createdAt)
+VALUES 
+('U003', 'U004', '2024-12-13'), -- Quang Minh và Lan Nguyen trở thành bạn
+('U001', 'U002', '2024-11-01'), -- Hien Bui và Phu Vinh trở thành bạn
+('U001', 'U003', '2024-12-01'), -- Hien Bui và Quang Minh trở thành bạn
+('U004', 'U005', '2024-12-10'), -- Lan Nguyen và Viet Hoa trở thành bạn
+('U002', 'U006', '2024-12-05'), -- Phu Vinh và Ngoc Anh trở thành bạn
+('U003', 'U005', '2024-11-28'), -- Quang Minh và Viet Hoa trở thành bạn
+('U001', 'U005', '2024-11-20'), -- Hien Bui và Viet Hoa trở thành bạn
+('U002', 'U004', '2024-12-08');
+
+
+
+INSERT INTO UserOffline (userID, offlineTime, duration)
+VALUES 
+('U002', '2024-12-15 09:00:00', 120), 
+('U004', '2024-12-15 08:00:00', 60);
+
+INSERT INTO UserOnline (userID, lastSeen)
+VALUES 
+('U003', '2024-12-15 10:30:00');
+
+INSERT INTO Blocks (userID, blocked_userID)
+VALUES 
+('U005', 'U002'), -- Viet Hoa block Phu Vinh
+('U006', 'U004');
+
+
+INSERT INTO LoginHistory (id, userID, loginTime)
+VALUES 
+(1, 'U003', '2024-12-15 10:30:00'), -- Quang Minh đăng nhập
+(2, 'U001', '2024-12-14 15:00:00');
+
+
+INSERT INTO GroupChat (groupID, groupName, createdBy, createdAt, onlineStatus)
+VALUES 
+(1, 'Team Project', 'U007', '2024-11-01 10:00:00', TRUE), -- Nhóm được tạo bởi Admin
+(2, 'Friends Chat', 'U003', '2024-11-15 12:00:00', TRUE);
+
+INSERT INTO GroupMembers (groupID, userID, isAdmin, joinedDate)
+VALUES 
+(1, 'U007', TRUE, '2024-11-01'),
+(1, 'U001', FALSE, '2024-11-02'), 
+(2, 'U003', TRUE, '2024-11-15'), 
+(2, 'U004', FALSE, '2024-11-15'); 
+
+INSERT INTO SpamReport (reportID, reporterID, reportedUserId, timeStamp)
+VALUES 
+(1, 'U002', 'U005', '2024-12-14 08:00:00'), 
+(2, 'U004', 'U003', '2024-12-14 09:00:00');
+
+
+
+
+
+
