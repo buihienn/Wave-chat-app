@@ -36,12 +36,18 @@ public class UserFindFriendPanel extends javax.swing.JPanel {
         // Hiển thị thêm người dùng
         for (UserDTO user : findedUsers) {
             UserSearchPanel userPanel = new UserSearchPanel(user);
+            userPanel.addChatButtonListener(user.getUserID());
             
             if (!userBUS.isFriend(GlobalVariable.getUserID(), user.getUserID())) {
                 userPanel.addAddFriendButton();
+                userPanel.addAddFriendButtonListener(user.getUserID());
+            }
+            else {
+                userPanel.addCreateGroupButton();
+                userPanel.addCreateGroupButtonListener(user.getUserID());
             }
             
-            resultPanel.add(userPanel, "wrap");
+            resultPanel.add(userPanel, "wrap, w ::100%");
         }
         
         revalidate();
@@ -58,11 +64,11 @@ public class UserFindFriendPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         findFriendLabel = new javax.swing.JLabel();
+        contentContainer = new javax.swing.JPanel();
         searchBarContainer = new javax.swing.JPanel();
         searchInput = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         searchChoice = new javax.swing.JComboBox<>();
-        contentContainer = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         resultPanel = new javax.swing.JPanel();
         buttonContainer = new javax.swing.JPanel();
@@ -73,6 +79,9 @@ public class UserFindFriendPanel extends javax.swing.JPanel {
         findFriendLabel.setFont(new java.awt.Font("Montserrat", 0, 28)); // NOI18N
         findFriendLabel.setText("Find Friend");
         findFriendLabel.setPreferredSize(new java.awt.Dimension(214, 32));
+
+        contentContainer.setPreferredSize(new java.awt.Dimension(726, 700));
+        contentContainer.setLayout(new java.awt.BorderLayout());
 
         searchBarContainer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -119,8 +128,7 @@ public class UserFindFriendPanel extends javax.swing.JPanel {
                 .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        contentContainer.setPreferredSize(new java.awt.Dimension(726, 700));
-        contentContainer.setLayout(new java.awt.BorderLayout());
+        contentContainer.add(searchBarContainer, java.awt.BorderLayout.PAGE_START);
 
         jScrollPane4.setBorder(null);
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -128,50 +136,27 @@ public class UserFindFriendPanel extends javax.swing.JPanel {
         jScrollPane4.setPreferredSize(new java.awt.Dimension(726, 472));
 
         resultPanel.setPreferredSize(new java.awt.Dimension(686, 688));
-
-        javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
-        resultPanel.setLayout(resultPanelLayout);
-        resultPanelLayout.setHorizontalGroup(
-            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 710, Short.MAX_VALUE)
-        );
-        resultPanelLayout.setVerticalGroup(
-            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
-        );
-
+        resultPanel.setLayout(new javax.swing.BoxLayout(resultPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane4.setViewportView(resultPanel);
 
         contentContainer.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
-        buttonContainer.setPreferredSize(new java.awt.Dimension(720, 30));
+        buttonContainer.setPreferredSize(new java.awt.Dimension(720, 33));
+        buttonContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
 
         loadMoreButton.setBackground(new java.awt.Color(26, 41, 128));
         loadMoreButton.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         loadMoreButton.setForeground(new java.awt.Color(255, 255, 255));
         loadMoreButton.setText("Find more");
-        loadMoreButton.setPreferredSize(new java.awt.Dimension(97, 22));
+        loadMoreButton.setMaximumSize(new java.awt.Dimension(120, 30));
+        loadMoreButton.setMinimumSize(new java.awt.Dimension(120, 30));
+        loadMoreButton.setPreferredSize(new java.awt.Dimension(120, 30));
         loadMoreButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadMoreButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout buttonContainerLayout = new javax.swing.GroupLayout(buttonContainer);
-        buttonContainer.setLayout(buttonContainerLayout);
-        buttonContainerLayout.setHorizontalGroup(
-            buttonContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buttonContainerLayout.createSequentialGroup()
-                .addGap(312, 312, 312)
-                .addComponent(loadMoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(305, Short.MAX_VALUE))
-        );
-        buttonContainerLayout.setVerticalGroup(
-            buttonContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buttonContainerLayout.createSequentialGroup()
-                .addComponent(loadMoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        buttonContainer.add(loadMoreButton);
 
         contentContainer.add(buttonContainer, java.awt.BorderLayout.PAGE_END);
 
@@ -179,26 +164,22 @@ public class UserFindFriendPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(searchBarContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(findFriendLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(15, 15, 15))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(contentContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(29, 29, 29))
+                    .addComponent(findFriendLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(findFriendLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(findFriendLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchBarContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(contentContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 

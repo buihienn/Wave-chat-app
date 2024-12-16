@@ -20,4 +20,14 @@ public class GroupChatBUS {
     public GroupChatDTO getGroupChatByID(int groupID) {
         return groupChatDAO.getGroupChatByID(groupID);  // Gọi phương thức trong DAO để truy vấn
     }
+    
+    // Hàm tạo Group Chat mới
+    public GroupChatDTO createGroupChat(String groupName) {
+        return groupChatDAO.createGroupChat(groupName);  
+    }
+
+    // Hàm thêm thành viên vào group chat
+    public void addMember(String memberID, int groupID, boolean isAdmin) {
+        groupChatDAO.addMember(memberID, groupID, isAdmin);
+    }
 }

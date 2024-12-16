@@ -1,6 +1,10 @@
 package com.wavechat.component;
 
+import com.wavechat.bus.ConversationBUS;
+import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.UserDTO;
+import com.wavechat.form.UserHomeMain;
+import javax.swing.SwingUtilities;
 
 public class UserSearchPanel extends javax.swing.JPanel {
 
@@ -13,10 +17,61 @@ public class UserSearchPanel extends javax.swing.JPanel {
     
     public void addAddFriendButton() {
         buttonContainer.add(addFriendButton);
-        System.out.println("add");
         buttonContainer.revalidate();
         buttonContainer.repaint();
     }
+    
+    public void addCreateGroupButton() {
+        buttonContainer.add(createGroupButton);
+        buttonContainer.revalidate();
+        buttonContainer.repaint();
+    }
+    
+    // Gán sự kiện cho nút Chat
+    public void addChatButtonListener(String friendID) {
+        chatButton.addActionListener(evt -> onChatButtonClicked(friendID));
+    }
+
+    // Gán sự kiện cho nút Add Friend
+    public void addAddFriendButtonListener(String friendID) {
+        addFriendButton.addActionListener(evt -> onAddFriendButtonClicked(friendID));
+    }
+
+    // Gán sự kiện cho nút Create Group
+    public void addCreateGroupButtonListener(String friendID) {
+        createGroupButton.addActionListener(evt -> onCreateGroupButtonClicked(friendID));
+    }
+    
+    private void onChatButtonClicked(String friendID) {                                           
+        System.out.println("Chat with " + friendID);
+        handleChat(friendID);
+    }                                          
+
+    private void onAddFriendButtonClicked(String friendID) {                                                
+        System.out.println("Add friend " + friendID);
+    }                                               
+
+    private void onCreateGroupButtonClicked(String friendID) {                                                  
+        System.out.println("Create group with " + friendID);
+    }  
+    
+    private void handleChat(String friendID) {
+        // Tạo conversation nếu chưa có
+        ConversationBUS conversationBUS = new ConversationBUS();
+        // Kiểm tra xem conversation đã tồn tại giữa currentUserID và friendID chưa
+        ConversationDTO conversationDTO = conversationBUS.checkConversationExists(friendID);
+
+        if (conversationDTO == null) {
+            // Nếu không tồn tại conversation, tạo 1 cái mới
+            conversationDTO = conversationBUS.addConversation(friendID);
+        }
+        
+        // Mở chat
+        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain
+        userHomeMain.showChatPanel();  
+        userHomeMain.userHomePanel.openConversation(conversationDTO);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,12 +83,12 @@ public class UserSearchPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         addFriendButton = new javax.swing.JButton();
+        createGroupButton = new javax.swing.JButton();
         userAvatar = new javax.swing.JLabel();
         fullNameLabel = new javax.swing.JLabel();
         userNameLabel = new javax.swing.JLabel();
         buttonContainer = new javax.swing.JPanel();
         chatButton = new javax.swing.JButton();
-        createGroupButton = new javax.swing.JButton();
 
         addFriendButton.setBackground(new java.awt.Color(26, 41, 128));
         addFriendButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -43,8 +98,16 @@ public class UserSearchPanel extends javax.swing.JPanel {
         addFriendButton.setMinimumSize(new java.awt.Dimension(144, 40));
         addFriendButton.setPreferredSize(new java.awt.Dimension(144, 40));
 
+        createGroupButton.setBackground(new java.awt.Color(26, 41, 128));
+        createGroupButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        createGroupButton.setForeground(new java.awt.Color(255, 255, 255));
+        createGroupButton.setText("Create group");
+        createGroupButton.setMaximumSize(new java.awt.Dimension(144, 40));
+        createGroupButton.setMinimumSize(new java.awt.Dimension(144, 40));
+        createGroupButton.setPreferredSize(new java.awt.Dimension(144, 40));
+
         setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
-        setPreferredSize(new java.awt.Dimension(710, 75));
+        setPreferredSize(new java.awt.Dimension(1300, 75));
 
         userAvatar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user.png"))); // NOI18N
         userAvatar.setText("Avatar1");
@@ -63,21 +126,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
         chatButton.setMaximumSize(new java.awt.Dimension(144, 40));
         chatButton.setMinimumSize(new java.awt.Dimension(144, 40));
         chatButton.setPreferredSize(new java.awt.Dimension(144, 40));
-        chatButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatButtonActionPerformed(evt);
-            }
-        });
         buttonContainer.add(chatButton);
-
-        createGroupButton.setBackground(new java.awt.Color(26, 41, 128));
-        createGroupButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        createGroupButton.setForeground(new java.awt.Color(255, 255, 255));
-        createGroupButton.setText("Create group");
-        createGroupButton.setMaximumSize(new java.awt.Dimension(144, 40));
-        createGroupButton.setMinimumSize(new java.awt.Dimension(144, 40));
-        createGroupButton.setPreferredSize(new java.awt.Dimension(144, 40));
-        buttonContainer.add(createGroupButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -89,7 +138,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fullNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
+                    .addComponent(fullNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1068, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -109,10 +158,6 @@ public class UserSearchPanel extends javax.swing.JPanel {
                 .addContainerGap(8, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void chatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
