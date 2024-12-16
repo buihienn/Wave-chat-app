@@ -1,5 +1,6 @@
 package com.wavechat.dao;
 
+import com.wavechat.GlobalVariable;
 import com.wavechat.dto.GroupChatDTO;
 import java.sql.*;
 import java.util.ArrayList;
@@ -88,4 +89,99 @@ public class GroupChatDAO {
         }
         return groupChat;  
     }
+    
+    // Phương thức để lấy ID Group Chat mới (tăng theo ID lớn nhất hiện tại)
+    public int generateNewGroupChatID() {
+        String query = "SELECT MAX(groupID) FROM GroupChat";
+        int newGroupID = 1;  // Nếu bảng GroupChat rỗng thì groupID sẽ bắt đầu từ 1
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return -1;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                newGroupID = resultSet.getInt(1) + 1; // Tăng ID lên 1 so với ID cao nhất
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return newGroupID;
+    }
+
+    // Hàm tạo Group Chat mới
+    public GroupChatDTO createGroupChat(String groupName) {
+        int newGroupID = generateNewGroupChatID();
+        String query = "INSERT INTO GroupChat (groupID, groupName, createdBy, createdAt, onlineStatus) " +
+                       "VALUES (?, ?, ?, NOW(), TRUE)";
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return null; 
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, newGroupID);
+            preparedStatement.setString(2, groupName); 
+            preparedStatement.setString(3, GlobalVariable.getUserID());  // Người tạo là người dùng hiện tại
+            
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                return new GroupChatDTO(newGroupID, groupName, GlobalVariable.getUserID(), true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // Hàm thêm thành viên vào Group Chat
+    public void addMember(String memberID, int groupID, boolean isAdmin) {
+        String query = "INSERT INTO GroupMembers (groupID, userID, isAdmin, joinedDate) VALUES (?, ?, ?, NOW())";
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, groupID);
+            preparedStatement.setString(2, memberID);  
+            preparedStatement.setBoolean(3, isAdmin);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
 }

@@ -1,6 +1,10 @@
 package com.wavechat.component;
 
+import com.wavechat.bus.ConversationBUS;
+import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.UserDTO;
+import com.wavechat.form.UserHomeMain;
+import javax.swing.SwingUtilities;
 
 public class UserSearchPanel extends javax.swing.JPanel {
 
@@ -40,6 +44,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
     
     private void onChatButtonClicked(String friendID) {                                           
         System.out.println("Chat with " + friendID);
+        handleChat(friendID);
     }                                          
 
     private void onAddFriendButtonClicked(String friendID) {                                                
@@ -49,6 +54,23 @@ public class UserSearchPanel extends javax.swing.JPanel {
     private void onCreateGroupButtonClicked(String friendID) {                                                  
         System.out.println("Create group with " + friendID);
     }  
+    
+    private void handleChat(String friendID) {
+        // Tạo conversation nếu chưa có
+        ConversationBUS conversationBUS = new ConversationBUS();
+        // Kiểm tra xem conversation đã tồn tại giữa currentUserID và friendID chưa
+        ConversationDTO conversationDTO = conversationBUS.checkConversationExists(friendID);
+
+        if (conversationDTO == null) {
+            // Nếu không tồn tại conversation, tạo 1 cái mới
+            conversationDTO = conversationBUS.addConversation(friendID);
+        }
+        
+        // Mở chat
+        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain
+        userHomeMain.showChatPanel();  
+        userHomeMain.userHomePanel.openConversation(conversationDTO);
+    }
     
 
     /**

@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class UserFriendPanel extends javax.swing.JPanel {
+    private String groupName;
     
     public UserFriendPanel() {
         initComponents();
@@ -482,7 +483,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
                     String userName = (String) curTable.getValueAt(row, 1); // Lấy username của dòng được chọn
                     String friendUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
 
-                    JOptionPane.showMessageDialog(this, "Choosing: " + friendUserID + " " + userName, "Error", JOptionPane.ERROR_MESSAGE);
                     handleChat(friendUserID);
                 }
             }
@@ -495,8 +495,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 if (row >= 0) {
                     String userName = (String) curTable.getValueAt(row, 1); // Lấy username của dòng được chọn
                     String friendUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
-
-                    JOptionPane.showMessageDialog(this, "Choosing: " + friendUserID + " " + userName, "Error", JOptionPane.ERROR_MESSAGE);
+                    
+                    createGroupDialog.setLocationRelativeTo(this);
+                    createGroupDialog.setVisible(true);
+                    
+                    handleCreateGroup(friendUserID);
                 }
             }
         });
@@ -519,12 +522,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
         for (Component comp : friendPopupMenu.getComponents()) {
             if (comp instanceof JMenuItem) {
                 JMenuItem menuItem = (JMenuItem) comp;
-
-//                // Loại bỏ tất cả MouseListener
-//                MouseListener[] mouseListeners = menuItem.getMouseListeners();
-//                for (MouseListener listener : mouseListeners) {
-//                    menuItem.removeMouseListener(listener);
-//                }
 
                 // Loại bỏ tất cả ActionListener (nếu có)
                 ActionListener[] actionListeners = menuItem.getActionListeners();
@@ -550,6 +547,26 @@ public class UserFriendPanel extends javax.swing.JPanel {
         UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain
         userHomeMain.showChatPanel();  
         userHomeMain.userHomePanel.openConversation(conversationDTO);
+    }
+
+    private void handleCreateGroup(String friendID) {
+        String groupChatName = this.groupName;
+        GroupChatBUS groupChatBUS = new GroupChatBUS();
+        // Tạo một group chat mới thông qua GroupChatBUS
+        GroupChatDTO newGroupChat = groupChatBUS.createGroupChat(groupChatName);
+
+        if (newGroupChat != null) {
+            String currentUserID = GlobalVariable.getUserID();  
+            groupChatBUS.addMember(currentUserID, newGroupChat.getGroupID(), true);  
+            groupChatBUS.addMember(friendID, newGroupChat.getGroupID(), false);  
+
+//        // Mở group chat
+//        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain
+//        userHomeMain.showChatPanel();  
+//        userHomeMain.userHomePanel.openConversationForGroupChat(newGroupChat, conversation);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error creating group chat.");
+        }
     }
 
     
@@ -586,6 +603,12 @@ public class UserFriendPanel extends javax.swing.JPanel {
         friendPopupMenu = new javax.swing.JPopupMenu();
         chatMenuItem = new javax.swing.JMenuItem();
         createGroupMenuItem = new javax.swing.JMenuItem();
+        createGroupDialog = new javax.swing.JDialog();
+        popupEditProfile1 = new javax.swing.JPanel();
+        groupNameLabel = new javax.swing.JLabel();
+        groupNameEditLabel = new javax.swing.JTextField();
+        confirmButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         contentContainer = new javax.swing.JPanel();
         navFriendContainer = new javax.swing.JPanel();
         allButton = new javax.swing.JButton();
@@ -848,6 +871,83 @@ public class UserFriendPanel extends javax.swing.JPanel {
         createGroupMenuItem.setText("Create group");
         friendPopupMenu.add(createGroupMenuItem);
 
+        createGroupDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        createGroupDialog.setTitle("Wave - Create group chat");
+        createGroupDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        createGroupDialog.setResizable(false);
+        createGroupDialog.setSize(new java.awt.Dimension(500, 250));
+
+        popupEditProfile1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        popupEditProfile1.setMaximumSize(new java.awt.Dimension(500, 120));
+        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 120));
+        popupEditProfile1.setPreferredSize(new java.awt.Dimension(500, 120));
+        popupEditProfile1.setRequestFocusEnabled(false);
+
+        groupNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        groupNameLabel.setText("Group name:");
+
+        groupNameEditLabel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        groupNameEditLabel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                groupNameEditLabelKeyPressed(evt);
+            }
+        });
+
+        confirmButton.setBackground(new java.awt.Color(26, 41, 128));
+        confirmButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        confirmButton.setForeground(new java.awt.Color(255, 255, 255));
+        confirmButton.setText("Confirm");
+        confirmButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        confirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmButtonActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setBackground(new java.awt.Color(26, 41, 128));
+        cancelButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        cancelButton.setForeground(new java.awt.Color(255, 255, 255));
+        cancelButton.setText("Cancel");
+        cancelButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout popupEditProfile1Layout = new javax.swing.GroupLayout(popupEditProfile1);
+        popupEditProfile1.setLayout(popupEditProfile1Layout);
+        popupEditProfile1Layout.setHorizontalGroup(
+            popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(popupEditProfile1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(popupEditProfile1Layout.createSequentialGroup()
+                        .addComponent(groupNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
+                    .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(groupNameEditLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
+        popupEditProfile1Layout.setVerticalGroup(
+            popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(popupEditProfile1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(groupNameLabel)
+                    .addComponent(groupNameEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(popupEditProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        createGroupDialog.getContentPane().add(popupEditProfile1, java.awt.BorderLayout.CENTER);
+
         setPreferredSize(new java.awt.Dimension(741, 600));
 
         contentContainer.setBackground(new java.awt.Color(255, 255, 255));
@@ -1002,18 +1102,39 @@ public class UserFriendPanel extends javax.swing.JPanel {
         showPopup(evt, allTable);
     }//GEN-LAST:event_allTableMouseClicked
 
+    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        this.groupName = groupNameEditLabel.getText();
+        createGroupDialog.dispose();
+    }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        createGroupDialog.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void groupNameEditLabelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_groupNameEditLabelKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.groupName = groupNameEditLabel.getText();
+            createGroupDialog.dispose();
+        }
+    }//GEN-LAST:event_groupNameEditLabelKeyPressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allButton;
     private javax.swing.JPanel allCard;
     private javax.swing.JTextField allSearch;
     private javax.swing.JTable allTable;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JMenuItem chatMenuItem;
+    private javax.swing.JButton confirmButton;
     private javax.swing.JPanel contentContainer;
+    private javax.swing.JDialog createGroupDialog;
     private javax.swing.JMenuItem createGroupMenuItem;
     private javax.swing.JLabel filterAllLabel;
     private javax.swing.JLabel filterAllLabel1;
     private javax.swing.JLabel filterRequestLabel;
     private javax.swing.JPopupMenu friendPopupMenu;
+    private javax.swing.JTextField groupNameEditLabel;
+    private javax.swing.JLabel groupNameLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1026,6 +1147,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
     private javax.swing.JPanel onlineCard;
     private javax.swing.JTextField onlineSearch;
     private javax.swing.JTable onlineTable;
+    private javax.swing.JPanel popupEditProfile1;
     private javax.swing.JButton requestButton;
     private javax.swing.JPanel requestCard;
     private javax.swing.JTextField requestSearch;
