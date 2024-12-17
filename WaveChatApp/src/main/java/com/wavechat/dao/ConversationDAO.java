@@ -134,12 +134,14 @@ public class ConversationDAO {
     }
 
     // Hàm add 1 conversation mới
-    public ConversationDTO addConversation(String userID1, String userID2) {
+    public ConversationDTO addFriendConversation(String userID1, String userID2) {
         String conversationID = generateNewConversationID();  
         String conversationType = "friend"; 
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
-        String query = "INSERT INTO Conversations (conversationID, userID1, userID2, conversationType, lastMessageTime, status) VALUES (?, ?, ?, ?, ?, ?)";
-        
+        String query = "INSERT INTO Conversations (conversationID, userID1, userID2, groupID, conversationType, lastMessageTime, status) " +
+                       "VALUES (?, ?, ?, NULL, ?, ?, ?)";
+
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
 
@@ -149,29 +151,110 @@ public class ConversationDAO {
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
             preparedStatement.setString(1, conversationID);
             preparedStatement.setString(2, userID1);
             preparedStatement.setString(3, userID2);
             preparedStatement.setString(4, conversationType);
-            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setTimestamp(5, currentTime);
             preparedStatement.setBoolean(6, true);
 
             preparedStatement.executeUpdate();
 
             // Trả về đối tượng ConversationDTO
-            return new ConversationDTO(conversationID, userID1, userID2, null, new Timestamp(System.currentTimeMillis()), conversationType);
+            return new ConversationDTO(conversationID, userID1, userID2, null, currentTime, conversationType);
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         } finally {
             try {
-                connection.close(); // Đóng kết nối
+                if (connection != null) connection.close();  // Đảm bảo đóng kết nối
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return null;
     }
 
 
+    // Hàm để tạo một cuộc trò chuyện cho group chat
+    public ConversationDTO addGroupConversation(String userID1, int groupID) {
+        String conversationID = generateNewConversationID();  
+        String conversationType = "group"; 
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+        // SQL query để thêm 1 conversation mới cho nhóm
+        String query = "INSERT INTO Conversations (conversationID, userID1, userID2, groupID, conversationType, lastMessageTime, status) " +
+                       "VALUES (?, ?, NULL, ?, ?, ?, ?)";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return null; 
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, conversationID);
+            preparedStatement.setString(2, userID1);
+            preparedStatement.setInt(3, groupID);
+            preparedStatement.setString(4, conversationType);
+            preparedStatement.setTimestamp(5, currentTime);
+            preparedStatement.setBoolean(6, true);
+
+            preparedStatement.executeUpdate();
+
+            // Trả về đối tượng ConversationDTO
+            return new ConversationDTO(conversationID, userID1, null, String.valueOf(groupID), currentTime, conversationType);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (connection != null) connection.close();  // Đảm bảo đóng kết nối
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public ConversationDTO addStrangerConversation(String userID, String strangerID) {
+        String conversationID = generateNewConversationID();  
+        String conversationType = "stranger"; 
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+        String query = "INSERT INTO Conversations (conversationID, userID1, userID2, groupID, conversationType, lastMessageTime, status) " +
+                       "VALUES (?, ?, ?, NULL, ?, ?, ?)";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return null; 
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, conversationID);
+            preparedStatement.setString(2, userID);
+            preparedStatement.setString(3, strangerID);
+            preparedStatement.setString(4, conversationType);
+            preparedStatement.setTimestamp(5, currentTime);
+            preparedStatement.setBoolean(6, true);
+
+            preparedStatement.executeUpdate();
+
+            // Trả về đối tượng ConversationDTO
+            return new ConversationDTO(conversationID, userID, strangerID, null, currentTime, conversationType);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (connection != null) connection.close();  // Đảm bảo đóng kết nối
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
 }

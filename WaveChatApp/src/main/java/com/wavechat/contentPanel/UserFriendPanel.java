@@ -14,7 +14,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class UserFriendPanel extends javax.swing.JPanel {
-    private String groupName;
     
     public UserFriendPanel() {
         initComponents();
@@ -494,12 +493,11 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 int row = curTable.getSelectedRow();
                 if (row >= 0) {
                     String userName = (String) curTable.getValueAt(row, 1); // Lấy username của dòng được chọn
-                    String friendUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
-                    
+                    String friendID = getUserIDByUsername(userName); // Hàm lấy userID từ username
+
+                    addConfirmButtonListener(friendID);
                     createGroupDialog.setLocationRelativeTo(this);
                     createGroupDialog.setVisible(true);
-                    
-                    handleCreateGroup(friendUserID);
                 }
             }
         });
@@ -540,7 +538,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
 
         if (conversationDTO == null) {
             // Nếu không tồn tại conversation, tạo 1 cái mới
-            conversationDTO = conversationBUS.addConversation(friendID);
+            conversationDTO = conversationBUS.addFriendConversation(friendID);
         }
         
         // Mở chat
@@ -549,10 +547,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
         userHomeMain.userHomePanel.openConversation(conversationDTO);
     }
 
-    private void handleCreateGroup(String friendID) {
-        String groupChatName = this.groupName;
+    private void handleCreateGroup(String friendID, String groupChatName) {
         GroupChatBUS groupChatBUS = new GroupChatBUS();
-        // Tạo một group chat mới thông qua GroupChatBUS
         GroupChatDTO newGroupChat = groupChatBUS.createGroupChat(groupChatName);
 
         if (newGroupChat != null) {
@@ -560,15 +556,32 @@ public class UserFriendPanel extends javax.swing.JPanel {
             groupChatBUS.addMember(currentUserID, newGroupChat.getGroupID(), true);  
             groupChatBUS.addMember(friendID, newGroupChat.getGroupID(), false);  
 
-//        // Mở group chat
-//        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain
-//        userHomeMain.showChatPanel();  
-//        userHomeMain.userHomePanel.openConversationForGroupChat(newGroupChat, conversation);
+            ConversationBUS conversationBUS = new ConversationBUS();
+            ConversationDTO conversationDTO = conversationBUS.addGroupConversation(newGroupChat.getGroupID());
+            
+            // Mở group chat
+            UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain
+            userHomeMain.showChatPanel();  
+            userHomeMain.userHomePanel.openConversationForGroupChat(newGroupChat, conversationDTO);
         } else {
             JOptionPane.showMessageDialog(this, "Error creating group chat.");
         }
     }
-
+    
+    // Gán sự kiện cho nút Create Group
+    public void addConfirmButtonListener(String friendID) {
+        // Loại bỏ tất cả ActionListener (nếu có)
+        for (ActionListener listener : confirmButton.getActionListeners()) {
+           confirmButton.removeActionListener(listener); // Loại bỏ tất cả listener cũ
+       }
+        confirmButton.addActionListener(evt -> onCreateGroupConfirmButtonClicked(friendID));
+    }
+    
+    private void onCreateGroupConfirmButtonClicked(String friendID) {                                           
+        createGroupDialog.dispose();
+        String groupChatName = groupNameEditLabel.getText();
+        handleCreateGroup(friendID, groupChatName);
+    }  
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -887,22 +900,12 @@ public class UserFriendPanel extends javax.swing.JPanel {
         groupNameLabel.setText("Group name:");
 
         groupNameEditLabel.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        groupNameEditLabel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                groupNameEditLabelKeyPressed(evt);
-            }
-        });
 
         confirmButton.setBackground(new java.awt.Color(26, 41, 128));
         confirmButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         confirmButton.setForeground(new java.awt.Color(255, 255, 255));
         confirmButton.setText("Confirm");
         confirmButton.setPreferredSize(new java.awt.Dimension(165, 40));
-        confirmButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirmButtonActionPerformed(evt);
-            }
-        });
 
         cancelButton.setBackground(new java.awt.Color(26, 41, 128));
         cancelButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1102,21 +1105,9 @@ public class UserFriendPanel extends javax.swing.JPanel {
         showPopup(evt, allTable);
     }//GEN-LAST:event_allTableMouseClicked
 
-    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        this.groupName = groupNameEditLabel.getText();
-        createGroupDialog.dispose();
-    }//GEN-LAST:event_confirmButtonActionPerformed
-
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         createGroupDialog.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void groupNameEditLabelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_groupNameEditLabelKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.groupName = groupNameEditLabel.getText();
-            createGroupDialog.dispose();
-        }
-    }//GEN-LAST:event_groupNameEditLabelKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allButton;

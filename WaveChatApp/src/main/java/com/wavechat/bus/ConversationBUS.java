@@ -23,8 +23,18 @@ public class ConversationBUS {
         return conversationDAO.getOneConversationByID(userID, friendID);
     }
 
-    public ConversationDTO addConversation(String friendID) {
+    public ConversationDTO addFriendConversation(String friendID) {
         String userID = GlobalVariable.getUserID();
-        return conversationDAO.addConversation(userID, friendID);
+        return conversationDAO.addFriendConversation(userID, friendID);
+    }
+    
+    public ConversationDTO addGroupConversation(int groupID) {
+        String userID = GlobalVariable.getUserID();
+        return conversationDAO.addGroupConversation(userID, groupID);
+    }
+    
+    public ConversationDTO addStrangerConversation(String strangerID) {
+        String userID = GlobalVariable.getUserID();
+        return conversationDAO.addStrangerConversation(userID, strangerID);
     }
 }
