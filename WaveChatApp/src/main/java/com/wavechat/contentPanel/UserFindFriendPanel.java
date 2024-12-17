@@ -36,13 +36,15 @@ public class UserFindFriendPanel extends javax.swing.JPanel {
         // Hiển thị thêm người dùng
         for (UserDTO user : findedUsers) {
             UserSearchPanel userPanel = new UserSearchPanel(user);
-            userPanel.addChatButtonListener(user.getUserID());
+            
             
             if (!userBUS.isFriend(GlobalVariable.getUserID(), user.getUserID())) {
+                userPanel.addChatButtonListenerForStranger(user.getUserID());
                 userPanel.addAddFriendButton();
                 userPanel.addAddFriendButtonListener(user.getUserID());
             }
             else {
+                userPanel.addChatButtonListenerForFriend(user.getUserID());
                 userPanel.addCreateGroupButton();
                 userPanel.addCreateGroupButtonListener(user.getUserID());
             }
