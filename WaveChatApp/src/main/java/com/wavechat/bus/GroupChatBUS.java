@@ -1,7 +1,9 @@
 package com.wavechat.bus;
 
+import com.wavechat.GlobalVariable;
 import com.wavechat.dao.GroupChatDAO;
 import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
 import java.util.List;
 
 public class GroupChatBUS {
@@ -29,5 +31,26 @@ public class GroupChatBUS {
     // Hàm thêm thành viên vào group chat
     public void addMember(String memberID, int groupID, boolean isAdmin) {
         groupChatDAO.addMember(memberID, groupID, isAdmin);
+    }
+    
+    // Hàm kiểm tra người dùng có phải là admin
+    public boolean isAdmin(int groupID) {
+        String userID = GlobalVariable.getUserID();
+        return groupChatDAO.isUserAdmin(userID, groupID);
+    }
+    
+    // Hàm đổi tên group
+    public boolean changeGroupName(int groupID, String newGroupName) {
+        return groupChatDAO.updateGroupName(groupID, newGroupName);
+    }
+    
+    // Hàm lấy danh sách thành viên trong group
+    public List<UserDTO> getMemberOfGroup(int groupID) {
+        return groupChatDAO.getMembersByGroupID(groupID);
+    }
+    
+    // Hàm kiểm tra một user có là thành viên của group không
+    public boolean isMemberOf(int groupID, String userID) {
+        return groupChatDAO.isMemberOf(groupID, userID);
     }
 }

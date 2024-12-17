@@ -37,4 +37,9 @@ public class ConversationBUS {
         String userID = GlobalVariable.getUserID();
         return conversationDAO.addStrangerConversation(userID, strangerID);
     }
+    
+    // Hàm lấy cuộc trò chuyện nhóm theo groupID
+    public ConversationDTO getConversationGroupByID(int groupID) {
+        return conversationDAO.getConversationGroupByID(groupID);  // Gọi phương thức DAO để lấy thông tin
+    }
 }

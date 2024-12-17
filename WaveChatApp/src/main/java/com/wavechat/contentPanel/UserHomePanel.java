@@ -156,6 +156,7 @@ public class UserHomePanel extends javax.swing.JPanel {
     public void openConversationForGroupChat(GroupChatDTO groupChat, ConversationDTO conversation) {     
         // Update header và footer cho nhóm chat
         header.setInfor(groupChat.getGroupName(), groupChat.isOnlineStatus());
+        header.setUpChatPopupMenu(groupChat.getGroupID());
         footer.setMode("group");        
         footer.setGroupID(groupChat.getGroupID());
         footer.setCurConversation(conversation);

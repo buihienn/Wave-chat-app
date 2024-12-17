@@ -172,6 +172,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
     private void onCreateGroupConfirmButtonClicked(String friendID) {                                           
         createGroupDialog.dispose();
         String groupChatName = groupNameEditLabel.getText();
+        groupNameEditLabel.setText("");
         handleCreateGroup(friendID, groupChatName);
     }  
 
@@ -216,12 +217,14 @@ public class UserSearchPanel extends javax.swing.JPanel {
         createGroupDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         createGroupDialog.setTitle("Wave - Create group chat");
         createGroupDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        createGroupDialog.setPreferredSize(new java.awt.Dimension(500, 150));
         createGroupDialog.setResizable(false);
-        createGroupDialog.setSize(new java.awt.Dimension(500, 250));
+        createGroupDialog.setSize(new java.awt.Dimension(500, 150));
 
         popupEditProfile1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        popupEditProfile1.setMaximumSize(new java.awt.Dimension(500, 120));
-        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 120));
+        popupEditProfile1.setMaximumSize(new java.awt.Dimension(500, 150));
+        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 150));
+        popupEditProfile1.setPreferredSize(new java.awt.Dimension(500, 150));
         popupEditProfile1.setRequestFocusEnabled(false);
 
         groupNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -328,7 +331,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(userNameLabel))
                         .addComponent(userAvatar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

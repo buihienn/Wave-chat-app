@@ -580,6 +580,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
     private void onCreateGroupConfirmButtonClicked(String friendID) {                                           
         createGroupDialog.dispose();
         String groupChatName = groupNameEditLabel.getText();
+        groupNameEditLabel.setText("");
         handleCreateGroup(friendID, groupChatName);
     }  
     
@@ -886,14 +887,17 @@ public class UserFriendPanel extends javax.swing.JPanel {
 
         createGroupDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         createGroupDialog.setTitle("Wave - Create group chat");
+        createGroupDialog.setMaximumSize(new java.awt.Dimension(500, 150));
+        createGroupDialog.setMinimumSize(new java.awt.Dimension(500, 150));
         createGroupDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        createGroupDialog.setPreferredSize(new java.awt.Dimension(500, 150));
         createGroupDialog.setResizable(false);
-        createGroupDialog.setSize(new java.awt.Dimension(500, 250));
+        createGroupDialog.setSize(new java.awt.Dimension(500, 150));
 
         popupEditProfile1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        popupEditProfile1.setMaximumSize(new java.awt.Dimension(500, 120));
-        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 120));
-        popupEditProfile1.setPreferredSize(new java.awt.Dimension(500, 120));
+        popupEditProfile1.setMaximumSize(new java.awt.Dimension(500, 150));
+        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 150));
+        popupEditProfile1.setPreferredSize(new java.awt.Dimension(500, 150));
         popupEditProfile1.setRequestFocusEnabled(false);
 
         groupNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N

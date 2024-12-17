@@ -91,6 +91,49 @@ public class ConversationDAO {
         return null;
     }
     
+    // Hàm lấy cuộc trò chuyện theo groupID
+    public ConversationDTO getConversationGroupByID(int groupID) {
+        String query = "SELECT conversationID, userID1, userID2, groupID, conversationType, lastMessageTime " +
+                       "FROM Conversations " +
+                       "WHERE groupID = ? AND conversationType = 'group'";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return null;  // Nếu không kết nối được thì trả về null
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, groupID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String conversationID = resultSet.getString("conversationID");
+                String userID1 = resultSet.getString("userID1");
+                String userID2 = resultSet.getString("userID2");
+                String conversationType = resultSet.getString("conversationType");
+                Timestamp lastMessageTime = resultSet.getTimestamp("lastMessageTime");
+
+                return new ConversationDTO(conversationID, userID1, userID2, String.valueOf(groupID), lastMessageTime, conversationType);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;  // Nếu không tìm thấy cuộc trò chuyện thì trả về null
+    }
+    
     // Hàm generate conversationID
     public static String generateNewConversationID() {
         String newConversationID = null;

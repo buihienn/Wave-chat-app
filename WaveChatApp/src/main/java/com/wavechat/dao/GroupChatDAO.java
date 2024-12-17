@@ -2,6 +2,7 @@ package com.wavechat.dao;
 
 import com.wavechat.GlobalVariable;
 import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,6 +150,14 @@ public class GroupChatDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return null;
@@ -184,4 +193,157 @@ public class GroupChatDAO {
         }
     }
     
+    // Hàm kiểm tra người dùng có phải là admin
+    public boolean isUserAdmin(String userID, int groupID) {
+        String query = "SELECT isAdmin FROM GroupMembers WHERE userID = ? AND groupID = ?";
+        boolean isAdmin = false;
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, userID); 
+            preparedStatement.setInt(2, groupID); 
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                isAdmin = resultSet.getBoolean("isAdmin");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return isAdmin;
+    }
+    
+    // Hàm đổi tên group
+    public boolean updateGroupName(int groupID, String newGroupName) {
+        String query = "UPDATE GroupChat SET groupName = ? WHERE groupID = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, newGroupName);
+            preparedStatement.setInt(2, groupID);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    // Hàm lấy danh sách thành viên trong group theo groupID
+    public List<UserDTO> getMembersByGroupID(int groupID) {
+        List<UserDTO> userList = new ArrayList<>();
+        String sql = "SELECT u.userID, u.userName, u.fullName, u.onlineStatus " +
+                     "FROM User u " +
+                     "JOIN GroupMembers gm ON u.userID = gm.userID " +
+                     "WHERE gm.groupID = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return null;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, groupID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                UserDTO user = new UserDTO(
+                        resultSet.getString("userID"),
+                        resultSet.getString("userName"),
+                        resultSet.getString("fullName"),
+                        resultSet.getBoolean("onlineStatus")
+                );
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return userList;
+    }
+    
+    // Hàm kiểm tra một user có là thành viên của group không
+    public boolean isMemberOf(int groupID, String userID) {
+        String sql = "SELECT COUNT(*) FROM GroupMembers WHERE groupID = ? AND userID = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, groupID);
+            preparedStatement.setString(2, userID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1); // Lấy kết quả COUNT
+                return count > 0; // Nếu COUNT > 0, có ít nhất một dòng nghĩa là người dùng là thành viên của nhóm
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
+
 }

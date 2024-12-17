@@ -8,9 +8,8 @@ public class BlockDAO {
     public boolean blockUser(String userID1, String userID2) {
         String query = "INSERT INTO Blocks (userID, blocked_userID) VALUES (?, ?)";
 
-        // Tạo đối tượng DBconnector và lấy kết nối
-        DBconnector dbConnector = new DBconnector();  // Tạo đối tượng DBconnector
-        Connection connection = dbConnector.getConnection();  // Lấy kết nối từ DBconnector
+        DBconnector dbConnector = new DBconnector(); 
+        Connection connection = dbConnector.getConnection(); 
         if (connection == null) {
             return false;
         }

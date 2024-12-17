@@ -3,7 +3,6 @@ package com.wavechat.component;
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.dto.ChatMessageDTO;
-import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.GroupChatDTO;
 import com.wavechat.dto.UserDTO;
 import java.util.List;
