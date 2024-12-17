@@ -2,6 +2,7 @@ package com.wavechat.component;
 
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ConversationBUS;
+import com.wavechat.bus.FriendRequestBUS;
 import com.wavechat.bus.GroupChatBUS;
 import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.GroupChatDTO;
@@ -34,45 +35,65 @@ public class UserSearchPanel extends javax.swing.JPanel {
     
     // Gán sự kiện cho nút Chat
     public void addChatButtonListenerForFriend(String friendID) {
-        chatButton.addActionListener(evt -> onChatWithFriendButtonClicked(friendID));
+        chatButton.addActionListener(evt -> handleChatForFriend(friendID));
     }
 
     // Gán sự kiện cho nút Chat
     public void addChatButtonListenerForStranger(String strangerID) {
-        chatButton.addActionListener(evt -> onChatWithStrangerButtonClicked(strangerID));
+        chatButton.addActionListener(evt -> handleChatForStranger(strangerID));
     }
     
     // Gán sự kiện cho nút Add Friend
     public void addAddFriendButtonListener(String friendID) {
-        addFriendButton.addActionListener(evt -> onAddFriendButtonClicked(friendID));
+        // Loại bỏ tất cả ActionListener (nếu có)
+        for (ActionListener listener : addFriendButton.getActionListeners()) {
+                   addFriendButton.removeActionListener(listener); // Loại bỏ tất cả listener cũ
+        }
+        addFriendButton.setText("Add friend");
+        addFriendButton.addActionListener(evt -> handleAddFriend(friendID));
     }
 
-    // Gán sự kiện cho nút Create Group
-    public void addCreateGroupButtonListener(String friendID) {
-        createGroupButton.addActionListener(evt -> onCreateGroupButtonClicked(friendID));
+    public boolean isRequestSentTo(String friendID) {
+        FriendRequestBUS friendRequestBUS = new FriendRequestBUS();
+
+        return friendRequestBUS.isFriendRequestSentTo(friendID);
     }
     
-    private void onChatWithFriendButtonClicked(String friendID) {                                           
-        System.out.println("Chat with friend " + friendID);
-        handleChatForFriend(friendID);
-    }  
-    
-    private void onChatWithStrangerButtonClicked(String strangerID) {                                           
-        System.out.println("Chat with stranger " + strangerID);
-        handleChatForStranger(strangerID);
-    }  
+    private void handleAddFriend(String friendID) {
+        FriendRequestBUS friendRequestBUS = new FriendRequestBUS();
 
-    private void onAddFriendButtonClicked(String friendID) {                                                
-        System.out.println("Add friend " + friendID);
-    }                                               
+        boolean isSuccess = friendRequestBUS.sendFriendRequest(friendID);
 
-    private void onCreateGroupButtonClicked(String friendID) {                                                  
-        System.out.println("Create group with " + friendID);
-        addConfirmButtonListener(friendID);
-        createGroupDialog.setLocationRelativeTo(this);
-        createGroupDialog.setVisible(true);
-    }  
+        if (isSuccess) {
+            addRemoveAddFriendButtonListener(friendID);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to send friend request. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
+    // Chuyển add friend -> cancel
+    public void addRemoveAddFriendButtonListener(String friendID) {
+        // Loại bỏ tất cả ActionListener (nếu có)
+        for (ActionListener listener : addFriendButton.getActionListeners()) {
+            addFriendButton.removeActionListener(listener); // Loại bỏ tất cả listener cũ
+        }
+        addFriendButton.setText("Remove request");
+        addFriendButton.addActionListener(evt -> handleRemoveAddFriend(friendID));
+    }
+    
+    // Hàm xử lý khi nhấn nút "Add Friend"
+    private void handleRemoveAddFriend(String friendID) {
+        FriendRequestBUS friendRequestBUS = new FriendRequestBUS();
+        
+        boolean isRemoved = friendRequestBUS.removeFriendRequest(friendID);
+
+        if (isRemoved) {
+            addAddFriendButtonListener(friendID);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to remove friend request.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void handleChatForFriend(String friendID) {
         // Tạo conversation nếu chưa có
         ConversationBUS conversationBUS = new ConversationBUS();
@@ -107,6 +128,17 @@ public class UserSearchPanel extends javax.swing.JPanel {
         userHomeMain.userHomePanel.openConversation(conversationDTO);
     }
     
+    // Gán sự kiện cho nút Create Group
+    public void addCreateGroupButtonListener(String friendID) {
+        createGroupButton.addActionListener(evt -> onCreateGroupButtonClicked(friendID));
+    }
+
+    private void onCreateGroupButtonClicked(String friendID) {                                                  
+        addConfirmButtonListener(friendID);
+        createGroupDialog.setLocationRelativeTo(this);
+        createGroupDialog.setVisible(true);
+    }  
+    
     private void handleCreateGroup(String friendID, String groupChatName) {
         GroupChatBUS groupChatBUS = new GroupChatBUS();
         GroupChatDTO newGroupChat = groupChatBUS.createGroupChat(groupChatName);
@@ -140,6 +172,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
     private void onCreateGroupConfirmButtonClicked(String friendID) {                                           
         createGroupDialog.dispose();
         String groupChatName = groupNameEditLabel.getText();
+        groupNameEditLabel.setText("");
         handleCreateGroup(friendID, groupChatName);
     }  
 
@@ -169,7 +202,6 @@ public class UserSearchPanel extends javax.swing.JPanel {
         addFriendButton.setBackground(new java.awt.Color(26, 41, 128));
         addFriendButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addFriendButton.setForeground(new java.awt.Color(255, 255, 255));
-        addFriendButton.setText("Add friend");
         addFriendButton.setMaximumSize(new java.awt.Dimension(144, 40));
         addFriendButton.setMinimumSize(new java.awt.Dimension(144, 40));
         addFriendButton.setPreferredSize(new java.awt.Dimension(144, 40));
@@ -185,12 +217,14 @@ public class UserSearchPanel extends javax.swing.JPanel {
         createGroupDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         createGroupDialog.setTitle("Wave - Create group chat");
         createGroupDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        createGroupDialog.setPreferredSize(new java.awt.Dimension(500, 150));
         createGroupDialog.setResizable(false);
-        createGroupDialog.setSize(new java.awt.Dimension(500, 250));
+        createGroupDialog.setSize(new java.awt.Dimension(500, 150));
 
         popupEditProfile1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        popupEditProfile1.setMaximumSize(new java.awt.Dimension(500, 120));
-        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 120));
+        popupEditProfile1.setMaximumSize(new java.awt.Dimension(500, 150));
+        popupEditProfile1.setMinimumSize(new java.awt.Dimension(500, 150));
+        popupEditProfile1.setPreferredSize(new java.awt.Dimension(500, 150));
         popupEditProfile1.setRequestFocusEnabled(false);
 
         groupNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -297,7 +331,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(userNameLabel))
                         .addComponent(userAvatar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

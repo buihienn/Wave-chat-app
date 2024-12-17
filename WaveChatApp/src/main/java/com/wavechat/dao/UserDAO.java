@@ -882,14 +882,18 @@ public class UserDAO {
         return false;
     }
     
-    // Hàm tìm kiếm user theo userName
+    // Hàm tìm kiếm user theo userName, loại trừ những người đã block hoặc bị block
     public List<UserDTO> findUserByUserName(String query, int offset, int limit) {
         List<UserDTO> userList = new ArrayList<>();
+        String currentUserID = GlobalVariable.getUserID();
         
         String sql = "SELECT userID, userName, fullName, onlineStatus " +
-                     "FROM User " +
-                     "WHERE userName LIKE ? AND status = true " +
-                     "ORDER BY userName " +
+                     "FROM User u " +
+                     "WHERE u.userName LIKE ? AND u.status = true " +
+                     "AND u.userID != ? " +     
+                     "AND NOT EXISTS (SELECT 1 FROM Blocks b WHERE b.userID = ? AND b.blocked_userID = u.userID) " +  // Loại trừ người đã bị block
+                     "AND NOT EXISTS (SELECT 1 FROM Blocks b WHERE b.userID = u.userID AND b.blocked_userID = ?) " +  // Loại trừ người đã block mình
+                     "ORDER BY u.userName " +
                      "LIMIT ? OFFSET ?";
 
         DBconnector dbConnector = new DBconnector();
@@ -897,14 +901,16 @@ public class UserDAO {
 
         if (connection == null) {
             System.out.println("Failed to establish a database connection.");
-            return null; // Trả về false nếu không thể kết nối
+            return null;
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
             preparedStatement.setString(1, "%" + query + "%");
-            preparedStatement.setInt(2, limit);
-            preparedStatement.setInt(3, offset);
+            preparedStatement.setString(2, currentUserID); 
+            preparedStatement.setString(3, currentUserID);
+            preparedStatement.setString(4, currentUserID);
+            preparedStatement.setInt(5, limit);
+            preparedStatement.setInt(6, offset); 
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -914,8 +920,8 @@ public class UserDAO {
                 String fullName = resultSet.getString("fullName");
                 boolean onlineStatus = resultSet.getBoolean("onlineStatus");
 
-                // Tạo UserDTO và thêm vào danh sách
-                userList.add(new UserDTO(userID, userName, fullName, onlineStatus));
+                UserDTO user = new UserDTO(userID, userName, fullName, onlineStatus);
+                userList.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -930,12 +936,18 @@ public class UserDAO {
         return userList;
     }
 
-    // // Hàm tìm kiếm user theo fullName
+
+    // // Hàm tìm kiếm user theo fullName, loại trừ những người đã block hoặc bị block
     public List<UserDTO> findUserByFullName(String query, int offset, int limit) {
         List<UserDTO> userList = new ArrayList<>();
+        String currentUserID = GlobalVariable.getUserID();
+
         String sql = "SELECT userID, userName, fullName, onlineStatus " +
-                     "FROM User " +
-                     "WHERE fullName LIKE ? AND status = true " +
+                     "FROM User u " +
+                     "WHERE fullName LIKE ? AND u.status = true " +
+                     "AND u.userID != ? " +      
+                     "AND NOT EXISTS (SELECT 1 FROM Blocks b WHERE b.userID = ? AND b.blocked_userID = u.userID) " + // Người dùng hiện tại không bị block bởi người khác
+                     "AND NOT EXISTS (SELECT 1 FROM Blocks b WHERE b.userID = u.userID AND b.blocked_userID = ?) " + // Người hiện tại không block người này
                      "ORDER BY fullName " +
                      "LIMIT ? OFFSET ?";
 
@@ -944,14 +956,16 @@ public class UserDAO {
 
         if (connection == null) {
             System.out.println("Failed to establish a database connection.");
-            return null; // Trả về false nếu không thể kết nối
+            return null; // Trả về null nếu không thể kết nối
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
             preparedStatement.setString(1, "%" + query + "%");
-            preparedStatement.setInt(2, limit);
-            preparedStatement.setInt(3, offset);
+            preparedStatement.setString(2, currentUserID); 
+            preparedStatement.setString(3, currentUserID);
+            preparedStatement.setString(4, currentUserID);
+            preparedStatement.setInt(5, limit);
+            preparedStatement.setInt(6, offset); 
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -961,9 +975,10 @@ public class UserDAO {
                 String fullName = resultSet.getString("fullName");
                 boolean onlineStatus = resultSet.getBoolean("onlineStatus");
 
-                // Tạo UserDTO và thêm vào danh sách
-                userList.add(new UserDTO(userID, userName, fullName, onlineStatus));
+                UserDTO user = new UserDTO(userID, userName, fullName, onlineStatus);
+                userList.add(user);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -977,6 +992,4 @@ public class UserDAO {
         return userList;
     }
 
-    
-    
 }
