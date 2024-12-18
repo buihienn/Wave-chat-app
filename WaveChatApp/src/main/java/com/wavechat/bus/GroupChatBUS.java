@@ -29,8 +29,8 @@ public class GroupChatBUS {
     }
 
     // Hàm thêm thành viên vào group chat
-    public void addMember(String memberID, int groupID, boolean isAdmin) {
-        groupChatDAO.addMember(memberID, groupID, isAdmin);
+    public boolean addMember(String memberID, int groupID, boolean isAdmin) {
+        return groupChatDAO.addMember(memberID, groupID, isAdmin);
     }
     
     // Hàm kiểm tra người dùng có phải là admin
@@ -53,4 +53,17 @@ public class GroupChatBUS {
     public boolean isMemberOf(int groupID, String userID) {
         return groupChatDAO.isMemberOf(groupID, userID);
     }
+    
+    // Hàm thay đổi admin của 1 group
+    public boolean changeAdmin(String newAdminID, int groupID) {
+        return groupChatDAO.changeAdmin(newAdminID, groupID);
+    }
+
+    // Hàm xóa thành viên khỏi nhóm
+    public boolean deleteMemberFromGroup(String memberID, int groupID) {
+        GroupChatDAO groupChatDAO = new GroupChatDAO();
+        return groupChatDAO.deleteMemberFromGroup(memberID, groupID);
+    }
+
+    
 }
