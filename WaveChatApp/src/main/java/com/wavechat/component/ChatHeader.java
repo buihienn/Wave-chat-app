@@ -5,19 +5,25 @@ import com.wavechat.bus.ConversationBUS;
 import com.wavechat.bus.FriendBUS;
 import com.wavechat.bus.GroupChatBUS;
 import com.wavechat.bus.MemberGroupPanel;
+import com.wavechat.bus.SpamReportBUS;
+import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.FriendDTO;
 import com.wavechat.dto.UserDTO;
 import com.wavechat.form.UserHomeMain;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import net.miginfocom.swing.MigLayout;
 
 public class ChatHeader extends javax.swing.JPanel {
-    private javax.swing.JMenuItem changeGroupNameMenuItem;
-    private javax.swing.JMenuItem addMemberMenuItem;
-    private javax.swing.JMenuItem manageMemberMenuItem;
+    private JMenuItem changeGroupNameMenuItem;
+    private JMenuItem addMemberMenuItem;
+    private JMenuItem manageMemberMenuItem;    
+    
+    private JMenuItem spamMenuItem;
+
     
     public ChatHeader() {
         initComponents();
@@ -32,7 +38,32 @@ public class ChatHeader extends javax.swing.JPanel {
         else { onlineLabel.setText("Offline"); }
     }
     
-    public void setUpChatPopupMenu(int groupID) {
+    public void setUpChatPopupMenuForUser(String userID) {
+        chatPopupMenu.removeAll();
+        // Tạo các menu item
+        spamMenuItem = new JMenuItem("Report spam");
+
+        // Thêm các menu item vào popup menu
+        chatPopupMenu.add(spamMenuItem);
+
+        // Gán sự kiện cho các menu item
+        spamMenuItem.addActionListener(e -> handleSpam(userID));
+    }
+    
+    public void handleSpam(String userID) {
+        SpamReportBUS spamReportBUS = new SpamReportBUS();
+        boolean isSuccess = spamReportBUS.addSpamReport(userID);
+        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);
+        
+        if (isSuccess) {
+            UserBUS userBUS = new UserBUS();
+            JOptionPane.showMessageDialog(userHomeMain, "Report user " + userBUS.getFullNameByID(userID) + " spam successfully!" , "Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(userHomeMain, "Failed to report spam. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void setUpChatPopupMenuForGroup(int groupID) {
         chatPopupMenu.removeAll();
         // Tạo các menu item
         changeGroupNameMenuItem = new JMenuItem("Change group name");
@@ -65,7 +96,6 @@ public class ChatHeader extends javax.swing.JPanel {
         changeGroupNameDialog.setVisible(true);
     }
     
-    // Gán sự kiện cho nút Create Group
     public void addConfirmButtonListener(int groupID) {
         // Loại bỏ tất cả ActionListener (nếu có)
         for (ActionListener listener : confirmButton.getActionListeners()) {
@@ -116,7 +146,7 @@ public class ChatHeader extends javax.swing.JPanel {
         groupMemberDialog.setVisible(true);
     }
     
-    private void openFriendListPanel(int groupID) {
+    public void openFriendListPanel(int groupID) {
         GroupChatBUS groupChatBUS = new GroupChatBUS();
         FriendBUS friendBUS = new FriendBUS();
         List<FriendDTO> friends = friendBUS.getFriends(GlobalVariable.getUserID());
@@ -124,8 +154,9 @@ public class ChatHeader extends javax.swing.JPanel {
         groupMemberPanel.removeAll();
         for (FriendDTO user : friends) {
             if (!groupChatBUS.isMemberOf(groupID, user.getUserID())) {
-                FriendPanel memberPanel = new FriendPanel(user);
-                groupMemberPanel.add(memberPanel, "wrap, w ::100%");
+                FriendPanel friendPanel = new FriendPanel(user, groupID, this);
+                friendPanel.addAddMemberButtonListener();
+                groupMemberPanel.add(friendPanel, "wrap, w ::100%");
             }
         }
         groupMemberDialog.setTitle("Friend list");

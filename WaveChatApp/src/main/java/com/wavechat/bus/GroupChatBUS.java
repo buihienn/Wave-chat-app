@@ -29,8 +29,8 @@ public class GroupChatBUS {
     }
 
     // Hàm thêm thành viên vào group chat
-    public void addMember(String memberID, int groupID, boolean isAdmin) {
-        groupChatDAO.addMember(memberID, groupID, isAdmin);
+    public boolean addMember(String memberID, int groupID, boolean isAdmin) {
+        return groupChatDAO.addMember(memberID, groupID, isAdmin);
     }
     
     // Hàm kiểm tra người dùng có phải là admin

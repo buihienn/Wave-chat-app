@@ -1,16 +1,60 @@
 package com.wavechat.component;
 
+import com.wavechat.bus.GroupChatBUS;
 import com.wavechat.dto.FriendDTO;
-import com.wavechat.dto.UserDTO;
+import java.awt.event.ActionListener;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class FriendPanel extends javax.swing.JPanel {
-
-    public FriendPanel(FriendDTO friendDTO) {
+    private FriendDTO friendDTO;
+    private int groupID;
+    private ChatHeader chatHeader;
+    
+    public FriendPanel(FriendDTO friendDTO, int groupID, ChatHeader chatHeader) {
         initComponents();
+        
+        this.friendDTO = friendDTO;
+        this.groupID = groupID;
+        this.chatHeader = chatHeader;
         
         fullNameLabel.setText(friendDTO.getFullName());
         userNameLabel.setText(friendDTO.getUserName());
     }
+    
+    public void addAddMemberButtonListener() {
+        // Loại bỏ tất cả ActionListener (nếu có)
+        for (ActionListener listener : addButton.getActionListeners()) {
+                   addButton.removeActionListener(listener); // Loại bỏ tất cả listener cũ
+        }
+        addButton.addActionListener(evt -> handleAddMember());
+    }
+        
+    private void handleAddMember() {
+        // Tạo một instance của GroupChatBUS
+        GroupChatBUS groupChatBUS = new GroupChatBUS();
+
+        // Gọi hàm addMember với thông tin cần thiết
+        boolean isAdded = groupChatBUS.addMember(friendDTO.getUserID(), groupID, false);
+
+        if (isAdded) {
+            // Hiển thị thông báo thành công
+            JOptionPane.showMessageDialog(this, "Member added successfully: " + friendDTO.getFullName(), "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            // Update UI
+            java.awt.Window dialog = SwingUtilities.getWindowAncestor(this);
+            if (dialog instanceof JDialog) {
+                ((JDialog) dialog).dispose();
+            }
+                
+            chatHeader.openFriendListPanel(groupID);
+        } else {
+            // Hiển thị thông báo lỗi
+            JOptionPane.showMessageDialog(this, "Failed to add member. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

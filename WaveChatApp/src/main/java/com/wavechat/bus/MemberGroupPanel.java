@@ -84,7 +84,7 @@ public class MemberGroupPanel extends javax.swing.JPanel {
             if (isDeleted) {
                 JOptionPane.showMessageDialog(this, "Member removed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // Cập nhật lại danh sách thành viên sau khi xóa
+                // Update UI
                 java.awt.Window dialog = SwingUtilities.getWindowAncestor(this);
                 if (dialog instanceof JDialog) {
                     ((JDialog) dialog).dispose();
