@@ -96,18 +96,22 @@ public class ChatHeader extends javax.swing.JPanel {
         }
     }
     
-    private void openGroupMemberPanel(int groupID) {
+    public void openGroupMemberPanel(int groupID) {
         GroupChatBUS groupChatBUS = new GroupChatBUS();
         List<UserDTO> members = groupChatBUS.getMemberOfGroup(groupID);
-
+        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);
+    
         groupMemberPanel.removeAll();
         for (UserDTO user : members) {
-            MemberGroupPanel memberPanel = new MemberGroupPanel(user);
-            groupMemberPanel.add(memberPanel, "wrap, w ::100%");
+            if (!user.getUserID().equals(GlobalVariable.getUserID())) {
+                MemberGroupPanel memberPanel = new MemberGroupPanel(user, groupID, userHomeMain, this);
+                memberPanel.addSetAdminButtonListener();
+                memberPanel.addDeleteButtonListener();
+                groupMemberPanel.add(memberPanel, "wrap, w ::100%");
+            }
         }
         groupMemberDialog.setTitle("Member list");
         
-        UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);
         groupMemberDialog.setLocationRelativeTo(userHomeMain);
         groupMemberDialog.setVisible(true);
     }

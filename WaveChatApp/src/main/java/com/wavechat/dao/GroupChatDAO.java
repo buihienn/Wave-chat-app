@@ -345,5 +345,83 @@ public class GroupChatDAO {
         return false;
     }
 
+    // Hàm thay đổi admin
+    public boolean changeAdmin(String newAdminID, int groupID) {
+        String queryResetAdmin = "UPDATE GroupMembers SET isAdmin = false WHERE groupID = ? AND userID = ?";
+        String querySetNewAdmin = "UPDATE GroupMembers SET isAdmin = true WHERE groupID = ? AND userID = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false;
+        }
+
+        try {
+            // Tắt chế độ admin hiện tại
+            try (PreparedStatement resetStatement = connection.prepareStatement(queryResetAdmin)) {
+                resetStatement.setInt(1, groupID);
+                resetStatement.setString(2, GlobalVariable.getUserID());
+                
+                resetStatement.executeUpdate();
+            }
+
+            // Gán chế độ admin cho user mới
+            try (PreparedStatement setAdminStatement = connection.prepareStatement(querySetNewAdmin)) {
+                setAdminStatement.setInt(1, groupID);
+                setAdminStatement.setString(2, newAdminID);
+
+                int rowsAffected = setAdminStatement.executeUpdate();
+                return rowsAffected > 0; // Trả về true nếu thành công
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false; 
+    }
+
+    // Hàm xóa thành viên khỏi nhóm
+    public boolean deleteMemberFromGroup(String memberID, int groupID) {
+        String query = "DELETE FROM GroupMembers WHERE groupID = ? AND userID = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, groupID);
+            preparedStatement.setString(2, memberID);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu xóa thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); // Đóng kết nối
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
 
 }

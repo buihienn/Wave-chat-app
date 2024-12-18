@@ -1,15 +1,103 @@
 package com.wavechat.bus;
 
+import com.wavechat.component.ChatHeader;
 import com.wavechat.dto.UserDTO;
+import com.wavechat.form.UserHomeMain;
+import java.awt.event.ActionListener;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class MemberGroupPanel extends javax.swing.JPanel {
-
-    public MemberGroupPanel(UserDTO userDTO) {
+    private UserDTO userDTO;
+    private int groupID;
+    private UserHomeMain userHomeMain;
+    private ChatHeader chatHeader;
+    
+    public MemberGroupPanel(UserDTO user, int groupID, UserHomeMain userHomeMain, ChatHeader chatHeader) {
         initComponents();
+         
+        this.userDTO = user;
+        this.groupID = groupID;
+        this.userHomeMain = userHomeMain;
+        this.chatHeader = chatHeader;
         
         fullNameLabel.setText(userDTO.getFullName());
         userNameLabel.setText(userDTO.getUserName());
     }
+    
+    public void addSetAdminButtonListener() {
+        // Loại bỏ tất cả ActionListener (nếu có)
+        for (ActionListener listener : setAdminButton.getActionListeners()) {
+                   setAdminButton.removeActionListener(listener); // Loại bỏ tất cả listener cũ
+        }
+        setAdminButton.addActionListener(evt -> handleSetAdmin());
+    }
+        
+    private void handleSetAdmin() {
+        GroupChatBUS groupChatBUS = new GroupChatBUS();
+        boolean isSuccess = groupChatBUS.changeAdmin(userDTO.getUserID(), groupID); 
+        if (isSuccess) {
+            JOptionPane.showMessageDialog(this, "Admin successfully changed to: " + userDTO.getFullName(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            // Update conversation
+            // Đóng dialog hiện tại
+            java.awt.Window dialog = SwingUtilities.getWindowAncestor(this);
+            if (dialog instanceof JDialog) {
+                ((JDialog) dialog).dispose();
+            }
+
+            // Mở lại conversation từ UserHomeMain
+            if (userHomeMain != null) {
+                userHomeMain.showChatPanel();  
+                ConversationBUS conversationBUS = new ConversationBUS();
+                userHomeMain.userHomePanel.openConversationForGroupChat(
+                    groupChatBUS.getGroupChatByID(groupID), 
+                    conversationBUS.getConversationGroupByID(groupID)
+                );
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to change admin. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void addDeleteButtonListener() {
+        // Loại bỏ tất cả ActionListener (nếu có)
+        for (ActionListener listener : deleteButton.getActionListeners()) {
+                   deleteButton.removeActionListener(listener); // Loại bỏ tất cả listener cũ
+        }
+        deleteButton.addActionListener(evt -> handleDelete());
+    }
+    
+    private void handleDelete() {
+        String memberID = this.userDTO.getUserID();
+
+        // Xác nhận trước khi xóa
+        int confirmation = JOptionPane.showConfirmDialog(this, 
+                "Are you sure you want to remove this member?", 
+                "Confirm Delete", 
+                JOptionPane.YES_NO_OPTION);
+        
+        if (confirmation == JOptionPane.YES_OPTION) {
+            GroupChatBUS groupChatBUS = new GroupChatBUS();
+            boolean isDeleted = groupChatBUS.deleteMemberFromGroup(memberID, groupID);
+
+            if (isDeleted) {
+                JOptionPane.showMessageDialog(this, "Member removed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                // Cập nhật lại danh sách thành viên sau khi xóa
+                java.awt.Window dialog = SwingUtilities.getWindowAncestor(this);
+                if (dialog instanceof JDialog) {
+                    ((JDialog) dialog).dispose();
+                }
+                
+                chatHeader.openGroupMemberPanel(groupID);
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to remove member. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    
     
     /** This method is called from within the constructor to
      * initialize the form.
