@@ -4,15 +4,17 @@ import com.wavechat.contentPanel.AuthenticationForgotPassPanel;
 import com.wavechat.contentPanel.AuthenticationLoginPanel;
 import com.wavechat.contentPanel.AuthenticationRegisterPanel;
 import com.wavechat.contentPanel.AuthenticationThankYouPanel;
+import com.wavechat.socket.ClientSocketManager;
 
 public class AuthenticationMain extends javax.swing.JFrame {
-
-    AuthenticationLoginPanel loginPanel = new AuthenticationLoginPanel(this);
+    private final ClientSocketManager clientSocket;
+    
+    AuthenticationLoginPanel loginPanel = new AuthenticationLoginPanel(this, null);
     AuthenticationRegisterPanel registerPanel = new AuthenticationRegisterPanel(this);
     AuthenticationForgotPassPanel forgotPassPanel = new AuthenticationForgotPassPanel(this);
     AuthenticationThankYouPanel thankYouPanel = new AuthenticationThankYouPanel(this);
     
-    public AuthenticationMain() {
+    public AuthenticationMain(ClientSocketManager clientSocket) {
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -25,6 +27,9 @@ public class AuthenticationMain extends javax.swing.JFrame {
         registerPanel.setVisible(false);
         forgotPassPanel.setVisible(false);
         thankYouPanel.setVisible(false);
+        
+        this.clientSocket = clientSocket;
+        loginPanel.clientSocket = this.clientSocket;
     }
     
     public void showLoginPanel() {
@@ -76,42 +81,6 @@ public class AuthenticationMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AuthenticationMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AuthenticationMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AuthenticationMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AuthenticationMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AuthenticationMain().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane contentContainer;

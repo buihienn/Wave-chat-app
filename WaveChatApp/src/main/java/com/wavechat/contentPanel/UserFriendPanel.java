@@ -534,11 +534,12 @@ public class UserFriendPanel extends javax.swing.JPanel {
         // Tạo conversation nếu chưa có
         ConversationBUS conversationBUS = new ConversationBUS();
         // Kiểm tra xem conversation đã tồn tại giữa currentUserID và friendID chưa
-        ConversationDTO conversationDTO = conversationBUS.checkConversationExists(friendID);
+        String userID = GlobalVariable.getUserID();
+        ConversationDTO conversationDTO = conversationBUS.checkConversationExists(userID, friendID);
 
         if (conversationDTO == null) {
             // Nếu không tồn tại conversation, tạo 1 cái mới
-            conversationDTO = conversationBUS.addFriendConversation(friendID);
+            conversationDTO = conversationBUS.addFriendConversation(userID, friendID);
         }
         
         // Mở chat
@@ -557,7 +558,8 @@ public class UserFriendPanel extends javax.swing.JPanel {
             groupChatBUS.addMember(friendID, newGroupChat.getGroupID(), false);  
 
             ConversationBUS conversationBUS = new ConversationBUS();
-            ConversationDTO conversationDTO = conversationBUS.addGroupConversation(newGroupChat.getGroupID());
+            String userID = GlobalVariable.getUserID();
+            ConversationDTO conversationDTO = conversationBUS.addGroupConversation(userID, newGroupChat.getGroupID());
             
             // Mở group chat
             UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);  // Lấy tham chiếu đến UserHomeMain

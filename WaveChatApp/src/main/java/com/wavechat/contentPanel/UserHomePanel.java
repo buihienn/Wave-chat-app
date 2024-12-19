@@ -11,20 +11,28 @@ import com.wavechat.component.ConversationPanel;
 import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.GroupChatDTO;
 import com.wavechat.dto.UserDTO;
+import com.wavechat.socket.ClientSocketManager;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserHomePanel extends javax.swing.JPanel {
+    public ClientSocketManager clientSocket;
 
     private ChatHeader header = new ChatHeader();    
     private ChatBody body = new ChatBody();
-    private ChatFooter footer  = new ChatFooter(body);
+    private ChatFooter footer  = new ChatFooter(body, null);
 
     public UserHomePanel() {
     }
     
-    public void open() {
+    public void open(ClientSocketManager clientSocket) {
         removeAll();
         initComponents();
+        this.clientSocket = clientSocket;
+        this.clientSocket.listenForMessages(body);
+        footer.clientSocket = this.clientSocket;
 
         String userID = GlobalVariable.getUserID();
 
@@ -125,6 +133,11 @@ public class UserHomePanel extends javax.swing.JPanel {
     }
     
     public void openConversation(ConversationDTO conversation) { 
+        try {
+            clientSocket.sendMessage("OPEN_CONVERSATION: " + conversation.getConversationID());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         UserBUS userBUS = new UserBUS();
         UserDTO friend;
         try {
@@ -141,6 +154,7 @@ public class UserHomePanel extends javax.swing.JPanel {
             body.removeChat();
             body.resetOffet();
             body.setMode("user");  
+            body.setCurConversation(conversation);
             body.loadMessages(friend);  
             
         } catch (Exception ex) {
@@ -155,6 +169,11 @@ public class UserHomePanel extends javax.swing.JPanel {
 
     
     public void openConversationForGroupChat(GroupChatDTO groupChat, ConversationDTO conversation) {     
+        try {
+            clientSocket.sendMessage("OPEN_CONVERSATION: " + conversation.getConversationID());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // Update header và footer cho nhóm chat
         header.setInfor(groupChat.getGroupName(), groupChat.isOnlineStatus());
         header.setUpChatPopupMenuForGroup(groupChat.getGroupID());
@@ -166,6 +185,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         body.removeChat();
         body.resetOffet();
         body.setMode("group");  
+        body.setCurConversation(conversation);
         body.loadMessages(groupChat); 
         
         header.setVisible(true);

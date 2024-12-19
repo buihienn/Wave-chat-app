@@ -334,4 +334,10 @@ public class UserBUS {
     public boolean isFriend(String userID1, String userID2) {
         return userDAO.isFriend(userID1, userID2);
     }
+    
+    // Server
+    public boolean updateStatus(String userID, boolean onlineStatus) {
+        return userDAO.updateStatus(userID, onlineStatus);
+    }
+
 }

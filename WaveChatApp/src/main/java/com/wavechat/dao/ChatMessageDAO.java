@@ -9,11 +9,11 @@ import java.util.List;
 public class ChatMessageDAO {
 
     // Lấy tin nhắn giữa hai người dùng
-    public List<ChatMessageDTO> getMessagesBetweenUsers(String userID1, String userID2, int offset, int limit) {
+    public List<ChatMessageDTO> getMessagesByConversation(String conversationID, int offset, int limit) {
         List<ChatMessageDTO> messages = new ArrayList<>();
         String query = "SELECT chatID, senderID, receiverID, message, timeSend, isRead " +
                        "FROM Chat " +
-                       "WHERE (senderID = ? AND receiverID = ?) OR (senderID = ? AND receiverID = ?) " +
+                       "WHERE conversationID = ? " +
                        "ORDER BY timeSend DESC " +
                        "LIMIT ? OFFSET ?";
 
@@ -24,12 +24,9 @@ public class ChatMessageDAO {
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, userID1);
-            preparedStatement.setString(2, userID2);
-            preparedStatement.setString(3, userID2);
-            preparedStatement.setString(4, userID1);
-            preparedStatement.setInt(5, limit);  // Số lượng tin nhắn tối đa
-            preparedStatement.setInt(6, offset);  // Điểm bắt đầu để lấy tin nhắn
+            preparedStatement.setString(1, conversationID);
+            preparedStatement.setInt(2, limit);           
+            preparedStatement.setInt(3, offset);         
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -44,7 +41,7 @@ public class ChatMessageDAO {
                 messages.add(new ChatMessageDTO(chatID, senderID, receiverID, message, timeSend, isRead));
             }
         } catch (SQLException e) {
-            System.out.println("Error while fetching messages between users: " + e.getMessage());
+            System.out.println("Error while fetching messages by conversationID: " + e.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -59,24 +56,24 @@ public class ChatMessageDAO {
     }
 
     // Lấy tin nhắn trong nhóm chat 
-    public List<ChatMessageDTO> getMessagesInGroup(int groupID, int offset, int limit) {
+    public List<ChatMessageDTO> getMessagesInGroup(String conversationID, int offset, int limit) {
         List<ChatMessageDTO> messages = new ArrayList<>();
-        String query = "SELECT c.chatID, c.senderID, c.message, c.timeSend, c.isRead " +
-                       "FROM Chat c " +
-                       "WHERE c.groupID = ? " +
-                       "ORDER BY c.timeSend DESC " +  // Sắp xếp theo thời gian gửi, mới nhất trước
-                       "LIMIT ? OFFSET ?";  // Thêm phần giới hạn và offset
+        String query = "SELECT chatID, senderID, message, timeSend, isRead " +
+                       "FROM Chat " +
+                       "WHERE conversationID = ? " + 
+                       "ORDER BY timeSend DESC " +  
+                       "LIMIT ? OFFSET ?";        
 
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
         if (connection == null) {
-            return messages;
+            return messages; // Nếu không thể kết nối, trả về danh sách rỗng
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, groupID);     
-            preparedStatement.setInt(2, limit);        
-            preparedStatement.setInt(3, offset);   
+            preparedStatement.setString(1, conversationID);
+            preparedStatement.setInt(2, limit);           
+            preparedStatement.setInt(3, offset);          
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -87,14 +84,24 @@ public class ChatMessageDAO {
                 Timestamp timeSend = resultSet.getTimestamp("timeSend");
                 boolean isRead = resultSet.getBoolean("isRead");
 
-                messages.add(new ChatMessageDTO(chatID, senderID, null, message, timeSend, isRead));  // receiverID có thể là null đối với group chat
+                // Với group chat, receiverID không cần thiết
+                messages.add(new ChatMessageDTO(chatID, senderID, null, message, timeSend, isRead));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error while fetching messages in group: " + e.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); // Đảm bảo đóng kết nối
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return messages;
     }
+
 
     
     // Hàm thêm tin nhắn

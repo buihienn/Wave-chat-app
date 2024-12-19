@@ -1,26 +1,33 @@
 package com.wavechat.form;
 
+import com.wavechat.GlobalVariable;
 import com.wavechat.contentPanel.UserFindFriendPanel;
 import com.wavechat.contentPanel.UserFriendPanel;
 import com.wavechat.contentPanel.UserHomePanel;
 import com.wavechat.contentPanel.UserProfilePanel;
+import com.wavechat.socket.ClientSocketManager;
+import java.io.IOException;
 
 public class UserHomeMain extends javax.swing.JFrame {
+    private final ClientSocketManager clientSocket;
+    
     public UserHomePanel userHomePanel = new UserHomePanel();    
-    UserFriendPanel userFriendPanel = new UserFriendPanel();   
-    UserFindFriendPanel userFindFriendPanel = new UserFindFriendPanel();
-    UserProfilePanel userProfilePanel = new UserProfilePanel();
+    public UserFriendPanel userFriendPanel = new UserFriendPanel();   
+    public UserFindFriendPanel userFindFriendPanel = new UserFindFriendPanel();
+    public UserProfilePanel userProfilePanel = new UserProfilePanel();
 
-    public UserHomeMain() {
+    public UserHomeMain(ClientSocketManager clientSocket) {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        this.clientSocket = clientSocket;
         
         contentContainer.add(userHomePanel);          
         contentContainer.add(userFriendPanel);  
         contentContainer.add(userFindFriendPanel);           
         contentContainer.add(userProfilePanel);        
       
-        userHomePanel.open();
+        userHomePanel.open(clientSocket);
                     
         userHomePanel.setVisible(true);        
         userFriendPanel.setVisible(false);
@@ -50,7 +57,7 @@ public class UserHomeMain extends javax.swing.JFrame {
         logoutButton.setBackground(new java.awt.Color(26, 41, 128));
         logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_white.png")));
 
-        userHomePanel.open();
+        userHomePanel.open(clientSocket);
 
         userHomePanel.setVisible(true);        
         userFriendPanel.setVisible(false);
@@ -278,7 +285,25 @@ public class UserHomeMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            // Gửi message cho server xử lí
+            if (clientSocket != null) {
+                clientSocket.sendMessage("LOGOUT: " + GlobalVariable.getUserID()); // Gửi lệnh LOGOUT tới server
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Tạo socket mới
+        try {
+            ClientSocketManager newClientSocket = new ClientSocketManager("localhost", 1234);
+            this.dispose();
+            AuthenticationMain navFrame = new AuthenticationMain(newClientSocket);
+            navFrame.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Could not connect to server. Please try again.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void navFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navFriendButtonActionPerformed
@@ -297,40 +322,6 @@ public class UserHomeMain extends javax.swing.JFrame {
         showProfilePanel();
     }//GEN-LAST:event_navProfileButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserHomeMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserHomeMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserHomeMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserHomeMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserHomeMain().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane contentContainer;

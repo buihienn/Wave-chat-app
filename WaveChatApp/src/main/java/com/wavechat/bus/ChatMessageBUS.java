@@ -14,13 +14,13 @@ public class ChatMessageBUS {
     }
 
     // Hàm lấy tin nhắn giữa hai người dùng
-    public List<ChatMessageDTO> getMessagesBetweenUsers(String userID, String friendID, int offset, int limit) {
-        return chatDAO.getMessagesBetweenUsers(userID, friendID, offset, limit);
+    public List<ChatMessageDTO> getMessagesBetweenUsers(String conversationID, int offset, int limit) {
+        return chatDAO.getMessagesByConversation(conversationID, offset, limit);
     }
 
     // Hàm lấy tin nhắn trong nhóm chat
-    public List<ChatMessageDTO> getMessagesInGroup(int groupID, int offset, int limit) {
-        return chatDAO.getMessagesInGroup(groupID, offset, limit);
+    public List<ChatMessageDTO> getMessagesInGroup(String conversationID, int offset, int limit) {
+        return chatDAO.getMessagesInGroup(conversationID, offset, limit);
     }
     
 
@@ -38,8 +38,7 @@ public class ChatMessageBUS {
     
     // Hàm thêm tin nhắn
     public boolean addMessage(String senderID, String receiverID, String messageText, String conservationID) {
-        ChatMessageDAO messageDAO = new ChatMessageDAO();
-        return messageDAO.addMessage(senderID, receiverID, messageText, conservationID);
+        return chatDAO.addMessage(senderID, receiverID, messageText, conservationID);
     }
     
     // Hàm thêm tin nhắn group
