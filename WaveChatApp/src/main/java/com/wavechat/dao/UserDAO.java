@@ -605,7 +605,7 @@ public class UserDAO {
     // ---------------LOGIN---------------
     // Kiểm tra login
     public boolean validateUser(String emailOrUsername, String password) {
-        String query = "SELECT userID, passWord FROM User WHERE email = ? OR userName = ?"; // Sửa lại tên bảng nếu cần
+        String query = "SELECT userID, passWord FROM User WHERE email = ? OR userName = ?"; 
 
         DBconnector dbConnector = new DBconnector();
         Connection connection = dbConnector.getConnection();
@@ -627,13 +627,6 @@ public class UserDAO {
                 if (BCrypt.checkpw(password, storedPasswordHash)) { 
                     // Lưu userID vào global variable
                     GlobalVariable.setUserID(userID);
-
-                    // Cập nhật onlineStatus luôn luôn là TRUE
-                    String updateQuery = "UPDATE User SET onlineStatus = TRUE WHERE userID = ?";
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                        updateStatement.setString(1, userID);
-                        updateStatement.executeUpdate(); // Thực hiện cập nhật onlineStatus
-                    }
 
                     return true; // Đăng nhập thành công
                 } else {
@@ -990,6 +983,39 @@ public class UserDAO {
         }
 
         return userList;
+    }
+
+    // Server
+    // Hàm update user status (online/offline)
+    public boolean updateStatus(String userID, boolean onlineStatus) {
+        String query = "UPDATE User SET onlineStatus = ? WHERE userID = ?";
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setBoolean(1, onlineStatus);
+            preparedStatement.setString(2, userID);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Updated status for userID: " + userID + " to " + onlineStatus);
+                return true; 
+            } else {
+                System.out.println("No user found with userID: " + userID);
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); // Đảm bảo đóng kết nối
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false; 
     }
 
 }

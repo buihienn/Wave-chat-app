@@ -5,13 +5,18 @@ import com.wavechat.bus.UserBUS;
 import com.wavechat.form.AdminHomeMain;
 import com.wavechat.form.AuthenticationMain;
 import com.wavechat.form.UserHomeMain;
+import com.wavechat.socket.ClientSocketManager;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class AuthenticationLoginPanel extends javax.swing.JPanel {
-
-    public AuthenticationLoginPanel() {
+    public ClientSocketManager clientSocket;
+    
+    public AuthenticationLoginPanel(ClientSocketManager clientSocket) {
         initComponents();
+        
+        this.clientSocket = clientSocket;
     }
 
     // Hàm xử lí login
@@ -33,8 +38,17 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
             if (userBUS.isEmailExist(emailOrUsername)) {
                 // Kiểm tra password
                 if (userBUS.validateUser(emailOrUsername, password)) {
-                    // Kiểm tra cập nhật thông tin nếu đăng nhập lần đầu
                     String userID = GlobalVariable.getUserID();
+
+                    // Gửi thông báo tới server
+                    try {
+                        clientSocket.sendMessage("LOGIN_SUCCESS:" + userID);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Failed to notify server.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                    // Kiểm tra cập nhật thông tin nếu đăng nhập lần đầu
                     if (userBUS.getFullNameByID(userID) == null || userBUS.getFullNameByID(userID).isEmpty()) {
                         UserProfilePanel panel = new UserProfilePanel();
                         panel.openEditProfileDialog();
@@ -51,7 +65,7 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                     } else {
                         // Chuyển tới trang User
                         parentFrame.dispose();
-                        UserHomeMain navFrame = new UserHomeMain(); 
+                        UserHomeMain navFrame = new UserHomeMain(clientSocket); 
                         navFrame.setVisible(true); 
                     }
                 }
@@ -63,6 +77,7 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Wrong login information.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } 
+        // Kiểm tra nếu người dùng nhập vào username
         else {
             // Nếu là username, kiểm tra trong db
             if (userBUS.isUserNameExist(emailOrUsername)) {
@@ -70,6 +85,15 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                 if (userBUS.validateUser(emailOrUsername, password)) {
                     // Kiểm tra cập nhật thông tin nếu đăng nhập lần đầu
                     String userID = GlobalVariable.getUserID();
+                    
+                    // Gửi thông báo tới server
+                    try {
+                        clientSocket.sendMessage("LOGIN_SUCCESS:" + userID);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Failed to notify server.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
                     if (userBUS.getFullNameByID(userID) == null || userBUS.getFullNameByID(userID).isEmpty()) {
                         UserProfilePanel panel = new UserProfilePanel();
                         panel.openEditProfileDialog();
@@ -85,7 +109,7 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                     } else {
                         // Chuyển tới trang User
                         parentFrame.dispose();
-                        UserHomeMain navFrame = new UserHomeMain(); 
+                        UserHomeMain navFrame = new UserHomeMain(clientSocket); 
                         navFrame.setVisible(true); 
                     }
                 }
@@ -102,7 +126,7 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
     private AuthenticationMain parentFrame;
 
     // Constructor nhận tham chiếu đến AuthenticationMain
-    public AuthenticationLoginPanel(AuthenticationMain parent) {
+    public AuthenticationLoginPanel(AuthenticationMain parent, ClientSocketManager clientSocket) {
         initComponents();
         this.parentFrame = parent;
     }

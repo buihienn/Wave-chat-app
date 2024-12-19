@@ -18,28 +18,28 @@ public class ConversationBUS {
         return conversationDAO.getConversationsByUser(userID);
     }
     
-    public ConversationDTO checkConversationExists(String friendID) {
-        String userID = GlobalVariable.getUserID();
-        return conversationDAO.getOneConversationByID(userID, friendID);
+    public ConversationDTO checkConversationExists(String ownerID, String friendID) {
+        return conversationDAO.getOneConversationByID(ownerID, friendID);
     }
 
-    public ConversationDTO addFriendConversation(String friendID) {
-        String userID = GlobalVariable.getUserID();
-        return conversationDAO.addFriendConversation(userID, friendID);
+    public ConversationDTO addFriendConversation(String ownerID, String friendID) {
+        return conversationDAO.addFriendConversation(ownerID, friendID);
     }
     
-    public ConversationDTO addGroupConversation(int groupID) {
-        String userID = GlobalVariable.getUserID();
-        return conversationDAO.addGroupConversation(userID, groupID);
+    public ConversationDTO addGroupConversation(String ownerID, int groupID) {
+        return conversationDAO.addGroupConversation(ownerID, groupID);
     }
     
-    public ConversationDTO addStrangerConversation(String strangerID) {
-        String userID = GlobalVariable.getUserID();
-        return conversationDAO.addStrangerConversation(userID, strangerID);
+    public ConversationDTO addStrangerConversation(String ownerID, String strangerID) {
+        return conversationDAO.addStrangerConversation(ownerID, strangerID);
     }
     
     // Hàm lấy cuộc trò chuyện nhóm theo groupID
     public ConversationDTO getConversationGroupByID(int groupID) {
         return conversationDAO.getConversationGroupByID(groupID);  // Gọi phương thức DAO để lấy thông tin
+    }
+    
+    public ConversationDTO checkConversationGroupExists(String ownerID, int groupID) {
+        return conversationDAO.getOneConversationGroupByID(ownerID, groupID);
     }
 }

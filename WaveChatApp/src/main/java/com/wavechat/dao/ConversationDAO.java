@@ -300,4 +300,38 @@ public class ConversationDAO {
         }
     }
     
+    // Hàm lấy 1 group conversation
+    public ConversationDTO getOneConversationGroupByID(String ownerID, int groupID) {
+        String query = "SELECT * FROM Conversations WHERE userID1 = ? AND groupID = ?";
+        
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, ownerID);
+            preparedStatement.setInt(2, groupID);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return new ConversationDTO(
+                    rs.getString("conversationID"),
+                    rs.getString("userID1"),
+                    rs.getString("userID2"),
+                    String.valueOf(rs.getInt("groupID")),
+                    rs.getTimestamp("lastMessageTime"),
+                    rs.getString("conversationType")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) connection.close();  // Đảm bảo đóng kết nối
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }

@@ -235,7 +235,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
         statusLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         addressLabel = new javax.swing.JLabel();
-        logoutButton = new javax.swing.JButton();
         birthLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
         genderLabel = new javax.swing.JLabel();
@@ -532,16 +531,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
         addressLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         addressLabel.setText("Address:");
 
-        logoutButton.setBackground(new java.awt.Color(153, 255, 255));
-        logoutButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        logoutButton.setText("Log out");
-        logoutButton.setPreferredSize(new java.awt.Dimension(165, 40));
-        logoutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutButtonActionPerformed(evt);
-            }
-        });
-
         birthLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         birthLabel.setText("Date of birth:");
 
@@ -614,9 +603,7 @@ public class UserProfilePanel extends javax.swing.JPanel {
                         .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(userContainerLayout.createSequentialGroup()
                                 .addComponent(fullnameDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(41, 41, 41)
-                                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(228, 228, 228))
+                                .addGap(366, 366, 366))
                             .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(userContainerLayout.createSequentialGroup()
                                 .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -646,14 +633,14 @@ public class UserProfilePanel extends javax.swing.JPanel {
         userContainerLayout.setVerticalGroup(
             userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(userContainerLayout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(userContainerLayout.createSequentialGroup()
-                        .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fullnameDataLabel)
-                            .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(7, 7, 7)
+                        .addComponent(userAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(userContainerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(fullnameDataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(statusLabel)))
                 .addGroup(userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(userContainerLayout.createSequentialGroup()
@@ -715,10 +702,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
                 .addContainerGap(172, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void editProfileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProfileButtonMouseClicked
         // TODO add your handling code here:
@@ -816,7 +799,6 @@ public class UserProfilePanel extends javax.swing.JPanel {
     private javax.swing.JLabel genderEditLabel;
     private javax.swing.JLabel genderLabel;
     private javax.swing.JSeparator jSeparator;
-    private javax.swing.JButton logoutButton;
     private javax.swing.JRadioButton maleRadioButton;
     private javax.swing.JTextField newEditDataLabel;
     private javax.swing.JLabel newEditLabel;

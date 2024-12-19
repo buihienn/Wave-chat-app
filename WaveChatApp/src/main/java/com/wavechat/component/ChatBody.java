@@ -3,6 +3,7 @@ package com.wavechat.component;
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.dto.ChatMessageDTO;
+import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.GroupChatDTO;
 import com.wavechat.dto.UserDTO;
 import java.util.List;
@@ -16,7 +17,12 @@ public class ChatBody extends javax.swing.JPanel {
     private String newSenderID = null;  
     private GroupChatDTO currentGroup;
     private String mode;
+    private ConversationDTO curConversation;
 
+    public void setCurConversation(ConversationDTO curConversation) {
+        this.curConversation = curConversation;
+    }
+    
     public void resetOffet() {
         this.currentOffset = 0;
         this.lastSenderID = null;
@@ -34,6 +40,14 @@ public class ChatBody extends javax.swing.JPanel {
         LeftMessage msg = new LeftMessage();
         msg.setUsername(text);
         body.add(msg, "wrap, w ::80%", 0);
+        body.repaint();
+        body.revalidate();
+    }
+    
+    public void updateNewUsername(String text) {
+        LeftMessage msg = new LeftMessage();
+        msg.setUsername(text);
+        body.add(msg, "wrap, w ::80%");
         body.repaint();
         body.revalidate();
     }
@@ -62,6 +76,14 @@ public class ChatBody extends javax.swing.JPanel {
         body.revalidate();
     }
     
+    public void updateNew(String text) {
+        LeftMessage msg = new LeftMessage();
+        msg.setLeftMessage(text);
+        body.add(msg, "wrap, w ::80%");
+        body.repaint();
+        body.revalidate();
+    }
+    
     public void removeChat() {
         body.removeAll();
     }
@@ -74,8 +96,8 @@ public class ChatBody extends javax.swing.JPanel {
         String friendID = currentFriend.getUserID();
 
         ChatMessageBUS messageBUS = new ChatMessageBUS();
-        List<ChatMessageDTO> messages = messageBUS.getMessagesBetweenUsers(curUserID, friendID, currentOffset, limit);
-
+        List<ChatMessageDTO> messages = messageBUS.getMessagesBetweenUsers(curConversation.getConversationID(), currentOffset, limit);
+           
         // Hiển thị tin nhắn
         displayMessages(messages);
 
@@ -128,7 +150,7 @@ public class ChatBody extends javax.swing.JPanel {
 
         // Lấy danh sách tin nhắn nhóm từ DB
         ChatMessageBUS messageBUS = new ChatMessageBUS();
-        List<ChatMessageDTO> messages = messageBUS.getMessagesInGroup(groupID, currentOffset, limit);
+        List<ChatMessageDTO> messages = messageBUS.getMessagesInGroup(curConversation.getConversationID(), currentOffset, limit);
 
         // Hiển thị tin nhắn nhóm
         displayMessages(messages);

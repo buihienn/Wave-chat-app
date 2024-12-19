@@ -3,17 +3,23 @@ package com.wavechat.component;
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.dto.ConversationDTO;
+import com.wavechat.socket.ClientSocketManager;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import javax.swing.SwingUtilities;
 
 public class ChatFooter extends javax.swing.JPanel {
+    public ClientSocketManager clientSocket;
+    
     private String receiver;    
     private int groupID;
     private String mode;
     private ChatBody chatBody;
     private ConversationDTO curConversation;
     
-    public ChatFooter(ChatBody chatBody) {
+    public ChatFooter(ChatBody chatBody, ClientSocketManager clientSocket) {
         this.chatBody = chatBody;  
+        this.clientSocket = clientSocket;
         initComponents();
     }
     
@@ -26,43 +32,74 @@ public class ChatFooter extends javax.swing.JPanel {
     public void setMode(String mode) { this.mode = mode; }
     
     private void handleChat(String receiverID) {
-        String messageText = inputTextArea.getText().trim(); 
-        if (messageText.isEmpty()) {
-            return;  
-        }
+        new Thread(() -> {
+            String messageText = inputTextArea.getText().trim();
+            if (messageText.isEmpty()) {
+                return;
+            }
 
-        String senderID = GlobalVariable.getUserID(); 
+            String senderID = GlobalVariable.getUserID();
+            String conversationType = curConversation.getConversationType();
 
-        ChatMessageBUS messageBUS = new ChatMessageBUS();
-        boolean success = messageBUS.addMessage(senderID, receiverID, messageText, curConversation.getConversationID());
+            try {
+                if (clientSocket != null) {
+                    // Gửi tin nhắn tới server
+                    clientSocket.sendMessage(
+                        "SEND_MESSAGE: " + messageText + " TO: " + receiverID + " TYPE:" + conversationType
+                    );
 
-        if (success) {
-            System.out.println("Message sent successfully!");
-            inputTextArea.setText(""); 
-            chatBody.addNew(messageText);
-        } else {
-            System.out.println("Failed to send message.");
-        }
+                    ChatMessageBUS messageBUS = new ChatMessageBUS();
+                    boolean success = messageBUS.addMessage(senderID, receiverID, messageText, curConversation.getConversationID());
+
+                    SwingUtilities.invokeLater(() -> {
+                        if (success) {
+                            inputTextArea.setText("");
+                            chatBody.addNew(messageText); 
+                        } else {
+                            System.out.println("Failed add message.");
+                        }
+                    });
+                } else {
+                    System.out.println("Socket connection is closed.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void handleGroupChat(int groupID) {
-        String messageText = inputTextArea.getText().trim(); 
-        if (messageText.isEmpty()) {
-            return; 
-        }
+        new Thread(() -> {
+            String messageText = inputTextArea.getText().trim();
+            if (messageText.isEmpty()) {
+                return;
+            }
 
-        String senderID = GlobalVariable.getUserID(); 
+            String senderID = GlobalVariable.getUserID();
 
-        ChatMessageBUS messageBUS = new ChatMessageBUS();
-        boolean success = messageBUS.addMessageGroup(senderID, groupID, messageText, curConversation.getConversationID());
-        
-        if (success) {
-            System.out.println("Group message sent successfully!");
-            inputTextArea.setText(""); 
-            chatBody.addNew(messageText);
-        } else {
-            System.out.println("Failed to send group message.");
-        }
+            try {
+                if (clientSocket != null) {
+                    clientSocket.sendMessage("SEND_GROUP_MESSAGE: " + messageText + " TO: " + groupID);
+
+                    ChatMessageBUS messageBUS = new ChatMessageBUS();
+                    boolean success = messageBUS.addMessageGroup(senderID, groupID, messageText, curConversation.getConversationID());
+
+
+                    SwingUtilities.invokeLater(() -> {
+                        if (success) {
+                            inputTextArea.setText("");
+                            chatBody.addNew(messageText);
+                        } else {
+                            System.out.println("Failed add message.");
+                        }
+                    });
+                } else {
+                    System.out.println("Socket connection is closed.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
     
     /**
@@ -141,20 +178,20 @@ public class ChatFooter extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        if (mode == "user") {
+        if ("user".equals(mode)) {
             handleChat(receiver);
         }
-        else if (mode == "group") {
+        else if ("group".equals(mode)) {
             handleGroupChat(groupID);
         }
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void inputTextAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextAreaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (mode == "user") {
+            if ("user".equals(mode)) {
                 handleChat(receiver);
             }
-            else if (mode == "group") {
+            else if ("group".equals(mode)) {
                 handleGroupChat(groupID);
             }
         }
