@@ -65,7 +65,7 @@ CREATE TABLE Blocks (
 );
 
 CREATE TABLE LoginHistory (
-	id INT,
+	id INT AUTO_INCREMENT,
     userID CHAR(5),
     loginTime DATETIME,
     
