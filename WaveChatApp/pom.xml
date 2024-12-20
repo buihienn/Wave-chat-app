@@ -48,31 +48,50 @@
     </dependencies>
     <build>
         <plugins>
+            <!-- Plugin tạo fat JAR cho MainApp1 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <!-- Main class -->
-                            <mainClass>com.wavechat.WaveChatApp</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                  <archive>
-                    <manifest>
-                      <mainClass>com.wavechat.WaveChatApp</mainClass>
-                    </manifest>
-                  </archive>
-                  <descriptorRefs>
-                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                  </descriptorRefs>
-                </configuration>
+                <version>3.4.2</version>
+                <executions>
+                    <execution>
+                        <id>chat-application</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.wavechat.WaveChatApp</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>WaveChat</finalName>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                    <!-- Tạo fat JAR cho MainApp2 -->
+                    <execution>
+                        <id>server</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.wavechat.server.Server</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>WaveChatServer</finalName>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

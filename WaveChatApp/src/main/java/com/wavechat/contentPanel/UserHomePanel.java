@@ -144,8 +144,8 @@ public class UserHomePanel extends javax.swing.JPanel {
             friend = userBUS.getUserByID(conversation.getUserID2());
             
             // Update header và footer
-            header.setInfor(friend.getFullName(), friend.isOnlineStatus());
-            header.setUpChatPopupMenuForUser(friend.getUserID());
+            header.setInfor(friend.getFullName(), userBUS.isOnline(friend.getUserID()), "user");
+            header.setUpChatPopupMenuForUser(friend.getUserID(), conversation);
             footer.setMode("user");        
             footer.setReceiver(friend.getUserID());
             footer.setCurConversation(conversation);
@@ -175,8 +175,8 @@ public class UserHomePanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
         // Update header và footer cho nhóm chat
-        header.setInfor(groupChat.getGroupName(), groupChat.isOnlineStatus());
-        header.setUpChatPopupMenuForGroup(groupChat.getGroupID());
+        header.setInfor(groupChat.getGroupName(), false, "group");
+        header.setUpChatPopupMenuForGroup(groupChat.getGroupID(), conversation, groupChat);
         footer.setMode("group");        
         footer.setGroupID(groupChat.getGroupID());
         footer.setCurConversation(conversation);

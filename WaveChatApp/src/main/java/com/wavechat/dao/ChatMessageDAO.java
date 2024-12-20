@@ -200,5 +200,33 @@ public class ChatMessageDAO {
         return newChatID;  // Trả về chatID mới
     }
 
-    
+    // Hàm xóa tin nhắn theo conversationID
+    public boolean deleteMessagesByConversationID(String conversationID) {
+        String query = "DELETE FROM Chat WHERE conversationID = ?";
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, conversationID);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0; 
+        } catch (SQLException e) {
+            System.out.println("Error while deleting messages: " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

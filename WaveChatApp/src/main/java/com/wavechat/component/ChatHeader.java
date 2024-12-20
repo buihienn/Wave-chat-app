@@ -1,13 +1,16 @@
 package com.wavechat.component;
 
 import com.wavechat.GlobalVariable;
+import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.bus.ConversationBUS;
 import com.wavechat.bus.FriendBUS;
 import com.wavechat.bus.GroupChatBUS;
 import com.wavechat.bus.MemberGroupPanel;
 import com.wavechat.bus.SpamReportBUS;
 import com.wavechat.bus.UserBUS;
+import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.FriendDTO;
+import com.wavechat.dto.GroupChatDTO;
 import com.wavechat.dto.UserDTO;
 import com.wavechat.form.UserHomeMain;
 import java.awt.event.ActionListener;
@@ -23,6 +26,7 @@ public class ChatHeader extends javax.swing.JPanel {
     private JMenuItem manageMemberMenuItem;    
     
     private JMenuItem spamMenuItem;
+    private JMenuItem deleteMenuItem;
 
     
     public ChatHeader() {
@@ -30,25 +34,65 @@ public class ChatHeader extends javax.swing.JPanel {
         groupMemberPanel.setLayout(new MigLayout("fillx"));
     }
     
-    public void setInfor(String name, boolean isOnline) {
+    public void setInfor(String name, boolean isOnline, String mode) {
         nameLabel.setText(name);
         if (isOnline) {
             onlineLabel.setText("Online");
         }
-        else { onlineLabel.setText("Offline"); }
+        else if (!isOnline) {
+            onlineLabel.setText("Offline"); 
+        }
+        if ("group".equals(mode)) {
+            onlineLabel.setText(""); 
+        }
     }
     
-    public void setUpChatPopupMenuForUser(String userID) {
+    public void setUpChatPopupMenuForUser(String userID, ConversationDTO conversation) {
         chatPopupMenu.removeAll();
         // Tạo các menu item
         spamMenuItem = new JMenuItem("Report spam");
+        deleteMenuItem = new JMenuItem("Delete chat");
 
         // Thêm các menu item vào popup menu
-        chatPopupMenu.add(spamMenuItem);
+        chatPopupMenu.add(spamMenuItem);        
+        chatPopupMenu.add(deleteMenuItem);
 
         // Gán sự kiện cho các menu item
         spamMenuItem.addActionListener(e -> handleSpam(userID));
+        deleteMenuItem.addActionListener(e -> handleDelete(conversation, null));
     }
+    
+    public void handleDelete(ConversationDTO conversation, GroupChatDTO groupChat) {
+        ChatMessageBUS chatMessageBUS = new ChatMessageBUS();
+
+        // Xác nhận trước khi xóa
+        int confirm = JOptionPane.showConfirmDialog(
+            null,
+            "Are you sure you want to delete all messages?",
+            "Confirm Deletion",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Xóa tất cả các tin nhắn
+            boolean success = chatMessageBUS.deleteMessagesByConversationID(conversation.getConversationID());
+
+            UserHomeMain userHomeMain = (UserHomeMain) SwingUtilities.getWindowAncestor(this);
+            if (success) {
+                JOptionPane.showMessageDialog(userHomeMain, "Messages deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                // Cập nhật lại UI sau khi xóa
+                if (groupChat != null) {
+                    userHomeMain.userHomePanel.openConversationForGroupChat(groupChat, conversation);
+                } 
+                else {
+                    userHomeMain.userHomePanel.openConversation(conversation);
+                }
+            } else {
+                JOptionPane.showMessageDialog(userHomeMain, "Failed to delete messages.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     
     public void handleSpam(String userID) {
         SpamReportBUS spamReportBUS = new SpamReportBUS();
@@ -63,21 +107,24 @@ public class ChatHeader extends javax.swing.JPanel {
         }
     }
     
-    public void setUpChatPopupMenuForGroup(int groupID) {
+    public void setUpChatPopupMenuForGroup(int groupID, ConversationDTO conversation, GroupChatDTO groupChat) {
         chatPopupMenu.removeAll();
         // Tạo các menu item
         changeGroupNameMenuItem = new JMenuItem("Change group name");
         addMemberMenuItem = new JMenuItem("Add member");
         manageMemberMenuItem = new JMenuItem("Manage member");
+        deleteMenuItem = new JMenuItem("Delete chat");
 
         // Thêm các menu item vào popup menu
         chatPopupMenu.add(changeGroupNameMenuItem);
         chatPopupMenu.add(addMemberMenuItem);
+        chatPopupMenu.add(deleteMenuItem);
 
         // Gán sự kiện cho các menu item
         changeGroupNameMenuItem.addActionListener(e -> openChangeGroupNameDialog(groupID));
         addMemberMenuItem.addActionListener(e -> openFriendListPanel(groupID));
         manageMemberMenuItem.addActionListener(e -> openGroupMemberPanel(groupID));
+        deleteMenuItem.addActionListener(e -> handleDelete(conversation, groupChat));
 
         GroupChatBUS groupChatBUS = new GroupChatBUS();
         boolean isAdmin = groupChatBUS.isAdmin(groupID);
