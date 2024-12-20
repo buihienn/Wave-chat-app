@@ -2,6 +2,7 @@ package com.wavechat.component;
 
 import com.wavechat.GlobalVariable;
 import com.wavechat.bus.ChatMessageBUS;
+import com.wavechat.dto.ChatMessageDTO;
 import com.wavechat.dto.ConversationDTO;
 import com.wavechat.socket.ClientSocketManager;
 import java.awt.event.KeyEvent;
@@ -49,15 +50,10 @@ public class ChatFooter extends javax.swing.JPanel {
                     );
 
                     ChatMessageBUS messageBUS = new ChatMessageBUS();
-                    boolean success = messageBUS.addMessage(senderID, receiverID, messageText, curConversation.getConversationID());
-
+                    ChatMessageDTO newChat = messageBUS.addMessage(senderID, receiverID, messageText, curConversation.getConversationID());
                     SwingUtilities.invokeLater(() -> {
-                        if (success) {
-                            inputTextArea.setText("");
-                            chatBody.addNew(messageText); 
-                        } else {
-                            System.out.println("Failed add message.");
-                        }
+                        inputTextArea.setText("");
+                        chatBody.addNew(newChat); 
                     });
                 } else {
                     System.out.println("Socket connection is closed.");
@@ -82,16 +78,11 @@ public class ChatFooter extends javax.swing.JPanel {
                     clientSocket.sendMessage("SEND_GROUP_MESSAGE: " + messageText + " TO: " + groupID);
 
                     ChatMessageBUS messageBUS = new ChatMessageBUS();
-                    boolean success = messageBUS.addMessageGroup(senderID, groupID, messageText, curConversation.getConversationID());
-
+                    ChatMessageDTO newChat = messageBUS.addMessageGroup(senderID, groupID, messageText, curConversation.getConversationID());
 
                     SwingUtilities.invokeLater(() -> {
-                        if (success) {
-                            inputTextArea.setText("");
-                            chatBody.addNew(messageText);
-                        } else {
-                            System.out.println("Failed add message.");
-                        }
+                        inputTextArea.setText("");
+                        chatBody.addNew(newChat);
                     });
                 } else {
                     System.out.println("Socket connection is closed.");

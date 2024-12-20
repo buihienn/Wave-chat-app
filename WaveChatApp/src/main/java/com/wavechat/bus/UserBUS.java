@@ -335,12 +335,19 @@ public class UserBUS {
         return userDAO.isFriend(userID1, userID2);
     }
     
+    // Hàm kiểm tra online
+    public boolean isOnline(String userID) {
+        return userDAO.isOnline(userID);
+    }
+    
     // Server
     public boolean updateStatus(String userID, boolean onlineStatus) {
         return userDAO.updateStatus(userID, onlineStatus);
     }
+
     
     public List<UserDTO> getUsersByCreatedMonth(int month, int year){
         return userDAO.getUsersByCreatedMonth(month, year);
     }
+
 }

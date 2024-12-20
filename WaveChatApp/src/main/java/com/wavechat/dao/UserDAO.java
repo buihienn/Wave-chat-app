@@ -984,6 +984,39 @@ public class UserDAO {
 
         return userList;
     }
+    
+    // Hàm kiểm tra user online
+    public boolean isOnline(String userID) {
+        String query = "SELECT onlineStatus FROM User WHERE userID = ?";
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        boolean isOnline = false;
+
+        if (connection == null) {
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, userID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                isOnline = resultSet.getBoolean("onlineStatus");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while checking online status: " + e.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isOnline;
+    }
 
     // Server
     // Hàm update user status (online/offline)
