@@ -4,6 +4,7 @@ import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.bus.ConversationBUS;
 import com.wavechat.bus.GroupChatBUS;
 import com.wavechat.bus.UserBUS;
+import com.wavechat.dto.ChatMessageDTO;
 import com.wavechat.dto.ConversationDTO;
 import com.wavechat.dto.UserDTO;
 
@@ -121,9 +122,9 @@ public class ClientHandler implements Runnable {
             }
 
             ChatMessageBUS messageBUS = new ChatMessageBUS();
-            boolean success = messageBUS.addMessage(senderID, receiverID, contentMessage, conversation.getConversationID());
+            ChatMessageDTO newChat = messageBUS.addMessage(senderID, receiverID, contentMessage, conversation.getConversationID());
 
-            if (success) {
+            if (newChat != null) {
                 updateUIForActiveUsers(conversation.getConversationID(), contentMessage, senderID);
                 writer.write("MESSAGE_SENT\n");
             } else {
@@ -170,8 +171,9 @@ public class ClientHandler implements Runnable {
                     if (conversation == null) continue;
                 }
 
-                boolean success = messageBUS.addMessageGroup(senderID, groupID, contentMessage, conversation.getConversationID());
-                if (success) {
+                ChatMessageDTO newChat = messageBUS.addMessageGroup(senderID, groupID, contentMessage, conversation.getConversationID());
+
+                if (newChat != null) {
                     updateUIForActiveUsers(conversation.getConversationID(), contentMessage, senderID);
                 }
             }

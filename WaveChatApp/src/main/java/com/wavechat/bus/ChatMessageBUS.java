@@ -37,19 +37,23 @@ public class ChatMessageBUS {
     }
     
     // Hàm thêm tin nhắn
-    public boolean addMessage(String senderID, String receiverID, String messageText, String conservationID) {
+    public ChatMessageDTO addMessage(String senderID, String receiverID, String messageText, String conservationID) {
         return chatDAO.addMessage(senderID, receiverID, messageText, conservationID);
     }
     
     // Hàm thêm tin nhắn group
-    public boolean addMessageGroup(String senderID, int groupID, String messageText, String conservationID) {
-        ChatMessageDAO messageDAO = new ChatMessageDAO();
-        return messageDAO.addMessageGroup(senderID, groupID, messageText, conservationID);
+    public ChatMessageDTO addMessageGroup(String senderID, int groupID, String messageText, String conservationID) {
+        return chatDAO.addMessageGroup(senderID, groupID, messageText, conservationID);
     }
 
     // Hàm xóa tin nhắn theo conversationID
     public boolean deleteMessagesByConversationID(String conversationID) {
         return chatDAO.deleteMessagesByConversationID(conversationID);
+    }
+    
+    // Hàm delete 1 message dựa trên ID
+    public boolean deleteMessage(int chatID) {
+        return chatDAO.deleteMessage(chatID);
     }
     
 }
