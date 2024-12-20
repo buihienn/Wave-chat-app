@@ -29,7 +29,8 @@ public class DBconnector {
             this.portNumber = Integer.parseInt(properties.getProperty("portNumber", "3306"));
             this.dbName = properties.getProperty("dbName", "CHATAPPLICATION");
             this.user = properties.getProperty("user", "root");
-            this.password = properties.getProperty("password", "111111");
+//            this.password = properties.getProperty("password", "111111");
+            this.password = properties.getProperty("password", "147456369");
 
         } catch (IOException e) {
             System.out.println("Error loading database configuration: " + e.getMessage());

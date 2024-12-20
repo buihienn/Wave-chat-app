@@ -77,4 +77,63 @@ public class LoginHistoryDAO {
             }
         }
     }
+    
+    public List<LoginHistoryDTO> getAllLoginHistory() {
+        List<LoginHistoryDTO> loginHistoryList = new ArrayList<>();
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
+
+        if (conn == null){
+            return loginHistoryList;
+        }
+
+        String query = "SELECT * FROM LoginHistory";
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String userIDResult = rs.getString("userID");
+
+                    // Convert SQL Timestamp to LocalDateTime
+                    Timestamp timestamp = rs.getTimestamp("loginTime");
+                    LocalDateTime loginTime = timestamp.toLocalDateTime();
+
+                    LoginHistoryDTO history = new LoginHistoryDTO(id, userIDResult, loginTime);
+                    loginHistoryList.add(history);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loginHistoryList;
+    }
+    
+    public String[] getUserNameAndFullNameByUserID(String userID) {
+        String[] result = new String[2]; // index 0: userName, index 1: fullName
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
+        
+        if (conn == null) {
+            return result;
+        }
+        
+        // Truy vấn SQL lấy userName và fullName từ bảng User theo userID
+        String query = "SELECT userName, fullName FROM User WHERE userID = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, userID);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    result[0] = rs.getString("userName");
+                    result[1] = rs.getString("fullName");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
 }

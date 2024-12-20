@@ -279,9 +279,11 @@ public class AdminHomeMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         dashboardPanel.setVisible(false);
         userPanel.setVisible(false);
-        groupchatPanel.setVisible(true);
         loginHistoryPanel.setVisible(false);
         spamReportPanel.setVisible(false);
+        
+        groupchatPanel.updateUserTable();
+        groupchatPanel.setVisible(true);
     }//GEN-LAST:event_groupCharNavActionPerformed
 
     /**

@@ -4,17 +4,94 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.LoginHistoryBUS;
+import com.wavechat.dao.LoginHistoryDAO;
+import com.wavechat.dto.LoginHistoryDTO;
+import com.wavechat.dto.UserDTO;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author buihi
  */
 public class AdminLoginHistoryPanel extends javax.swing.JPanel {
-
+    private DefaultTableModel tableModel;
     /**
      * Creates new form AdminLoginHistoryPanel
      */
     public AdminLoginHistoryPanel() {
         initComponents();
+        
+        tableModel = new DefaultTableModel(new Object[]{"User ID","Username", "Full Name", "Time log"}, 0);
+        jTableLoginHistory.setModel(tableModel);
+        
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        jTableLoginHistory.setRowSorter(sorter);
+        
+    }
+    
+    private boolean isWithinDateRange(LocalDateTime loginTime, Date dateFrom, Date dateTo) {
+        LocalDate loginDate = loginTime.toLocalDate();
+        LocalDate fromDate = new java.sql.Date(dateFrom.getTime()).toLocalDate();
+        LocalDate toDate = new java.sql.Date(dateTo.getTime()).toLocalDate();
+
+        return !loginDate.isBefore(fromDate) && !loginDate.isAfter(toDate);
+    }
+    
+    public void updateTable(Date dateFrom, Date dateTo) {
+        tableModel.setRowCount(0);
+        LoginHistoryBUS loginHistoryBUS = new LoginHistoryBUS();
+        List<LoginHistoryDTO> loginHistoryList = loginHistoryBUS.getAllLoginHistory();
+        
+        LoginHistoryDAO loginHistoryDAO = new LoginHistoryDAO();
+        
+        Collections.sort(loginHistoryList, new Comparator<LoginHistoryDTO>() {
+            @Override
+            public int compare(LoginHistoryDTO log1, LoginHistoryDTO log2) {
+                // So sánh theo loginTime giảm dần
+                return log2.getLoginTime().compareTo(log1.getLoginTime());
+            }
+        });
+        
+        if (dateFrom == null || dateTo == null){
+            for (LoginHistoryDTO log : loginHistoryList) {
+                String id = log.getUserID();
+                String[] temp = loginHistoryDAO.getUserNameAndFullNameByUserID(id);
+                String username = temp[0];
+                String fullname = temp[1];
+                tableModel.addRow(new Object[]{
+                    id,
+                    username,       
+                    fullname,
+                    log.getLoginTime()
+                });
+            }
+        }
+        
+        else {
+            for (LoginHistoryDTO log : loginHistoryList) {
+                if (isWithinDateRange(log.getLoginTime(), dateFrom, dateTo)){
+                    String id = log.getUserID();
+                    String[] temp = loginHistoryDAO.getUserNameAndFullNameByUserID(id);
+                    String username = temp[0];
+                    String fullname = temp[1];
+                    tableModel.addRow(new Object[]{
+                        id,
+                        username,       
+                        fullname,
+                        log.getLoginTime()
+                    });
+                }
+
+            }
+        }
     }
 
     /**
@@ -30,11 +107,12 @@ public class AdminLoginHistoryPanel extends javax.swing.JPanel {
         loginHistoryText = new javax.swing.JLabel();
         date = new javax.swing.JPanel();
         fromText = new javax.swing.JLabel();
-        dayStart = new javax.swing.JTextField();
         toText = new javax.swing.JLabel();
-        dayEnd = new javax.swing.JTextField();
+        jDateChooserFrom = new com.toedter.calendar.JDateChooser();
+        jDateChooserTo = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableLoginHistory = new javax.swing.JTable();
+        jButtonUpdateTable = new javax.swing.JButton();
 
         Title.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -64,111 +142,93 @@ public class AdminLoginHistoryPanel extends javax.swing.JPanel {
         fromText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fromText.setText("FROM");
 
-        dayStart.setText("12/09/2024 16:30");
-        dayStart.setPreferredSize(new java.awt.Dimension(73, 25));
-        dayStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dayStartActionPerformed(evt);
-            }
-        });
-
         toText.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         toText.setText("TO");
-
-        dayEnd.setText("21/09/2024 16:30");
-        dayEnd.setPreferredSize(new java.awt.Dimension(73, 25));
-        dayEnd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dayEndActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout dateLayout = new javax.swing.GroupLayout(date);
         date.setLayout(dateLayout);
         dateLayout.setHorizontalGroup(
             dateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dateLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(fromText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dayStart, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooserFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(toText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dayEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jDateChooserTo, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dateLayout.setVerticalGroup(
             dateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dateLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dayStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fromText)
+                .addGroup(dateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(toText)
-                    .addComponent(dayEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jDateChooserTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(dateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jDateChooserFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fromText)))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"nguyenvana", "Nguyen Van A", "13/09/2024 15:30",  new Integer(1000)},
-                {"nguyenvanb", "Nguyen Van B", "20/09/2024 15:20",  new Integer(120)},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Username", "Full name", "Time log", "Duration (mins)"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
-            };
+        jDateChooserFrom.getDateEditor().setEnabled(false);
+        jDateChooserTo.getDateEditor().setEnabled(false);
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        jScrollPane1.setViewportView(jTableLoginHistory);
+
+        jButtonUpdateTable.setText("Update table");
+        jButtonUpdateTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateTableActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonUpdateTable)
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonUpdateTable, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dayStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dayStartActionPerformed
+    private void jButtonUpdateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateTableActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_dayStartActionPerformed
-
-    private void dayEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dayEndActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dayEndActionPerformed
+        Date dateFrom = jDateChooserFrom.getDate();
+        Date dateTo = jDateChooserTo.getDate();
+        
+        updateTable(dateFrom, dateTo);
+    }//GEN-LAST:event_jButtonUpdateTableActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Title;
     private javax.swing.JPanel date;
-    private javax.swing.JTextField dayEnd;
-    private javax.swing.JTextField dayStart;
     private javax.swing.JLabel fromText;
+    private javax.swing.JButton jButtonUpdateTable;
+    private com.toedter.calendar.JDateChooser jDateChooserFrom;
+    private com.toedter.calendar.JDateChooser jDateChooserTo;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableLoginHistory;
     private javax.swing.JLabel loginHistoryText;
     private javax.swing.JLabel toText;
     // End of variables declaration//GEN-END:variables

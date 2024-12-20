@@ -610,20 +610,19 @@ public class AdminUserPanel_AllUser extends javax.swing.JPanel {
         DefaultTableModel tableLoginHistoryModel = new DefaultTableModel();
     
         // Thêm các cột vào bảng
-        tableLoginHistoryModel.addColumn("ID");
+//        tableLoginHistoryModel.addColumn("ID");
         tableLoginHistoryModel.addColumn("User ID");
         tableLoginHistoryModel.addColumn("Login Time");
         
         for (LoginHistoryDTO history : loginHistoryList) {
-            Object[] rowData = new Object[3];
-            rowData[0] = history.getId();
-            rowData[1] = history.getUserID();
-            rowData[2] = history.getLoginTime().toString(); // Convert LocalDateTime to String
+            Object[] rowData = new Object[2];
+//            rowData[0] = history.getId();
+            rowData[0] = history.getUserID();
+            rowData[1] = history.getLoginTime().toString(); 
             tableLoginHistoryModel.addRow(rowData);
         }
 
         jTableLoginHistory.setModel(tableLoginHistoryModel);
-
         jFrameLoginHistory.setTitle("Login History of " + username);
         jFrameLoginHistory.pack();
         jFrameLoginHistory.setVisible(true);
