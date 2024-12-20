@@ -47,5 +47,9 @@ public class ChatMessageBUS {
         return messageDAO.addMessageGroup(senderID, groupID, messageText, conservationID);
     }
 
-
+    // Hàm xóa tin nhắn theo conversationID
+    public boolean deleteMessagesByConversationID(String conversationID) {
+        return chatDAO.deleteMessagesByConversationID(conversationID);
+    }
+    
 }

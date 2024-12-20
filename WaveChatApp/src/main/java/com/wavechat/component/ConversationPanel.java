@@ -1,5 +1,6 @@
 package com.wavechat.component;
 
+import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.GroupChatDTO;
 import com.wavechat.dto.UserDTO;
 
@@ -10,7 +11,9 @@ public class ConversationPanel extends javax.swing.JPanel {
         initComponents();
 
         nameLabel.setText(friend.getFullName());
-        if (friend.isOnlineStatus()) {
+        UserBUS userBUS = new UserBUS();
+        
+        if (userBUS.isOnline(friend.getUserID())) {
             onlineLabel.setText("Online");
         }
         else { onlineLabel.setText("Offline"); }
@@ -22,10 +25,7 @@ public class ConversationPanel extends javax.swing.JPanel {
         
         userAvatar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/group.png")));
         nameLabel.setText(groupChat.getGroupName());
-        if (groupChat.isOnlineStatus()) {
-            onlineLabel.setText("Online");
-        }
-        else { onlineLabel.setText("Offline"); }
+        onlineLabel.setText("");
     }
     
 
