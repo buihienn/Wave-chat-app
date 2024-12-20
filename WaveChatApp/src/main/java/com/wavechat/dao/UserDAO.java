@@ -1017,5 +1017,47 @@ public class UserDAO {
         }
         return false; 
     }
+    
+    public List<UserDTO> getUsersByCreatedMonth(int month, int year) {
+        List<UserDTO> list = new ArrayList<>();
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
+        if (conn == null) {
+            return list;
+        }
+        String query = "SELECT * FROM User WHERE MONTH(createdDate) = ? AND YEAR(createdDate) = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, month); 
+            ps.setInt(2, year);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String userID = rs.getString("userID");
+                    String userName = rs.getString("userName");
+                    String passWord = rs.getString("passWord");
+                    String fullName = rs.getString("fullName");
+                    String address = rs.getString("address");
+                    Date birthDay = rs.getDate("birthDay");
+                    String gender = rs.getString("gender");
+                    String email = rs.getString("email");
+                    Date createdDate = rs.getDate("createdDate");
+                    boolean status = rs.getBoolean("status");
+                    boolean onlineStatus = rs.getBoolean("onlineStatus");
+                    UserDTO user = new UserDTO(userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus);
+                    list.add(user);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return list;
+    }
 
 }

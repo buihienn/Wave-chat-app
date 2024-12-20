@@ -339,5 +339,8 @@ public class UserBUS {
     public boolean updateStatus(String userID, boolean onlineStatus) {
         return userDAO.updateStatus(userID, onlineStatus);
     }
-
+    
+    public List<UserDTO> getUsersByCreatedMonth(int month, int year){
+        return userDAO.getUsersByCreatedMonth(month, year);
+    }
 }

@@ -9,6 +9,7 @@ import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.FriendAdminUserDTO;
 import com.wavechat.dto.UserDTO;
 import java.awt.Font;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -224,6 +225,13 @@ public class AdminUserPanel extends javax.swing.JPanel {
         
         newRegister.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18)); 
         newRegister.setText("<html><u>New Register</u></html>"); 
+        
+        int curMonth = LocalDate.now().getMonthValue();
+        int curYear = LocalDate.now().getYear();
+        UserBUS userBUS = new UserBUS();
+        List<UserDTO> userDTOs = userBUS.getUsersByCreatedMonth(curMonth, curYear);
+        
+        newRegisterPanel.updateUserTable(userDTOs);
     }//GEN-LAST:event_newRegisterMouseClicked
 
     private void activityLogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityLogMouseClicked
