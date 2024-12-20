@@ -28,4 +28,8 @@ public class LoginHistoryBUS {
     public boolean addLoginHistory(String userID){
         return loginHistoryDAO.addLoginHistory(userID);
     }
+    
+    public List<LoginHistoryDTO> getAllLoginHistory() {
+        return loginHistoryDAO.getAllLoginHistory();
+    }
 }

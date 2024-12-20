@@ -64,6 +64,13 @@ public class GroupChatBUS {
         GroupChatDAO groupChatDAO = new GroupChatDAO();
         return groupChatDAO.deleteMemberFromGroup(memberID, groupID);
     }
-
     
+    
+    public List<GroupChatDTO> getAllGroupChat() {
+        return groupChatDAO.getAllGroupChat();
+    }
+    
+    public List<UserDTO> getAdminGroupOfGroup(int groupID) {
+        return groupChatDAO.getAdminGroupByGroupID(groupID);
+    }
 }

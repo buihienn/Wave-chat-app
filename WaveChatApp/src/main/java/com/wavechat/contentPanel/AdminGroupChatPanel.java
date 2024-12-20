@@ -4,17 +4,62 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.GroupChatBUS;
+import com.wavechat.dao.UserDAO;
+import com.wavechat.dto.GroupChatDTO;
+import com.wavechat.dto.UserDTO;
+import java.util.List;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author buihi
  */
 public class AdminGroupChatPanel extends javax.swing.JPanel {
-
+    private DefaultTableModel tableModel;
     /**
      * Creates new form AdminGroupChatPanel
      */
     public AdminGroupChatPanel() {
         initComponents();
+        
+        tableModel = new DefaultTableModel(new Object[]{"ID","Group name","Created Date", "ID Owner"}, 0);
+        groupchatTable.setModel(tableModel);
+        
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        groupchatTable.setRowSorter(sorter);
+    }
+    
+    public void updateUserTable() {
+        tableModel.setRowCount(0);
+        GroupChatBUS groupChatBUS = new GroupChatBUS();
+        List<GroupChatDTO> groupChatList = groupChatBUS.getAllGroupChat();
+        
+        for (GroupChatDTO groupChat : groupChatList) {
+            
+            tableModel.addRow(new Object[]{
+                groupChat.getGroupID(),
+                groupChat.getGroupName(),
+                groupChat.getCreatedDate(),
+                groupChat.getCreatedBy()
+            });
+        }
+    }
+    
+    private void applyFilter() {
+        String txt = jTextSearch.getText(); 
+       
+        DefaultTableModel dtm = (DefaultTableModel) groupchatTable.getModel();
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<>(dtm);
+        groupchatTable.setRowSorter(sorter);
+
+        
+        RowFilter<TableModel, Object> textFilter = RowFilter.regexFilter("(?i)" + txt, 0); 
+
+        sorter.setRowFilter(textFilter); 
     }
 
     /**
@@ -26,12 +71,94 @@ public class AdminGroupChatPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuListMember = new javax.swing.JMenuItem();
+        jMenuListAdmin = new javax.swing.JMenuItem();
+        jFrameListMember = new javax.swing.JFrame();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableListMember = new javax.swing.JTable();
+        jFrameListAdmin = new javax.swing.JFrame();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableListAdmin = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         groupChatText = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         groupchatTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jTextSearch = new javax.swing.JTextField();
 
-        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+        jMenuListMember.setText("List member");
+        jMenuListMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuListMemberActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuListMember);
+
+        jMenuListAdmin.setText("List admin");
+        jMenuListAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuListAdminActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuListAdmin);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("List member");
+
+        jScrollPane2.setViewportView(jTableListMember);
+
+        javax.swing.GroupLayout jFrameListMemberLayout = new javax.swing.GroupLayout(jFrameListMember.getContentPane());
+        jFrameListMember.getContentPane().setLayout(jFrameListMemberLayout);
+        jFrameListMemberLayout.setHorizontalGroup(
+            jFrameListMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(jFrameListMemberLayout.createSequentialGroup()
+                .addGap(146, 146, 146)
+                .addComponent(jLabel2)
+                .addContainerGap(152, Short.MAX_VALUE))
+        );
+        jFrameListMemberLayout.setVerticalGroup(
+            jFrameListMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jFrameListMemberLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setText("List admin group");
+
+        jScrollPane3.setViewportView(jTableListAdmin);
+
+        javax.swing.GroupLayout jFrameListAdminLayout = new javax.swing.GroupLayout(jFrameListAdmin.getContentPane());
+        jFrameListAdmin.getContentPane().setLayout(jFrameListAdminLayout);
+        jFrameListAdminLayout.setHorizontalGroup(
+            jFrameListAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jFrameListAdminLayout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jLabel3)
+                .addContainerGap(141, Short.MAX_VALUE))
+            .addGroup(jFrameListAdminLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jFrameListAdminLayout.setVerticalGroup(
+            jFrameListAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jFrameListAdminLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         groupChatText.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         groupChatText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -53,49 +180,16 @@ public class AdminGroupChatPanel extends javax.swing.JPanel {
                 .addComponent(groupChatText))
         );
 
-        groupchatTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"22CLC09", "17/09/20024", ""},
-                {"22CLC08", "19/09/20024", null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Group name", "Date created", "Information"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class
-            };
+        groupchatTable.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(groupchatTable);
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        jLabel1.setText("Search by name group chat:");
+
+        jTextSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextSearchKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(groupchatTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -103,21 +197,115 @@ public class AdminGroupChatPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextSearchKeyReleased
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jTextSearchKeyReleased
+
+    private void jMenuListMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuListMemberActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) groupchatTable.getModel();
+        int selectedRow = groupchatTable.getSelectedRow();
+        int modelRow = groupchatTable.convertRowIndexToModel(selectedRow);
+        String groupName = model.getValueAt(modelRow, 1).toString();
+        int groupId = (int) model.getValueAt(modelRow, 0);
+        
+        GroupChatBUS groupChatBUS = new GroupChatBUS();
+        List<UserDTO> listMember = groupChatBUS.getMemberOfGroup(groupId);
+        
+        
+        DefaultTableModel tableLoginHistoryModel = new DefaultTableModel();
+    
+        // Thêm các cột vào bảng
+        tableLoginHistoryModel.addColumn("User ID");
+        tableLoginHistoryModel.addColumn("Username");
+        tableLoginHistoryModel.addColumn("Full name");
+        
+        for (UserDTO user : listMember) {
+            Object[] rowData = new Object[3];
+            rowData[0] = user.getUserID();
+            rowData[1] = user.getUserName();
+            rowData[2] = user.getFullName();
+            tableLoginHistoryModel.addRow(rowData);
+        }
+
+        jTableListMember.setModel(tableLoginHistoryModel);
+        jFrameListMember.setTitle("Member list of " + groupName);
+        jFrameListMember.pack();
+        jFrameListMember.setVisible(true);
+    }//GEN-LAST:event_jMenuListMemberActionPerformed
+
+    private void jMenuListAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuListAdminActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) groupchatTable.getModel();
+        int selectedRow = groupchatTable.getSelectedRow();
+        int modelRow = groupchatTable.convertRowIndexToModel(selectedRow);
+        String groupName = model.getValueAt(modelRow, 1).toString();
+        int groupId = (int) model.getValueAt(modelRow, 0);
+        
+        GroupChatBUS groupChatBUS = new GroupChatBUS();
+        List<UserDTO> listMember = groupChatBUS.getAdminGroupOfGroup(groupId);
+        
+        
+        DefaultTableModel tableLoginHistoryModel = new DefaultTableModel();
+    
+        // Thêm các cột vào bảng
+        tableLoginHistoryModel.addColumn("Admin ID");
+        tableLoginHistoryModel.addColumn("Username");
+        tableLoginHistoryModel.addColumn("Full name");
+        
+        for (UserDTO user : listMember) {
+            Object[] rowData = new Object[3];
+            rowData[0] = user.getUserID();
+            rowData[1] = user.getUserName();
+            rowData[2] = user.getFullName(); 
+            tableLoginHistoryModel.addRow(rowData);
+        }
+
+        jTableListAdmin.setModel(tableLoginHistoryModel);
+        jFrameListAdmin.setTitle("Admin list of " + groupName);
+        jFrameListAdmin.pack();
+        jFrameListAdmin.setVisible(true);
+    }//GEN-LAST:event_jMenuListAdminActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel groupChatText;
     private javax.swing.JTable groupchatTable;
+    private javax.swing.JFrame jFrameListAdmin;
+    private javax.swing.JFrame jFrameListMember;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenuItem jMenuListAdmin;
+    private javax.swing.JMenuItem jMenuListMember;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTableListAdmin;
+    private javax.swing.JTable jTableListMember;
+    private javax.swing.JTextField jTextSearch;
     // End of variables declaration//GEN-END:variables
 }

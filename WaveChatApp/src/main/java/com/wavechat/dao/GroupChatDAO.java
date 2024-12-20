@@ -426,5 +426,83 @@ public class GroupChatDAO {
         return false;
     }
 
+    public List<GroupChatDTO> getAllGroupChat() {
+        List<GroupChatDTO> list = new ArrayList<>();
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
 
+        if (conn == null) {
+            return list;
+        }
+
+        String query = "SELECT * FROM GroupChat";
+
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                int groupID = rs.getInt("groupID");
+                String groupName = rs.getString("groupName");
+                String createdBy = rs.getString("createdBy");
+                Date createdAt = rs.getDate("createdAt");  // Bao gồm createdAt
+                boolean onlineStatus = rs.getBoolean("onlineStatus");
+
+                // Sử dụng constructor với createdAt
+                GroupChatDTO groupChat = new GroupChatDTO(groupID, groupName, createdBy, createdAt, onlineStatus);
+                list.add(groupChat);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // In ra lỗi nếu có
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close(); // Đóng kết nối khi hoàn thành
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace(); // In ra lỗi khi đóng kết nối không thành công
+            }
+        }
+        return list;
+    }
+    
+    public List<UserDTO> getAdminGroupByGroupID(int groupID) {
+        List<UserDTO> adminList = new ArrayList<>();
+        String sql = "SELECT u.userID, u.userName, u.fullName, u.onlineStatus " +
+                     "FROM User u " +
+                     "JOIN GroupMembers gm ON u.userID = gm.userID " +
+                     "WHERE gm.groupID = ? AND gm.isAdmin = TRUE"; // Chỉ lấy những thành viên có quyền admin
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return null;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, groupID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                UserDTO user = new UserDTO(
+                        resultSet.getString("userID"),
+                        resultSet.getString("userName"),
+                        resultSet.getString("fullName"),
+                        resultSet.getBoolean("onlineStatus")
+                );
+                adminList.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();  // Đảm bảo đóng kết nối sau khi sử dụng
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return adminList;
+    }
 }
