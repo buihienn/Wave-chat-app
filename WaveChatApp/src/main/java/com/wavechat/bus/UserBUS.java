@@ -346,4 +346,8 @@ public class UserBUS {
     }
 
     
+    public List<UserDTO> getUsersByCreatedMonth(int month, int year){
+        return userDAO.getUsersByCreatedMonth(month, year);
+    }
+
 }
