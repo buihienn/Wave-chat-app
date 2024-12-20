@@ -52,25 +52,28 @@ public class ChatBody extends javax.swing.JPanel {
         body.revalidate();
     }
     
-    public void addLeft(String text) {
+    public void addLeft(ChatMessageDTO message) {
         LeftMessage msg = new LeftMessage();
-        msg.setLeftMessage(text);
+        msg.setLeftMessage(message.getMessage());
+        msg.setChatID(message.getChatID());
         body.add(msg, "wrap, w ::80%" ,0);
         body.repaint();
         body.revalidate();
     }
     
-    public void addRight(String text) {
+    public void addRight(ChatMessageDTO message) {
         RightMessage msg = new RightMessage();
-        msg.setRightMessage(text);
+        msg.setRightMessage(message.getMessage());
+        msg.setChatID(message.getChatID());
         body.add(msg, "wrap, al right, w ::80%", 0);
         body.repaint();
         body.revalidate();
     }
     
-    public void addNew(String text) {
+    public void addNew(ChatMessageDTO message) {
         RightMessage msg = new RightMessage();
-        msg.setRightMessage(text);
+        msg.setRightMessage(message.getMessage());
+        msg.setChatID(message.getChatID());
         body.add(msg, "wrap, al right, w ::80%");
         body.repaint();
         body.revalidate();
@@ -128,9 +131,9 @@ public class ChatBody extends javax.swing.JPanel {
 
             // Thêm tin nhắn
             if (message.getSenderID().equals(curUserID)) {
-                addRight(message.getMessage()); 
+                addRight(message); 
             } else {
-                addLeft(message.getMessage()); 
+                addLeft(message); 
             }
 
             // Cập nhật lastSenderID sau khi tin nhắn đã được thêm

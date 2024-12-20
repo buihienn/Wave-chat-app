@@ -105,7 +105,7 @@ public class ChatMessageDAO {
 
     
     // Hàm thêm tin nhắn
-    public boolean addMessage(String senderID, String receiverID, String messageText, String conversationID) {
+    public ChatMessageDTO addMessage(String senderID, String receiverID, String messageText, String conversationID) {
         String query = "INSERT INTO Chat (chatID, senderID, receiverID, message, timeSend, isRead, conversationID) " +
                        "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -113,30 +113,44 @@ public class ChatMessageDAO {
         Connection connection = dbConnector.getConnection();
 
         if (connection == null) {
-            return false;
+            return null; 
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, generateChatID());  // Sử dụng chatID mới (có thể tạo một hàm generateChatID())
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int chatID = generateChatID();
+
+            preparedStatement.setInt(1, chatID);
             preparedStatement.setString(2, senderID);
             preparedStatement.setString(3, receiverID);
             preparedStatement.setString(4, messageText);
-            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));  // Thời gian gửi tin nhắn
-            preparedStatement.setBoolean(6, false);  // Mặc định là chưa đọc
-            preparedStatement.setString(7, conversationID);  // Thêm conversationID vào bảng Chat
+            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis())); 
+            preparedStatement.setBoolean(6, false);
+            preparedStatement.setString(7, conversationID); 
 
-            int rowsAffected = preparedStatement.executeUpdate();  // Thực thi câu lệnh SQL
+            int rowsAffected = preparedStatement.executeUpdate();
 
-            return rowsAffected > 0;
+            if (rowsAffected > 0) {
+                Timestamp timeSend = new Timestamp(System.currentTimeMillis()); 
+                return new ChatMessageDTO(chatID, senderID, receiverID, messageText, timeSend, false);
+            } else {
+                return null; 
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); // Đảm bảo đóng kết nối
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return null; 
     }
 
-
     // Hàm thêm tin nhắn group
-    public boolean addMessageGroup(String senderID, int groupID, String messageText, String conversationID) {
+    public ChatMessageDTO addMessageGroup(String senderID, int groupID, String messageText, String conversationID) {
         String query = "INSERT INTO Chat (chatID, senderID, groupID, message, timeSend, isRead, conversationID) " +
                        "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -144,26 +158,42 @@ public class ChatMessageDAO {
         Connection connection = dbConnector.getConnection();
 
         if (connection == null) {
-            return false;
+            return null; 
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, generateChatID());  // Sử dụng chatID mới (có thể tạo một hàm generateChatID())
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int chatID = generateChatID(); 
+
+            preparedStatement.setInt(1, chatID);
             preparedStatement.setString(2, senderID);
             preparedStatement.setInt(3, groupID);
             preparedStatement.setString(4, messageText);
-            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));  // Thời gian gửi tin nhắn
-            preparedStatement.setBoolean(6, false);  // Mặc định là chưa đọc
-            preparedStatement.setString(7, conversationID);  // Thêm conversationID vào bảng Chat
+            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis())); 
+            preparedStatement.setBoolean(6, false);
+            preparedStatement.setString(7, conversationID);
 
-            int rowsAffected = preparedStatement.executeUpdate();  // Thực thi câu lệnh SQL
+            int rowsAffected = preparedStatement.executeUpdate(); 
 
-            return rowsAffected > 0;
+            if (rowsAffected > 0) {
+                Timestamp timeSend = new Timestamp(System.currentTimeMillis()); 
+                return new ChatMessageDTO(chatID, senderID, null, messageText, timeSend, false);
+            } else {
+                return null; 
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); // Đảm bảo đóng kết nối
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return null; 
     }
+
 
 
     // Hàm generate chat ID
@@ -223,6 +253,32 @@ public class ChatMessageDAO {
                 if (connection != null) {
                     connection.close();
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    // Hàm delete 1 message dựa vào ID
+    public boolean deleteMessage(int chatID) {
+        String query = "DELETE FROM Chat WHERE chatID = ?";
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            return false;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, chatID);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu xóa thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

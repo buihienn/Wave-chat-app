@@ -37,7 +37,7 @@ public class ClientSocketManager {
                         String[] parts = message.split(" FROM: ");
                         String contentMessage = parts[0].substring("NEW_MESSAGE:".length()).trim();
                         String senderID = parts[1].split(" IN_CONVERSATION: ")[0].trim();
-
+                           
                         SwingUtilities.invokeLater(() -> {
                             chatBody.updateNewUsername(senderID);
                             chatBody.updateNew(contentMessage);

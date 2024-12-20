@@ -1,9 +1,27 @@
 package com.wavechat.component;
 
-public class LeftMessage extends javax.swing.JLayeredPane {
+import com.wavechat.bus.ChatMessageBUS;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
+public class LeftMessage extends javax.swing.JLayeredPane {
+    private int chatID; 
+
+    public void setChatID(int chatID) {
+        this.chatID = chatID;
+    }
+
+    public int getChatID() {
+        return chatID;
+    }
+    
     public LeftMessage() {
         initComponents();
+        addMessageListener();
     }
     
     public void setLeftMessage(String msg) {
@@ -14,6 +32,45 @@ public class LeftMessage extends javax.swing.JLayeredPane {
     public void setUsername(String username) {
         message.setMessage(username);
         message.setBackground(new java.awt.Color(242, 242, 242));
+    }
+    
+    private void addMessageListener() {
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    JPopupMenu popupMenu = new JPopupMenu();
+                    JMenuItem deleteItem = new JMenuItem("Delete Message");
+                    deleteItem.addActionListener(evt -> handleDeleteMessage());
+                    popupMenu.add(deleteItem);
+                    popupMenu.show(LeftMessage.this, e.getX(), e.getY());
+                }
+            }
+        });
+
+    }
+    
+    private void handleDeleteMessage() {
+        ChatMessageBUS messageBUS = new ChatMessageBUS();
+        boolean success = messageBUS.deleteMessage(chatID);
+
+        if (success) {
+            // Tìm JPanel cha chứa component hiện tại
+            JPanel parentPanel = (JPanel) SwingUtilities.getAncestorOfClass(JPanel.class, this);
+            if (parentPanel != null) {
+                parentPanel.remove(this); // Xóa message khỏi giao diện
+                parentPanel.revalidate(); // Làm mới giao diện
+                parentPanel.repaint();    // Vẽ lại giao diện
+                System.out.println("Message deleted successfully.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                this,
+                "Failed to delete the message.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     /**
