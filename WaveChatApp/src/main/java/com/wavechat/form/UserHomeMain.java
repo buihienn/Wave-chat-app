@@ -1,12 +1,16 @@
 package com.wavechat.form;
 
 import com.wavechat.GlobalVariable;
+import com.wavechat.bus.UserBUS;
 import com.wavechat.contentPanel.UserFindFriendPanel;
 import com.wavechat.contentPanel.UserFriendPanel;
 import com.wavechat.contentPanel.UserHomePanel;
 import com.wavechat.contentPanel.UserProfilePanel;
+import com.wavechat.dto.UserDTO;
 import com.wavechat.socket.ClientSocketManager;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserHomeMain extends javax.swing.JFrame {
     private final ClientSocketManager clientSocket;
@@ -33,7 +37,21 @@ public class UserHomeMain extends javax.swing.JFrame {
         userFriendPanel.setVisible(false);
         userFindFriendPanel.setVisible(false);        
         userProfilePanel.setVisible(false);
-
+        
+        UserBUS userBUS = new UserBUS();
+        UserDTO userDTO;
+        
+        try {
+            userDTO = userBUS.getUserByID(GlobalVariable.getUserID());
+            boolean isAdmin = userBUS.isAdmin(userDTO.getUserName());
+            if (isAdmin) {
+                navAdminButton.setVisible(false);
+            } else {
+                navAdminButton.setVisible(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void showChatPanel() {
@@ -162,6 +180,7 @@ public class UserHomeMain extends javax.swing.JFrame {
         navChatButton = new javax.swing.JButton();
         navFriendButton = new javax.swing.JButton();
         navFindFriendButton = new javax.swing.JButton();
+        navAdminButton = new javax.swing.JButton();
         contentContainer = new javax.swing.JLayeredPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -246,6 +265,19 @@ public class UserHomeMain extends javax.swing.JFrame {
             }
         });
 
+        navAdminButton.setBackground(new java.awt.Color(26, 41, 128));
+        navAdminButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        navAdminButton.setForeground(new java.awt.Color(255, 255, 255));
+        navAdminButton.setText("AdminMode");
+        navAdminButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        navAdminButton.setIconTextGap(12);
+        navAdminButton.setPreferredSize(new java.awt.Dimension(165, 40));
+        navAdminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navAdminButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout navBarContainerLayout = new javax.swing.GroupLayout(navBarContainer);
         navBarContainer.setLayout(navBarContainerLayout);
         navBarContainerLayout.setHorizontalGroup(
@@ -257,7 +289,8 @@ public class UserHomeMain extends javax.swing.JFrame {
                     .addComponent(navChatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(navFindFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(navFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(navFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(navAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         navBarContainerLayout.setVerticalGroup(
@@ -271,7 +304,9 @@ public class UserHomeMain extends javax.swing.JFrame {
                 .addComponent(navFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(navFindFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
+                .addComponent(navAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profileContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -322,11 +357,18 @@ public class UserHomeMain extends javax.swing.JFrame {
         showProfilePanel();
     }//GEN-LAST:event_navProfileButtonActionPerformed
 
+    private void navAdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navAdminButtonActionPerformed
+        this.dispose();
+        AdminHomeMain navFrame = new AdminHomeMain(); 
+        navFrame.setVisible(true); 
+    }//GEN-LAST:event_navAdminButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane contentContainer;
     private javax.swing.JLabel logoContainer;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JButton navAdminButton;
     private javax.swing.JPanel navBarContainer;
     private javax.swing.JButton navChatButton;
     private javax.swing.JButton navFindFriendButton;

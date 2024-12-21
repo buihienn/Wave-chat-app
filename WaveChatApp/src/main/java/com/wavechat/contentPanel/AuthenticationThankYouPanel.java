@@ -140,6 +140,7 @@ public class AuthenticationThankYouPanel extends javax.swing.JPanel {
         jTextArea3.setLineWrap(true);
         jTextArea3.setRows(2);
         jTextArea3.setText("Haven’t received the email? Please check on Spam or Promotions.");
+        jTextArea3.setWrapStyleWord(true);
         jTextArea3.setAutoscrolls(false);
         jTextArea3.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextArea3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
