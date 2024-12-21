@@ -1092,5 +1092,41 @@ public class UserDAO {
         }
         return list;
     }
+    
+    public int getNumberUserCreatedDate(int year, int month) {
+        int userCount = 0;
+        String sql = "SELECT COUNT(*) AS userCount " +
+                     "FROM User " +
+                     "WHERE YEAR(createdDate) = ? AND MONTH(createdDate) = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return 0;
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                userCount = resultSet.getInt("userCount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); 
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return userCount;
+    }
 
 }

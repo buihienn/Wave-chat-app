@@ -4,6 +4,17 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.dao.LoginHistoryDAO;
+import com.wavechat.dao.UserDAO;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 /**
  *
  * @author buihi
@@ -27,104 +38,173 @@ public class AdminUserPanel_Insight extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        registerButton = new javax.swing.JTextField();
         activityButton = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        yearChoice = new javax.swing.JTextField();
+        jButtonRegister = new javax.swing.JButton();
+        jYearChooser1 = new com.toedter.calendar.JYearChooser();
         jLabel1 = new javax.swing.JLabel();
+        jPanelChart = new javax.swing.JPanel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        registerButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        registerButton.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        registerButton.setText("Register");
-        registerButton.setPreferredSize(new java.awt.Dimension(73, 25));
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
+        activityButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        activityButton.setText("Activity");
+        activityButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
+                activityButtonActionPerformed(evt);
             }
         });
 
-        activityButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        activityButton.setText("Activity");
+        jButtonRegister.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButtonRegister.setText("Register");
+        jButtonRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRegisterActionPerformed(evt);
+            }
+        });
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        yearChoice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        yearChoice.setText("year");
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Insight.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(yearChoice, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(292, 292, 292))
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(yearChoice, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("Year:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
+                .addGap(62, 62, 62)
+                .addComponent(jButtonRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(activityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(101, 101, 101))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(registerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addComponent(activityButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(activityButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(jYearChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        jPanelChart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelChart.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelChart, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+    private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisterActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_registerButtonActionPerformed
+        int selectedYear = jYearChooser1.getYear();
+        UserDAO userDAO = new UserDAO();
+        int amountJan = userDAO.getNumberUserCreatedDate(selectedYear, 1);
+        int amountFeb = userDAO.getNumberUserCreatedDate(selectedYear, 2);
+        int amountMar = userDAO.getNumberUserCreatedDate(selectedYear, 3);
+        int amountApr = userDAO.getNumberUserCreatedDate(selectedYear, 4);
+        int amountMay = userDAO.getNumberUserCreatedDate(selectedYear, 5);
+        int amountJun = userDAO.getNumberUserCreatedDate(selectedYear, 6);
+        int amountJul = userDAO.getNumberUserCreatedDate(selectedYear, 7);
+        int amountAug = userDAO.getNumberUserCreatedDate(selectedYear, 8);
+        int amountSep = userDAO.getNumberUserCreatedDate(selectedYear, 9);
+        int amountOct = userDAO.getNumberUserCreatedDate(selectedYear, 10);
+        int amountNov = userDAO.getNumberUserCreatedDate(selectedYear, 11);
+        int amountDec = userDAO.getNumberUserCreatedDate(selectedYear, 12);
+        
+        DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
+        barChartData.setValue(amountJan, "Amount", "Jan");
+        barChartData.setValue(amountFeb, "Amount", "Feb");
+        barChartData.setValue(amountMar, "Amount", "Mar");
+        barChartData.setValue(amountApr, "Amount", "Apr");
+        barChartData.setValue(amountMay, "Amount", " May,");
+        barChartData.setValue(amountJun, "Amount", "Jun");
+        barChartData.setValue(amountJul, "Amount", "Jul");
+        barChartData.setValue(amountAug, "Amount", "Aug");
+        barChartData.setValue(amountSep, "Amount", "Sep");
+        barChartData.setValue(amountOct, "Amount", "Oct");
+        barChartData.setValue(amountNov, "Amount", "Nov");
+        barChartData.setValue(amountDec, "Amount", "Dec");
+        
+        JFreeChart barChart = ChartFactory.createBarChart("New register", "Monthly", "Number new registers", barChartData, PlotOrientation.VERTICAL, true, true, false);
+        CategoryPlot barchrt = barChart.getCategoryPlot();
+        barchrt.setRangeGridlinePaint(Color.GREEN);
+        
+        ChartPanel barPanel = new ChartPanel(barChart);
+        jPanelChart.removeAll();
+        jPanelChart.add(barPanel, BorderLayout.CENTER);
+        jPanelChart.validate();
+    }//GEN-LAST:event_jButtonRegisterActionPerformed
+
+    private void activityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activityButtonActionPerformed
+        // TODO add your handling code here:
+        int selectedYear = jYearChooser1.getYear();
+        LoginHistoryDAO loginHistoryDAO = new LoginHistoryDAO();
+        int amountJan = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 1);
+        int amountFeb = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 2);
+        int amountMar = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 3);
+        int amountApr = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 4);
+        int amountMay = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 5);
+        int amountJun = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 6);
+        int amountJul = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 7);
+        int amountAug = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 8);
+        int amountSep = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 9);
+        int amountOct = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 10);
+        int amountNov = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 11);
+        int amountDec = loginHistoryDAO.getNumberLoginsByYearAndMonth(selectedYear, 12);
+        
+        DefaultCategoryDataset barChartData = new DefaultCategoryDataset();
+        barChartData.setValue(amountJan, "Amount", "Jan");
+        barChartData.setValue(amountFeb, "Amount", "Feb");
+        barChartData.setValue(amountMar, "Amount", "Mar");
+        barChartData.setValue(amountApr, "Amount", "Apr");
+        barChartData.setValue(amountMay, "Amount", " May,");
+        barChartData.setValue(amountJun, "Amount", "Jun");
+        barChartData.setValue(amountJul, "Amount", "Jul");
+        barChartData.setValue(amountAug, "Amount", "Aug");
+        barChartData.setValue(amountSep, "Amount", "Sep");
+        barChartData.setValue(amountOct, "Amount", "Oct");
+        barChartData.setValue(amountNov, "Amount", "Nov");
+        barChartData.setValue(amountDec, "Amount", "Dec");
+        
+        JFreeChart barChart = ChartFactory.createBarChart("Activity", "Monthly", "Number activities", barChartData, PlotOrientation.VERTICAL, true, true, false);
+        CategoryPlot barchrt = barChart.getCategoryPlot();
+        barchrt.setRangeGridlinePaint(Color.GREEN);
+        
+        ChartPanel barPanel = new ChartPanel(barChart);
+        jPanelChart.removeAll();
+        jPanelChart.add(barPanel, BorderLayout.CENTER);
+        jPanelChart.validate();
+    }//GEN-LAST:event_activityButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton activityButton;
+    private javax.swing.JButton jButtonRegister;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField registerButton;
-    private javax.swing.JTextField yearChoice;
+    private javax.swing.JPanel jPanelChart;
+    private com.toedter.calendar.JYearChooser jYearChooser1;
     // End of variables declaration//GEN-END:variables
 }

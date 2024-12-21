@@ -136,4 +136,39 @@ public class LoginHistoryDAO {
         return result;
     }
     
+    public int getNumberLoginsByYearAndMonth(int year, int month) {
+        int loginCount = 0;
+        String sql = "SELECT COUNT(*) AS loginCount " +
+                     "FROM LoginHistory " +
+                     "WHERE YEAR(loginTime) = ? AND MONTH(loginTime) = ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return 0;
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                loginCount = resultSet.getInt("loginCount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); 
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return loginCount;
+    }
+    
 }
