@@ -263,6 +263,8 @@ public class AdminHomeMain extends javax.swing.JFrame {
         userPanel.setVisible(false);
         groupchatPanel.setVisible(false);
         loginHistoryPanel.setVisible(false);
+        
+        spamReportPanel.updateTable();
         spamReportPanel.setVisible(true);
     }//GEN-LAST:event_spamReportNavActionPerformed
 

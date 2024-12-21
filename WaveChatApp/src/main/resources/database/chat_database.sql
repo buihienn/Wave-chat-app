@@ -66,7 +66,7 @@ CREATE TABLE Blocks (
 );
 
 CREATE TABLE LoginHistory (
-	id INT,
+	id INT AUTO_INCREMENT,
     userID CHAR(5),
     loginTime DATETIME,
     
@@ -87,7 +87,7 @@ CREATE TABLE Chat (
 );
 
 CREATE TABLE GroupChat (
-	groupID INT,
+	groupID INT AUTO_INCREMENT,
     groupName NVARCHAR(50),
     createdBy CHAR(5),
     createdAt DATETIME,
@@ -97,7 +97,7 @@ CREATE TABLE GroupChat (
 );
 
 CREATE TABLE GroupMembers (
-    groupID INT,
+    groupID INT AUTO_INCREMENT,
     userID CHAR(5),
     isAdmin BOOL,
     joinedDate DATETIME,
@@ -106,7 +106,7 @@ CREATE TABLE GroupMembers (
 );
 
 CREATE TABLE SpamReport (
-	reportID INT,
+	reportID INT AUTO_INCREMENT,
     reporterID CHAR(5),
     reportedUserId CHAR(5),
     timeStamp DATETIME,
@@ -213,6 +213,27 @@ VALUES
 ('U010', 'U008', '2024-12-04'),
 ('U011', 'U008', '2024-12-11');
 
+INSERT INTO Blocks (userID, blocked_userID) VALUES 
+('U001', 'U002'), 
+('U003', 'U004'), 
+('U005', 'U001');
+
+-- Thêm dữ liệu cho bảng LoginHistory
+INSERT INTO LoginHistory (id, userID, loginTime) VALUES 
+(1, 'U001', '2024-12-20 08:30:00'),
+(2, 'U002', '2024-12-20 09:00:00'),
+(3, 'U003', '2024-12-20 10:15:00'),
+(4, 'U004', '2024-12-20 11:45:00'),
+(5, 'U005', '2024-12-20 12:00:00');
+
+-- Spam report
+INSERT INTO SpamReport (reporterID, reportedUserId, timeStamp)
+VALUES
+('U001', 'U002', '2024-12-20 14:30:00'), 
+('U003', 'U004', '2024-12-20 15:00:00'), 
+('U005', 'U006', '2024-12-21 10:45:00'), 
+('U002', 'U003', '2024-12-21 11:20:00'), 
+('U004', 'U001', '2024-12-21 12:00:00');
 -- Tạo Group chat
 INSERT INTO GroupChat (groupID, groupName, createdBy, createdAt, onlineStatus)
 VALUES 

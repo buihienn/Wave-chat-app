@@ -21,9 +21,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Component id="date" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
               <Component id="jButtonUpdateTable" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -32,12 +32,12 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="Title" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="date" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonUpdateTable" min="-2" pref="35" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="date" max="32767" attributes="0"/>
+                  <Component id="jButtonUpdateTable" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="439" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="439" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

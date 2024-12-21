@@ -4,17 +4,107 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.SpamReportBUS;
+import com.wavechat.bus.UserBUS;
+import com.wavechat.dao.UserDAO;
+import com.wavechat.dto.SpamReportDTO;
+import com.wavechat.dto.UserDTO;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author buihi
  */
 public class AdminSpamReportPanel extends javax.swing.JPanel {
-
+    private DefaultTableModel tableModel;
     /**
      * Creates new form AdminSpamReportPanel
      */
     public AdminSpamReportPanel() {
         initComponents();
+        
+        tableModel = new DefaultTableModel(new Object[]{"Username","Email","Time report", "Status of user"}, 0);
+        jTableSpamReport.setModel(tableModel);
+        
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        jTableSpamReport.setRowSorter(sorter);
+    }
+    
+    public void updateTable() {
+        tableModel.setRowCount(0);
+        
+        SpamReportBUS spamReportBUS = new SpamReportBUS();
+        List<SpamReportDTO> spamReportList = spamReportBUS.getAllSpamReport();
+        
+        UserBUS userBUS = new UserBUS();
+        UserDAO userDAO = new UserDAO();
+        
+        for (SpamReportDTO spamReport : spamReportList) {
+            String userReportedID = spamReport.getReporterID();
+            try {
+                UserDTO userDTO = userBUS.getUserByID(userReportedID);
+                String status = "Unlock";
+                if (userDAO.isLocked(userDTO.getUserName())){
+                    status = "Locked";
+                }
+                
+                tableModel.addRow(new Object[]{
+                    userDTO.getUserName(),
+                    userDTO.getEmail(),
+                    spamReport.getTimestamp(),
+                    status
+                });
+            } catch (Exception ex) {
+                Logger.getLogger(AdminSpamReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void applyFilter() {
+        String searchName = jTextFullName.getText(); 
+        String searchEmail = jTextEmail.getText(); 
+        Date selectedDate = jDateChooser1.getDate();
+        // Xử lý bộ lọc
+        DefaultTableModel dtm = (DefaultTableModel) jTableSpamReport.getModel();
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<>(dtm);
+        jTableSpamReport.setRowSorter(sorter);
+
+        List<RowFilter<TableModel, Object>> filters = new ArrayList<>();
+
+        if (!searchName.isEmpty()) {
+            RowFilter<TableModel, Object> nameFilter = RowFilter.regexFilter("(?i)" + searchName, 0);
+            filters.add(nameFilter);
+        }
+
+        if (!searchEmail.isEmpty()) {
+            RowFilter<TableModel, Object> emailFilter = RowFilter.regexFilter("(?i)" + searchEmail, 1);
+            filters.add(emailFilter);
+        }
+        
+        // Bộ lọc ngày (nếu có ngày được chọn)
+        if (selectedDate != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng ngày
+            String selectedDateString = sdf.format(selectedDate); // Chuyển ngày chọn thành chuỗi
+            
+            RowFilter<TableModel, Object> dateFilter = RowFilter.regexFilter("(?i)" + selectedDateString, 2);
+            filters.add(dateFilter);
+        }
+
+        if (!filters.isEmpty()) {
+            sorter.setRowFilter(RowFilter.andFilter(filters));
+        } else {
+            sorter.setRowFilter(null); // Không áp dụng bộ lọc nếu tất cả trống
+        }
     }
 
     /**
@@ -26,10 +116,26 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuLock = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         spamReportText = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableSpamReport = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFullName = new javax.swing.JTextField();
+        jTextEmail = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+
+        jMenuLock.setText("Lock user");
+        jMenuLock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuLockActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuLock);
 
         jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
 
@@ -50,18 +156,47 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
             .addComponent(spamReportText)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"nguyenvana", "29/02/2023", "Solved", null},
-                {"nguyenvanb", "19/12/2023", "Remaining", null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Username", "Time reported", "Status", "Block user"
+        jTableSpamReport.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(jTableSpamReport);
+
+        jLabel1.setText("Search by full name:");
+
+        jTextFullName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFullNameActionPerformed(evt);
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        });
+        jTextFullName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFullNameKeyReleased(evt);
+            }
+        });
+
+        jTextEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextEmailActionPerformed(evt);
+            }
+        });
+        jTextEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextEmailKeyReleased(evt);
+            }
+        });
+
+        jLabel2.setText("Search by email:");
+
+        jLabel3.setText("Search by date:");
+
+        jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser1PropertyChange(evt);
+            }
+        });
+        jDateChooser1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jDateChooser1KeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,21 +204,99 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jTextFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextFullNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFullNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFullNameActionPerformed
+
+    private void jMenuLockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLockActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTableSpamReport.getModel();
+        int selectedRow = jTableSpamReport.getSelectedRow();
+        int modelRow = jTableSpamReport.convertRowIndexToModel(selectedRow);
+        String username = model.getValueAt(modelRow, 0).toString();
+        UserBUS userBUS = new UserBUS();
+        if (userBUS.isLock(username)) {
+            JOptionPane.showMessageDialog(null, "User is already locked.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            boolean result = userBUS.adminLockUser(username);
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Lock user: " + username + " successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                updateTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to lock user: " + username, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jMenuLockActionPerformed
+
+    private void jTextFullNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFullNameKeyReleased
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jTextFullNameKeyReleased
+
+    private void jTextEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextEmailKeyReleased
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jTextEmailKeyReleased
+
+    private void jTextEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextEmailActionPerformed
+
+    private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser1PropertyChange
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jDateChooser1PropertyChange
+
+    private void jDateChooser1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDateChooser1KeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenuItem jMenuLock;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableSpamReport;
+    private javax.swing.JTextField jTextEmail;
+    private javax.swing.JTextField jTextFullName;
     private javax.swing.JLabel spamReportText;
     // End of variables declaration//GEN-END:variables
 }
