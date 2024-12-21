@@ -7,6 +7,7 @@ CREATE DATABASE CHATAPPLICATION;
 -- Use the newly created database
 USE CHATAPPLICATION;
 
+
 CREATE TABLE User (
 	userID CHAR(5),
     userName VARCHAR(50) UNIQUE,
@@ -65,7 +66,7 @@ CREATE TABLE Blocks (
 );
 
 CREATE TABLE LoginHistory (
-	id INT AUTO_INCREMENT,
+	id INT,
     userID CHAR(5),
     loginTime DATETIME,
     
@@ -182,79 +183,146 @@ ADD CONSTRAINT FK_SpamReport_ReportedUser FOREIGN KEY (reportedUserId) REFERENCE
 -- --------------------------------- Add data -----------------------------------
 INSERT INTO User (userID, userName, passWord, fullName, address, birthDay, gender, email, createdDate, status, onlineStatus, isAdmin)
 VALUES 
-('U001', 'hienbui', 'password123', 'Bui Hien', '123 Nguyen Trai, District 1', '1990-01-01', 'male', 'hien.bui@example.com', '2024-11-26', TRUE, FALSE, FALSE),
+('U001', 'hienbui', '$2a$12$EZW2K.vlr6PTMd3eBxVtWur0ltNSVF6viSxWHPjr8DgJYmyOpbuQq', 'Bui Hien', '123 Nguyen Trai, District 1', '1990-01-01', 'male', 'hien.bui@example.com', '2024-11-26', TRUE, FALSE, FALSE), -- Buihien123
 ('U002', 'vinhphu', 'securePass456', 'Phu Vinh', '456 Le Loi, District 5', '1992-03-15', 'male', 'vinh.phu@example.com', '2024-11-26', TRUE, FALSE, FALSE),
-('U003', 'quangminh', 'easyPass789', 'Quang Minh', '78 Hai Ba Trung, District 3', '1993-07-22', 'male', 'minh.quang@example.com', '2024-11-26', TRUE, TRUE, FALSE),
+('U003', 'quangminh', 'easyPass789', 'Quang Minh', '78 Hai Ba Trung, District 3', '1993-07-22', 'male', 'minh.quang@example.com', '2024-11-26', TRUE, FALSE, FALSE),
 ('U004', 'lannguyen', 'password321', 'Nguyen Lan', '102 Tran Hung Dao, District 1', '1994-09-12', 'female', 'lan.nguyen@example.com', '2024-11-26', TRUE, FALSE, FALSE),
 ('U005', 'hoaviet', 'pass789456', 'Viet Hoa', '203 Vo Van Kiet, District 6', '1995-11-02', 'female', 'hoa.viet@example.com', '2024-11-26', TRUE, FALSE, FALSE),
 ('U006', 'ngocanh', 'ngocanh@123', 'Ngoc Anh', '56 Cach Mang Thang 8, District 10', NULL, 'male', 'ngoc.anh@example.com', '2024-11-26', TRUE, FALSE, FALSE),
-('U007', 'admin1', 'admin@pass', 'Admin User', '1 Ton Duc Thang, District 1', '1985-05-05', 'male', 'admin@example.com', '2024-10-20', TRUE, FALSE, TRUE);
+('U007', 'admin1', '$2a$12$f.FHP.EzG7M3yY3qNs7vPu.zE8x52uPY226TGBWi83kSb6LFKnkGK', 'Ho Hien', '1 Ton Duc Thang, District 1', '1985-05-05', 'female', 'admin@example.com', '2024-10-20', TRUE, FALSE, TRUE), -- Admin123
+('U008', 'vinhhho', '$2a$12$7m52NAE1HSUkwO6vXLstKelNLBDjMkCmjBdMx1bA1vH/570C25kzS', 'Ho Phu Vinh', '1 Le Van Luong, District 7', '2004-05-05', 'male', 'vinhho2507@gmail.com', '2024-10-20', TRUE, FALSE, FALSE), -- Phuvinh123
+('U009', 'thaison', '$2a$12$QiphfSLtIb2eQYORRuP6cup8V3E7QLlRtKUxHIh/sNHmKd/O892qO', 'Thai Son', '456 Le Loi, District 5', '1992-03-15', 'male', 'thaisonn8178@gmail.com', '2024-11-26', TRUE, FALSE, FALSE), -- Thaison123
+('U010', 'baohuy', '$2a$12$BzO5cPjYhMm4n2RABAboeeC/s8c/IRyqBr6Cc852NXwcApYzP4Rqq', 'Bao Huy', '78 Hai Ba Trung, District 3', '1993-07-22', 'male', 'phbhuy22@clc.fitus.edu.vn', '2024-11-26', TRUE, FALSE, FALSE), -- Baohuy123
+('U011', 'diuhuyen', '$2a$12$ilmcULu8ym.Lb5rQYy793OWkaU0y55JC0jRZSrFhtRzab8zrKW70m', 'Diu Huyen', '102 Tran Hung Dao, District 1', '1994-09-12', 'female', 'tdhuyen22@clc.fitus.edu.vn', '2024-11-26', TRUE, FALSE, FALSE); -- Diuhuyen123
 
+-- Thêm yêu cầu kết bạn cho U008
 INSERT INTO Friend_requests (requester_userID, requested_userID, status, createdAt)
-VALUES
-('U003', 'U004', 'accepted', '2024-12-13'), -- Quang Minh và Lan Nguyen
-('U001', 'U002', 'accepted', '2024-11-01'), -- Hien Bui và Phu Vinh
-('U001', 'U003', 'accepted', '2024-12-01'), -- Hien Bui và Quang Minh
-('U004', 'U005', 'accepted', '2024-12-10'), -- Lan Nguyen và Viet Hoa
-('U002', 'U006', 'accepted', '2024-12-05'), -- Phu Vinh và Ngoc Anh
-('U003', 'U005', 'accepted', '2024-11-28'), -- Quang Minh và Viet Hoa
-('U001', 'U005', 'accepted', '2024-11-20'), -- Hien Bui và Viet Hoa
-('U002', 'U004', 'accepted', '2024-12-08'); 
+VALUES 
+('U001', 'U008', 'pending', '2024-12-01'),
+('U002', 'U008', 'pending', '2024-12-02'),
+('U003', 'U008', 'pending', '2024-12-04'),
+('U004', 'U008', 'pending', '2024-12-11'),
+('U009', 'U008', 'accepted', '2024-12-02'),
+('U010', 'U008', 'accepted', '2024-12-04'),
+('U011', 'U008', 'accepted', '2024-12-11');
 
-
+-- Thêm bạn bè cho U008
 INSERT INTO Friends (userID1, userID2, createdAt)
-VALUES 
-('U003', 'U004', '2024-12-13'), -- Quang Minh và Lan Nguyen trở thành bạn
-('U001', 'U002', '2024-11-01'), -- Hien Bui và Phu Vinh trở thành bạn
-('U001', 'U003', '2024-12-01'), -- Hien Bui và Quang Minh trở thành bạn
-('U004', 'U005', '2024-12-10'), -- Lan Nguyen và Viet Hoa trở thành bạn
-('U002', 'U006', '2024-12-05'), -- Phu Vinh và Ngoc Anh trở thành bạn
-('U003', 'U005', '2024-11-28'), -- Quang Minh và Viet Hoa trở thành bạn
-('U001', 'U005', '2024-11-20'), -- Hien Bui và Viet Hoa trở thành bạn
-('U002', 'U004', '2024-12-08');
+VALUES
+('U009', 'U008','2024-12-02'),
+('U010', 'U008', '2024-12-04'),
+('U011', 'U008', '2024-12-11');
 
-
-
-INSERT INTO UserOffline (userID, offlineTime, duration)
-VALUES 
-('U002', '2024-12-15 09:00:00', 120), 
-('U004', '2024-12-15 08:00:00', 60);
-
-INSERT INTO UserOnline (userID, lastSeen)
-VALUES 
-('U003', '2024-12-15 10:30:00');
-
-INSERT INTO Blocks (userID, blocked_userID)
-VALUES 
-('U005', 'U002'), -- Viet Hoa block Phu Vinh
-('U006', 'U004');
-
-
-INSERT INTO LoginHistory (id, userID, loginTime)
-VALUES 
-(1, 'U003', '2024-12-15 10:30:00'), -- Quang Minh đăng nhập
-(2, 'U001', '2024-12-14 15:00:00');
-
-
+-- Tạo Group chat
 INSERT INTO GroupChat (groupID, groupName, createdBy, createdAt, onlineStatus)
 VALUES 
-(1, 'Team Project', 'U007', '2024-11-01 10:00:00', TRUE), -- Nhóm được tạo bởi Admin
-(2, 'Friends Chat', 'U003', '2024-11-15 12:00:00', TRUE);
+(1, 'Tech Enthusiasts', 'U001', '2024-12-13', 0),
+(2, 'Anime Lovers', 'U003', '2024-12-13', 0);
 
+-- Thêm các thành viên khác
 INSERT INTO GroupMembers (groupID, userID, isAdmin, joinedDate)
 VALUES 
-(1, 'U007', TRUE, '2024-11-01'),
-(1, 'U001', FALSE, '2024-11-02'), 
-(2, 'U003', TRUE, '2024-11-15'), 
-(2, 'U004', FALSE, '2024-11-15'); 
+(1, 'U001', 0, '2024-12-13'), 
+(1, 'U002', 0, '2024-12-13'),
+(1, 'U003', 0, '2024-12-13'), 
+(1, 'U008', 1, '2024-12-13');  
 
-INSERT INTO SpamReport (reportID, reporterID, reportedUserId, timeStamp)
+-- Thêm các thành viên khác
+INSERT INTO GroupMembers (groupID, userID, isAdmin, joinedDate)
 VALUES 
-(1, 'U002', 'U005', '2024-12-14 08:00:00'), 
-(2, 'U004', 'U003', '2024-12-14 09:00:00');
+(2, 'U005', 0, '2024-12-13'), 
+(2, 'U006', 0, '2024-12-13'),
+(2, 'U007', 0, '2024-12-13'), 
+(2, 'U008', 1, '2024-12-13');  
 
+-- Tạo dữ liệu Conversation kiểu 'friend'
+INSERT INTO Conversations (conversationID, userID1, userID2, groupID, lastMessageTime, status, conversationType)
+VALUES
+    ('1', 'U008', 'U001', NULL, NOW(), TRUE, 'friend'),
+    ('2', 'U008', 'U002', NULL, NOW(), TRUE, 'friend'),
+    ('3', 'U008', 'U003', NULL, NOW(), TRUE, 'friend');
 
+-- Tạo dữ liệu Conversation kiểu 'group'
+INSERT INTO Conversations (conversationID, userID1, userID2, groupID, lastMessageTime, status, conversationType)
+VALUES
+    ('4', 'U008', NULL, 2, NOW(), TRUE, 'group'),
+    ('5', 'U008', NULL, 1, NOW(), TRUE, 'group');
+    
+-- Tạo dữ liệu Conversation kiểu 'stranger' giữa các người dùng
+INSERT INTO Conversations (conversationID, userID1, userID2, groupID, lastMessageTime, status, conversationType)
+VALUES
+    ('6', 'U008', 'U005', NULL, NOW(), TRUE, 'stranger'),
+    ('7', 'U008', 'U006', NULL, NOW(), TRUE, 'stranger');
 
+-- test chat
+-- Chèn dữ liệu cho conversationID '1' (U008 và U001)
+INSERT INTO Chat (chatID, senderID, receiverID, groupID, message, timeSend, isRead, conversationID)
+VALUES
+    (1, 'U008', 'U001', NULL, 'Hi, how are you?', '2024-12-10 08:00:00', TRUE, '1'),
+    (2, 'U001', 'U008', NULL, 'I am good, thank you!', '2024-12-10 08:30:00', TRUE, '1'),
+    (3, 'U008', 'U001', NULL, 'What have you been up to?', '2024-12-10 09:00:00', TRUE, '1'),
+    (4, 'U001', 'U008', NULL, 'Just working on some projects.', '2024-12-10 09:30:00', TRUE, '1'),
+    (5, 'U008', 'U001', NULL, 'Sounds interesting!', '2024-12-10 10:00:00', TRUE, '1'),
+    (6, 'U001', 'U008', NULL, 'Yeah, it’s quite exciting.', '2024-12-10 10:30:00', TRUE, '1'),
+    (7, 'U008', 'U001', NULL, 'We should catch up soon.', '2024-12-10 11:00:00', TRUE, '1'),
+    (8, 'U001', 'U008', NULL, 'Definitely!', '2024-12-10 11:30:00', TRUE, '1'),
+    (9, 'U008', 'U001', NULL, 'Let’s plan for this weekend.', '2024-12-10 12:00:00', TRUE, '1'),
+    (10, 'U001', 'U008', NULL, 'I’m free on Saturday afternoon.', '2024-12-10 12:30:00', TRUE, '1'),
+    (11, 'U008', 'U001', NULL, 'Great! Let’s meet up then.', '2024-12-10 13:00:00', TRUE, '1'),
+    (12, 'U001', 'U008', NULL, 'Looking forward to it.', '2024-12-10 13:30:00', TRUE, '1'),
+    (13, 'U008', 'U001', NULL, 'Me too, it’s been too long!', '2024-12-10 14:00:00', TRUE, '1'),
+    (14, 'U001', 'U008', NULL, 'Agreed! See you soon.', '2024-12-10 14:30:00', TRUE, '1'),
+    (15, 'U008', 'U001', NULL, 'See you!', '2024-12-10 15:00:00', TRUE, '1'),
+    (16, 'U001', 'U008', NULL, 'Take care!', '2024-12-10 15:30:00', TRUE, '1'),
+    (17, 'U008', 'U001', NULL, 'Talk to you later.', '2024-12-10 16:00:00', TRUE, '1'),
+    (18, 'U001', 'U008', NULL, 'Yes, see you soon!', '2024-12-10 16:30:00', TRUE, '1'),
+    (19, 'U008', 'U001', NULL, 'Take care, buddy.', '2024-12-10 17:00:00', TRUE, '1'),
+    (20, 'U001', 'U008', NULL, 'You too!', '2024-12-10 17:30:00', TRUE, '1');
 
+-- Chèn dữ liệu cho conversationID '6' (U008 và U005)
+INSERT INTO Chat (chatID, senderID, receiverID, groupID, message, timeSend, isRead, conversationID)
+VALUES
+    (21, 'U008', 'U005', NULL, 'Hi, how are you?', '2024-12-10 08:00:00', TRUE, '6'),
+    (22, 'U005', 'U008', NULL, 'I am good, thank you!', '2024-12-10 08:30:00', TRUE, '6'),
+    (23, 'U008', 'U005', NULL, 'What have you been up to?', '2024-12-10 09:00:00', TRUE, '6'),
+    (24, 'U005', 'U008', NULL, 'Just working on some projects.', '2024-12-10 09:30:00', TRUE, '6'),
+    (25, 'U008', 'U005', NULL, 'Sounds interesting!', '2024-12-10 10:00:00', TRUE, '6'),
+    (26, 'U005', 'U008', NULL, 'Yeah, it’s quite exciting.', '2024-12-10 10:30:00', TRUE, '6'),
+    (27, 'U008', 'U005', NULL, 'We should catch up soon.', '2024-12-10 11:00:00', TRUE, '6'),
+    (28, 'U005', 'U008', NULL, 'Definitely!', '2024-12-10 11:30:00', TRUE, '6'),
+    (29, 'U008', 'U005', NULL, 'Let’s plan for this weekend.', '2024-12-10 12:00:00', TRUE, '6'),
+    (30, 'U005', 'U008', NULL, 'I’m free on Saturday afternoon.', '2024-12-10 12:30:00', TRUE, '6'),
+    (31, 'U008', 'U005', NULL, 'Great! Let’s meet up then.', '2024-12-10 13:00:00', TRUE, '6'),
+    (32, 'U005', 'U008', NULL, 'Looking forward to it.', '2024-12-10 13:30:00', TRUE, '6'),
+    (33, 'U008', 'U005', NULL, 'Me too, it’s been too long!', '2024-12-10 14:00:00', TRUE, '6'),
+    (34, 'U005', 'U008', NULL, 'Agreed! See you soon.', '2024-12-10 14:30:00', TRUE, '6'),
+    (35, 'U008', 'U005', NULL, 'See you!', '2024-12-10 15:00:00', TRUE, '6'),
+    (36, 'U005', 'U008', NULL, 'Take care!', '2024-12-10 15:30:00', TRUE, '6'),
+    (37, 'U008', 'U005', NULL, 'Talk to you later.', '2024-12-10 16:00:00', TRUE, '6'),
+    (38, 'U005', 'U008', NULL, 'Yes, see you soon!', '2024-12-10 16:30:00', TRUE, '6'),
+    (39, 'U008', 'U005', NULL, 'Take care, buddy.', '2024-12-10 17:00:00', TRUE, '6'),
+    (40, 'U005', 'U008', NULL, 'You too!', '2024-12-10 17:30:00', TRUE, '6');
 
-
+-- Chèn dữ liệu cho conversationID '4' (Group 1)
+INSERT INTO Chat (chatID, senderID, receiverID, groupID, message, timeSend, isRead, conversationID)
+VALUES
+    (41, 'U001', NULL, 1, 'Hello U002, how are you?', '2024-12-10 08:00:00', TRUE, '4'),
+    (42, 'U002', NULL, 1, 'I am fine, thanks for asking!', '2024-12-10 08:05:00', TRUE, '4'),
+    (43, 'U003', NULL, 1, 'Good to hear! What’s up U008?', '2024-12-10 08:10:00', TRUE, '4'),
+    (44, 'U008', NULL, 1, 'I am just relaxing, what about you?', '2024-12-10 08:15:00', TRUE, '4'),
+    (45, 'U001', NULL, 1, 'Nothing much, just chatting here.', '2024-12-10 08:20:00', TRUE, '4'),
+    (46, 'U003', NULL, 1, 'Great, any plans for the weekend?', '2024-12-10 08:25:00', TRUE, '4'),
+    (47, 'U008', NULL, 1, 'Planning to catch up with some friends.', '2024-12-10 08:30:00', TRUE, '4'),
+    (48, 'U001', NULL, 1, 'That sounds fun! Let me know if you need company.', '2024-12-10 08:35:00', TRUE, '4'),
+    (49, 'U002', NULL, 1, 'Sure! We’ll plan something soon.', '2024-12-10 08:40:00', TRUE, '4'),
+    (50, 'U003', NULL, 1, 'Looking forward to it! Anyone else joining?', '2024-12-10 08:45:00', TRUE, '4'),
+    (51, 'U008', NULL, 1, 'I’ll check with some other friends too.', '2024-12-10 08:50:00', TRUE, '4'),
+    (52, 'U001', NULL, 1, 'Sounds good. Keep me updated.', '2024-12-10 08:55:00', TRUE, '4'),
+    (53, 'U002', NULL, 1, 'Will do! Let’s make it happen!', '2024-12-10 09:00:00', TRUE, '4'),
+    (54, 'U003', NULL, 1, 'Awesome! Can’t wait!', '2024-12-10 09:05:00', TRUE, '4'),
+    (55, 'U008', NULL, 1, 'Looking forward to a fun weekend!', '2024-12-10 09:10:00', TRUE, '4'),
+    (56, 'U001', NULL, 1, 'Same here! Catch you later.', '2024-12-10 09:15:00', TRUE, '4'),
+    (57, 'U003', NULL, 1, 'Have a good one!', '2024-12-10 09:20:00', TRUE, '4'),
+    (58, 'U008', NULL, 1, 'You too! Take care!', '2024-12-10 09:25:00', TRUE, '4'),
+    (59, 'U001', NULL, 1, 'Talk soon!', '2024-12-10 09:30:00', TRUE, '4'),
+    (60, 'U002', NULL, 1, 'Definitely, bye!', '2024-12-10 09:35:00', TRUE, '4');
