@@ -41,11 +41,12 @@ public class UserHomeMain extends javax.swing.JFrame {
         UserBUS userBUS = new UserBUS();
         UserDTO userDTO;
         
+        navAdminButton.setVisible(false);
         try {
             userDTO = userBUS.getUserByID(GlobalVariable.getUserID());
             boolean isAdmin = userBUS.isAdmin(userDTO.getUserName());
             if (isAdmin) {
-                navAdminButton.setVisible(false);
+                navAdminButton.setVisible(true);
             } else {
                 navAdminButton.setVisible(false);
             }
