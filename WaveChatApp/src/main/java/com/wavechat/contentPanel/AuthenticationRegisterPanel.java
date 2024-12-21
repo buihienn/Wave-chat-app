@@ -14,8 +14,10 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
     private void handleRegister() {
         String userName = usernameInput.getText();
         String email = emailInput.getText();
-        String password = passwordInput.getText(); 
-        String confirmPassword = confirmPasswordInput.getText(); 
+        char[] passwordChar = passwordInput.getPassword();
+        String password = new String(passwordChar); 
+        char[] confirmPasswordChar = confirmPasswordInput.getPassword();
+        String confirmPassword = new String(confirmPasswordChar); 
 
         UserBUS userBUS = new UserBUS(); 
         // Kiểm tra các trường đầu vào
@@ -89,7 +91,6 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         register = new java.awt.Panel();
         loginContainer = new java.awt.Panel();
@@ -98,11 +99,12 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         slogan = new javax.swing.JLabel();
         emailInput = new javax.swing.JTextField();
         usernameInput = new javax.swing.JTextField();
-        passwordInput = new javax.swing.JTextField();
-        confirmPasswordInput = new javax.swing.JTextField();
         registerButton = new javax.swing.JButton();
         donothaveacc = new javax.swing.JLabel();
         navLoginButton = new javax.swing.JButton();
+        confirmPasswordInput = new javax.swing.JPasswordField();
+        passwordInput = new javax.swing.JPasswordField();
+        showPassButton = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(500, 600));
         setLayout(new java.awt.BorderLayout());
@@ -112,80 +114,23 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         register.setLayout(new java.awt.GridBagLayout());
 
         loginContainer.setBackground(new java.awt.Color(246, 246, 246));
-        loginContainer.setLayout(new java.awt.GridBagLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        loginContainer.add(logo, gridBagConstraints);
 
         login.setFont(new java.awt.Font("Montserrat", 0, 36)); // NOI18N
         login.setText("Register");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(login, gridBagConstraints);
 
         slogan.setText("Join to connect and share your waves.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        loginContainer.add(slogan, gridBagConstraints);
 
         emailInput.setBackground(new java.awt.Color(246, 246, 246));
         emailInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         emailInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         emailInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(emailInput, gridBagConstraints);
 
         usernameInput.setBackground(new java.awt.Color(246, 246, 246));
         usernameInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         usernameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         usernameInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(usernameInput, gridBagConstraints);
-
-        passwordInput.setBackground(new java.awt.Color(246, 246, 246));
-        passwordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.weighty = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(passwordInput, gridBagConstraints);
-
-        confirmPasswordInput.setBackground(new java.awt.Color(246, 246, 246));
-        confirmPasswordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        confirmPasswordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        confirmPasswordInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        confirmPasswordInput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                confirmPasswordInputKeyPressed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(confirmPasswordInput, gridBagConstraints);
 
         registerButton.setBackground(new java.awt.Color(26, 41, 128));
         registerButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -197,20 +142,9 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
                 registerButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 35, 0);
-        loginContainer.add(registerButton, gridBagConstraints);
 
         donothaveacc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         donothaveacc.setText("Already have an account?");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 16;
-        loginContainer.add(donothaveacc, gridBagConstraints);
 
         navLoginButton.setBackground(new java.awt.Color(26, 41, 128));
         navLoginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -222,17 +156,92 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
                 navLoginButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(navLoginButton, gridBagConstraints);
+
+        confirmPasswordInput.setBackground(new java.awt.Color(246, 246, 246));
+        confirmPasswordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 0, 12))); // NOI18N
+        confirmPasswordInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        confirmPasswordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                confirmPasswordInputKeyPressed(evt);
+            }
+        });
+
+        passwordInput.setBackground(new java.awt.Color(246, 246, 246));
+        passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 0, 12))); // NOI18N
+        passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
+
+        showPassButton.setBackground(new java.awt.Color(26, 41, 128));
+        showPassButton.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        showPassButton.setForeground(new java.awt.Color(255, 255, 255));
+        showPassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/notshow.png"))); // NOI18N
+        showPassButton.setPreferredSize(new java.awt.Dimension(40, 40));
+        showPassButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPassButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout loginContainerLayout = new javax.swing.GroupLayout(loginContainer);
+        loginContainer.setLayout(loginContainerLayout);
+        loginContainerLayout.setHorizontalGroup(
+            loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginContainerLayout.createSequentialGroup()
+                .addGroup(loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(logo))
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(login))
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(slogan))
+                    .addComponent(emailInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(donothaveacc))
+                    .addComponent(navLoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(loginContainerLayout.createSequentialGroup()
+                            .addGroup(loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(confirmPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(showPassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(12, 12, 12))
+        );
+        loginContainerLayout.setVerticalGroup(
+            loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginContainerLayout.createSequentialGroup()
+                .addComponent(logo)
+                .addGap(10, 10, 10)
+                .addComponent(login)
+                .addGap(5, 5, 5)
+                .addComponent(slogan)
+                .addGap(10, 10, 10)
+                .addComponent(emailInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(confirmPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(showPassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(donothaveacc)
+                .addGap(10, 10, 10)
+                .addComponent(navLoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         register.add(loginContainer, new java.awt.GridBagConstraints());
 
-        add(register, java.awt.BorderLayout.CENTER);
+        add(register, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
@@ -243,24 +252,40 @@ public class AuthenticationRegisterPanel extends javax.swing.JPanel {
         parentFrame.showLoginPanel();
     }//GEN-LAST:event_navLoginButtonActionPerformed
 
+    private void showPassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassButtonActionPerformed
+        if ("show".equals(mode)){
+            passwordInput.setEchoChar('•');
+            confirmPasswordInput.setEchoChar('•');
+            showPassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/notshow.png")));
+            mode = "notshow";
+        }
+        else {
+            passwordInput.setEchoChar('\0');
+            confirmPasswordInput.setEchoChar('\0');
+            showPassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show.png")));
+            mode = "show";
+        }
+    }//GEN-LAST:event_showPassButtonActionPerformed
+
     private void confirmPasswordInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_confirmPasswordInputKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             handleRegister();
         }
     }//GEN-LAST:event_confirmPasswordInputKeyPressed
 
-
+    private String mode = "notshow";
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField confirmPasswordInput;
+    private javax.swing.JPasswordField confirmPasswordInput;
     private javax.swing.JLabel donothaveacc;
     private javax.swing.JTextField emailInput;
     private javax.swing.JLabel login;
     private java.awt.Panel loginContainer;
     private javax.swing.JLabel logo;
     private javax.swing.JButton navLoginButton;
-    private javax.swing.JTextField passwordInput;
+    private javax.swing.JPasswordField passwordInput;
     private java.awt.Panel register;
     private javax.swing.JButton registerButton;
+    private javax.swing.JButton showPassButton;
     private javax.swing.JLabel slogan;
     private javax.swing.JTextField usernameInput;
     // End of variables declaration//GEN-END:variables

@@ -22,7 +22,8 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
     // Hàm xử lí login
     private void handleLogin() {
         String emailOrUsername = emailOrUsernameInput.getText(); 
-        String password = passwordInput.getText(); 
+        char[] passwordChar = passwordInput.getPassword();
+        String password = new String(passwordChar); 
 
         UserBUS userBUS = new UserBUS();
 
@@ -147,12 +148,13 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
         login = new javax.swing.JLabel();
         slogan = new javax.swing.JLabel();
         emailOrUsernameInput = new javax.swing.JTextField();
-        passwordInput = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
         donothaveacc = new javax.swing.JLabel();
         navRegisterButton = new javax.swing.JButton();
         forgotpassButton = new javax.swing.JPanel();
         forgotPassButton = new javax.swing.JButton();
+        passwordInput = new javax.swing.JPasswordField();
+        showPassButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -161,59 +163,18 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
         loginPanel.setLayout(new java.awt.GridBagLayout());
 
         loginContainer.setBackground(new java.awt.Color(246, 246, 246));
-        loginContainer.setLayout(new java.awt.GridBagLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        loginContainer.add(logo, gridBagConstraints);
 
         login.setFont(new java.awt.Font("Montserrat", 0, 36)); // NOI18N
         login.setText("Log in");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(login, gridBagConstraints);
 
         slogan.setText("Join to connect and share your waves.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        loginContainer.add(slogan, gridBagConstraints);
 
         emailOrUsernameInput.setBackground(new java.awt.Color(246, 246, 246));
         emailOrUsernameInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         emailOrUsernameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email address or username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
         emailOrUsernameInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(emailOrUsernameInput, gridBagConstraints);
-
-        passwordInput.setBackground(new java.awt.Color(246, 246, 246));
-        passwordInput.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 1, 12))); // NOI18N
-        passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
-        passwordInput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                passwordInputKeyPressed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.weighty = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(passwordInput, gridBagConstraints);
 
         loginButton.setBackground(new java.awt.Color(26, 41, 128));
         loginButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -225,20 +186,9 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                 loginButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 35, 0);
-        loginContainer.add(loginButton, gridBagConstraints);
 
         donothaveacc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         donothaveacc.setText("Don't have an account?");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 14;
-        loginContainer.add(donothaveacc, gridBagConstraints);
 
         navRegisterButton.setBackground(new java.awt.Color(26, 41, 128));
         navRegisterButton.setFont(new java.awt.Font("Montserrat", 0, 16)); // NOI18N
@@ -250,17 +200,10 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                 navRegisterButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 16;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(navRegisterButton, gridBagConstraints);
 
         forgotpassButton.setBackground(new java.awt.Color(246, 246, 246));
         forgotpassButton.setPreferredSize(new java.awt.Dimension(200, 22));
-        forgotpassButton.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 0));
+        forgotpassButton.setLayout(new java.awt.BorderLayout());
 
         forgotPassButton.setBackground(new java.awt.Color(246, 246, 246));
         forgotPassButton.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -271,14 +214,82 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                 forgotPassButtonActionPerformed(evt);
             }
         });
-        forgotpassButton.add(forgotPassButton);
+        forgotpassButton.add(forgotPassButton, java.awt.BorderLayout.EAST);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        loginContainer.add(forgotpassButton, gridBagConstraints);
+        passwordInput.setBackground(new java.awt.Color(246, 246, 246));
+        passwordInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Montserrat", 0, 12))); // NOI18N
+        passwordInput.setPreferredSize(new java.awt.Dimension(294, 35));
+        passwordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordInputKeyPressed(evt);
+            }
+        });
+
+        showPassButton.setBackground(new java.awt.Color(26, 41, 128));
+        showPassButton.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        showPassButton.setForeground(new java.awt.Color(255, 255, 255));
+        showPassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/notshow.png"))); // NOI18N
+        showPassButton.setPreferredSize(new java.awt.Dimension(40, 40));
+        showPassButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPassButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout loginContainerLayout = new javax.swing.GroupLayout(loginContainer);
+        loginContainer.setLayout(loginContainerLayout);
+        loginContainerLayout.setHorizontalGroup(
+            loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginContainerLayout.createSequentialGroup()
+                .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(showPassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(loginContainerLayout.createSequentialGroup()
+                .addGroup(loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(logo))
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(login))
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(slogan))
+                    .addComponent(emailOrUsernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(forgotpassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(donothaveacc))
+                    .addComponent(navRegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        loginContainerLayout.setVerticalGroup(
+            loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginContainerLayout.createSequentialGroup()
+                .addComponent(logo)
+                .addGap(10, 10, 10)
+                .addComponent(login)
+                .addGap(5, 5, 5)
+                .addComponent(slogan)
+                .addGap(10, 10, 10)
+                .addComponent(emailOrUsernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(loginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(loginContainerLayout.createSequentialGroup()
+                        .addComponent(showPassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)))
+                .addGap(10, 10, 10)
+                .addComponent(forgotpassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(donothaveacc)
+                .addGap(10, 10, 10)
+                .addComponent(navRegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         loginPanel.add(loginContainer, new java.awt.GridBagConstraints());
 
@@ -297,13 +308,26 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
         parentFrame.showForgotPassPanel();
     }//GEN-LAST:event_forgotPassButtonActionPerformed
 
+    private void showPassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassButtonActionPerformed
+        if ("show".equals(mode)){
+            passwordInput.setEchoChar('•');
+            showPassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/notshow.png")));
+            mode = "notshow";
+        }
+        else {
+            passwordInput.setEchoChar('\0');
+            showPassButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/show.png")));
+            mode = "show";
+        }
+    }//GEN-LAST:event_showPassButtonActionPerformed
+
     private void passwordInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordInputKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             handleLogin();
         }
     }//GEN-LAST:event_passwordInputKeyPressed
 
-
+    private String mode = "notshow";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel donothaveacc;
     private javax.swing.JTextField emailOrUsernameInput;
@@ -315,7 +339,8 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
     private java.awt.Panel loginPanel;
     private javax.swing.JLabel logo;
     private javax.swing.JButton navRegisterButton;
-    private javax.swing.JTextField passwordInput;
+    private javax.swing.JPasswordField passwordInput;
+    private javax.swing.JButton showPassButton;
     private javax.swing.JLabel slogan;
     // End of variables declaration//GEN-END:variables
 }
