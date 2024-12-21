@@ -240,7 +240,6 @@ public class ChatHeader extends javax.swing.JPanel {
         nameLabel = new javax.swing.JLabel();
         onlineLabel = new javax.swing.JLabel();
         rightContainer = new javax.swing.JPanel();
-        searchButton = new javax.swing.JButton();
         moreButton = new javax.swing.JButton();
 
         changeGroupNameDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -311,7 +310,6 @@ public class ChatHeader extends javax.swing.JPanel {
         changeGroupNameDialog.getContentPane().add(popupEditProfile1, java.awt.BorderLayout.CENTER);
 
         groupMemberDialog.setMinimumSize(new java.awt.Dimension(726, 400));
-        groupMemberDialog.setPreferredSize(new java.awt.Dimension(726, 400));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -381,15 +379,6 @@ public class ChatHeader extends javax.swing.JPanel {
         rightContainer.setPreferredSize(new java.awt.Dimension(294, 32));
         rightContainer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING, 5, 0));
 
-        searchButton.setBackground(new java.awt.Color(26, 41, 128));
-        searchButton.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton.setText("Search");
-        searchButton.setMaximumSize(new java.awt.Dimension(72, 32));
-        searchButton.setMinimumSize(new java.awt.Dimension(72, 32));
-        searchButton.setPreferredSize(new java.awt.Dimension(68, 32));
-        rightContainer.add(searchButton);
-
         moreButton.setBackground(new java.awt.Color(26, 41, 128));
         moreButton.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         moreButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -440,7 +429,6 @@ public class ChatHeader extends javax.swing.JPanel {
     private javax.swing.JLabel onlineLabel;
     private javax.swing.JPanel popupEditProfile1;
     private javax.swing.JPanel rightContainer;
-    private javax.swing.JButton searchButton;
     private javax.swing.JLabel userAvatar1;
     // End of variables declaration//GEN-END:variables
 }

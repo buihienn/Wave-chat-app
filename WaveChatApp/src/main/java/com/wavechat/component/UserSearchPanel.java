@@ -77,7 +77,7 @@ public class UserSearchPanel extends javax.swing.JPanel {
         for (ActionListener listener : addFriendButton.getActionListeners()) {
             addFriendButton.removeActionListener(listener); // Loại bỏ tất cả listener cũ
         }
-        addFriendButton.setText("Remove request");
+        addFriendButton.setText("Cancel");
         addFriendButton.addActionListener(evt -> handleRemoveAddFriend(friendID));
     }
     

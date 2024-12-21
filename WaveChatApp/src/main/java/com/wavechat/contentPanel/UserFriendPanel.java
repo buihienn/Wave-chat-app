@@ -53,10 +53,18 @@ public class UserFriendPanel extends javax.swing.JPanel {
             onlineButton.setBackground(new java.awt.Color(26, 41, 128));
             onlineButton.setForeground(new java.awt.Color(255, 255, 255));
             
+            // Lấy userID
+            String userID = GlobalVariable.getUserID();
+
+            // Add data vào bảng danh sách bạn bè
+            FriendBUS friendBUS = new FriendBUS();
+            List<FriendDTO> friendsList = friendBUS.getFriends(userID); // Lọc danh sách bạn bè
+            addFriendData(friendsList, userID); // Gọi hàm addFriendData với danh sách đã lọc
+            
             allCard.setVisible(true);        
             requestCard.setVisible(false);
             onlineCard.setVisible(false);
-            
+                        
             removePopupMenuItemListeners();
             addPopupMenuListeners(allTable);
         }
@@ -67,6 +75,14 @@ public class UserFriendPanel extends javax.swing.JPanel {
             requestButton.setForeground(new java.awt.Color(0, 0, 0));
             onlineButton.setBackground(new java.awt.Color(26, 41, 128));
             onlineButton.setForeground(new java.awt.Color(255, 255, 255));
+            
+            // Lấy userID
+            String userID = GlobalVariable.getUserID();
+
+            // Add data vào bảng danh sách yêu cầu kết bạn
+            FriendRequestBUS requestBUS = new FriendRequestBUS();
+            List<FriendRequestDTO> requestList = requestBUS.getPendingRequests(userID); // Lọc danh sách bạn bè
+            addFriendRequestData(requestList, userID);
             
             allCard.setVisible(false);        
             requestCard.setVisible(true);
@@ -80,6 +96,15 @@ public class UserFriendPanel extends javax.swing.JPanel {
             onlineButton.setBackground(new java.awt.Color(153, 255, 255));
             onlineButton.setForeground(new java.awt.Color(0, 0, 0));
             
+            // Lấy userID
+            String userID = GlobalVariable.getUserID();
+
+            // Add data vào bảng danh sách bạn bè online
+            FriendBUS friendBUS = new FriendBUS();
+            List<FriendDTO> friendsList = friendBUS.getFriends(userID); // Lọc danh sách bạn bè
+
+            addOnlineFriendData(friendsList, userID); // Gọi hàm addOnlineFriendData với danh sách đã lọc
+
             allCard.setVisible(false);        
             requestCard.setVisible(false);
             onlineCard.setVisible(true);
@@ -481,7 +506,7 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 if (row >= 0) {
                     String userName = (String) curTable.getValueAt(row, 1); // Lấy username của dòng được chọn
                     String friendUserID = getUserIDByUsername(userName); // Hàm lấy userID từ username
-
+                    
                     handleChat(friendUserID);
                 }
             }
@@ -494,7 +519,6 @@ public class UserFriendPanel extends javax.swing.JPanel {
                 if (row >= 0) {
                     String userName = (String) curTable.getValueAt(row, 1); // Lấy username của dòng được chọn
                     String friendID = getUserIDByUsername(userName); // Hàm lấy userID từ username
-
                     addConfirmButtonListener(friendID);
                     createGroupDialog.setLocationRelativeTo(this);
                     createGroupDialog.setVisible(true);
@@ -1104,11 +1128,15 @@ public class UserFriendPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_searchOnlineButtonActionPerformed
 
     private void onlineTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onlineTableMouseClicked
-        showPopup(evt, onlineTable);
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            showPopup(evt, onlineTable);
+        }
     }//GEN-LAST:event_onlineTableMouseClicked
 
     private void allTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allTableMouseClicked
-        showPopup(evt, allTable);
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            showPopup(evt, onlineTable);
+        }
     }//GEN-LAST:event_allTableMouseClicked
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
