@@ -9,8 +9,6 @@ import com.wavechat.contentPanel.UserProfilePanel;
 import com.wavechat.dto.UserDTO;
 import com.wavechat.socket.ClientSocketManager;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UserHomeMain extends javax.swing.JFrame {
     private final ClientSocketManager clientSocket;

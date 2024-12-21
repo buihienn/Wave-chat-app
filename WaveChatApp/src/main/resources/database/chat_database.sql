@@ -15,7 +15,7 @@ CREATE TABLE User (
     fullName NVARCHAR(50),
     address NVARCHAR(50),
     birthDay DATE NULL,
-    gender VARCHAR(6),
+    gender VARCHAR(20),
     email VARCHAR (100) UNIQUE,
     createdDate DATE,
     status BOOL,   -- true = "Unlock" - false = "Locked"
