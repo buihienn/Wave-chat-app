@@ -4,6 +4,7 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.dao.FriendDAO;
 import com.wavechat.dao.UserDAO;
 import com.wavechat.dto.FriendAdminUserDTO;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
     public AdminUserPanel_Friends() {
         initComponents();
         
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Username", "Full name", "Friend online", "Total friend"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Username", "Full name", "Total friend", "Number friends of friends"}, 0);
         jTableFriend.setModel(tableModel);
         
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
@@ -35,23 +36,26 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
     public void updateUserTable(List<FriendAdminUserDTO> friendAdminUserList) {
         tableModel.setRowCount(0);
         UserDAO userDAO = new UserDAO();
+        FriendDAO friendDAO = new FriendDAO();
         
         // Thêm từng dòng dữ liệu vào bảng
         for (FriendAdminUserDTO user : friendAdminUserList) {
+            String id = user.getUserID();
+            int num = friendDAO.getNumberFriendOfFriend(id);
             String fullName = userDAO.getFullNameByID(user.getUserID());
             tableModel.addRow(new Object[]{
                 user.getUserID(),
                 user.getUserName(), 
                 fullName,
-                user.getOnlineFriends(),
-                user.getTotalFriends()
+                user.getTotalFriends(),
+                num
             });
         }
     }
     
     private void applyFilter() {
         String searchName = jTextFullName.getText(); 
-        String searchNumberFriend = jTextNumberFriend.getText(); 
+        String searchNumberFriend = jTextNumberFriend.getText().trim(); 
 
         // Xử lý bộ lọc
         DefaultTableModel dtm = (DefaultTableModel) jTableFriend.getModel();
@@ -65,9 +69,33 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
             filters.add(nameFilter);
         }
 
+//        if (!searchNumberFriend.isEmpty()) {
+//            RowFilter<TableModel, Object> emailFilter = RowFilter.regexFilter("(?i)" + searchNumberFriend, 4);
+//            filters.add(emailFilter);
+//        }
+        
         if (!searchNumberFriend.isEmpty()) {
-            RowFilter<TableModel, Object> emailFilter = RowFilter.regexFilter("(?i)" + searchNumberFriend, 4);
-            filters.add(emailFilter);
+            try {
+                int number = Integer.parseInt(searchNumberFriend);
+                int lowerBound = number - 1; 
+                int upperBound = number + 1;
+
+                RowFilter<TableModel, Object> numberFilter = new RowFilter<TableModel, Object>() {
+                    @Override
+                    public boolean include(RowFilter.Entry<? extends TableModel, ? extends Object> entry) {
+                        int value;
+                        try {
+                            value = Integer.parseInt(entry.getStringValue(3));
+                        } catch (NumberFormatException e) {
+                            return false;
+                        }
+                        return value >= lowerBound && value <= upperBound;
+                    }
+                };
+                filters.add(numberFilter);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number input");
+            }
         }
 
         if (!filters.isEmpty()) {

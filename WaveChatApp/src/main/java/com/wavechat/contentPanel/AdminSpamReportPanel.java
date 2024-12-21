@@ -71,7 +71,7 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
     }
     
     private void applyFilter() {
-        String searchName = jTextFullName.getText(); 
+        String searchName = jTextUserName.getText(); 
         String searchEmail = jTextEmail.getText(); 
         Date selectedDate = jDateChooser1.getDate();
         // Xử lý bộ lọc
@@ -123,7 +123,7 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSpamReport = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextFullName = new javax.swing.JTextField();
+        jTextUserName = new javax.swing.JTextField();
         jTextEmail = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -159,16 +159,16 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
         jTableSpamReport.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(jTableSpamReport);
 
-        jLabel1.setText("Search by full name:");
+        jLabel1.setText("Search by username:");
 
-        jTextFullName.addActionListener(new java.awt.event.ActionListener() {
+        jTextUserName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFullNameActionPerformed(evt);
+                jTextUserNameActionPerformed(evt);
             }
         });
-        jTextFullName.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextFullNameKeyReleased(evt);
+                jTextUserNameKeyReleased(evt);
             }
         });
 
@@ -208,7 +208,7 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -227,7 +227,7 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(jTextFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
                         .addComponent(jLabel3))
@@ -237,9 +237,9 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFullNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFullNameActionPerformed
+    private void jTextUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextUserNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFullNameActionPerformed
+    }//GEN-LAST:event_jTextUserNameActionPerformed
 
     private void jMenuLockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLockActionPerformed
         // TODO add your handling code here:
@@ -261,10 +261,10 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jMenuLockActionPerformed
 
-    private void jTextFullNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFullNameKeyReleased
+    private void jTextUserNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextUserNameKeyReleased
         // TODO add your handling code here:
         applyFilter();
-    }//GEN-LAST:event_jTextFullNameKeyReleased
+    }//GEN-LAST:event_jTextUserNameKeyReleased
 
     private void jTextEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextEmailKeyReleased
         // TODO add your handling code here:
@@ -296,7 +296,7 @@ public class AdminSpamReportPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableSpamReport;
     private javax.swing.JTextField jTextEmail;
-    private javax.swing.JTextField jTextFullName;
+    private javax.swing.JTextField jTextUserName;
     private javax.swing.JLabel spamReportText;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,8 +4,10 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.UserDTO;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -31,17 +33,41 @@ public class AdminUserPanel_NewRegister extends javax.swing.JPanel {
         newRegisterTable.setRowSorter(sorter);
     }
     
-    public void updateUserTable(List<UserDTO> userList) {
+    public boolean isDateInRange(Date dateFrom, Date dateTo, Date createdDate) {
+        // Kiểm tra nếu createdDate nằm trong khoảng từ dateFrom đến dateTo
+        return (createdDate.equals(dateFrom) || createdDate.after(dateFrom)) && 
+               (createdDate.equals(dateTo) || createdDate.before(dateTo));
+    }
+    
+    public void updateTable() {
         tableModel.setRowCount(0);
+        Date dateFrom = jDateFrom.getDate();
+        Date dateTo = jDateTo.getDate();
+        UserBUS userBUS = new UserBUS();
+        List<UserDTO> userList = userBUS.getAll();
 
-        // Thêm từng dòng dữ liệu vào bảng
-        for (UserDTO user : userList) {
-            tableModel.addRow(new Object[]{
-                user.getUserName(), 
-                user.getFullName(),       
-                user.getEmail(),
-                user.getCreatedDate(),
-            });
+        if (dateFrom == null || dateTo == null){
+            for (UserDTO user : userList) {
+                tableModel.addRow(new Object[]{
+                    user.getUserName(), 
+                    user.getFullName(),       
+                    user.getEmail(),
+                    user.getCreatedDate(),
+                });
+            }
+        }
+        else {
+            for (UserDTO user : userList) {
+                Date createdDate = user.getCreatedDate();
+                if (isDateInRange(dateFrom, dateTo, createdDate)) { 
+                    tableModel.addRow(new Object[]{
+                        user.getUserName(), 
+                        user.getFullName(),       
+                        user.getEmail(),
+                        user.getCreatedDate(),
+                    });
+                }
+            }
         }
     }
     
@@ -84,7 +110,11 @@ public class AdminUserPanel_NewRegister extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jDateFrom = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jDateTo = new com.toedter.calendar.JDateChooser();
+        jButtonUpdateTable = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         newRegisterTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -92,21 +122,46 @@ public class AdminUserPanel_NewRegister extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         filterEmail = new javax.swing.JTextField();
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("New register in lastest month");
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel4.setText("FROM");
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel1.setText("TO");
+
+        jButtonUpdateTable.setText("Update table");
+        jButtonUpdateTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateTableActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(227, 227, 227)
+                .addGap(57, 57, 57)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addComponent(jButtonUpdateTable)
+                .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(7, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonUpdateTable)
+                    .addComponent(jDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jDateTo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
         jScrollPane1.setViewportView(newRegisterTable);
@@ -161,7 +216,7 @@ public class AdminUserPanel_NewRegister extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(filterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,13 +245,22 @@ public class AdminUserPanel_NewRegister extends javax.swing.JPanel {
         applyFilter();
     }//GEN-LAST:event_filterEmailKeyReleased
 
+    private void jButtonUpdateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateTableActionPerformed
+        // TODO add your handling code here:
+        updateTable();
+    }//GEN-LAST:event_jButtonUpdateTableActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField filterEmail;
     private javax.swing.JTextField filterName;
+    private javax.swing.JButton jButtonUpdateTable;
+    private com.toedter.calendar.JDateChooser jDateFrom;
+    private com.toedter.calendar.JDateChooser jDateTo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable newRegisterTable;

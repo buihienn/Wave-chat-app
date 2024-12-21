@@ -4,7 +4,9 @@ import com.wavechat.dto.FriendAdminUserDTO;
 import com.wavechat.dto.FriendDTO;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -161,5 +163,69 @@ public class FriendDAO {
             System.out.println(ex.getMessage());
         }
         return list;
+    }
+    
+    public int getNumberFriend(String userID) {
+        int numberOfFriends = 0;
+
+        DBconnector dbConnection = new DBconnector();
+        Connection conn = dbConnection.getConnection(); // Kết nối tới cơ sở dữ liệu
+
+        if (conn == null) {
+            return 0; // Trả về 0 nếu không kết nối được
+        }
+
+        String query = "SELECT COUNT(*) FROM (" +
+                       "SELECT userID2 AS friendID FROM Friends WHERE userID1 = ? " +
+                       "UNION " +
+                       "SELECT userID1 AS friendID FROM Friends WHERE userID2 = ?" +
+                       ") AS FriendList";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, userID);
+            stmt.setString(2, userID);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    numberOfFriends = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+
+        return numberOfFriends;
+    }
+    
+    public int getNumberFriendOfFriend(String userID) {
+        int numberOfFriends = 0;
+        List<String> listFriend = new ArrayList<>();
+
+        DBconnector dbConnection = new DBconnector();
+        Connection conn = dbConnection.getConnection();
+        if (conn == null) {
+            return 0;
+        }
+        String query = "SELECT userID2 FROM Friends WHERE userID1 = ? UNION SELECT userID1 FROM Friends WHERE userID2 = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, userID);
+            stmt.setString(2, userID);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String friendID = rs.getString(1);
+                    listFriend.add(friendID);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        for (String friendID : listFriend) {
+            numberOfFriends += getNumberFriend(friendID);
+        }
+
+        return numberOfFriends;
     }
 }

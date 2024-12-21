@@ -226,12 +226,8 @@ public class AdminUserPanel extends javax.swing.JPanel {
         newRegister.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18)); 
         newRegister.setText("<html><u>New Register</u></html>"); 
         
-        int curMonth = LocalDate.now().getMonthValue();
-        int curYear = LocalDate.now().getYear();
-        UserBUS userBUS = new UserBUS();
-        List<UserDTO> userDTOs = userBUS.getUsersByCreatedMonth(curMonth, curYear);
         
-        newRegisterPanel.updateUserTable(userDTOs);
+        newRegisterPanel.updateTable();
     }//GEN-LAST:event_newRegisterMouseClicked
 
     private void activityLogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityLogMouseClicked
