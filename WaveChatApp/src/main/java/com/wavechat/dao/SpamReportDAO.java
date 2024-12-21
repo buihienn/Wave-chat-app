@@ -1,6 +1,9 @@
 package com.wavechat.dao;
 
+import com.wavechat.dto.SpamReportDTO;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpamReportDAO {
     
@@ -70,5 +73,42 @@ public class SpamReportDAO {
         }
 
         return false;
+    }
+    
+    public List<SpamReportDTO> getAllSpamReport() {
+        List<SpamReportDTO> reportList = new ArrayList<>();
+        String query = "SELECT * FROM SpamReport";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection conn = dbConnector.getConnection();
+
+        if (conn == null) {
+            System.out.println("Failed to establish a database connection.");
+            return reportList;
+        }
+
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                int reportID = rs.getInt("reportID");
+                String reporterID = rs.getString("reporterID");
+                String reportedUserID = rs.getString("reportedUserID");
+                Date timestamp = rs.getDate("timestamp");
+
+                SpamReportDTO spamReport = new SpamReportDTO(reportID, reporterID, reportedUserID, timestamp);
+                reportList.add(spamReport);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return reportList;
     }
 }

@@ -4,9 +4,14 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.dao.UserDAO;
 import com.wavechat.dto.FriendAdminUserDTO;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -20,21 +25,55 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
     public AdminUserPanel_Friends() {
         initComponents();
         
-        tableModel = new DefaultTableModel(new Object[]{"ID","Username", "Friend online", "Total friend"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Username", "Full name", "Friend online", "Total friend"}, 0);
         jTableFriend.setModel(tableModel);
+        
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        jTableFriend.setRowSorter(sorter);
     }
     
     public void updateUserTable(List<FriendAdminUserDTO> friendAdminUserList) {
         tableModel.setRowCount(0);
-
+        UserDAO userDAO = new UserDAO();
+        
         // Thêm từng dòng dữ liệu vào bảng
         for (FriendAdminUserDTO user : friendAdminUserList) {
+            String fullName = userDAO.getFullNameByID(user.getUserID());
             tableModel.addRow(new Object[]{
                 user.getUserID(),
                 user.getUserName(), 
+                fullName,
                 user.getOnlineFriends(),
                 user.getTotalFriends()
             });
+        }
+    }
+    
+    private void applyFilter() {
+        String searchName = jTextFullName.getText(); 
+        String searchNumberFriend = jTextNumberFriend.getText(); 
+
+        // Xử lý bộ lọc
+        DefaultTableModel dtm = (DefaultTableModel) jTableFriend.getModel();
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<>(dtm);
+        jTableFriend.setRowSorter(sorter);
+
+        List<RowFilter<TableModel, Object>> filters = new ArrayList<>();
+
+        if (!searchName.isEmpty()) {
+            RowFilter<TableModel, Object> nameFilter = RowFilter.regexFilter("(?i)" + searchName, 2);
+            filters.add(nameFilter);
+        }
+
+        if (!searchNumberFriend.isEmpty()) {
+            RowFilter<TableModel, Object> emailFilter = RowFilter.regexFilter("(?i)" + searchNumberFriend, 4);
+            filters.add(emailFilter);
+        }
+
+        if (!filters.isEmpty()) {
+            sorter.setRowFilter(RowFilter.andFilter(filters));
+        } else {
+            sorter.setRowFilter(null); // Không áp dụng bộ lọc nếu tất cả trống
         }
     }
 
@@ -49,6 +88,10 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableFriend = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFullName = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextNumberFriend = new javax.swing.JTextField();
 
         jTableFriend.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -60,24 +103,72 @@ public class AdminUserPanel_Friends extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTableFriend);
 
+        jLabel1.setText("Search by name:");
+
+        jTextFullName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFullNameKeyReleased(evt);
+            }
+        });
+
+        jLabel2.setText("Search by number friends:");
+
+        jTextNumberFriend.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextNumberFriendKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextNumberFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextNumberFriend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextFullNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFullNameKeyReleased
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jTextFullNameKeyReleased
+
+    private void jTextNumberFriendKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextNumberFriendKeyReleased
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jTextNumberFriendKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableFriend;
+    private javax.swing.JTextField jTextFullName;
+    private javax.swing.JTextField jTextNumberFriend;
     // End of variables declaration//GEN-END:variables
 }
