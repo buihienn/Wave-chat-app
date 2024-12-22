@@ -1,8 +1,12 @@
 package com.wavechat.socket;
 
+import com.wavechat.bus.UserBUS;
 import com.wavechat.component.ChatBody;
+import com.wavechat.dto.UserDTO;
 import java.io.*;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 public class ClientSocketManager {
@@ -37,11 +41,19 @@ public class ClientSocketManager {
                         String[] parts = message.split(" FROM: ");
                         String contentMessage = parts[0].substring("NEW_MESSAGE:".length()).trim();
                         String senderID = parts[1].split(" IN_CONVERSATION: ")[0].trim();
-                           
-                        SwingUtilities.invokeLater(() -> {
-                            chatBody.updateNewUsername(senderID);
-                            chatBody.updateNew(contentMessage);
-                        });
+                        
+                        UserBUS userBUS = new UserBUS();
+                        UserDTO userDTO;
+                        try {
+                            userDTO = userBUS.getUserByID(senderID);
+                            SwingUtilities.invokeLater(() -> {
+                                chatBody.updateNewUsername(userDTO.getFullName());
+                                chatBody.updateNew(contentMessage);
+                            });
+                        } catch (Exception ex) {
+                            Logger.getLogger(ClientSocketManager.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
                     } else if (message.startsWith("MESSAGE_SENT")) {
                         System.out.println("Message sent successfully.");
                     } else {
