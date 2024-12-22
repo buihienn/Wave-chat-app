@@ -4,17 +4,122 @@
  */
 package com.wavechat.contentPanel;
 
+import com.wavechat.dao.LoginHistoryDAO;
+import com.wavechat.dao.UserDAO;
+import java.util.Date;
+import java.util.List;
+import java.sql.*;
+import java.util.ArrayList;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author buihi
  */
 public class AdminUserPanel_ActivityLog extends javax.swing.JPanel {
-
+    private DefaultTableModel tableModel;
     /**
      * Creates new form AdminUserPanel_ActivityLog
      */
     public AdminUserPanel_ActivityLog() {
         initComponents();
+        tableModel = new DefaultTableModel(new Object[]{"User ID","Full name", "Numbers chat", "Numbers chat group", "Activities"}, 0);
+        jTableActivity.setModel(tableModel);
+        
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        jTableActivity.setRowSorter(sorter);
+    }
+    
+    public boolean isDateInRange(Date dateFrom, Date dateTo, Date createdDate) {
+        // Kiểm tra nếu createdDate nằm trong khoảng từ dateFrom đến dateTo
+        return (createdDate.equals(dateFrom) || createdDate.after(dateFrom)) && 
+               (createdDate.equals(dateTo) || createdDate.before(dateTo));
+    }
+    
+    public void updateTable() {
+        tableModel.setRowCount(0);
+        Date dateFromUtil = jDateFrom.getDate();
+        Date dateToUtil = jDateTo.getDate();
+        
+        LoginHistoryDAO loginDAO = new LoginHistoryDAO();
+        UserDAO userDAO = new UserDAO();
+
+        if (dateFromUtil == null || dateToUtil == null){
+        }
+        else {
+            java.sql.Date dateFrom = new java.sql.Date(dateFromUtil.getTime());
+            java.sql.Date dateTo = new java.sql.Date(dateToUtil.getTime());
+            System.out.println(dateFrom);
+            List<String> userIDs = loginDAO.getUniqueUserIDsByDateRange(dateFrom, dateTo);
+            for (String user : userIDs) {
+                String fullName = userDAO.getFullNameByID(user);
+                int chatCount = loginDAO.getUniqueChatPartners(user, dateFrom, dateTo);
+                int groupCount = loginDAO.getUniqueChatGroups(user, dateFrom, dateTo);
+                int sumAct = chatCount + groupCount;
+                tableModel.addRow(new Object[]{
+                    user,
+                    fullName,
+                    chatCount,
+                    groupCount,
+                    sumAct
+                });
+                
+            }
+        }
+    }
+    
+    private void applyFilter() {
+        String searchName = jTextName.getText(); 
+        String searchNumberAct = jTextAct.getText().trim(); 
+
+        DefaultTableModel dtm = (DefaultTableModel) jTableActivity.getModel();
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<>(dtm);
+        jTableActivity.setRowSorter(sorter);
+
+        List<RowFilter<TableModel, Object>> filters = new ArrayList<>();
+
+        if (!searchName.isEmpty()) {
+            RowFilter<TableModel, Object> nameFilter = RowFilter.regexFilter("(?i)" + searchName, 1);
+            filters.add(nameFilter);
+        }
+
+//        if (!searchNumberFriend.isEmpty()) {
+//            RowFilter<TableModel, Object> emailFilter = RowFilter.regexFilter("(?i)" + searchNumberFriend, 4);
+//            filters.add(emailFilter);
+//        }
+        
+        if (!searchNumberAct.isEmpty()) {
+            try {
+                int number = Integer.parseInt(searchNumberAct);
+                int lowerBound = number - 1; 
+                int upperBound = number + 1;
+
+                RowFilter<TableModel, Object> numberFilter = new RowFilter<TableModel, Object>() {
+                    @Override
+                    public boolean include(RowFilter.Entry<? extends TableModel, ? extends Object> entry) {
+                        int value;
+                        try {
+                            value = Integer.parseInt(entry.getStringValue(4));
+                        } catch (NumberFormatException e) {
+                            return false;
+                        }
+                        return value >= lowerBound && value <= upperBound;
+                    }
+                };
+                filters.add(numberFilter);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number input");
+            }
+        }
+
+        if (!filters.isEmpty()) {
+            sorter.setRowFilter(RowFilter.andFilter(filters));
+        } else {
+            sorter.setRowFilter(null); 
+        }
     }
 
     /**
@@ -47,6 +152,11 @@ public class AdminUserPanel_ActivityLog extends javax.swing.JPanel {
         toText.setText("TO");
 
         jButtonUpdate.setText("Update table");
+        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Search by name:");
 
@@ -55,8 +165,19 @@ public class AdminUserPanel_ActivityLog extends javax.swing.JPanel {
                 jTextNameActionPerformed(evt);
             }
         });
+        jTextName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextNameKeyReleased(evt);
+            }
+        });
 
         jLabel2.setText("Search by number of activities:");
+
+        jTextAct.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextActKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -98,9 +219,8 @@ public class AdminUserPanel_ActivityLog extends javax.swing.JPanel {
                     .addComponent(jButtonUpdate)
                     .addComponent(jDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fromText)
-                        .addComponent(toText)))
+                    .addComponent(toText)
+                    .addComponent(fromText))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -134,6 +254,21 @@ public class AdminUserPanel_ActivityLog extends javax.swing.JPanel {
     private void jTextNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextNameActionPerformed
+
+    private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
+        // TODO add your handling code here:
+        updateTable();
+    }//GEN-LAST:event_jButtonUpdateActionPerformed
+
+    private void jTextNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextNameKeyReleased
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jTextNameKeyReleased
+
+    private void jTextActKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextActKeyReleased
+        // TODO add your handling code here:
+        applyFilter();
+    }//GEN-LAST:event_jTextActKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

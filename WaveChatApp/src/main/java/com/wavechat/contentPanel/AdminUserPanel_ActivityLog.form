@@ -83,10 +83,8 @@
                       <Component id="jButtonUpdate" min="-2" max="-2" attributes="0"/>
                       <Component id="jDateTo" min="-2" max="-2" attributes="0"/>
                       <Component id="jDateFrom" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="fromText" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="toText" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="toText" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="fromText" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -130,6 +128,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Update table"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonUpdateActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -139,6 +140,7 @@
         <Component class="javax.swing.JTextField" name="jTextName">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextNameActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextNameKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
@@ -147,6 +149,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextAct">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextActKeyReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

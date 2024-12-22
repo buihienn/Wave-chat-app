@@ -171,4 +171,118 @@ public class LoginHistoryDAO {
         return loginCount;
     }
     
+    public List<String> getUniqueUserIDsByDateRange(Date dateFrom, Date dateTo) {
+        List<String> userIDs = new ArrayList<>();
+        String sql = "SELECT DISTINCT userID " +
+                     "FROM LoginHistory " +
+                     "WHERE loginTime BETWEEN ? AND ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return userIDs;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setTimestamp(1, new java.sql.Timestamp(dateFrom.getTime()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(dateTo.getTime()));
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                userIDs.add(resultSet.getString("userID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close(); 
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return userIDs;
+    }
+    public int getUniqueChatPartners(String userID, Date dateFrom, Date dateTo) {
+        int uniqueReceivers = 0;
+        String sql = "SELECT COUNT(DISTINCT receiverID) AS uniqueReceivers " +
+                     "FROM Chat " +
+                     "WHERE senderID = ? " +
+                     "AND timeSend BETWEEN ? AND ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return 0;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, userID);
+            preparedStatement.setDate(2, dateFrom);
+            preparedStatement.setDate(3, dateTo);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                uniqueReceivers = resultSet.getInt("uniqueReceivers");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return uniqueReceivers;
+    }
+    
+    public int getUniqueChatGroups(String userID, Date dateFrom, Date dateTo) {
+        int uniqueGroups = 0;
+        String sql = "SELECT COUNT(DISTINCT groupID) AS uniqueGroups " +
+                     "FROM Chat " +
+                     "WHERE senderID = ? " +
+                     "AND timeSend BETWEEN ? AND ?";
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Failed to establish a database connection.");
+            return 0;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, userID);
+            preparedStatement.setDate(2, dateFrom);
+            preparedStatement.setDate(3, dateTo);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                uniqueGroups = resultSet.getInt("uniqueGroups");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return uniqueGroups;
+    }
+    
 }
