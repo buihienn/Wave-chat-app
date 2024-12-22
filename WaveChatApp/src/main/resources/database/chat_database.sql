@@ -224,7 +224,10 @@ INSERT INTO LoginHistory (id, userID, loginTime) VALUES
 (2, 'U002', '2024-12-20 09:00:00'),
 (3, 'U003', '2024-12-20 10:15:00'),
 (4, 'U004', '2024-12-20 11:45:00'),
-(5, 'U005', '2024-12-20 12:00:00');
+(5, 'U005', '2024-12-20 12:00:00'),
+(6, 'U001', '2024-12-22 12:00:00'),
+(7, 'U008', '2024-12-22 12:00:00');
+
 
 -- Spam report
 INSERT INTO SpamReport (reporterID, reportedUserId, timeStamp)
