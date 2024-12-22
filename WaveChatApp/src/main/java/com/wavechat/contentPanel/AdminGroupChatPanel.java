@@ -57,7 +57,7 @@ public class AdminGroupChatPanel extends javax.swing.JPanel {
         groupchatTable.setRowSorter(sorter);
 
         
-        RowFilter<TableModel, Object> textFilter = RowFilter.regexFilter("(?i)" + txt, 0); 
+        RowFilter<TableModel, Object> textFilter = RowFilter.regexFilter("(?i)" + txt, 1); 
 
         sorter.setRowFilter(textFilter); 
     }
