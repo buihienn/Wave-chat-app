@@ -176,26 +176,6 @@ public class UserDAO {
         }
     }
     
-    // Delete online vs offline
-    private void deleteUserFromOnlineAndOffline(Connection conn, String userID) throws SQLException {
-        String deleteUserOnlineQuery = "DELETE FROM UserOnline WHERE userID = ?";
-        String deleteUserOfflineQuery = "DELETE FROM UserOffline WHERE userID = ?";
-
-        try (PreparedStatement deleteUserOnlineStmt = conn.prepareStatement(deleteUserOnlineQuery);
-             PreparedStatement deleteUserOfflineStmt = conn.prepareStatement(deleteUserOfflineQuery)) {
-
-            // Xóa User khỏi bảng UserOnline
-            deleteUserOnlineStmt.setString(1, userID);
-            deleteUserOnlineStmt.executeUpdate();
-
-            // Xóa User khỏi bảng UserOffline
-            deleteUserOfflineStmt.setString(1, userID);
-            deleteUserOfflineStmt.executeUpdate();
-        } catch (SQLException ex) {
-            throw ex;
-        }
-    }
-    
     // delete Friends for delete user
     private void deleteFriends(Connection conn, String userID) throws SQLException {
         String query = "DELETE FROM Friends WHERE userID1 = ? OR userID2 = ?";
@@ -277,7 +257,6 @@ public class UserDAO {
             
             // Xóa các liên kết liên quan
             updateGroupChatCreatedByToNull(conn,userID);
-            deleteUserFromOnlineAndOffline(conn,userID);
             deleteFriendRequests(conn, userID);
             deleteFriends(conn, userID);
             deleteBlocks(conn, userID);
