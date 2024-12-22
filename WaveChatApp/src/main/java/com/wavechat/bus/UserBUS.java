@@ -350,4 +350,7 @@ public class UserBUS {
         return userDAO.getUsersByCreatedMonth(month, year);
     }
 
+    public int getTotalUser() {
+        return userDAO.getTotalUser();
+    }
 }

@@ -52,9 +52,8 @@ public class AdminDashBoard extends javax.swing.JPanel {
             labels[i].setText(" No data");
         }
         
+        onlineTextField.setText(String.valueOf(userBUS.getTotalUser()));
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -72,7 +71,7 @@ public class AdminDashBoard extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
+        onlineTextField = new javax.swing.JLabel();
         celander = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jCalendar1 = new com.toedter.calendar.JCalendar();
@@ -110,14 +109,14 @@ public class AdminDashBoard extends javax.swing.JPanel {
         userOnline.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel3.setText("User ");
+        jLabel3.setText("Total");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel16.setText("Online");
+        jLabel16.setText("User");
 
         jPanel11.setBorder(new javax.swing.border.MatteBorder(null));
 
-        jLabel22.setText("232/250");
+        onlineTextField.setText("22222");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -125,14 +124,14 @@ public class AdminDashBoard extends javax.swing.JPanel {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(onlineTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap(43, Short.MAX_VALUE)
-                .addComponent(jLabel22)
+                .addComponent(onlineTextField)
                 .addGap(41, 41, 41))
         );
 
@@ -141,27 +140,23 @@ public class AdminDashBoard extends javax.swing.JPanel {
         userOnlineLayout.setHorizontalGroup(
             userOnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(userOnlineLayout.createSequentialGroup()
-                .addGroup(userOnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(userOnlineLayout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(userOnlineLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(userOnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))))
+                .addGap(20, 20, 20)
+                .addGroup(userOnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(0, 22, Short.MAX_VALUE))
         );
         userOnlineLayout.setVerticalGroup(
             userOnlineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(userOnlineLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addComponent(jLabel3)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel16)
-                .addGap(41, 41, 41)
+                .addGap(35, 35, 35)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         celander.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -251,9 +246,8 @@ public class AdminDashBoard extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(userOnline, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(loginHistory, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(celander, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(loginHistory, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
+                    .addComponent(celander, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -301,7 +295,6 @@ public class AdminDashBoard extends javax.swing.JPanel {
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -312,6 +305,7 @@ public class AdminDashBoard extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel loginHistory;
+    private javax.swing.JLabel onlineTextField;
     private javax.swing.JPanel userOnline;
     // End of variables declaration//GEN-END:variables
 }

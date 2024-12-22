@@ -3,6 +3,7 @@ package com.wavechat.server;
 import com.wavechat.bus.ChatMessageBUS;
 import com.wavechat.bus.ConversationBUS;
 import com.wavechat.bus.GroupChatBUS;
+import com.wavechat.bus.LoginHistoryBUS;
 import com.wavechat.bus.UserBUS;
 import com.wavechat.dto.ChatMessageDTO;
 import com.wavechat.dto.ConversationDTO;
@@ -66,6 +67,16 @@ public class ClientHandler implements Runnable {
             OnlineUserManager.addUser(userID, clientSocket);
         } else {
             Server.logMessage("Failed to update status for user: " + userID);
+        }
+        
+        // Add login history
+        LoginHistoryBUS loginBUS = new LoginHistoryBUS(); 
+        boolean isAdd = loginBUS.addLoginHistory(userID);
+        if (isAdd) {
+            Server.logMessage("Add " + userID + " login history successfully");
+            OnlineUserManager.addUser(userID, clientSocket);
+        } else {
+            Server.logMessage("Failed to add login history for user: " + userID);
         }
     }
 
