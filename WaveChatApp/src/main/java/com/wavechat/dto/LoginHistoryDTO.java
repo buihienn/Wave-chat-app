@@ -14,6 +14,9 @@ public class LoginHistoryDTO {
     private int id;
     private String userID;
     private LocalDateTime loginTime;
+    
+     public LoginHistoryDTO() {
+    }
 
     public LoginHistoryDTO(int id, String userID, LocalDateTime loginTime) {
         this.id = id;

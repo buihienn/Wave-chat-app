@@ -285,4 +285,39 @@ public class LoginHistoryDAO {
         return uniqueGroups;
     }
     
+    public List<LoginHistoryDTO> getLatestLoginHistory() {
+        List<LoginHistoryDTO> loginHistoryList = new ArrayList<>();
+
+        // Query to get the latest 4 login records, ordered by loginTime
+        String query = "SELECT id, userID, loginTime FROM LoginHistory ORDER BY loginTime DESC LIMIT 4";
+
+        try (Connection conn = new DBconnector().getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            if (conn == null) {
+                System.out.println("Database connection is null. Please check your connection settings.");
+                return loginHistoryList;
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    LoginHistoryDTO loginHistory = new LoginHistoryDTO();
+                    loginHistory.setId(rs.getInt("id"));
+                    loginHistory.setUserID(rs.getString("userID"));
+                    loginHistory.setLoginTime(rs.getTimestamp("loginTime").toLocalDateTime());
+
+                    loginHistoryList.add(loginHistory);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("An error occurred while fetching login history: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return loginHistoryList;
+    }
+
+
+    
 }

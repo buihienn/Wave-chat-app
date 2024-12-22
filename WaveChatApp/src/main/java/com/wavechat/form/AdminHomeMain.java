@@ -45,9 +45,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
 
         Header = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        notiButton = new javax.swing.JButton();
         usetModeButton = new javax.swing.JButton();
-        userButton = new javax.swing.JButton();
         navContainer = new javax.swing.JPanel();
         dashboardNav = new javax.swing.JButton();
         userNav = new javax.swing.JButton();
@@ -64,24 +62,13 @@ public class AdminHomeMain extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoSmall.png"))); // NOI18N
         jLabel2.setText("WAVE");
 
-        notiButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/notification.png"))); // NOI18N
-        notiButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                notiButtonActionPerformed(evt);
-            }
-        });
-
+        usetModeButton.setBackground(new java.awt.Color(26, 41, 128));
+        usetModeButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        usetModeButton.setForeground(new java.awt.Color(255, 255, 255));
         usetModeButton.setText("User mode");
         usetModeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usetModeButtonActionPerformed(evt);
-            }
-        });
-
-        userButton.setText("User");
-        userButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userButtonActionPerformed(evt);
             }
         });
 
@@ -92,23 +79,17 @@ public class AdminHomeMain extends javax.swing.JFrame {
             .addGroup(HeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 454, Short.MAX_VALUE)
-                .addComponent(notiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(usetModeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(userButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 580, Short.MAX_VALUE)
+                .addComponent(usetModeButton)
+                .addGap(33, 33, 33))
         );
         HeaderLayout.setVerticalGroup(
             HeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(HeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(notiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                    .addComponent(usetModeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(usetModeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -116,7 +97,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
         navContainer.setPreferredSize(new java.awt.Dimension(188, 496));
 
         dashboardNav.setBackground(new java.awt.Color(26, 41, 128));
-        dashboardNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        dashboardNav.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         dashboardNav.setForeground(new java.awt.Color(255, 255, 255));
         dashboardNav.setText("Dashboard");
         dashboardNav.setPreferredSize(new java.awt.Dimension(165, 40));
@@ -127,7 +108,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
         });
 
         userNav.setBackground(new java.awt.Color(26, 41, 128));
-        userNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        userNav.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         userNav.setForeground(new java.awt.Color(255, 255, 255));
         userNav.setText("User");
         userNav.setMaximumSize(new java.awt.Dimension(165, 40));
@@ -140,7 +121,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
         });
 
         loginHistoryNav.setBackground(new java.awt.Color(26, 41, 128));
-        loginHistoryNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        loginHistoryNav.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         loginHistoryNav.setForeground(new java.awt.Color(255, 255, 255));
         loginHistoryNav.setText("Login History");
         loginHistoryNav.setPreferredSize(new java.awt.Dimension(165, 40));
@@ -151,7 +132,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
         });
 
         spamReportNav.setBackground(new java.awt.Color(26, 41, 128));
-        spamReportNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        spamReportNav.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         spamReportNav.setForeground(new java.awt.Color(255, 255, 255));
         spamReportNav.setText("Spam Report");
         spamReportNav.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +142,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
         });
 
         groupCharNav.setBackground(new java.awt.Color(26, 41, 128));
-        groupCharNav.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        groupCharNav.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         groupCharNav.setForeground(new java.awt.Color(255, 255, 255));
         groupCharNav.setText("Group Chat");
         groupCharNav.addActionListener(new java.awt.event.ActionListener() {
@@ -227,17 +208,10 @@ public class AdminHomeMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void notiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notiButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_notiButtonActionPerformed
-
     private void usetModeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usetModeButtonActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_usetModeButtonActionPerformed
-
-    private void userButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_userButtonActionPerformed
 
     private void dashboardNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardNavActionPerformed
         // TODO add your handling code here:
@@ -246,6 +220,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
         groupchatPanel.setVisible(false);
         loginHistoryPanel.setVisible(false);
         spamReportPanel.setVisible(false);
+        
     }//GEN-LAST:event_dashboardNavActionPerformed
 
     private void userNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNavActionPerformed
@@ -332,9 +307,7 @@ public class AdminHomeMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loginHistoryNav;
     private javax.swing.JPanel navContainer;
-    private javax.swing.JButton notiButton;
     private javax.swing.JButton spamReportNav;
-    private javax.swing.JButton userButton;
     private javax.swing.JButton userNav;
     private javax.swing.JButton usetModeButton;
     // End of variables declaration//GEN-END:variables
