@@ -358,7 +358,7 @@ public class UserHomeMain extends javax.swing.JFrame {
 
     private void navAdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navAdminButtonActionPerformed
         this.dispose();
-        AdminHomeMain navFrame = new AdminHomeMain(); 
+        AdminHomeMain navFrame = new AdminHomeMain(clientSocket); 
         navFrame.setVisible(true); 
     }//GEN-LAST:event_navAdminButtonActionPerformed
 

@@ -59,7 +59,7 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                     if (isAdmin) {
                         // Chuyển tới trang Admin
                         parentFrame.dispose();
-                        AdminHomeMain navFrame = new AdminHomeMain(); 
+                        AdminHomeMain navFrame = new AdminHomeMain(clientSocket); 
                         navFrame.setVisible(true); 
                         
                         
@@ -104,7 +104,7 @@ public class AuthenticationLoginPanel extends javax.swing.JPanel {
                     if (isAdmin) {
                         // Chuyển tới trang Admin
                         parentFrame.dispose();
-                        AdminHomeMain navFrame = new AdminHomeMain(); 
+                        AdminHomeMain navFrame = new AdminHomeMain(clientSocket); 
                         navFrame.setVisible(true); 
                         
                     } else {
