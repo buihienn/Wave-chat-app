@@ -1107,5 +1107,38 @@ public class UserDAO {
 
         return userCount;
     }
+    
+    // Hàm lấy tổng số user của ứng dụng
+    public int getTotalUser() {
+        String query = "SELECT COUNT(*) AS total FROM User";
+        int totalUsers = 0;
+
+        DBconnector dbConnector = new DBconnector();
+        Connection connection = dbConnector.getConnection();
+
+        if (connection == null) {
+            System.out.println("Database connection failed.");
+            return totalUsers;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                totalUsers = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return totalUsers;
+    }
 
 }
