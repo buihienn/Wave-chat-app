@@ -25,21 +25,6 @@ CREATE TABLE User (
     CONSTRAINT PK_USER PRIMARY KEY (userID)
 );
 
-
-CREATE TABLE UserOnline (
-	userID CHAR(5),
-    lastSeen DATETIME,
-    
-    CONSTRAINT PK_USERONLINE PRIMARY KEY (userID)
-);
-
-CREATE TABLE UserOffline (
-	userID CHAR(5),
-    offlineTime DATETIME,
-    duration INT,
-    CONSTRAINT PK_USEROFFLINE PRIMARY KEY (userID, offlineTime)
-);
-
 CREATE TABLE Friend_requests (
     requester_userID CHAR(5),     -- Người gửi yêu cầu kết bạn
     requested_userID CHAR(5),     -- Người nhận yêu cầu kết bạn
@@ -126,13 +111,6 @@ CREATE TABLE Conversations (
 
 );
 
--- UserOnline
-ALTER TABLE UserOnline 
-ADD CONSTRAINT FK_UserOnline_User FOREIGN KEY (userID) REFERENCES User(userID);
-
--- UserOffline
-ALTER TABLE UserOffline 
-ADD CONSTRAINT FK_UserOffline_User FOREIGN KEY (userID) REFERENCES User(userID);
 
 -- Friends
 ALTER TABLE Friends 
