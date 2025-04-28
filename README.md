@@ -69,5 +69,5 @@ WaveChatApp/
 - **Database Script**: `src/main/resources/database/chat_database.sql` for initializing the database.
 
 ## Authors
-Developed by WavaTeam - Bui Hien and Ho Phu Vinh (students of University of HCMUS).
+Developed by WaveTeam - Bui Hien and Ho Phu Vinh (students of University of HCMUS).
 
